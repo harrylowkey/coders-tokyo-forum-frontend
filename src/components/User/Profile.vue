@@ -29,17 +29,16 @@
                       <v-subheader class="pa-0">Email</v-subheader>
                     </v-col>
                     <v-col cols="12" sm="12" md="9" style="padding: 0">
-                      <v-text-field :value="user.email" :disabled="!isEdit" class="pt-0"></v-text-field>
+                      <v-text-field :value="user.email" disabled class="pt-0"></v-text-field>
                     </v-col>
 
                     <v-col cols="12" sm="12" md="3" :style="propertyUserInfoStyle">
                       <v-subheader class="pa-0">Password</v-subheader>
                     </v-col>
-                    <!-- <v-col cols="12" sm="12" md="9" style="padding: 0">
-                      <v-text-field :value="user.password" :disabled="!isEdit" class="pt-0"></v-text-field>
-                    </v-col>-->
+
                     <v-col cols="12" sm="12" md="9" style="padding: 0">
                       <v-text-field
+                      readonly
                         :append-icon="isEditPassword ? 'mdi-eye' : 'mdi-eye-off'"
                         :rules="[rules.required, rules.min]"
                         :type="isEditPassword ? 'text' : 'password'"
@@ -47,7 +46,6 @@
                         hint="At least 8 characters"
                         :value="user.password"
                         @click:append="isEditPassword = !isEditPassword"
-                        :disabled="!isEdit"
                         class="pt-0"
                         counter
                       ></v-text-field>
@@ -91,7 +89,7 @@
                       <v-subheader class="pa-0">Date join</v-subheader>
                     </v-col>
                     <v-col cols="12" sm="12" md="9" style="padding: 0">
-                      <v-text-field :value="user.createdAt | date" :disabled="!isEdit" class="pt-0"></v-text-field>
+                      <v-text-field :value="user.createdAt | date" disabled class="pt-0"></v-text-field>
                     </v-col>
                   </v-row>
                 </v-card-text>
