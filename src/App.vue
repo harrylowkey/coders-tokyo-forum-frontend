@@ -1,10 +1,9 @@
 <template>
   <v-app>
     <v-card color="grey lighten-4">
-      <v-sheet height="780px" style="position: relative;">
+      <v-sheet height="748px" style="position: relative;">
         <v-navigation-drawer v-model="sideNav" absolute temporary>
           <v-list dense>
-            
             <v-list-item v-for="item in menuItems" :key="item.title" :to="item.link">
               <v-list-item-icon>
                 <v-icon>{{ item.icon }}</v-icon>
@@ -29,18 +28,15 @@
           <v-app-bar-nav-icon class="hidden-sm-and-up" @click.stop="sideNav = !sideNav"></v-app-bar-nav-icon>
           <v-toolbar-title>Forum</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-items class="hidden-xs-only">
-            <v-btn v-for="item in menuItems" :key="item.title" :to="item.link">
-              <v-icon left>{{ item.icon }}</v-icon>
+          <!-- <v-toolbar-items class="hidden-xs-only"> -->
+            <v-btn color="primary" v-for="item in menuItems" :key="item.title" :to="item.link" class="ml-3">
+              <v-icon v-if="item.icon" left>{{ item.icon }}</v-icon>
               {{ item.title }}
             </v-btn>
-          </v-toolbar-items>
-          <v-toolbar-items class="hidden-xs-only" @click="onLogout">
-            <v-btn v-if="userIsAuthenticated">
-              <v-icon left>exit_to_app</v-icon>
-              Logout
-            </v-btn>
-          </v-toolbar-items>
+          <!-- </v-toolbar-items> -->
+            <v-avatar size=37 class="ml-2" style="cursor: pointer">
+              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+            </v-avatar>
         </v-toolbar>
         <main>
           <router-view></router-view>
@@ -70,11 +66,9 @@ export default {
         menus = [
           {
             title: "Stream",
-            icon: "supervisor_account",
             link: "/stream"
           },
-          { title: "Write post", icon: "room", link: "/write-post" },
-          { title: "Profile", icon: "person", link: "/profile" }
+          { title: "Create post", icon: "edit", link: "/meetup/new" },
         ];
       }
       return menus;
@@ -88,7 +82,7 @@ export default {
   },
   methods: {
     onLogout() {
-      console.log('onLogout')
+      return this.$store.dispatch("logOut");
     }
   }
 };
