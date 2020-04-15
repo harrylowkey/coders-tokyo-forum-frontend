@@ -8,13 +8,7 @@
           <v-container class="profile-details">
             <v-hover v-slot:default="{ hover }">
               <v-card max-width="344" class="mx-auto" shaped :elevation="hover ? 15 : 5">
-                <v-list-item>
-                  <v-list-item-content class="text-center">
-                    <v-list-item-title class="headline">Profile</v-list-item-title>
-                    <v-divider></v-divider>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item-content class="text-center pt-0 pb-6">
+                <v-list-item-content class="text-center pt-3 pb-6">
                   <v-avatar size="70" style="cursor: pointer">
                     <img
                       src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
@@ -70,7 +64,7 @@
                           :disabled="!isEdit"
                           class="pt-0"
                         ></v-text-field>
-                        <a v-else :href="link.url" >{{ link.url }}</a>
+                        <a v-else :href="link.url" target="_blank">{{ link.url }}</a>
                       </v-col>
                     </v-row>
 
