@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-card color="grey lighten-4">
-      <v-sheet height="748px" style="position: relative;">
+      <v-sheet height="1450px" style="position: relative;">
         <v-navigation-drawer v-model="sideNav" absolute temporary>
           <v-list dense>
             <v-list-item v-for="item in menuItems" :key="item.title" :to="item.link">
@@ -26,17 +26,38 @@
         </v-navigation-drawer>
         <v-toolbar dense>
           <v-app-bar-nav-icon class="hidden-sm-and-up" @click.stop="sideNav = !sideNav"></v-app-bar-nav-icon>
-          <v-toolbar-title>Forum</v-toolbar-title>
+          <v-avatar size="35" class="ml-2 mr-3" style="cursor: pointer" @click="onClickLogo">
+            <img
+              src="https://res.cloudinary.com/hongquangraem/image/upload/v1586963014/coders-logo_nqkmk8.jpg"
+              alt="codersX-logo"
+            />
+          </v-avatar>
+          <v-toolbar-title>
+            <a href="/stream" style="text-decoration: none; color: #000">Forum</a>
+          </v-toolbar-title>
           <v-spacer></v-spacer>
-          <!-- <v-toolbar-items class="hidden-xs-only"> -->
-            <v-btn color="primary" v-for="item in menuItems" :key="item.title" :to="item.link" class="ml-3">
-              <v-icon v-if="item.icon" left>{{ item.icon }}</v-icon>
-              {{ item.title }}
-            </v-btn>
-          <!-- </v-toolbar-items> -->
-            <v-avatar size=37 class="ml-2" style="cursor: pointer">
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-            </v-avatar>
+          <v-btn
+            class="hidden-xs-only ml-3"
+            color="primary"
+            v-for="item in menuItems"
+            :key="item.title"
+            :to="item.link"
+          >
+            <v-icon v-if="item.icon" left>{{ item.icon }}</v-icon>
+            {{ item.title }}
+          </v-btn>
+          <v-avatar
+            v-if="userIsAuthenticated"
+            size="37"
+            class="ml-2"
+            style="cursor: pointer"
+            @click="onClickAvatar"
+          >
+            <img
+              src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
+              alt="Avatar"
+            />
+          </v-avatar>
         </v-toolbar>
         <main>
           <router-view></router-view>
@@ -58,7 +79,7 @@ export default {
   computed: {
     menuItems() {
       let menus = [
-        { title: "Sign up", icon: "face", link: "/signup" },
+        { title: "Sign up", icon: "how_to_reg", link: "/signup" },
         { title: "Sign in", icon: "lock_open", link: "/signin" }
       ];
 
@@ -68,7 +89,7 @@ export default {
             title: "Stream",
             link: "/stream"
           },
-          { title: "Create post", icon: "edit", link: "/meetup/new" },
+          { title: "Create post", icon: "edit", link: "/meetup/new" }
         ];
       }
       return menus;
@@ -83,6 +104,12 @@ export default {
   methods: {
     onLogout() {
       return this.$store.dispatch("logOut");
+    },
+    onClickLogo() {
+      return this.$router.push({ path: "/stream" });
+    },
+    onClickAvatar() {
+      return this.$router.push({ path: "/profile" });
     }
   }
 };
