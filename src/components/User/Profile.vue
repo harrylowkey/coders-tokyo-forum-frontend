@@ -128,6 +128,7 @@
                     <v-col cols="12" sm="9" md="7" style="padding: 0">
                       <v-text-field
                         readonly
+                        disabled
                         :rules="[rules.required, rules.min]"
                         :type="isEditPassword ? 'text' : 'password'"
                         name="input-10-2"
@@ -189,7 +190,7 @@
                   </v-row>
                 </v-form>
               </v-card-text>
-              <v-card-actions>
+              <v-card-actions class="pt-0">
                 <v-row v-if="isEdit">
                   <v-col class="d-flex justify-center" cols="12" offset-sm="1" sm="12">
                     <v-btn color="success" class="mr-4">Update</v-btn>
@@ -197,6 +198,36 @@
                 </v-row>
                 <v-spacer v-if="!isEdit"></v-spacer>
                 <v-btn icon v-if="isOwner" @click="isEdit = !isEdit">
+                  <v-icon color="primary">edit</v-icon>
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-hover>
+        </v-container>
+        <v-container class="profile-introduction">
+          <v-hover v-slot:default="{ hover }">
+            <v-card max-width="344" class="mx-auto" shaped :elevation="hover ? 15 : 5">
+              <v-card-title class="text-center pl-4">
+                Introduction
+              </v-card-title>
+              <v-divider></v-divider>
+              <v-card-text class="px-8 py-1">
+                <v-form>
+                  <v-row>
+                    <v-col cols="12" sm="12" md="12" style="padding: 0;">
+                      <v-textarea class="pt-0" :value="user.description" :readonly="!isUpdateDescription"></v-textarea>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-card-text>
+              <v-card-actions class="pt-0">
+                <v-row v-if="isUpdateDescription">
+                  <v-col class="d-flex justify-center" cols="12" offset-sm="1" sm="12">
+                    <v-btn color="success" class="mr-4">Update</v-btn>
+                  </v-col>
+                </v-row>
+                <v-spacer v-if="!isUpdateDescription"></v-spacer>
+                <v-btn icon v-if="isOwner" @click="isUpdateDescription = !isUpdateDescription">
                   <v-icon color="primary">edit</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -234,7 +265,8 @@ export default {
         updatedAt: "2020-04-13T14:43:32.772Z",
         job: "Developer",
         sex: "Male",
-        avatar: null
+        avatar: null,
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
       },
       propertyUserInfoStyle: {
         paddingLeft: "1px",
@@ -254,7 +286,8 @@ export default {
       src: "",
       newPassword: "",
       confirmPassword: "",
-      oldPassword: ""
+      oldPassword: "",
+      isUpdateDescription: false
     };
   },
   computed: {
@@ -302,7 +335,7 @@ export default {
 </script>
 
 <style scoped>
-.profile-detail {
-  border: 1px solid lightgrey;
-}
+  .profile-detail {
+    border: 1px solid lightgrey;
+  }
 </style>
