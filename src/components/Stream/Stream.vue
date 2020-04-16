@@ -43,7 +43,7 @@ import AudioPlaylist from "./AudioPlaylist";
 import SideCard from "../Shared/SideCard";
 import PostTabs from "../Shared/PostTabs";
 import BlogPage from '../Post/Blog/Blog'
-import DiscusstionPage from '../Post/Discussion/Discussion'
+import DiscussionPage from '../Post/Discussion/Discussions'
 import ReviewPage from '../Post/Review/Review'
 import VideoPage from '../Post/Video/Video'
 import AudioPage from '../Post/Audio/Audio'
@@ -54,7 +54,7 @@ export default {
     sideCard: SideCard,
     postTabs: PostTabs,
     blogPage: BlogPage,
-    discussionPage: DiscusstionPage,
+    discussionPage: DiscussionPage,
     reviewPage: ReviewPage,
     videoPage: VideoPage,
     audioPage: AudioPage
@@ -166,12 +166,11 @@ export default {
           }
         ]
       },
-      activePage: "Discusstion"
+      activePage: "Discussions"
     };
   },
   methods: {
     handleSetActivePage({ page }) {
-      console.log('page', page)
       return this.activePage = page
     }
   }
