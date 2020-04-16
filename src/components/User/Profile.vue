@@ -25,7 +25,6 @@
                   <v-card-title>
                     <span class="headline">Update Avatar</span>
                   </v-card-title>
-                  <!-- <v-card-text> -->
                   <v-container>
                     <v-row>
                       <v-col cols="12" sm="6" offset-sm="3" class="d-flex justify-center">
@@ -54,7 +53,6 @@
                       </v-col>
                     </v-row>
                   </v-container>
-                  <!-- </v-card-text> -->
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="dialogUploadAvatar = false">Close</v-btn>
@@ -107,21 +105,21 @@
               <v-card-text class="px-8 py-1">
                 <v-form>
                   <v-row>
-                    <v-col cols="12" sm="12" md="3" :style="propertyUserInfoStyle">
+                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
                       <v-subheader class="pa-0">Username</v-subheader>
                     </v-col>
-                    <v-col cols="12" sm="12" md="9" style="padding: 0;">
+                    <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0;">
                       <v-text-field :value="user.username" :disabled="!isEdit" class="pt-0"></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" sm="12" md="3" :style="propertyUserInfoStyle">
+                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
                       <v-subheader class="pa-0">Email</v-subheader>
                     </v-col>
-                    <v-col cols="12" sm="12" md="9" style="padding: 0">
+                    <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
                       <v-text-field :value="user.email" disabled class="pt-0"></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" sm="12" md="3" :style="propertyUserInfoStyle">
+                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
                       <v-subheader class="pa-0">Password</v-subheader>
                     </v-col>
 
@@ -148,10 +146,10 @@
                     </v-col>
 
                     <v-row class="px-3" v-for="link in user.socialLinks" :key="link._id">
-                      <v-col cols="12" sm="12" md="3" :style="propertyUserInfoStyle">
+                      <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
                         <v-subheader class="pa-0">{{ link.type }}</v-subheader>
                       </v-col>
-                      <v-col cols="12" sm="12" md="9" :style="socialLinksStyle">
+                      <v-col cols="12" sm="12" md="12" lg="9" :style="socialLinksStyle">
                         <v-text-field
                           v-if="isEdit"
                           :value="link.url"
@@ -162,10 +160,10 @@
                       </v-col>
                     </v-row>
 
-                    <v-col cols="12" sm="12" md="3" :style="propertyUserInfoStyle">
+                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
                       <v-subheader class="pa-0">Sex</v-subheader>
                     </v-col>
-                    <v-col cols="12" sm="12" md="9" style="padding: 0">
+                    <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
                       <v-radio-group v-if="isEdit" v-model="user.sex" row>
                         <v-radio label="Male" value="Male"></v-radio>
                         <v-radio label="Female" value="Female"></v-radio>
@@ -174,17 +172,17 @@
                       <v-text-field v-else :value="user.sex" :disabled="!isEdit" class="pt-0"></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" sm="12" md="3" :style="propertyUserInfoStyle">
+                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
                       <v-subheader class="pa-0">Job</v-subheader>
                     </v-col>
-                    <v-col cols="12" sm="12" md="9" style="padding: 0">
+                    <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
                       <v-text-field :value="user.job" :disabled="!isEdit" class="pt-0"></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" sm="12" md="3" :style="propertyUserInfoStyle">
+                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
                       <v-subheader class="pa-0">Date join</v-subheader>
                     </v-col>
-                    <v-col cols="12" sm="12" md="9" style="padding: 0">
+                    <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
                       <v-text-field :value="user.createdAt | date" disabled class="pt-0"></v-text-field>
                     </v-col>
                   </v-row>
