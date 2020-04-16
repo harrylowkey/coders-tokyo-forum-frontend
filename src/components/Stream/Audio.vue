@@ -17,14 +17,14 @@
                   <v-icon
                     v-if="!isPlaying"
                     :class="{ 'show-btns': hover }"
-                    style="margin-bottom: 15px"
+                    
                     color="transparent"
                     @click="isPlaying = !isPlaying"
                   >{{ iconPlay }}</v-icon>
                   <v-icon
                     v-else
                     :class="{ 'show-btns': hover }"
-                    style="margin-bottom: 15px"
+                    
                     color="transparent"
                     @click="isPlaying = !isPlaying"
                   >{{ iconStop }}</v-icon>

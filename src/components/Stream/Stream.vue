@@ -8,7 +8,7 @@
     <br />
     <v-container color="dark">
       <v-row>
-        <v-col cols="12" sm="7">
+        <v-col cols="12" sm="7" offset-md="1" md="7" lg="7">
           <post-tabs @setActivePage="handleSetActivePage"></post-tabs>
           <discussion-page v-if="activePage === 'Discussions'"></discussion-page>
           <blog-page v-if="activePage === 'Blogs'"></blog-page>
@@ -16,7 +16,7 @@
           <review-page v-if="activePage === 'Reviews'"></review-page>
           <audio-page v-if="activePage === 'Audios'"></audio-page>
         </v-col>
-        <v-col cols="12" sm="4" offset-sm="1" style="padding-top: 0px">
+        <v-col cols="12" sm="4" offset-sm="1" md="3" lg="3" style="padding-top: 0px">
           <side-card :title="topBloggers.title" :type="topBloggers.type" :data="topBloggers.data"></side-card>
 
           <side-card :title="tags.title" :type="tags.type" :data="tags.data"></side-card>
