@@ -252,9 +252,9 @@ export default {
       },
       isEditPassword: false,
       dialogUploadAvatar: false,
+      dialogChangePassword: false,
       loadingImageUpload: false,
       src: "",
-      dialogChangePassword: true,
       newPassword: '',
       confirmPassword: '',
       oldPassword: ''

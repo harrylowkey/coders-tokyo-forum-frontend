@@ -46,18 +46,38 @@
             <v-icon v-if="item.icon" left>{{ item.icon }}</v-icon>
             {{ item.title }}
           </v-btn>
-          <v-avatar
-            v-if="userIsAuthenticated"
-            size="37"
-            class="ml-2"
-            style="cursor: pointer"
-            @click="onClickAvatar"
-          >
-            <img
-              src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-              alt="Avatar"
-            />
-          </v-avatar>
+          <v-menu transition="slide-y-transition" style="top: 48px" open-on-hover>
+            <template v-slot:activator="{ on }">
+              <v-avatar
+                v-if="userIsAuthenticated"
+                size="37"
+                class="ml-2"
+                style="cursor: pointer"
+                dark
+                v-on="on"
+              >
+                <img
+                  src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
+                  alt="Avatar"
+                />
+              </v-avatar>
+            </template>
+            <v-list>
+              <v-list-item v-for="(item, i) in dropdownMenus" :key="i" :to="item.link">
+                <v-list-item-icon>
+                  <v-icon color="primary" size="20">{{ item.icon }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title style="cursor: pointer">{{ item.title }}</v-list-item-title>
+              </v-list-item>
+               <v-divider></v-divider>
+              <v-list-item @click="onLogout">
+                <v-list-item-icon>
+                  <v-icon color="red" size="20">exit_to_app</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title style="cursor: pointer">Logout</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-toolbar>
         <main>
           <router-view></router-view>
@@ -73,7 +93,11 @@ export default {
   components: {},
   data() {
     return {
-      sideNav: false
+      sideNav: false,
+      dropdownMenus: [
+        { title: "Profile", link: "/profile", icon: 'person' },
+        { title: "Create post", link: "create-post", icon: 'create'  }
+      ]
     };
   },
   computed: {
@@ -114,3 +138,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.v-menu__content {
+  top: 42px !important;
+}
+</style>
