@@ -12,12 +12,23 @@ const Profile = resolve => {
   }, 'stream');
 };
 
+const AudioPlaylist = resolve => {
+  require.ensure(['../components/Stream/AudioPlaylist.vue'], () => {
+    resolve(require('../components/Stream/AudioPlaylist.vue'));
+  }, 'audio-playlist');
+};
+
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/stream', component: Stream
+    path: '/stream',
+    name: 'stream',
+    components: {
+      default: Stream,
+      'audio-playlist': AudioPlaylist
+    }
   },
   {
     path: '/profile', component: Profile
