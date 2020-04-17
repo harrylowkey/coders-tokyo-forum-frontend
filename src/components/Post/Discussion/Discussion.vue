@@ -6,18 +6,10 @@
           <v-list-item-title class="headline mb-0">{{ topic }}</v-list-item-title>
           <v-list-item-subtitle style="line-height: 1.4;" class="mt-lg-n9">{{ content }}</v-list-item-subtitle>
         </v-list-item-content>
-
-        <div class="user text-center">
-          <v-list-item-avatar tile size="70" style="margin: 16px 0 0 0">
-            <v-img
-              src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-              style="cursor: pointer"
-            ></v-img>
-          </v-list-item-avatar>
-          <v-list-item-content class="pt-md-1.5 pt-lg-1 pb-lg-1">
-            <v-list-item-title class="caption text-center">{{userId.username}}</v-list-item-title>
-          </v-list-item-content>
-        </div>
+        <user-avatar
+          :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
+          :username="userId.username"
+        ></user-avatar>
       </v-list-item>
 
       <v-card-actions style="padding: 0 25px 0 6px" class="pb-1 pb-lg-2">
@@ -47,6 +39,8 @@
 import LikeBtn from '@/components/Shared/LikeButton'
 import CommentBtn from '@/components/Shared/CommentButton'
 import Tag from '@/components/Shared/Tag'
+import UserAvatar from '@/components/Shared/UserAvatar'
+
 export default {
   props: {
     _id: {
@@ -101,7 +95,8 @@ export default {
   components: {
     tag: Tag,
     likeBtn: LikeBtn,
-    commentBtn: CommentBtn
+    commentBtn: CommentBtn,
+    userAvatar: UserAvatar
   }
 };
 </script>

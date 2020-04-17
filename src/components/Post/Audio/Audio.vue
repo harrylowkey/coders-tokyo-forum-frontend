@@ -29,7 +29,7 @@
         </div>
       </v-img>
       <v-list-item three-line style="padding: 0 25px 0 10px">
-        <div class="user text-center d-flex">
+        <!-- <div class="user text-center d-flex">
           <v-list-item-avatar tile size="60" style="margin: 16px 0 0 0">
             <v-img
               src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
@@ -46,7 +46,14 @@
               <v-list-item-title class="caption text-start">chau_chau</v-list-item-title>
             </v-list-item-content>
           </v-container>
-        </div>
+        </div> -->
+        <user-social-links
+          :githubLink="'a'"
+          :facebookLink="'b'"
+          :linkedinLink="'c'"
+          :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
+          :username="'chau_chau'"
+        ></user-social-links>
       </v-list-item>
       <v-card-actions style="padding: 0px 5px 0 20px" class="d-flex">
         <v-spacer></v-spacer>
@@ -77,6 +84,7 @@
 import Tag from '@/components/Shared/Tag'
 import LikeBtn from '@/components/Shared/LikeButton'
 import CommentBtn from '@/components/Shared/CommentButton'
+import UserSocialLinks from '@/components/Shared/UserSocialLinks'
 
 export default {
   props: {
@@ -142,7 +150,8 @@ export default {
   components: {
     tag: Tag,
     likeBtn: LikeBtn,
-    commentBtn: CommentBtn
+    commentBtn: CommentBtn,
+    userSocialLinks: UserSocialLinks
   },
   computed: {
     slicedTags() {
