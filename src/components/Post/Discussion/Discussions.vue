@@ -1,21 +1,25 @@
 <template>
-  <v-container>
-    <discussion
-      v-for="item in discussions"
-      :key="item._id"
-      :_id="item._id"
-      :tags="item.tags"
-      :comments="item.comments"
-      :likes="item.likes"
-      :savedBy="item.savedBy"
-      :userId="item.userId"
-      :topic="item.topic"
-      :content="item.content"
-      :type="item.type"
-      :createdAt="item.createdAt"
-      :updatedAt="item.updatedAt"
-      :metadata="item.metadata"
-    ></discussion>
+  <v-container class="pt-0">
+    <v-row>
+      <v-col cols="12" md="12" lg="10" offset-lg="1" xl="6" offset-xl="3">
+        <discussion
+          v-for="item in discussions"
+          :key="item._id"
+          :_id="item._id"
+          :tags="item.tags"
+          :comments="item.comments"
+          :likes="item.likes"
+          :savedBy="item.savedBy"
+          :userId="item.userId"
+          :topic="item.topic"
+          :content="item.content"
+          :type="item.type"
+          :createdAt="item.createdAt"
+          :updatedAt="item.updatedAt"
+          :metadata="item.metadata"
+        ></discussion>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -33,7 +37,7 @@ export default {
           tags: [
             {
               _id: "5e931565701c6a1f851074ec",
-              tagName: 'javascript'
+              tagName: "javascript"
             }
           ],
           comments: [],
@@ -52,7 +56,7 @@ export default {
           updatedAt: "2020-04-13T16:46:02.835Z",
           metadata: {
             _id: "5e9494fe935dfb5ed3043971",
-            comments:256,
+            comments: 256,
             likes: 500,
             saves: 1
           }
@@ -62,7 +66,7 @@ export default {
           tags: [
             {
               _id: "5e931565701c6a1f851074ec",
-              tagName: 'javascript'
+              tagName: "javascript"
             }
           ],
           comments: [],
@@ -91,7 +95,7 @@ export default {
           tags: [
             {
               _id: "5e931565701c6a1f851074ec",
-              tagName: 'javascript'
+              tagName: "javascript"
             }
           ],
           comments: [],
@@ -120,7 +124,7 @@ export default {
           tags: [
             {
               _id: "5e931565701c6a1f851074ec",
-              tagName: 'javascript'
+              tagName: "javascript"
             }
           ],
           comments: [],
@@ -149,7 +153,7 @@ export default {
           tags: [
             {
               _id: "5e931565701c6a1f851074ec",
-              tagName: 'javascript'
+              tagName: "javascript"
             }
           ],
           comments: [],
