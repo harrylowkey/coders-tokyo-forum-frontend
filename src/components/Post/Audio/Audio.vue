@@ -50,12 +50,11 @@
       </v-list-item>
       <v-card-actions style="padding: 0px 5px 0 20px" class="d-flex">
         <v-spacer></v-spacer>
-        <span
-          class="caption text-center ml-4"
-          style="background-color: #EF9A9A"
+        <tag 
+          :tagName="tag.tagName"  
           v-for="tag in slicedTags"
           :key="tag._id"
-        >#{{ tag.tagName }}</span>
+        ></tag>
       </v-card-actions>
       <v-card-actions style="padding: 0px 25px 0 6px" class="pb-1">
         <v-card-text
@@ -65,15 +64,9 @@
           <span class="mt-2">{{ createdAt | date }}</span>
         </v-card-text>
         <v-spacer></v-spacer>
-        <v-container class="pt-4 d-flex justify-center">
-          <div style="padding-right: 40px" class="like-icon">
-            <v-icon size="20px" color="#64B5F6">mdi-thumb-up</v-icon>
-            <span class="like-icon-content">4</span>
-          </div>
-          <div class="comment-icon">
-            <v-icon size="20px" color="#64B5F6">mdi-comment-text-multiple</v-icon>
-            <span class="comment-icon-content">8</span>
-          </div>
+        <v-container class="pt-4 pl-6 pr-0 d-flex justify-center">
+          <like-btn :likes="4" style="padding-right: 40px;" ></like-btn>
+          <comment-btn :comments="9"></comment-btn>
         </v-container>
       </v-card-actions>
     </v-card>
@@ -81,6 +74,10 @@
 </template>
 
 <script scoped>
+import Tag from '@/components/Shared/Tag'
+import LikeBtn from '@/components/Shared/LikeButton'
+import CommentBtn from '@/components/Shared/CommentButton'
+
 export default {
   props: {
     _id: {
@@ -142,6 +139,11 @@ export default {
       icons: ["mdi-rewind", "mdi-play", "mdi-fast-forward"]
     };
   },
+  components: {
+    tag: Tag,
+    likeBtn: LikeBtn,
+    commentBtn: CommentBtn
+  },
   computed: {
     slicedTags() {
       let cloneTags = [...this.tags];
@@ -158,24 +160,6 @@ export default {
   max-width: 320px;
   border-radius: 40px;
   padding: 5px 15px 5px 15px;
-}
-.like-icon,
-.comment-icon {
-  position: relative;
-}
-
-.like-icon-content {
-  position: absolute !important;
-  top: 10px;
-  left: 22px;
-  font-size: 12px;
-}
-
-.comment-icon-content {
-  position: absolute !important;
-  top: 10px;
-  left: 22px;
-  font-size: 12px;
 }
 
 .v-card {
