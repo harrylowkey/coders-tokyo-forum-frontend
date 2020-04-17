@@ -1,34 +1,38 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-const Stream = resolve => {
-  require.ensure(['../components/Stream/Stream.vue'], () => {
-    resolve(require('../components/Stream/Stream.vue'));
-  }, 'stream');
-};
 
-const Profile = resolve => {
-  require.ensure(['../components/User/Profile.vue'], () => {
-    resolve(require('../components/User/Profile.vue'));
-  }, 'stream');
-};
-
-const AudioPlaylist = resolve => {
-  require.ensure(['../components/Stream/AudioPlaylist.vue'], () => {
-    resolve(require('../components/Stream/AudioPlaylist.vue'));
-  }, 'audio-playlist');
-};
-
+const Profile = () => import('@/components/User/Profile')
+const Stream = () => import('@/components/Stream/Stream')
+const Discussions = () => import('@/components/Post/Discussion/Discussions')
+const Songs = () => import('@/components/Post/Audio/Song/SongList')
+const Podcasts = () => import('@/components/Post/Audio/Podcast/PodcastList')
 
 Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    component: Stream,
+  },
+  {
     path: '/stream',
     name: 'stream',
-    components: {
-      default: Stream,
-      'audio-playlist': AudioPlaylist
-    }
+    component: Stream,
+  },
+  {
+    path: '/stream/discussions',
+    name: 'discussion',
+    component: Discussions,
+  },
+  {
+    path: '/stream/songs',
+    name: 'song',
+    component: Songs,
+  },
+  {
+    path: '/stream/podcasts',
+    name: 'podcast',
+    component: Podcasts,
   },
   {
     path: '/profile', component: Profile
