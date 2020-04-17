@@ -1,7 +1,7 @@
 <template>
   <v-card class="mt-6">
     <v-card-text>
-      Book
+      Blog
     </v-card-text>
   </v-card>
 </template>

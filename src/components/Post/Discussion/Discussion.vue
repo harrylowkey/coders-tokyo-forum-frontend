@@ -24,15 +24,15 @@
         <v-card-text
           class="font-italic font-weight-light pt-0"
           style="font-size: small"
-        >{{ createdAt | date-time }}</v-card-text>
+        >{{ createdAt | date }}</v-card-text>
         <v-spacer></v-spacer>
         <v-container class="pt-0 d-flex justify-center">
           <div style="padding-right: 60px" class="like-icon">
-            <v-icon color="#64B5F6">thumb_up_alt</v-icon>
+            <v-icon size="20px" color="#64B5F6">mdi-thumb-up</v-icon>
             <span class="like-icon-content">{{ metadata.likes }}</span>
           </div>
           <div class="comment-icon">
-            <v-icon color="#64B5F6">mode_comment</v-icon>
+            <v-icon size="20px" color="#64B5F6">mdi-comment-text-multiple</v-icon>
             <span class="comment-icon-content">{{ metadata.comments }}</span>
           </div>
         </v-container>
@@ -105,14 +105,14 @@ export default {
   .like-icon-content {
     position: absolute !important; 
     top: 10px; 
-    left: 30px;
-    font-size: small;
+    left: 22px;
+    font-size: 12px;
   }
 
   .comment-icon-content {
     position: absolute !important; 
     top: 10px; 
-    left: 30px;
-    font-size: small;
+    left: 22px;
+    font-size: 12px;
   }
 </style>

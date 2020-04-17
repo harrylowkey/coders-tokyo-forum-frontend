@@ -14,7 +14,7 @@
           <blog-page v-if="activePage === 'Blogs'"></blog-page>
           <video-page v-if="activePage === 'Videos'"></video-page>
           <review-page v-if="activePage === 'Reviews'"></review-page>
-          <audio-page v-if="activePage === 'Audios'"></audio-page>
+          <podcast-page v-if="activePage === 'Podcasts'"></podcast-page>
         </v-col>
         <v-col cols="12" sm="4" md="4" lg="4" xl="4" style="padding-top: 0px">
           <side-card :title="topBloggers.title" :type="topBloggers.type" :data="topBloggers.data"></side-card>
@@ -46,7 +46,7 @@ import BlogPage from '../Post/Blog/Blog'
 import DiscussionPage from '../Post/Discussion/Discussions'
 import ReviewPage from '../Post/Review/Review'
 import VideoPage from '../Post/Video/Video'
-import AudioPage from '../Post/Audio/Audio'
+import PodcastPage from '../Post/Audio/Podcast/PodcastList'
 
 export default {
   components: {
@@ -57,7 +57,7 @@ export default {
     discussionPage: DiscussionPage,
     reviewPage: ReviewPage,
     videoPage: VideoPage,
-    audioPage: AudioPage
+    podcastPage: PodcastPage
   },
   data() {
     return {
@@ -171,6 +171,7 @@ export default {
   },
   methods: {
     handleSetActivePage({ page }) {
+      console.log('_page', page)
       return this.activePage = page
     }
   }
