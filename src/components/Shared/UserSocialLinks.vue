@@ -6,7 +6,7 @@
         style="cursor: pointer"
       ></v-img>
     </v-list-item-avatar>
-    <v-container class="pb-0">
+    <v-container class="pb-0 pr-0">
       <v-list-item-icon class="mb-0">
         <v-icon
           v-for="link in socialLinks"

@@ -1,10 +1,10 @@
 <template>
-  <v-hover v-slot:default="{ hover }">
+  <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
     <v-card class="mx-auto mt-6" :elevation="hover ? 10 : 3">
-      <v-list-item three-line style="padding: 0 25px 0 20px">
+      <v-list-item three-line style="padding: 0px 25px 0 20px">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-          <v-list-item-title class="headline mb-0">{{ topic }}</v-list-item-title>
-          <v-list-item-subtitle style="line-height: 1.4;" class="mt-lg-n9">{{ content }}</v-list-item-subtitle>
+          <v-list-item-title class="headline mb-0 discuss-title pt-3">{{ topic }}</v-list-item-title>
+          <v-list-item-subtitle style="line-height: 1.4;" class="mt-lg-n9 pt-10">{{ content }}</v-list-item-subtitle>
         </v-list-item-content>
         <user-avatar
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
@@ -14,7 +14,7 @@
 
       <v-card-actions style="padding: 0 25px 0 6px" class="pb-1 pb-lg-2">
         <v-card-text
-          class="font-italic font-weight-light pt-0"
+          class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
         >{{ createdAt | date }}</v-card-text>
         <v-spacer></v-spacer>
@@ -102,6 +102,14 @@ export default {
 </script>
 
 <style scoped>
+.discuss-title {
+  text-align: justify;
+  white-space: initial;
+  line-height: 1.1;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+}
 .like-icon,
 .comment-icon {
   position: relative;
