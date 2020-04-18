@@ -18,8 +18,8 @@
           @click="handleClickLink(link.url)"
         >{{ link.icon }}</v-icon>
       </v-list-item-icon>
-      <v-list-item-content class="pt-1 pl-1">
-        <v-list-item-title class="caption text-start">{{ username }}</v-list-item-title>
+      <v-list-item-content class="pt-0">
+        <v-list-item-title class="caption text-start pl-1"><a  class="username-link" href="#">{{ username }}</a></v-list-item-title>
       </v-list-item-content>
     </v-container>
   </div>
@@ -70,4 +70,8 @@ export default {
 </script>
 
 <style>
+  .username-link {
+    text-decoration: none;
+    color: #000 !important;
+  }
 </style>

@@ -7,7 +7,7 @@
       ></v-img>
     </v-list-item-avatar>
     <v-list-item-content class="pt-md-1.5 pt-lg-1 pb-lg-1">
-      <v-list-item-title class="caption text-center">{{ username }}</v-list-item-title>
+      <v-list-item-title class="caption text-center"><a  class="username-link" href="#">{{ username }}</a></v-list-item-title>
     </v-list-item-content>
   </div>
 </template>
@@ -19,4 +19,8 @@ export default {
 </script>
 
 <style>
+  .username-link {
+    text-decoration: none;
+    color: #000 !important
+  }
 </style>
