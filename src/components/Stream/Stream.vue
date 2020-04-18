@@ -16,19 +16,26 @@
           <review-page v-if="activePage === 'Reviews'"></review-page>
           <podcast-page v-if="activePage === 'Podcasts'"></podcast-page>
           <song-page v-if="activePage === 'Songs'"></song-page>
+          <movie-page v-if="activePage === 'Movies'"></movie-page>
         </v-col>
-        <v-col cols="12" sm="4" md="4" lg="4" xl="4" style="padding-top: 0px">
-          <side-card :title="topBloggers.title" :type="topBloggers.type" :data="topBloggers.data"></side-card>
-
-          <side-card :title="tags.title" :type="tags.type" :data="tags.data"></side-card>
+        <v-col cols="12" sm="4" md="4" lg="4" xl="4" style="padding-top: 0px;">
+          <side-card
+            class="fix-sidebar top-blogger"
+            :title="topBloggers.title"
+            :type="topBloggers.type"
+            :data="topBloggers.data"
+          ></side-card>
+          <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data"></side-card>
 
           <side-card
+            class="fix-sidebar most-view-posts"
             :title="mostViewBlogs.title"
             :type="mostViewBlogs.type"
             :data="mostViewBlogs.data"
           ></side-card>
 
           <side-card
+            class="fix-sidebar member-online"
             :title="membersOnline.title"
             :type="membersOnline.type"
             :data="membersOnline.data"
@@ -43,12 +50,13 @@
 import AudioPlaylist from "./AudioPlaylist";
 import SideCard from "../Shared/SideCard";
 import PostTabs from "../Shared/PostTabs";
-import BlogPage from '../Post/Blog/BlogList'
-import DiscussionPage from '../Post/Discussion/Discussions'
-import ReviewPage from '../Post/Review/Review'
-import VideoPage from '../Post/Video/Video'
-import PodcastPage from '../Post/Audio/Podcast/PodcastList'
-import SongPage from '../Post/Audio/Song/SongList'
+import BlogPage from "../Post/Blog/BlogList";
+import DiscussionPage from "../Post/Discussion/Discussions";
+import ReviewPage from "../Post/Review/Review";
+import VideoPage from "../Post/Video/Video";
+import PodcastPage from "../Post/Audio/Podcast/PodcastList";
+import SongPage from "../Post/Audio/Song/SongList";
+import MoviePage from "../Post/Review/Movie/MovieList";
 
 export default {
   components: {
@@ -60,7 +68,8 @@ export default {
     reviewPage: ReviewPage,
     videoPage: VideoPage,
     podcastPage: PodcastPage,
-    songPage: SongPage
+    songPage: SongPage,
+    moviePage: MoviePage
   },
   data() {
     return {
@@ -174,8 +183,7 @@ export default {
   },
   methods: {
     handleSetActivePage({ page }) {
-      console.log('_page', page)
-      return this.activePage = page
+      return (this.activePage = page);
     }
   }
 };
