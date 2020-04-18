@@ -103,7 +103,7 @@ export default {
 
 <style scoped>
 .discuss-title {
-  text-align: justify;
+  text-align: left;
   white-space: initial;
   line-height: 1.1;
   -webkit-line-clamp: 2;

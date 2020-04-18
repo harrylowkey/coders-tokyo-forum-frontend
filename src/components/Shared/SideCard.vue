@@ -17,7 +17,7 @@
           text-color="black"
           outlined
           small
-          style="border: 1px solid #90d2a3 !important; background-color: #b3ddbf !important"
+          style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
         >{{ item.counter }}</v-chip>
       </v-list-item>
     </v-card>

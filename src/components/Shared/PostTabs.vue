@@ -5,7 +5,7 @@
         <v-tabs grow>
           <v-tab @click="setActivePage('Discussions')">Discussions</v-tab>
           <v-divider vertical inset></v-divider>
-          <v-tab @click="setActivePage('Blogs')" v-on="on">Blogs</v-tab>
+          <v-tab @click="setActivePage('Blogs')">Blogs</v-tab>
           <v-divider vertical inset>A</v-divider>
           <v-menu offset-y open-on-hover>
             <template v-slot:activator="{ on }">

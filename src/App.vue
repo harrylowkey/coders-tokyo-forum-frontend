@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-card color="grey lighten-4">
-      <v-toolbar dense>
+      <v-toolbar dense class="toolbar">
         <v-app-bar-nav-icon class="hidden-sm-and-up" @click.stop="sideNav = !sideNav"></v-app-bar-nav-icon>
         <v-avatar size="35" class="ml-2 mr-3" style="cursor: pointer" @click="onClickLogo">
           <img
@@ -60,7 +60,7 @@
           </v-list>
         </v-menu>
       </v-toolbar>
-      <main>
+      <main class="mt-12">
         <router-view></router-view>
       </main>
     </v-card>
@@ -129,5 +129,12 @@ export default {
   min-width: 38px !important;
   padding: 0 10px !important;
   border-radius: 50% !important;
+}
+
+.toolbar {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  width: 100%;
 }
 </style>

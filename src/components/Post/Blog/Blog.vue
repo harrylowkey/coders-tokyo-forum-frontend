@@ -59,7 +59,6 @@ import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
-import VClamp from "vue-clamp";
 
 export default {
   props: {
@@ -121,14 +120,13 @@ export default {
     likeBtn: LikeBtn,
     commentBtn: CommentBtn,
     userAvatar: UserAvatar,
-    VClamp
   }
 };
 </script>
 
 <style scoped lang="scss">
 .blog-title {
-  text-align: justify;
+  text-align: left;
   white-space: initial;
   line-height: 1.1;
   -webkit-line-clamp: 2;
