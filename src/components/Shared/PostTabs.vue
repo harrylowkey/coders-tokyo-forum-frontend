@@ -5,13 +5,15 @@
         <v-tabs grow>
           <v-tab @click="setActivePage('Discussions')">Discussions</v-tab>
           <v-divider vertical inset></v-divider>
+          <v-tab @click="setActivePage('Blogs')" v-on="on">Blogs</v-tab>
+          <v-divider vertical inset>A</v-divider>
           <v-menu offset-y open-on-hover>
             <template v-slot:activator="{ on }">
-              <v-tab ref="blogPage" v-on="on">Blogs</v-tab>
+              <v-tab ref="reviewPage" v-on="on">Reviews</v-tab>
             </template>
             <v-list>
               <v-list-item
-                v-for="(item, index) in blogMenus"
+                v-for="(item, index) in reviewMenus"
                 :key="index"
                 @click="setActivePage(item.category)"
               >
@@ -22,8 +24,6 @@
               </v-list-item>
             </v-list>
           </v-menu>
-          <v-divider vertical inset>A</v-divider>
-          <v-tab @click="setActivePage('Reviews')">Reviews</v-tab>
           <v-divider vertical inset>A</v-divider>
           <v-menu offset-y open-on-hover>
             <template v-slot:activator="{ on }">
@@ -56,8 +56,7 @@ export default {
       pages: ["Discussions", "Blogs", "Reviews", "Audios", "Videos"],
       text:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      blogMenus: [
-        { menu: "Blogs", category: "Blogs", icon: "emoji_objects" },
+      reviewMenus: [
         { menu: "Book Reviews", category: "Books", icon: "menu_book" },
         { menu: "Movie Reviews", category: "Movies", icon: "movie_filter" },
         { menu: "Food Reviews", category: "Food", icon: "fastfood" }
@@ -74,7 +73,7 @@ export default {
         this.$refs.audioPage.$refs.link.click();
       }
       if (page === "Books" || page === "Movies" || page === "Food") {
-        this.$refs.blogPage.$refs.link.click();
+        this.$refs.reviewPage.$refs.link.click();
       }
       return this.$emit("setActivePage", { page });
     },
