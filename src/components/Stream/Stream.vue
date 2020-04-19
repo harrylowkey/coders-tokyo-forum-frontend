@@ -17,6 +17,7 @@
           <podcast-page v-if="activePage === 'Podcasts'"></podcast-page>
           <song-page v-if="activePage === 'Songs'"></song-page>
           <movie-page v-if="activePage === 'Movies'"></movie-page>
+          <book-page v-if="activePage === 'Books'"></book-page>
         </v-col>
         <v-col cols="12" sm="4" md="4" lg="4" xl="4" style="padding-top: 0px;">
           <side-card
@@ -57,19 +58,21 @@ import VideoPage from "../Post/Video/Video";
 import PodcastPage from "../Post/Audio/Podcast/PodcastList";
 import SongPage from "../Post/Audio/Song/SongList";
 import MoviePage from "../Post/Review/Movie/MovieList";
+import BookPage from "../Post/Review/Book/BookList";
 
 export default {
   components: {
-    audioPlaylist: AudioPlaylist,
-    sideCard: SideCard,
-    postTabs: PostTabs,
-    blogPage: BlogPage,
-    discussionPage: DiscussionPage,
-    reviewPage: ReviewPage,
-    videoPage: VideoPage,
-    podcastPage: PodcastPage,
-    songPage: SongPage,
-    moviePage: MoviePage
+    AudioPlaylist,
+    SideCard,
+    PostTabs,
+    BlogPage,
+    DiscussionPage,
+    ReviewPage,
+    VideoPage,
+    PodcastPage,
+    SongPage,
+    MoviePage,
+    BookPage
   },
   data() {
     return {
