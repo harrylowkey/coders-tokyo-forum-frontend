@@ -14,8 +14,8 @@
         <v-col class="pa-0" cols="12" sm="12" md="5" lg="5" xl="4" style="position: relative">
           <v-card  class="ml-1 movie-detail">
             <v-card-text class="pb-2 pt-2">
-              <p class="title text--primary mb-0">{{ topic }}</p>
-              <v-container class="d-flex pl-1 pb-0">
+              <p class="title text--primary mb-0 pt-1">{{ topic }}</p>
+              <v-container class="d-flex pl-1 pb-0 pt-2">
                 <p class="key mb-0 mr-3">Status:</p>
                 <p class="value mb-0" :style="calMovieStatusColor">{{ movie.status }}</p>
               </v-container>
