@@ -19,6 +19,9 @@
           :updatedAt="item.updatedAt"
           :metadata="item.metadata"
         ></discussion>
+        <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
+          <v-btn class="primary" to="/stream/discussions">View more</v-btn>
+        </v-container>
       </v-col>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4" :style="sideBarStyle">
         <side-card
@@ -60,6 +63,7 @@ export default {
   data() {
     return {
       showTitlePage: false,
+      showViewMoreBtn: true,
       discussions: [
         {
           _id: "5e9494fe935dfb5ed3043975",
@@ -348,13 +352,14 @@ export default {
   },
   created() {
     if (this.$route.path === "/stream/discussions") {
-      this.showTitlePage = true
-      this.sideBarStyle.paddingTop = "78px"
+      this.showTitlePage = true;
+      this.showViewMoreBtn = false
+      this.sideBarStyle.paddingTop = "78px";
       this.showTopBloggers = false;
     }
 
-    if (this.$route.path === "/stream") {
-      this.mostViewBlogs.title = 'Top 5 Discussions'
+    if (this.$route.path === "/stream" || this.$route.path === "/") {
+      this.mostViewBlogs.title = "Top 5 Discussions";
       let sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
     }
