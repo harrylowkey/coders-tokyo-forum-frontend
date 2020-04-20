@@ -116,10 +116,10 @@ export default {
     }
   },
   components: {
-    tag: Tag,
-    likeBtn: LikeBtn,
-    commentBtn: CommentBtn,
-    userAvatar: UserAvatar,
+    Tag,
+    LikeBtn,
+    CommentBtn,
+    UserAvatar,
   }
 };
 </script>

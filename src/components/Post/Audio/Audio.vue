@@ -127,10 +127,10 @@ export default {
     };
   },
   components: {
-    tag: Tag,
-    likeBtn: LikeBtn,
-    commentBtn: CommentBtn,
-    userSocialLinks: UserSocialLinks
+    Tag,
+    LikeBtn,
+    CommentBtn,
+    UserSocialLinks
   },
   computed: {
     slicedTags() {
