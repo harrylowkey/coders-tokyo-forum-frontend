@@ -5,7 +5,6 @@
         <v-col class="pt-0 pr-0" cols="12" sm="12" md="7" lg="7" xl="8">
           <v-img
             src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
-            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             height="360px"
             style
             class="cover-book"

@@ -43,7 +43,6 @@
             </v-list>
           </v-menu>
           <v-divider vertical inset>A</v-divider>
-          <v-tab @click="setActivePage('Videos')">Videos</v-tab>
         </v-tabs>
       </v-toolbar>
     </v-card>
@@ -53,7 +52,7 @@
 export default {
   data() {
     return {
-      pages: ["Discussions", "Blogs", "Reviews", "Audios", "Videos"],
+      pages: ["Discussions", "Blogs", "Reviews", "Audios"],
       text:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       reviewMenus: [

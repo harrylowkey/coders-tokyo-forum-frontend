@@ -65,9 +65,16 @@ export default {
           ],
           food: {
             foodName: "sushi",
-            price: "200000 - 250000",
-            location: "Hai Ba Trung - Ha Noi",
-            stars: 5
+            priceAverage: "200000 - 250000",
+            priceUnit: 'VND',
+            address: "Let’s Sushi 13B Quốc Tử Giám ",
+            stars: 5,
+            restaurant: "Let's sushi",
+            quality: 7.8,
+            price: 8,
+            service: 10,
+            space: 8,
+            openTime: '10:00 - 22:00'
           },
           topic: "Sushi",
           description:
@@ -75,7 +82,14 @@ export default {
           content:
             'Originally, sushi was fermented fish with rice preserved in salt, and this was a staple dish in Japan for a thousand years until the Edo Period (1603 to 1868) when contemporary sushi was developed. The word "sushi" means "it\'s sour," which reflects back to sushi\'s origins of being preserved in salt',
           type: "food",
-          cover: "5e9c6ce7830bd646939c7625",
+          cover: {
+              secureURL:
+                "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+              publicId:
+                "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
+              fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
+              sizeBytes: 112398
+            },
           createdAt: "2020-04-19T15:23:19.975Z",
           updatedAt: "2020-04-19T15:23:19.975Z",
           userId: {

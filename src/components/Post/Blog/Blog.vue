@@ -3,7 +3,6 @@
     <v-card class="mx-auto mt-6 blog-card" :elevation="hover ? 20 : 3">
       <v-img
         src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
-        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
         height="350px"
         style
         class="cover-blog"

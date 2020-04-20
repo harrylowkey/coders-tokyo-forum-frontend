@@ -3,66 +3,81 @@
     <v-card class="mx-auto mt-6 food-card" :elevation="hover ? 20 : 3">
       <v-row>
         <v-col class="pt-0 pr-0" cols="12" sm="12" md="7" lg="7" xl="8">
-          <v-img
-            src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
-            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-            height="360px"
-            style
-            class="cover-food"
-          ></v-img>
+          <v-img :src="cover.secureURL" height="378px" style class="cover-food"></v-img>
         </v-col>
         <v-col class="pa-0" cols="12" sm="12" md="5" lg="5" xl="4" style="position: relative">
           <v-card class="ml-1 food-detail">
             <v-card-text class="pb-2 pt-2">
-              <p class="title text--primary mb-0 pt-1">{{ topic }}</p>
+              <p class="title text--primary mb-0 pt-1">{{ food.restaurant }}</p>
+
               <v-container class="d-flex pl-1 pb-0 pt-2">
-                <p class="key mb-0 mr-3">Status:</p>
-                <p class="value mb-0" :style="calBookStatusColor">{{ food.status }}</p>
+                <v-icon color="green" size="15" class="mb-0 mr-2">mdi-tag-text</v-icon>
+                <p class="value mb-0">{{ food.priceAverage }} {{ food.priceUnit}}</p>
               </v-container>
 
               <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Nation:</p>
-                <p class="value mb-0">{{ food.country }}</p>
+                <p class="key mb-0 mr-3">Open time:</p>
+                <p class="value mb-0">{{ food.openTime }}</p>
               </v-container>
 
               <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Year:</p>
+                <p class="key mb-0 mr-3">Quality:</p>
                 <v-chip
                   label
                   text-color="black"
                   outlined
                   small
-                  :style="calBookYearColor"
-                >{{ food.year }}</v-chip>
+                  :style="calPointColor(food.quality)"
+                >{{ food.quality }}</v-chip>
               </v-container>
 
               <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Length:</p>
-                <p class="value mb-0">{{ food.length }} pages</p>
+                <p class="key mb-0 mr-3">Price:</p>
+                 <v-chip
+                  label
+                  text-color="black"
+                  outlined
+                  small
+                  :style="calPointColor(food.price)"
+                >{{ food.price }}</v-chip>
               </v-container>
 
-              <v-container class="d-flex pl-1 pb-0" v-if="slicedGenres">
-                <p class="key mb-0 mr-3">Genre:</p>
+              <v-container class="d-flex pl-1 pb-0">
+                <p class="key mb-0 mr-3">Service:</p>
                 <v-chip
                   label
                   text-color="black"
                   outlined
                   small
-                  style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
-                  v-for="genre in slicedGenres" 
-                  :key="genre._id"
-                  class="mr-1"
-                >{{ genre }}</v-chip>
+                  :style="calPointColor(food.service)"
+                >{{ food.service }}</v-chip>
+              </v-container>
+
+              <v-container class="d-flex pl-1 pb-0">
+                <p class="key mb-0 mr-3">Space:</p>
+                <v-chip
+                  label
+                  text-color="black"
+                  outlined
+                  small
+                  :style="calPointColor(food.space)"
+                >{{ food.space }}</v-chip>
+              </v-container>
+
+              <v-container class="d-flex pl-1 pb-0">
+                <p class="key mb-0 mr-3">Location:</p>
+                <p class="value mb-0">
+                  <a href="#">{{ food.address }}</a>
+                </p>
               </v-container>
 
               <v-container class="d-flex pl-1 pb-0" v-if="slicedSuggestedBy">
                 <p class="key mb-0 mr-3">Suggested by:</p>
-                <p class="value mb-0"> 
-                  <span 
-                    v-for="(person, i) in slicedSuggestedBy" 
+                <p class="value mb-0">
+                  <span
+                    v-for="(person, i) in slicedSuggestedBy"
                     :key="i"
-                    >{{ person }}{{ (i + 1) < food.suggestedBy.length ? ',' : '' }}
-                  </span>
+                  >{{ person }}{{ (i + 1) < food.suggestedBy.length ? ',' : '' }}</span>
                 </p>
               </v-container>
 
@@ -77,7 +92,7 @@
                 >start</v-icon>
               </v-container>
             </v-card-text>
-            <v-card-actions class="ml-1 pt-0">
+            <v-card-actions class="ml-1 pt-0 pb-1">
               <v-spacer></v-spacer>
               <v-btn class="pl-1" color="primary" depressed small text>Read more...</v-btn>
             </v-card-actions>
@@ -203,6 +218,10 @@ export default {
     food: {
       type: Object,
       default: () => ({})
+    },
+    cover: {
+      type: Object,
+      default: () => ({})
     }
   },
   components: {
@@ -214,17 +233,30 @@ export default {
   data() {
     return {
       maxSlice1: 1,
-      maxSlice: 2,
+      maxSlice: 2
     };
   },
   methods: {
     isStar(index) {
       if (index <= this.food.stars) return "#FDD835";
       else return "";
+    },
+    calPointColor(point) {
+      if (point < 5) return { 
+        border: "1px solid #D50000 !important",
+        backgroundColor: "#EF9A9A !important"
+      }
+      if (point < 8) return { 
+        border: '1px solid #FBC02D !important', 
+        backgroundColor: '#fdd835 !important' 
+      };
+      if (point >= 8) return {
+        border: "1px solid #90d2a3 !important",
+        backgroundColor: "#C5E1A5 !important"
+      }
     }
   },
-  computed: {
-  }
+  computed: {}
 };
 </script>
 
