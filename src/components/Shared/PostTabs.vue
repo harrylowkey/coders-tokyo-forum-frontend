@@ -1,6 +1,6 @@
 <template>
   <v-container style="padding: 0 !important">
-    <v-card color="basil">
+    <v-card color="basil" style="width: 67%">
       <v-toolbar dense>
         <v-tabs grow>
           <v-tab @click="setActivePage('Discussions')">Discussions</v-tab>

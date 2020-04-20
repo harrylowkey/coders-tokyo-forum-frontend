@@ -6,6 +6,10 @@ const Stream = () => import('@/components/Stream/Stream')
 const Discussions = () => import('@/components/Post/Discussion/Discussions')
 const Songs = () => import('@/components/Post/Audio/Song/SongList')
 const Podcasts = () => import('@/components/Post/Audio/Podcast/PodcastList')
+const Blogs = () => import('@/components/Post/Blog/BlogList')
+const Food = () => import('@/components/Post/Review/Food/FoodList')
+const Books = () => import('@/components/Post/Review/Book/BookList')
+const Movies = () => import('@/components/Post/Review/Movie/MovieList')
 
 Vue.use(VueRouter)
 
@@ -33,6 +37,26 @@ const routes = [
     path: '/stream/podcasts',
     name: 'podcast',
     component: Podcasts,
+  },
+  {
+    path: '/stream/food',
+    name: 'food',
+    component: Food,
+  },
+  {
+    path: '/stream/movies',
+    name: 'movie',
+    component: Movies,
+  },
+  {
+    path: '/stream/books',
+    name: 'book',
+    component: Books,
+  },
+  {
+    path: '/stream/blogs',
+    name: 'blog',
+    component: Blogs,
   },
   {
     path: '/profile', component: Profile

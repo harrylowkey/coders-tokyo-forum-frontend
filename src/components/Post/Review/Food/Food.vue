@@ -71,16 +71,6 @@
                 </p>
               </v-container>
 
-              <v-container class="d-flex pl-1 pb-0" v-if="slicedSuggestedBy">
-                <p class="key mb-0 mr-3">Suggested by:</p>
-                <p class="value mb-0">
-                  <span
-                    v-for="(person, i) in slicedSuggestedBy"
-                    :key="i"
-                  >{{ person }}{{ (i + 1) < food.suggestedBy.length ? ',' : '' }}</span>
-                </p>
-              </v-container>
-
               <v-container class="d-flex pl-1 pb-0">
                 <p class="key mb-0 mr-4">Stars:</p>
                 <v-icon
