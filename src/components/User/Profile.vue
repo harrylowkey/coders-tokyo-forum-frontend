@@ -1,8 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="7" style="background-color: lightblue">Post</v-col>
-      <v-col cols="12" sm="4" offset-sm="1">
+    <v-col cols="12" sm="8">
+        <profile-tabs></profile-tabs>
+      </v-col>
+      <v-col cols="12" sm="4">
         <v-container class="profile-details">
           <v-hover v-slot:default="{ hover }">
             <v-card max-width="344" class="mx-auto" shaped :elevation="hover ? 15 : 5">
@@ -238,6 +240,7 @@
 </template>
 
 <script>
+import ProfileTabs from './ProfileTabs'
 export default {
   data() {
     return {
@@ -328,6 +331,9 @@ export default {
       fileReader.readAsDataURL(files[0]);
       this.image = files[0];
     }
+  },
+  components: {
+    ProfileTabs
   }
 };
 </script>

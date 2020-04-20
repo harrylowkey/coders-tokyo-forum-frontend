@@ -75,9 +75,6 @@ export default {
         this.$refs.reviewPage.$refs.link.click();
       }
       return this.$emit("setActivePage", { page });
-    },
-    doNothing() {
-      return;
     }
   }
 };
