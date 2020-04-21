@@ -10,6 +10,7 @@ const Blogs = () => import('@/components/Post/Blog/BlogList')
 const Food = () => import('@/components/Post/Review/Food/FoodList')
 const Books = () => import('@/components/Post/Review/Book/BookList')
 const Movies = () => import('@/components/Post/Review/Movie/MovieList')
+const BlogDetails = () => import('@/components/ChildPage/Blog')
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,9 @@ const routes = [
   },
   {
     path: '/profile', component: Profile
+  },
+  {
+    path: '/blogs/:id', component: BlogDetails
   },
 ]
 

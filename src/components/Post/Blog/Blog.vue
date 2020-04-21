@@ -2,6 +2,7 @@
   <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
     <v-card class="mx-auto mt-6 blog-card" :elevation="hover ? 20 : 3">
       <v-img
+        v-if="cover.secureURL"
         src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
         height="350px"
         style
@@ -108,6 +109,10 @@ export default {
     updatedAt: {
       type: String,
       required: true
+    },
+    cover: {
+      type: Object,
+      default: () => ({})
     },
     metadata: {
       type: Object,

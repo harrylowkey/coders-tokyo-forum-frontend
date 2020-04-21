@@ -22,6 +22,7 @@
           :updatedAt="item.updatedAt"
           :media="item.media"
           :metadata="item.metadata"
+          :customize="{}"
         ></song>
         <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
           <v-btn class="primary" to="/stream/songs">View more</v-btn>

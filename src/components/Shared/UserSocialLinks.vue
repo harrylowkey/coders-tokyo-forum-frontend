@@ -1,6 +1,10 @@
 <template>
   <div class="user text-center d-flex">
-    <v-list-item-avatar tile size="60" style="margin: 16px 0 0 0">
+    <v-list-item-avatar 
+      tile 
+      :size="customize.avatarSize || 60" 
+      style="margin: 16px 0 0 0"
+    >
       <v-img
         src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
         style="cursor: pointer"
@@ -12,14 +16,21 @@
           v-for="link in socialLinks"
           :key="link.icon"
           :color="link.color"
-          size="20"
+          :size="customize.iconSize || 20"
           class="pr-1"
           style="cursor: pointer"
           @click="handleClickLink(link.url)"
         >{{ link.icon }}</v-icon>
       </v-list-item-icon>
-      <v-list-item-content class="pt-0">
-        <v-list-item-title class="caption text-start pl-1"><a  class="username-link" href="#">{{ username }}</a></v-list-item-title>
+      <v-list-item-content class="pt-0 pb-0">
+        <v-list-item-title 
+          class="caption text-start pl-1" 
+          :style="usernameWrapper"
+        >
+          <a :style="customize.usernameStyle" class="username-link" href="#">
+            {{ username }}
+          </a>
+          </v-list-item-title>
       </v-list-item-content>
     </v-container>
   </div>
@@ -28,6 +39,10 @@
 <script>
 export default {
   props: {
+    customize: {
+      type: Object,
+      default: () => ({})
+    },
     githubLink: {
       type: String,
       default: ""
@@ -50,7 +65,11 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      usernameWrapper: {
+        paddingTop: this.customize ? '4px !important' : 0
+      }
+    }
   },
   methods: {
     handleClickLink(url) {
