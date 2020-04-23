@@ -1,4 +1,4 @@
-export const book = {
+export const bookDescription = {
   methods: {
     isAddComma(index, dataLength) {
       return (index + 1) < dataLength ? ',' : ''

@@ -231,10 +231,10 @@ import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
-import { book } from "@/mixins/book";
+import { bookDescription } from "@/mixins/bookDescription";
 
 export default {
-  mixins: [book],
+  mixins: [bookDescription],
   props: {
     _id: {
       type: String,
