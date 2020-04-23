@@ -46,7 +46,7 @@
                     >{{ link.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
-                  <v-card-subtitle class="pl-0">{{ post.content | readTime }} min read</v-card-subtitle>
+                   <read-time class="pl-0" :text="post.content"></read-time>
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
                   <tag
@@ -129,6 +129,7 @@ import Comment from "@/components/Comment/Comment";
 import PostReactions from "@/components/Shared/PostReactions";
 import OtherPostsOfAuthor from '@/components/Shared/OtherPostsOfAuthor'
 import { userSocialLinks } from '@/mixins/userSocialLinks'
+import ReadTime from "@/components/Shared/readTime"
 
 export default {
   mixins: [userSocialLinks],
@@ -509,6 +510,7 @@ export default {
   },
   components: {
     Tag,
+    ReadTime,
     UserSocialLinks,
     LikeBtn,
     CommentBtn,

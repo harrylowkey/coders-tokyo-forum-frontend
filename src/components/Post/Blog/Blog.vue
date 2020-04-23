@@ -12,8 +12,14 @@
       <v-list-item three-line style="padding: 0 25px 0 20px">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <v-list-item-title class="headline blog-title mb-0 mt-3">{{ topic }}</v-list-item-title>
-          <p class="description mb-0 pt-2">{{ content }}</p>
-          <span style="font-size: 0.775rem;" class="pt-1"><a style=" text-decoration: none" href="#">Read more...</a></span>
+          <p class="description mb-0 pt-2">{{ description }}</p>
+         <div class="d-flex justify-space-between mt-1">
+            <span style="font-size: 0.775rem;" class="pt-1"><a style=" text-decoration: none" href="#">Read more...</a></span>
+            <read-time
+            class="pt-0"
+             :text="content"
+             :customize="'font-size: 0.775rem'"></read-time>
+         </div>
         </v-list-item-content>
         <user-avatar
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
@@ -59,6 +65,7 @@ import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
+import ReadTime from "@/components/Shared/readTime"
 
 export default {
   props: {
@@ -124,6 +131,7 @@ export default {
     LikeBtn,
     CommentBtn,
     UserAvatar,
+    ReadTime
   }
 };
 </script>

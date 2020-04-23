@@ -43,5 +43,9 @@ export const bookDescription = {
     slicedSuggestedBy() {
       return this.book.suggestedBy.slice(0, this.minSlice);
     }
+  },
+  created() {
+    this.book = this.post.book
+    this.authors = this.post.authors
   }
 }
