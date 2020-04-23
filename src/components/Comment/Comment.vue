@@ -30,7 +30,7 @@
               <p
                 style="font-size: 13px; color: grey"
                 class="font-italic"
-              >{{ comment.createdAt | date-time }}</p>
+              >{{ comment.createdAt | dateTime }}</p>
             </div>
           </v-col>
           <v-col
@@ -91,7 +91,7 @@
                 <p
                   style="font-size: 13px; color: grey"
                   class="font-italic"
-                >{{ childComment.createdAt | date-time }}</p>
+                >{{ childComment.createdAt | dateTime }}</p>
               </div>
             </v-col>
             <v-col

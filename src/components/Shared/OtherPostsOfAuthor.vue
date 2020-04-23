@@ -5,13 +5,13 @@
       v-for="post in posts"
       :key="post._id"
     >
-      <v-list-item-conten>
+      <v-list-item-content>
         <v-list-item-title class="headline post-title">{{ post.topic }}</v-list-item-title>
         <p class="description mb-0 pt-2">{{ post.description }}</p>
         <span style="font-size: 0.775rem;" class="pt-3">
           <a style=" text-decoration: none" href="#">Read more...</a>
         </span>
-      </v-list-item-conten>
+      </v-list-item-content>
     </v-card>
   </div>
 </template>

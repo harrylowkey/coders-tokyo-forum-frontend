@@ -46,7 +46,7 @@
                     >{{ link.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
-                  <v-card-subtitle class="pl-0">{{ readTime }} min read</v-card-subtitle>
+                  <v-card-subtitle class="pl-0">{{ post.content | readTime }} min read</v-card-subtitle>
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
                   <tag
@@ -59,7 +59,7 @@
                 </v-card-text>
               </v-list-item-content>
             </v-list-item>
-            <div v-html="contentMarkDown"></div>
+            <div v-html="$options.filters.markdown(post.content)"></div>
           </v-container>
         </v-card>
       </v-col>
@@ -128,7 +128,10 @@ import AuthorFollowCard from "@/components/User/AuthorFollow";
 import Comment from "@/components/Comment/Comment";
 import PostReactions from "@/components/Shared/PostReactions";
 import OtherPostsOfAuthor from '@/components/Shared/OtherPostsOfAuthor'
+import { userSocialLinks } from '@/mixins/userSocialLinks'
+
 export default {
+  mixins: [userSocialLinks],
   data() {
     return {
       post: {
@@ -487,16 +490,6 @@ export default {
           }
         }
       ],
-      userGithub: {},
-      userFacebook: {},
-      userLinkedin: {},
-      customizeStyle: {
-        avatarSize: 80,
-        iconSize: 28,
-        usernameStyle: {
-          fontSize: "15px"
-        }
-      },
       tagStyle: {
         fontSize: "0.975em !important",
         fontWeight: 300,
@@ -506,63 +499,13 @@ export default {
         marginLeft: "12px !important",
         borderRadius: "4px"
       },
-      readTime: 0
     };
   },
   computed: {
-    contentMarkDown() {
-      return marked(this.post.content);
-    },
-    socialLinks() {
-      let links = [];
-      if (this.userGithub)
-        links.push({
-          url: this.userGithub.url,
-          icon: "mdi-github",
-          color: "black"
-        });
-      if (this.userFacebook)
-        links.push({
-          url: this.userFacebook.url,
-          icon: "mdi-facebook",
-          color: "primary"
-        });
-      if (this.userLinkedin)
-        links.push({
-          url: this.userLinkedin.url,
-          icon: "mdi-linkedin",
-          color: "#006699"
-        });
-      return links;
-    }
   },
   created() {
-    this.userGithub =
-      this.user.socialLinks.find(link => link.type === "Github") || {};
-    this.userFacebook =
-      this.user.socialLinks.find(link => link.type === "Facebook") || {};
-    this.userLinkedin =
-      this.user.socialLinks.find(link => link.type === "Linkedin") || {};
-
-    let blogLength = this.countWord(this.post.content);
-    let wordsPerMinute = blogLength / 200;
-    let splitRes = wordsPerMinute.toString().split(".");
-    let minutes = Number(splitRes[0]);
-    let seconds = Number(splitRes[1]) * 0.6;
-    let totalTime = minutes + seconds;
-    this.readTime = Math.round(totalTime);
   },
   methods: {
-    handleClickLink(url) {
-      return window.open(url, "_blank");
-    },
-    countWord(text) {
-      let s = text;
-      s = s.replace(/(^\s*)|(\s*$)/gi, "");
-      s = s.replace(/[ ]{2,}/gi, " ");
-      s = s.replace(/\n /, "\n");
-      return s.split(" ").length;
-    }
   },
   components: {
     Tag,
