@@ -1,8 +1,8 @@
 <template>
   <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
     <v-card class="mx-auto mt-6 book-card" :elevation="hover ? 20 : 3">
-      <v-row>
-        <v-col class="pt-0 pr-0" cols="12" sm="12" md="7" lg="7" xl="8">
+      <v-row style="margin-right: 0">
+        <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
           <v-img
             src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
             height="360px"
@@ -10,88 +10,172 @@
             class="cover-book"
           ></v-img>
         </v-col>
-        <v-col class="pa-0" cols="12" sm="12" md="5" lg="5" xl="4" style="position: relative">
-          <v-card class="ml-1 book-detail">
-            <v-card-text class="pb-2 pt-2">
-              <p class="title text--primary mb-0 pt-1">{{ topic }}</p>
-              <v-container class="d-flex pl-1 pb-0 pt-2">
-                <p class="key mb-0 mr-3">Status:</p>
-                <p class="value mb-0" :style="calBookStatusColor">{{ book.status }}</p>
-              </v-container>
+        <v-col class="pa-0" cols="12" sm="12" md="12" lg="5" xl="4" style="position: relative">
+          <div class="d-md-none d-lg-flex">
+            <v-container class="ml-1 pl-3 book-detail">
+              <v-card-text class="pb-2 pt-2">
+                <p class="title text--primary mb-0 pt-1">{{ topic }}</p>
+                <v-container class="d-flex pl-1 pb-0 pt-2">
+                  <p class="key mb-0 mr-3">Status:</p>
+                  <p class="value mb-0" :style="calBookStatusColor">{{ book.status }}</p>
+                </v-container>
 
-              <v-container class="d-flex pl-1 pb-0" v-if="slicedAuthors">
-                <p class="key mb-0 mr-3">Author:</p>
-                <p class="value mb-0">
-                  <span 
-                    v-for="(author, i) in slicedAuthors" 
-                    :key="author._id"
-                    >{{ author.name }}{{ (i + 1) < authors.length ? ',' : '' }}
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Author:</p>
+                  <p class="value mb-0" v-if="slicedAuthors">
+                    <span
+                      v-for="(author, i) in slicedAuthors"
+                      :key="author._id"
+                    >{{ author.name }}{{ isAddComma(i, slicedAuthors.length) }}</span>
+                  </p>
+                </v-container>
+
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Nation:</p>
+                  <p class="value mb-0">{{ book.country }}</p>
+                </v-container>
+
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Year:</p>
+                  <v-chip
+                    label
+                    text-color="black"
+                    outlined
+                    small
+                    :style="calBookYearColor"
+                  >{{ book.year }}</v-chip>
+                </v-container>
+
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Length:</p>
+                  <p class="value mb-0">{{ book.length }} pages</p>
+                </v-container>
+
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Genre:</p>
+                  <span v-if="slicedGenres">
+                    <v-chip
+                      label
+                      text-color="black"
+                      outlined
+                      small
+                      style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
+                      v-for="genre in slicedGenres"
+                      :key="genre._id"
+                      class="mr-1"
+                    >{{ genre }}</v-chip>
                   </span>
-                </p>
-              </v-container>
+                </v-container>
 
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Nation:</p>
-                <p class="value mb-0">{{ book.country }}</p>
-              </v-container>
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Suggested by:</p>
+                  <p class="value mb-0" v-if="slicedSuggestedBy">
+                    <span
+                      v-for="(person, i) in slicedSuggestedBy"
+                      :key="i"
+                    >{{ person }}{{ isAddComma(i, slicedSuggestedBy.length) }}</span>
+                  </p>
+                </v-container>
 
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Year:</p>
-                <v-chip
-                  label
-                  text-color="black"
-                  outlined
-                  small
-                  :style="calBookYearColor"
-                >{{ book.year }}</v-chip>
-              </v-container>
-
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Length:</p>
-                <p class="value mb-0">{{ book.length }} pages</p>
-              </v-container>
-
-              <v-container class="d-flex pl-1 pb-0" v-if="slicedGenres">
-                <p class="key mb-0 mr-3">Genre:</p>
-                <v-chip
-                  label
-                  text-color="black"
-                  outlined
-                  small
-                  style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
-                  v-for="genre in slicedGenres" 
-                  :key="genre._id"
-                  class="mr-1"
-                >{{ genre }}</v-chip>
-              </v-container>
-
-              <v-container class="d-flex pl-1 pb-0" v-if="slicedSuggestedBy">
-                <p class="key mb-0 mr-3">Suggested by:</p>
-                <p class="value mb-0"> 
-                  <span 
-                    v-for="(person, i) in slicedSuggestedBy" 
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-4">Stars:</p>
+                  <v-icon
+                    v-for="(start, i) in 5"
                     :key="i"
-                    >{{ person }}{{ (i + 1) < book.suggestedBy.length ? ',' : '' }}
-                  </span>
-                </p>
-              </v-container>
+                    size="20"
+                    :color="isStar(i + 1)"
+                    style="width: 25px"
+                  >start</v-icon>
+                </v-container>
+              </v-card-text>
+              <v-card-actions class="ml-1 pt-0">
+                <v-spacer></v-spacer>
+                <v-btn class="pl-1" color="primary" depressed small text>Read more...</v-btn>
+              </v-card-actions>
+            </v-container>
+          </div>
+          <div class="d-none d-md-flex d-lg-none">
+            <v-container class="ml-1 book-detail pt-1 pb-0">
+              <v-card-text class="pb-6 pt-0 d-flex justify-space-around">
+                <div>
+                  <v-container class="d-flex pl-1 pb-0 pt-2">
+                    <p class="key mb-0 mr-3">Status:</p>
+                    <p class="value mb-0" :style="calBookStatusColor">{{ book.status }}</p>
+                  </v-container>
 
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-4">Stars:</p>
-                <v-icon
-                  v-for="(start, i) in 5"
-                  :key="i"
-                  size="20"
-                  :color="isStar(i + 1)"
-                  style="width: 25px"
-                >start</v-icon>
-              </v-container>
-            </v-card-text>
-            <v-card-actions class="ml-1 pt-0">
-              <v-spacer></v-spacer>
-              <v-btn class="pl-1" color="primary" depressed small text>Read more...</v-btn>
-            </v-card-actions>
-          </v-card>
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Author:</p>
+                    <p class="value mb-0" v-if="slicedAuthors">
+                      <span
+                        v-for="(author, i) in slicedAuthors"
+                        :key="author._id"
+                      >{{ author.name }}{{ isAddComma(i, slicedAuthors.length) }}</span>
+                    </p>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Nation:</p>
+                    <p class="value mb-0">{{ book.country }}</p>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Year:</p>
+                    <v-chip
+                      label
+                      text-color="black"
+                      outlined
+                      small
+                      :style="calBookYearColor"
+                    >{{ book.year }}</v-chip>
+                  </v-container>
+                </div>
+
+                <div>
+                  <v-container class="d-flex pl-1 pb-0 pt-2">
+                    <p class="key mb-0 mr-3">Length:</p>
+                    <p class="value mb-0">{{ book.length }} pages</p>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Genre:</p>
+                    <span v-if="slicedGenres">
+                      <v-chip
+                        label
+                        text-color="black"
+                        outlined
+                        small
+                        style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
+                        v-for="genre in slicedGenres"
+                        :key="genre._id"
+                        class="mr-1"
+                      >{{ genre }}</v-chip>
+                    </span>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Suggested by:</p>
+                    <p class="value mb-0" v-if="slicedSuggestedBy">
+                      <span
+                        v-for="(person, i) in slicedSuggestedBy"
+                        :key="i"
+                      >{{ person }}{{ isAddComma(i, slicedSuggestedBy.length) }}</span>
+                    </p>
+                  </v-container>
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-4">Stars:</p>
+                    <v-icon
+                      v-for="(start, i) in 5"
+                      :key="i"
+                      size="20"
+                      :color="isStar(i + 1)"
+                      style="width: 25px"
+                    >start</v-icon>
+                  </v-container>
+                </div>
+              </v-card-text>
+              <v-divider></v-divider>
+            </v-container>
+          </div>
         </v-col>
       </v-row>
 
@@ -147,8 +231,10 @@ import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
+import { book } from "@/mixins/book";
 
 export default {
+  mixins: [book],
   props: {
     _id: {
       type: String,
@@ -216,57 +302,6 @@ export default {
     LikeBtn,
     CommentBtn,
     UserAvatar
-  },
-  data() {
-    return {
-      maxSlice1: 1,
-      maxSlice: 2,
-    };
-  },
-  methods: {
-    isStar(index) {
-      if (index <= this.book.stars) return "#FDD835";
-      else return "";
-    }
-  },
-  computed: {
-    calBookStatusColor() {
-      if (this.book.status !== "Finished") return { color: "red" };
-      else return { color: "green" };
-    },
-    calBookYearColor() {
-      let oldYearCss = {
-        border: "1px solid #D50000 !important",
-        backgroundColor: "#EF9A9A !important"
-      };
-      let thisYearCss = {
-        border: "1px solid #90d2a3 !important",
-        backgroundColor: "#C5E1A5 !important"
-      };
-      if (this.book.year < new Date().getYear() + 1900) {
-        return oldYearCss;
-      } else {
-        return thisYearCss;
-      }
-    },
-    slicedAuthors() {
-      let cloneAuthors = [...this.authors];
-      const sliceIndex =
-        this.maxSlice1 < cloneAuthors.length ? this.maxSlice1 : cloneAuthors.length - 2;
-      return cloneAuthors.splice(sliceIndex);
-    },
-    slicedGenres() {
-      let cloneGenres = [...this.book.genres];
-      const sliceIndex =
-        this.maxSlice < cloneGenres.length ? this.maxSlice : cloneGenres.length - 2;
-      return cloneGenres.splice(sliceIndex);
-    },
-    slicedSuggestedBy() {
-      let cloneSuggestedBy = [...this.book.suggestedBy];
-      const sliceIndex =
-        this.maxSlice1 < cloneSuggestedBy.length ? this.maxSlice1 : cloneSuggestedBy.length - 2;
-      return cloneSuggestedBy.splice(sliceIndex);
-    }
   }
 };
 </script>
@@ -321,13 +356,5 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   display: -webkit-box;
-}
-
-.book-detail {
-  border-top-left-radius: 30px !important;
-  position: absolute;
-  top: 0;
-  right: 12px;
-  width: 90% !important;
 }
 </style>

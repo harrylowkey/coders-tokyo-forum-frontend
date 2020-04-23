@@ -132,12 +132,12 @@ export default {
             year: 2019,
             length: 200,
             genres: ["Literary", "Action"],
-            suggestedBy: ["Trần Tôn"],
+            suggestedBy: ["Trần Tôn", "Trần Tôn", "Trần Tôn"],
             stars: 5
           }
         },
         {
-          _id: "5e9c3320ea604201558edfa",
+          _id: "59c3a20ea604201558edfa",
           tags: [
             {
               _id: "5e9c33a20ea604201558edfc",
@@ -200,15 +200,14 @@ export default {
             status: "Finished",
             country: "Vietnam",
             year: 2019,
-            pages: 200,
-            genre: "literary",
-            republishTimes: 0,
-            suggestBy: ["Trần Tôn"],
+            length: 200,
+            genres: ["Literary", "Action"],
+            suggestedBy: ["Trần Tôn", "Trần Tôn", "Trần Tôn"],
             stars: 5
           }
         },
         {
-          _id: "5e9c33a20ea60420f1558edfa",
+          _id: "5e9c3a20ea604201558edfa",
           tags: [
             {
               _id: "5e9c33a20ea604201558edfc",
@@ -271,15 +270,14 @@ export default {
             status: "Finished",
             country: "Vietnam",
             year: 2019,
-            pages: 200,
-            genre: "literary",
-            republishTimes: 0,
-            suggestBy: ["Trần Tôn"],
+            length: 200,
+            genres: ["Literary", "Action"],
+            suggestedBy: ["Trần Tôn", "Trần Tôn", "Trần Tôn"],
             stars: 5
           }
         },
         {
-          _id: "5e9c33af20ea604201558edfa",
+          _id: "5e9c33a20ea604201558dfa",
           tags: [
             {
               _id: "5e9c33a20ea604201558edfc",
@@ -342,10 +340,9 @@ export default {
             status: "Finished",
             country: "Vietnam",
             year: 2019,
-            pages: 200,
-            genre: "literary",
-            republishTimes: 0,
-            suggestBy: ["Trần Tôn"],
+            length: 200,
+            genres: ["Literary", "Action"],
+            suggestedBy: ["Trần Tôn", "Trần Tôn", "Trần Tôn"],
             stars: 5
           }
         }
