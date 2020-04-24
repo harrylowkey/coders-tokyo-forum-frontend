@@ -42,10 +42,10 @@ export const bookDescription = {
     },
     slicedSuggestedBy() {
       return this.book.suggestedBy.slice(0, this.minSlice);
-    }
+    },
   },
   created() {
-    this.book = this.post.book
-    this.authors = this.post.authors
+    this.book = this.post ? this.post.book : this.book
+    this.authors = this.post ? this.post.authors : this.authors
   }
 }

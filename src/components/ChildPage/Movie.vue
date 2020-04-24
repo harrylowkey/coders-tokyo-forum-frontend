@@ -107,7 +107,6 @@
                   <v-container class="ml-1 movie-detail pt-1 pb-0">
                     <v-card-text class="pb-6 pt-0 d-flex justify-space-around">
                       <div>
-                        <p class="title text--primary mb-0 pt-1">{{ post.topic }}</p>
                         <v-container class="d-flex pl-1 pb-0 pt-2">
                           <p class="key mb-0 mr-3">Status:</p>
                           <p class="value mb-0" :style="calMovieStatusColor">{{ movie.status }}</p>

@@ -27,7 +27,8 @@ export const movieDescription = {
     }
   },
   created() {
-    this.movie = this.post.movie,
-    this.director = this.post.authors.find(person => person.type === 'director')
+    this.movie = this.post ? this.post.movie : this.movie
+    this.director = this.post ? this.post.authors.find(person => person.type === 'director') :
+      this.authors.find(person => person.type === 'director')
   }
 } 

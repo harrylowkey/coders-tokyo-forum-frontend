@@ -20,9 +20,9 @@
                   <p class="value mb-0" :style="calMovieStatusColor">{{ movie.status }}</p>
                 </v-container>
 
-                <v-container class="d-flex pl-1 pb-0" v-if="director">
+                <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-3">Director:</p>
-                  <p class="value mb-0">{{ director.name }}</p>
+                  <p class="value mb-0" v-if="director">{{ director.name }}</p>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
@@ -89,15 +89,14 @@
             <v-container class="ml-1 movie-detail pt-1 pb-0">
               <v-card-text class="pb-6 pt-0 d-flex justify-space-around">
                 <div>
-                  <p class="title text--primary mb-0 pt-1">{{ topic }}</p>
                   <v-container class="d-flex pl-1 pb-0 pt-2">
                     <p class="key mb-0 mr-3">Status:</p>
                     <p class="value mb-0" :style="calMovieStatusColor">{{ movie.status }}</p>
                   </v-container>
 
-                  <v-container class="d-flex pl-1 pb-0" v-if="director">
+                  <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-3">Director:</p>
-                    <p class="value mb-0">{{ director.name }}</p>
+                    <p class="value mb-0"  v-if="director">{{ director.name }}</p>
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
@@ -214,8 +213,10 @@ import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
+import { movieDescription } from "@/mixins/movieDescription";
 
 export default {
+  mixins: [movieDescription],
   props: {
     _id: {
       type: String,
@@ -289,37 +290,13 @@ export default {
     UserAvatar
   },
   data() {
-    return {};
+    return {
+      director: {}
+    };
   },
   methods: {
-    isStar(index) {
-      if (index <= this.movie.stars) return "#FDD835";
-      else return "";
-    }
   },
   computed: {
-    calMovieStatusColor() {
-      if (this.movie.status !== "Finished") return { color: "red" };
-      else return { color: "green" };
-    },
-    calMovieYearColor() {
-      let oldYearCss = {
-        border: "1px solid #D50000 !important",
-        backgroundColor: "#EF9A9A !important"
-      };
-      let thisYearCss = {
-        border: "1px solid #90d2a3 !important",
-        backgroundColor: "#C5E1A5 !important"
-      };
-      if (this.movie.year < new Date().getYear() + 1900) {
-        return oldYearCss;
-      } else {
-        return thisYearCss;
-      }
-    },
-    director() {
-      return this.authors.find(person => person.type === "director");
-    }
   }
 };
 </script>
