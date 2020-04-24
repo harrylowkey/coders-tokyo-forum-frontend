@@ -1,34 +1,36 @@
 <template>
   <div class="d-flex">
-    <v-card
-      class="other-posts px-7 pt-4 pb-4 mx-3"
-      v-for="post in posts"
-      :key="post._id"
-    >
+    <v-card class="other-posts px-7 pt-4 pb-4 mx-3" v-for="post in posts" :key="post._id">
       <v-list-item-content>
         <v-list-item-title class="headline post-title">{{ post.topic }}</v-list-item-title>
         <p class="description mb-0 pt-2">{{ post.description }}</p>
-        <span style="font-size: 0.775rem;" class="pt-3">
-          <a style=" text-decoration: none" href="#">Read more...</a>
-        </span>
+        <div class="d-flex justify-space-between" style="height: 20px">
+          <span style="font-size: 0.775rem;" class="pt-3">
+            <a style=" text-decoration: none" href="#">Read more...</a>
+          </span>
+          <read-time class="pt-3" :text="post.content" :customize="'font-size: 0.775rem'"></read-time>
+        </div>
       </v-list-item-content>
     </v-card>
   </div>
 </template>
 
 <script>
+import ReadTime from "@/components/Shared/readTime";
 export default {
   props: {
     posts: {
       type: Array,
       required: true
     }
+  },
+  components: {
+    ReadTime
   }
 };
 </script>
 
 <style>
-
 .other-posts {
   flex: 30%;
   padding: 20px;

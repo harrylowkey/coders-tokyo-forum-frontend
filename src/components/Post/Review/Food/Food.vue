@@ -1,92 +1,175 @@
 <template>
   <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
     <v-card class="mx-auto mt-6 food-card" :elevation="hover ? 20 : 3">
-      <v-row>
-        <v-col class="pt-0 pr-0" cols="12" sm="12" md="7" lg="7" xl="8">
+      <v-row style="margin-right: 0">
+        <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
           <v-img :src="cover.secureURL" height="378px" style class="cover-food"></v-img>
         </v-col>
-        <v-col class="pa-0" cols="12" sm="12" md="5" lg="5" xl="4" style="position: relative">
-          <v-card class="ml-1 food-detail">
-            <v-card-text class="pb-2 pt-2">
-              <p class="title text--primary mb-0 pt-1">{{ food.restaurant }}</p>
+        <v-col class="pa-0" cols="12" sm="12" md="12" lg="5" xl="4" style="position: relative">
+          <div class="d-md-none d-lg-flex">
+            <v-container class="ml-1 food-detail">
+              <v-card-text class="pb-2 pt-2">
+                <p class="title text--primary mb-0 pt-1">{{ food.restaurant }}</p>
 
-              <v-container class="d-flex pl-1 pb-0 pt-2">
-                <v-icon color="green" size="15" class="mb-0 mr-2">mdi-tag-text</v-icon>
-                <p class="value mb-0">{{ food.priceAverage }} {{ food.priceUnit}}</p>
-              </v-container>
+                <v-container class="d-flex pl-1 pb-0 pt-2">
+                  <v-icon color="green" size="15" class="mb-0 mr-2">mdi-tag-text</v-icon>
+                  <p class="value mb-0">{{ food.priceAverage }} {{ food.priceUnit}}</p>
+                </v-container>
 
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Open time:</p>
-                <p class="value mb-0">{{ food.openTime }}</p>
-              </v-container>
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Open time:</p>
+                  <p class="value mb-0">{{ food.openTime }}</p>
+                </v-container>
 
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Quality:</p>
-                <v-chip
-                  label
-                  text-color="black"
-                  outlined
-                  small
-                  :style="calPointColor(food.quality)"
-                >{{ food.quality }}</v-chip>
-              </v-container>
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Quality:</p>
+                  <v-chip
+                    label
+                    text-color="black"
+                    outlined
+                    small
+                    :style="calPointColor(food.quality)"
+                  >{{ food.quality }}</v-chip>
+                </v-container>
 
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Price:</p>
-                 <v-chip
-                  label
-                  text-color="black"
-                  outlined
-                  small
-                  :style="calPointColor(food.price)"
-                >{{ food.price }}</v-chip>
-              </v-container>
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Price:</p>
+                  <v-chip
+                    label
+                    text-color="black"
+                    outlined
+                    small
+                    :style="calPointColor(food.price)"
+                  >{{ food.price }}</v-chip>
+                </v-container>
 
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Service:</p>
-                <v-chip
-                  label
-                  text-color="black"
-                  outlined
-                  small
-                  :style="calPointColor(food.service)"
-                >{{ food.service }}</v-chip>
-              </v-container>
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Service:</p>
+                  <v-chip
+                    label
+                    text-color="black"
+                    outlined
+                    small
+                    :style="calPointColor(food.service)"
+                  >{{ food.service }}</v-chip>
+                </v-container>
 
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Space:</p>
-                <v-chip
-                  label
-                  text-color="black"
-                  outlined
-                  small
-                  :style="calPointColor(food.space)"
-                >{{ food.space }}</v-chip>
-              </v-container>
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Space:</p>
+                  <v-chip
+                    label
+                    text-color="black"
+                    outlined
+                    small
+                    :style="calPointColor(food.space)"
+                  >{{ food.space }}</v-chip>
+                </v-container>
 
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-3">Location:</p>
-                <p class="value mb-0">
-                  <a href="#">{{ food.address }}</a>
-                </p>
-              </v-container>
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Location:</p>
+                  <p class="value mb-0">
+                    <a href="#">{{ food.address }}</a>
+                  </p>
+                </v-container>
 
-              <v-container class="d-flex pl-1 pb-0">
-                <p class="key mb-0 mr-4">Stars:</p>
-                <v-icon
-                  v-for="(start, i) in 5"
-                  :key="i"
-                  size="20"
-                  :color="isStar(i + 1)"
-                  style="width: 25px"
-                >start</v-icon>
-              </v-container>
-            </v-card-text>
-            <v-card-actions class="ml-1 pt-0 pb-1">
-              <v-spacer></v-spacer>
-              <v-btn class="pl-1" color="primary" depressed small text>Read more...</v-btn>
-            </v-card-actions>
-          </v-card>
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-4">Stars:</p>
+                  <v-icon
+                    v-for="(start, i) in 5"
+                    :key="i"
+                    size="20"
+                    :color="isStar(i + 1)"
+                    style="width: 25px"
+                  >start</v-icon>
+                </v-container>
+              </v-card-text>
+            </v-container>
+          </div>
+          <div class="d-none d-md-flex d-lg-none">
+            <v-container class="ml-1 book-detail pt-1 pb-0">
+              <v-card-text class="pb-6 pt-0 d-flex justify-space-around flex-wrap">
+                <div>
+                  <p class="title text--primary mb-0 pt-1">{{ food.restaurant }}</p>
+
+                  <v-container class="d-flex pl-1 pb-0 pt-2">
+                    <v-icon color="green" size="15" class="mb-0 mr-2">mdi-tag-text</v-icon>
+                    <p class="value mb-0">{{ food.priceAverage }} {{ food.priceUnit}}</p>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Open time:</p>
+                    <p class="value mb-0">{{ food.openTime }}</p>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-4">Stars:</p>
+                    <v-icon
+                      v-for="(start, i) in 5"
+                      :key="i"
+                      size="20"
+                      :color="isStar(i + 1)"
+                      style="width: 25px"
+                    >start</v-icon>
+                  </v-container>
+                </div>
+
+                <div>
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Quality:</p>
+                    <v-chip
+                      label
+                      text-color="black"
+                      outlined
+                      small
+                      :style="calPointColor(food.quality)"
+                    >{{ food.quality }}</v-chip>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Price:</p>
+                    <v-chip
+                      label
+                      text-color="black"
+                      outlined
+                      small
+                      :style="calPointColor(food.price)"
+                    >{{ food.price }}</v-chip>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Service:</p>
+                    <v-chip
+                      label
+                      text-color="black"
+                      outlined
+                      small
+                      :style="calPointColor(food.service)"
+                    >{{ food.service }}</v-chip>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Space:</p>
+                    <v-chip
+                      label
+                      text-color="black"
+                      outlined
+                      small
+                      :style="calPointColor(food.space)"
+                    >{{ food.space }}</v-chip>
+                  </v-container>
+                </div>
+                <div>
+                  <v-container class="d-flex pl-1 pb-0 flex-wrap">
+                    <p class="key mb-0 mr-3">Location:</p>
+                    <p class="value mb-0">
+                      <a href="#">{{ food.address }}</a>
+                    </p>
+                  </v-container>
+                </div>
+              </v-card-text>
+              <v-divider></v-divider>
+            </v-container>
+          </div>
         </v-col>
       </v-row>
 
@@ -94,9 +177,12 @@
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <v-list-item-title class="headline food-title mb-0 mt-3">{{ topic }}</v-list-item-title>
           <p class="description mb-0 pt-2">{{ content }}</p>
-          <span style="font-size: 0.775rem;" class="pt-1">
-            <a style=" text-decoration: none" href="#">Read more...</a>
-          </span>
+          <div class="d-flex justify-space-between mt-1" style="height: 20px">
+            <span style="font-size: 0.775rem;" class="pt-1">
+              <a style=" text-decoration: none" href="#">Read more...</a>
+            </span>
+            <read-time class="pt-0" :text="content" :customize="'font-size: 0.775rem'"></read-time>
+          </div>
         </v-list-item-content>
         <user-avatar
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
@@ -142,6 +228,7 @@ import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
+import ReadTime from "@/components/Shared/readTime";
 
 export default {
   props: {
@@ -217,13 +304,14 @@ export default {
   components: {
     Tag,
     LikeBtn,
+    ReadTime,
     CommentBtn,
     UserAvatar
   },
   data() {
     return {
       maxSlice1: 1,
-      maxSlice: 2
+      maxSlice: 2,
     };
   },
   methods: {
@@ -232,18 +320,21 @@ export default {
       else return "";
     },
     calPointColor(point) {
-      if (point < 5) return { 
-        border: "1px solid #D50000 !important",
-        backgroundColor: "#EF9A9A !important"
-      }
-      if (point < 8) return { 
-        border: '1px solid #FBC02D !important', 
-        backgroundColor: '#fdd835 !important' 
-      };
-      if (point >= 8) return {
-        border: "1px solid #90d2a3 !important",
-        backgroundColor: "#C5E1A5 !important"
-      }
+      if (point < 5)
+        return {
+          border: "1px solid #D50000 !important",
+          backgroundColor: "#EF9A9A !important"
+        };
+      if (point < 8)
+        return {
+          border: "1px solid #FBC02D !important",
+          backgroundColor: "#fdd835 !important"
+        };
+      if (point >= 8)
+        return {
+          border: "1px solid #90d2a3 !important",
+          backgroundColor: "#C5E1A5 !important"
+        };
     }
   },
   computed: {}
@@ -300,13 +391,5 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   display: -webkit-box;
-}
-
-.food-detail {
-  border-top-left-radius: 30px !important;
-  position: absolute;
-  top: 0;
-  right: 12px;
-  width: 90% !important;
 }
 </style>

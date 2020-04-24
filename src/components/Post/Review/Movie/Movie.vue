@@ -79,10 +79,6 @@
                   >start</v-icon>
                 </v-container>
               </v-card-text>
-              <v-card-actions class="ml-1 pt-0">
-                <v-spacer></v-spacer>
-                <v-btn class="pl-1" color="primary" depressed small text>Read more...</v-btn>
-              </v-card-actions>
             </v-container>
           </div>
           <div class="d-none d-md-flex d-lg-none">
@@ -96,7 +92,7 @@
 
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-3">Director:</p>
-                    <p class="value mb-0"  v-if="director">{{ director.name }}</p>
+                    <p class="value mb-0" v-if="director">{{ director.name }}</p>
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
@@ -166,8 +162,13 @@
           <v-list-item-title class="headline movie-title mb-0 mt-3">{{ topic }}</v-list-item-title>
           <p class="description mb-0 pt-2">{{ content }}</p>
           <span style="font-size: 0.775rem;" class="pt-1">
-            <a style=" text-decoration: none" href="#">Read more...</a>
           </span>
+          <div class="d-flex justify-space-between" style="height: 20px">
+            <span style="font-size: 0.775rem;" class="pt-1">
+              <a style=" text-decoration: none" href="#">Read more...</a>
+            </span>
+            <read-time class="pt-0" :text="content" :customize="'font-size: 0.775rem'"></read-time>
+          </div>
         </v-list-item-content>
         <user-avatar
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
@@ -214,6 +215,7 @@ import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
 import { movieDescription } from "@/mixins/movieDescription";
+import ReadTime from "@/components/Shared/readTime"
 
 export default {
   mixins: [movieDescription],
@@ -286,6 +288,7 @@ export default {
   components: {
     Tag,
     LikeBtn,
+    ReadTime,
     CommentBtn,
     UserAvatar
   },
@@ -294,10 +297,8 @@ export default {
       director: {}
     };
   },
-  methods: {
-  },
-  computed: {
-  }
+  methods: {},
+  computed: {}
 };
 </script>
 
@@ -352,5 +353,4 @@ export default {
   -webkit-box-orient: vertical;
   display: -webkit-box;
 }
-
 </style>

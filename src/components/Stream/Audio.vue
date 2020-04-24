@@ -5,10 +5,9 @@
         <v-img :src="cover" height="180px" width="180px" class="audio-cover">
           <v-card-title class="title white--text">
             <v-row class="fill-height flex-column" justify="space-between">
-              <p class="mt-4 subheading text-left">{{ title }}</p>
-
+              <p style="font-size: 16px !important" class="mt-4 text-left ml-3">{{ title }}</p>
               <div>
-                <p class="ma-0 body-1 font-weight-bold font-italic text-left">{{ text }}</p>
+                <p style="font-size: 14px !important" class="ma-0 body-1 font-weight-bold font-italic text-left">{{ text }}</p>
                 <p class="caption font-weight-medium font-italic text-left">{{ subtext }}</p>
               </div>
 

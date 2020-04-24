@@ -10,6 +10,7 @@ export default (text) => {
   let splitRes = wordsPerMinute.toString().split(".");
   let minutes = Number(splitRes[0]);
   let seconds = Number(splitRes[1]) * 0.6;
+  if (minutes === 0) return 1
   let totalTime = minutes + seconds;
   return Math.round(totalTime);
 }

@@ -8,6 +8,7 @@
           :postId="post._id"
         ></post-reactions>
       </v-col>
+
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
         <v-card class="mx-auto mt-6" id="blog-card" elevation="6">
           <v-container class="pa-0">
@@ -20,7 +21,15 @@
                   class="cover-book"
                 ></v-img>
               </v-col>
-              <v-col class="pa-0" cols="12" sm="12" md="12" lg="5" xl="4" style="position: relative">
+              <v-col
+                class="pa-0"
+                cols="12"
+                sm="12"
+                md="12"
+                lg="5"
+                xl="4"
+                style="position: relative"
+              >
                 <div class="d-md-none d-lg-flex">
                   <v-container class="ml-1 pl-3 book-detail">
                     <v-card-text class="pb-2 pt-2">
@@ -234,6 +243,7 @@
           </v-container>
         </v-card>
       </v-col>
+
       <v-col
         cols="12"
         sm="12"
@@ -256,16 +266,18 @@
     <v-row id="comments">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0"></v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <div v-if="post.comments.length">
+        <div class="mt-5">
           <v-divider></v-divider>
           <h1 class="mb-3 mt-8">Comments</h1>
-          <comment
-            v-for="comment in post.comments"
-            :key="comment._id"
-            :comment="comment"
-            :author="post.user"
-            :postId="post._id"
-          ></comment>
+          <div v-if="post.comments.length">
+            <comment
+              v-for="comment in post.comments"
+              :key="comment._id"
+              :comment="comment"
+              :author="post.user"
+              :postId="post._id"
+            ></comment>
+          </div>
         </div>
       </v-col>
       <v-col cols="12" sm="12" md="3" lg="3" xl="3"></v-col>
@@ -298,8 +310,8 @@ import Comment from "@/components/Comment/Comment";
 import PostReactions from "@/components/Shared/PostReactions";
 import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
 import { bookDescription } from "@/mixins/bookDescription";
-import { userSocialLinks } from "@/mixins/userSocialLinks"
-import ReadTime from "@/components/Shared/readTime"
+import { userSocialLinks } from "@/mixins/userSocialLinks";
+import ReadTime from "@/components/Shared/readTime";
 
 export default {
   mixins: [bookDescription, userSocialLinks],
@@ -686,12 +698,9 @@ export default {
       authors: []
     };
   },
-  computed: {
-  },
-  created() {
-  },
-  methods: {
-  },
+  computed: {},
+  created() {},
+  methods: {},
   components: {
     Tag,
     ReadTime,

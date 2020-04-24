@@ -46,7 +46,7 @@
                     >{{ link.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
-                   <read-time class="pl-0" :text="post.content"></read-time>
+                  <read-time class="pl-0" :text="post.content"></read-time>
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
                   <tag
@@ -85,16 +85,18 @@
     <v-row id="comments">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0"></v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <div v-if="post.comments.length">
+        <div class="mt-5">
           <v-divider></v-divider>
           <h1 class="mb-3 mt-8">Comments</h1>
-          <comment
-            v-for="comment in post.comments"
-            :key="comment._id"
-            :comment="comment"
-            :author="post.user"
-            :postId="post._id"
-          ></comment>
+          <div v-if="post.comments.length">
+            <comment
+              v-for="comment in post.comments"
+              :key="comment._id"
+              :comment="comment"
+              :author="post.user"
+              :postId="post._id"
+            ></comment>
+          </div>
         </div>
       </v-col>
       <v-col cols="12" sm="12" md="3" lg="3" xl="3"></v-col>
@@ -105,9 +107,7 @@
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
         <v-divider></v-divider>
         <h1 class="mt-8 mb-3">Other blogs of author</h1>
-        <other-posts-of-author
-          :posts="otherBlogsOfAuthor"
-        ></other-posts-of-author>
+        <other-posts-of-author :posts="otherBlogsOfAuthor"></other-posts-of-author>
       </v-col>
       <v-col cols="12" sm="12" md="3" lg="3" xl="3"></v-col>
     </v-row>
@@ -127,9 +127,9 @@ import AuthorProfile from "@/components/User/Profile";
 import AuthorFollowCard from "@/components/User/AuthorFollow";
 import Comment from "@/components/Comment/Comment";
 import PostReactions from "@/components/Shared/PostReactions";
-import OtherPostsOfAuthor from '@/components/Shared/OtherPostsOfAuthor'
-import { userSocialLinks } from '@/mixins/userSocialLinks'
-import ReadTime from "@/components/Shared/readTime"
+import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
+import { userSocialLinks } from "@/mixins/userSocialLinks";
+import ReadTime from "@/components/Shared/readTime";
 
 export default {
   mixins: [userSocialLinks],
@@ -499,15 +499,12 @@ export default {
         letterSpacing: "0.0111333333em !important",
         marginLeft: "12px !important",
         borderRadius: "4px"
-      },
+      }
     };
   },
-  computed: {
-  },
-  created() {
-  },
-  methods: {
-  },
+  computed: {},
+  created() {},
+  methods: {},
   components: {
     Tag,
     ReadTime,

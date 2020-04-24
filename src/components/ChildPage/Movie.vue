@@ -246,16 +246,18 @@
     <v-row id="comments">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0"></v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <div v-if="post.comments.length">
+        <div class="mt-5">
           <v-divider></v-divider>
           <h1 class="mb-3 mt-8">Comments</h1>
-          <comment
-            v-for="comment in post.comments"
-            :key="comment._id"
-            :comment="comment"
-            :author="post.user"
-            :postId="post._id"
-          ></comment>
+          <div v-if="post.comments.length">
+            <comment
+              v-for="comment in post.comments"
+              :key="comment._id"
+              :comment="comment"
+              :author="post.user"
+              :postId="post._id"
+            ></comment>
+          </div>
         </div>
       </v-col>
       <v-col cols="12" sm="12" md="3" lg="3" xl="3"></v-col>

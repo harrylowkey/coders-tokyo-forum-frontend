@@ -104,7 +104,7 @@ export default {
             foodName: "sushi",
             priceAverage: "200000 - 250000",
             priceUnit: "VND",
-            address: "Let’s Sushi 13B Quốc Tử Giám ",
+            address: "Let’s Sushi 13B Quốc Tử Giám",
             stars: 5,
             restaurant: "Let's sushi",
             quality: 7.8,

@@ -88,10 +88,6 @@
                   >start</v-icon>
                 </v-container>
               </v-card-text>
-              <v-card-actions class="ml-1 pt-0">
-                <v-spacer></v-spacer>
-                <v-btn class="pl-1" color="primary" depressed small text>Read more...</v-btn>
-              </v-card-actions>
             </v-container>
           </div>
           <div class="d-none d-md-flex d-lg-none">
@@ -183,9 +179,12 @@
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <v-list-item-title class="headline book-title mb-0 mt-3">{{ topic }}</v-list-item-title>
           <p class="description mb-0 pt-2">{{ content }}</p>
-          <span style="font-size: 0.775rem;" class="pt-1">
-            <a style=" text-decoration: none" href="#">Read more...</a>
-          </span>
+          <div class="d-flex justify-space-between mt-1" style="height: 20px">
+            <span style="font-size: 0.775rem;" class="pt-1">
+              <a style=" text-decoration: none" href="#">Read more...</a>
+            </span>
+            <read-time class="pt-0" :text="content" :customize="'font-size: 0.775rem'"></read-time>
+          </div>
         </v-list-item-content>
         <user-avatar
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
@@ -232,6 +231,7 @@ import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
 import { bookDescription } from "@/mixins/bookDescription";
+import ReadTime from "@/components/Shared/readTime"
 
 export default {
   mixins: [bookDescription],
@@ -299,6 +299,7 @@ export default {
   },
   components: {
     Tag,
+    ReadTime,
     LikeBtn,
     CommentBtn,
     UserAvatar
