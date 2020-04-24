@@ -14,17 +14,18 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-text-field v-model="search" v-if="isSearching" hide-details single-line></v-text-field>
-        <v-btn class="ml-10 search-icon" color="primary" @click="isSearching = !isSearching">
+        <v-btn text class="ml-10 search-icon" color="primary" @click="isSearching = !isSearching">
           <v-icon size="20">search</v-icon>
         </v-btn>
         <v-btn
-          class="hidden-xs-only ml-3"
+          class="hidden-xs-only mr-1"
           color="primary"
           v-for="item in menuItems"
           :key="item.title"
           :to="item.link"
+          text
         >
-          <v-icon v-if="item.icon" left>{{ item.icon }}</v-icon>
+          <!-- <v-icon v-if="item.icon" left>{{ item.icon }}</v-icon> -->
           {{ item.title }}
         </v-btn>
         <v-menu transition="slide-y-transition" style="top: 48px" open-on-hover>
