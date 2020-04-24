@@ -11,11 +11,11 @@
 
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
         <v-card class="mx-auto mt-6" id="blog-card" elevation="6">
-          <v-container class="pa-0">
+          <v-container class="pa-0 pb-4">
             <v-row style="margin-right: 0">
               <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
                 <v-img
-                  src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
+                  src="https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg"
                   height="360px"
                   style
                   class="cover-book"
@@ -190,12 +190,52 @@
                         </v-container>
                       </div>
                     </v-card-text>
-                    <v-divider></v-divider>
                   </v-container>
                 </div>
               </v-col>
             </v-row>
           </v-container>
+          <v-divider></v-divider>
+          <v-sheet class="mx-auto">
+            <v-slide-group v-model="foodPhotos" class="px-4 pt-4" show-arrows center-active>
+              <v-slide-item v-for="(photo, i) in foodPhotos" :key="i">
+                <v-card class="ma-4" height="155" width="155">
+                  <v-img
+                    :src="photo.secureURL"
+                    height="100%"
+                    width="100%"
+                    class="cover-book"
+                    style="cursor: pointer"
+                    @click="handleZoomPhoto(photo.secureURL)"
+                  ></v-img>
+                </v-card>
+              </v-slide-item>
+            </v-slide-group>
+            <div class="d-flex justify-end mx-10 pb-4">
+              <p
+                v-if="foodPhotos.length > 3"
+                style="font-size: 13px;"
+                class="font-italic mb-0"
+              >{{ foodPhotos.length }} photos</p>
+            </div>
+          </v-sheet>
+
+          <v-row justify="center">
+            <v-dialog v-model="dialog" max-width="700">
+              <v-card style="height: 500px !important">
+                <v-img
+                  :src="dialogImageSrc"
+                  height="100%"
+                  width="100%"
+                  class="cover-book"
+                  style="cursor: pointer"
+                  @click="dialog = !dialog"
+                ></v-img>
+              </v-card>
+            </v-dialog>
+          </v-row>
+
+          <v-divider></v-divider>
           <v-container style="padding: 15px 50px 20px 50px">
             <v-list-item three-line style="padding: 10px 25px 25px 0px">
               <v-list-item-content class="pr-10 pt-lg-0">
@@ -315,6 +355,8 @@ export default {
   mixins: [foodDescription, userSocialLinks],
   data() {
     return {
+      dialog: false,
+      dialogImageSrc: "",
       post: {
         _id: "5e9c6ce7830bd646939c7624",
         tags: [
@@ -334,7 +376,7 @@ export default {
         foodPhotos: [
           {
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/image/upload/v1586676116/Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg.jpg",
+              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
             publicId:
               "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
             fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
@@ -342,7 +384,63 @@ export default {
           },
           {
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/image/upload/v1587350197/Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png.png",
+              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+            publicId:
+              "Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png",
+            fileName: "89025324_2760328297369108_3874548065679441920_n.png",
+            sizeBytes: 184898
+          },
+          {
+            secureURL:
+              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+            publicId:
+              "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
+            fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
+            sizeBytes: 112398
+          },
+          {
+            secureURL:
+              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+            publicId:
+              "Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png",
+            fileName: "89025324_2760328297369108_3874548065679441920_n.png",
+            sizeBytes: 184898
+          },
+          {
+            secureURL:
+              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+            publicId:
+              "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
+            fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
+            sizeBytes: 112398
+          },
+          {
+            secureURL:
+              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+            publicId:
+              "Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png",
+            fileName: "89025324_2760328297369108_3874548065679441920_n.png",
+            sizeBytes: 184898
+          },
+          {
+            secureURL:
+              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+            publicId:
+              "Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png",
+            fileName: "89025324_2760328297369108_3874548065679441920_n.png",
+            sizeBytes: 184898
+          },
+          {
+            secureURL:
+              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+            publicId:
+              "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
+            fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
+            sizeBytes: 112398
+          },
+          {
+            secureURL:
+              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
             publicId:
               "Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png",
             fileName: "89025324_2760328297369108_3874548065679441920_n.png",
@@ -438,7 +536,7 @@ export default {
           foodPhotos: [
             {
               secureURL:
-                "https://res.cloudinary.com/hongquangraem/image/upload/v1586676116/Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg.jpg",
+                "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
               publicId:
                 "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
               fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
@@ -503,12 +601,22 @@ export default {
         marginLeft: "12px !important",
         borderRadius: "4px"
       },
-      food: {}
+      food: {},
+      prevIcon: true,
+      nextIcon: true,
+      foodPhotos: []
     };
   },
   computed: {},
-  created() {},
-  methods: {},
+  created() {
+    this.foodPhotos = this.post.foodPhotos;
+  },
+  methods: {
+    handleZoomPhoto(photoSrc) {
+      this.dialogImageSrc = photoSrc;
+      this.dialog = !this.dialog;
+    }
+  },
   components: {
     Tag,
     ReadTime,
