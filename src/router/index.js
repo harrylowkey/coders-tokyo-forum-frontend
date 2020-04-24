@@ -73,17 +73,17 @@ const routes = [
     component: BlogDetails
   },
   {
-    path: '/books/:id', 
+    path: '/bookReviews/:id', 
     name: 'bookDetails',
     component: BookDetails
   },
   {
-    path: '/movies/:id', 
+    path: '/movieReviews/:id', 
     name: 'movieDetails',
     component: MovieDetails
   },
   {
-    path: '/food/:id', 
+    path: '/foodReviews/:id', 
     name: 'foodDetails',
     component: FoodDetails
   }
