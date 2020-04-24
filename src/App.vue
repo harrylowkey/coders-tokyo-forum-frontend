@@ -10,7 +10,7 @@
           />
         </v-avatar>
         <v-toolbar-title>
-          <a href="/stream" style="text-decoration: none; color: #000">Forum</a>
+          <a ref="forumTitle" href="/stream" style="text-decoration: none; color: #000">Forum</a>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-text-field v-model="search" v-if="isSearching" hide-details single-line></v-text-field>
@@ -113,7 +113,7 @@ export default {
       return this.$store.dispatch("logOut");
     },
     onClickLogo() {
-      return this.$router.push({ path: "/stream" });
+      return this.$refs.forumTitle.click()
     },
     onClickAvatar() {
       return this.$router.push({ path: "/profile" });
