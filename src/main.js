@@ -4,6 +4,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
+import APlayer from '@moefe/vue-aplayer';
 
 import DateFilter from './filters/date'
 import DateTimeFilter from './filters/dateTime'
@@ -21,6 +22,11 @@ Vue.filter('readTime', ReadTimeFilter)
 
 Vue.component('app-alert', AlertCmp)
 Vue.component('app-banner', Banner)
+
+Vue.use(APlayer, {
+  defaultCover: 'https://github.com/u3u.png',
+  productionTip: true,
+})
 
 new Vue({
   router,

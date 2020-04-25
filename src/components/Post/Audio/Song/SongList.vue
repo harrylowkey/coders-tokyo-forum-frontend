@@ -2,7 +2,7 @@
   <v-container>
     <h1 v-if="showTitlePage" class="mt-5 ml-10">#Songs</h1>
     <v-row>
-      <v-col class="d-flex pt-0"  id="song-wrapper">
+      <v-col class="d-flex pt-0" id="song-wrapper">
         <song
           class="song"
           v-for="item in songList"
@@ -22,6 +22,7 @@
           :updatedAt="item.updatedAt"
           :media="item.media"
           :metadata="item.metadata"
+          :audio="item.audio"
           :customize="{}"
         ></song>
         <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
@@ -123,6 +124,13 @@ export default {
             updatedAt: "2020-04-17T03:20:14.881Z",
             __v: 0
           },
+          audio: {
+            name: "东西（Cover：林俊呈）",
+            artist: "纳豆",
+            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
+            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
+          },
           createdAt: "2020-04-17T03:20:14.886Z",
           updatedAt: "2020-04-17T03:20:14.886Z",
           metadata: {
@@ -190,6 +198,13 @@ export default {
             updatedAt: "2020-04-17T03:19:18.857Z",
             __v: 0
           },
+          audio: {
+            name: "东西（Cover：林俊呈）",
+            artist: "纳豆",
+            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
+            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
+          },
           createdAt: "2020-04-17T03:19:18.881Z",
           updatedAt: "2020-04-17T03:19:18.881Z",
           metadata: {
@@ -251,6 +266,13 @@ export default {
             createdAt: "2020-04-17T03:20:14.881Z",
             updatedAt: "2020-04-17T03:20:14.881Z",
             __v: 0
+          },
+          audio: {
+            name: "东西（Cover：林俊呈）",
+            artist: "纳豆",
+            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
+            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
           },
           createdAt: "2020-04-17T03:20:14.886Z",
           updatedAt: "2020-04-17T03:20:14.886Z",
@@ -319,6 +341,13 @@ export default {
             updatedAt: "2020-04-17T03:19:18.857Z",
             __v: 0
           },
+          audio: {
+            name: "东西（Cover：林俊呈）",
+            artist: "纳豆",
+            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
+            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
+          },
           createdAt: "2020-04-17T03:19:18.881Z",
           updatedAt: "2020-04-17T03:19:18.881Z",
           metadata: {
@@ -380,6 +409,13 @@ export default {
             createdAt: "2020-04-17T03:20:14.881Z",
             updatedAt: "2020-04-17T03:20:14.881Z",
             __v: 0
+          },
+          audio: {
+            name: "东西（Cover：林俊呈）",
+            artist: "纳豆",
+            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
+            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
           },
           createdAt: "2020-04-17T03:20:14.886Z",
           updatedAt: "2020-04-17T03:20:14.886Z",
@@ -447,6 +483,13 @@ export default {
             createdAt: "2020-04-17T03:19:18.857Z",
             updatedAt: "2020-04-17T03:19:18.857Z",
             __v: 0
+          },
+          audio: {
+            name: "东西（Cover：林俊呈）",
+            artist: "纳豆",
+            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
+            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
           },
           createdAt: "2020-04-17T03:19:18.881Z",
           updatedAt: "2020-04-17T03:19:18.881Z",
@@ -600,7 +643,7 @@ export default {
   created() {
     if (this.$route.path === "/stream/songs") {
       this.showTitlePage = true;
-      this.showViewMoreBtn = false
+      this.showViewMoreBtn = false;
       this.sideBarStyle.paddingTop = "5px";
       this.showTopBloggers = false;
     }

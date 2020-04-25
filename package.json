@@ -7,6 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@moefe/vue-aplayer": "^2.0.0-beta.5",
     "core-js": "^3.6.4",
     "marked": "^1.0.0",
     "register-service-worker": "^1.7.1",
