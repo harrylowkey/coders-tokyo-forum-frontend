@@ -653,6 +653,8 @@ export default {
       let sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
     }
+  },
+  methods: { 
   }
 };
 </script>

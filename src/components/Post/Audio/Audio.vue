@@ -1,7 +1,7 @@
 <template>
   <div id="audio">
     <audio
-      style="display:none"
+      style="display: none"
       @timeupdate="calProgressBar"
       ref="player"
       controls
@@ -11,7 +11,7 @@
     <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
       <v-card :elevation="hover ? 10 : 3" :class="{ 'on-hover': hover }" id="audio-card">
         <v-img
-        class="cover"
+          class="cover"
           src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
           height="200px"
@@ -21,32 +21,36 @@
             <p class="caption font-weight-medium font-italic text-left">{{ authors[0].name }}</p>
           </v-card-title>
 
-          <div class="align-self-center d-flex justify-center" st>
+          <div class="align-self-center d-flex justify-center">
             <v-icon style="color: #fff" @click="togglePlayPause" size="50">{{ togglePlayPauseIcon }}</v-icon>
           </div>
 
           <div class="audio-btns" :class="{ 'show-btns': hover }">
             <div class="player-controls scrubber">
-              <span id="seekObjContainer" @click="seek">
-                <progress id="progressbar" :value="progressBar.value" max="1"></progress>
+              <span id="seekObjContainer">
+                <progress
+                  @click="onClickProgressbar($event)"
+                  id="progressbar"
+                  :value="progressBar.value"
+                  :max="progressBar.max"
+                ></progress>
               </span>
               <br />
-              <small v-if="isPlaying" class="start-time">{{ currentTime }}</small>
-              <small v-if="isPlaying" class="end-time">{{ totalLength }}</small>
+              <small v-if="currentTime !== 0" class="start-time">{{ currentTime }}</small>
+              <small v-if="currentTime !== 0" class="end-time">{{ totalLength }}</small>
             </div>
 
             <v-icon @click="toggleMutedVolume" class="volume-icon" color="#fff">{{ volumeIcon }}</v-icon>
+            <v-slider
+              dark
+              class="volume-bar"
+              v-model="currentVolume"
+              max="100"
+              min="1"
+              color="#fff"
+              vertical
+            ></v-slider>
           </div>
-          <v-slider
-            dark
-            v-model="currentVolume"
-            max="100"
-            min="1"
-            color="#fff"
-            class="volume-bar"
-            :style="show-volume-bar"
-            vertical
-          ></v-slider>
         </v-img>
 
         <v-list-item three-line style="padding: 0 25px 0 15px">
@@ -164,8 +168,7 @@ export default {
       progressBar: {
         value: 0,
         max: 1
-      },
-      isPlaying: false
+      }
     };
   },
   components: {
@@ -176,7 +179,7 @@ export default {
   },
   watch: {
     currentVolume(newValue, oldValue) {
-      this.$refs.player.volume = newValue / 100;
+      return (this.$refs.player.volume = newValue / 100);
     }
   },
   computed: {
@@ -201,12 +204,11 @@ export default {
       }
     },
     togglePlayPause() {
+      //TODO: Cannot pause anoter audio if playing when playing audio
       if (this.togglePlayPauseIcon === "mdi-play-circle-outline") {
         this.togglePlayPauseIcon = "mdi-pause-circle-outline";
-        this.isPlaying = true;
         return this.$refs.player.play();
       } else {
-        this.isPlaying = false;
         this.togglePlayPauseIcon = "mdi-play-circle-outline";
         return this.$refs.player.pause();
       }
@@ -214,10 +216,12 @@ export default {
     toggleMutedVolume() {
       if (this.volumeIcon === "mdi-volume-high") {
         this.volumeIcon = "mdi-volume-off";
+        this.currentVolume = 0;
         return (this.$refs.player.volume = this.minVolume);
       } else {
         this.volumeIcon = "mdi-volume-high";
-        return (this.$refs.player.volume = this.maxVolume);
+        this.currentVolume = 50;
+        return (this.$refs.player.volume = this.maxVolume / 2);
       }
     },
     calculateTotalValue(length) {
@@ -241,8 +245,8 @@ export default {
 
       return current_time;
     },
-    seek(evt) {
-      const percent = evt.offsetX / this.$el.offsetWidth;
+    onClickProgressbar(evt) {
+      const percent = evt.offsetX / (this.$el.offsetWidth - 81);
       this.$refs.player.currentTime = percent * this.$refs.player.duration;
       this.progressBar.value = percent / 100;
     }
@@ -267,21 +271,37 @@ export default {
   height: 35px;
 }
 
-.volume-bar {
-  position: absolute;
-  height: 50px;
-  right: 25px;
-  bottom: 22px;
-  opacity: 0 !important;
-}
-.show-volume-bar {
-  opacity: 1 !important;
-}
-
 .volume-icon {
   left: 248px;
   top: -21px;
   cursor: pointer;
+  // height: 180px;
+  // padding-top: 160px;
+}
+
+.volume-icon:hover ~ .volume-bar {
+  opacity: 1 !important;
+}
+
+.v-slider__thumb {
+  background-color: red !important;
+}
+
+.volume-bar {
+  position: absolute;
+  height: 50px;
+  right: 25px;
+  color: red;
+  width: 20px;
+  height: 163px;
+  right: 15px;
+  top: 16px;
+  // opacity: 0 !important;
+  transition: ease 0.5s;
+}
+
+.volume-bar:hover {
+  opacity: 1 !important;
 }
 
 #progressbar {
@@ -306,11 +326,8 @@ export default {
 }
 
 .player-controls {
-  align-items: center;
-  justify-content: center;
   margin-top: 25px;
   margin-left: 30px;
-  flex: 3;
   progress {
     width: 80%;
   }
@@ -344,13 +361,10 @@ export default {
   opacity: 1;
 }
 
-.cover:not(.on-hover) {
-  opacity: 0.8;
- }
 .cover {
   transition: ease 0.5s;
 }
- .cover:hover {
-   opacity: 1;
- }
+.cover:hover {
+  opacity: 1;
+}
 </style>
