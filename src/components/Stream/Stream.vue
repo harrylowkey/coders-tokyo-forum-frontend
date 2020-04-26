@@ -3,12 +3,12 @@
     <app-banner></app-banner>
     <v-divider></v-divider>
     <v-divider inset></v-divider>
-    <audio-playlist></audio-playlist>
+    <audio-playlist class="d-none d-sm-flex"></audio-playlist>
     <v-divider></v-divider>
     <br />
     <v-container color="dark">
       <v-row>
-        <post-tabs @setActivePage="handleSetActivePage"></post-tabs>
+        <post-tabs class="d-none d-sm-flex" @setActivePage="handleSetActivePage"></post-tabs>
         <discussion-page v-if="activePage === 'Discussions'"></discussion-page>
         <blog-page v-if="activePage === 'Blogs'"></blog-page>
         <video-page v-if="activePage === 'Videos'"></video-page>

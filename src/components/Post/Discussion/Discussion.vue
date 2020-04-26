@@ -20,7 +20,7 @@
         <v-spacer></v-spacer>
         <v-container>
           <v-row>
-            <v-col class="pa-lg-0" cols="3" offset-sm="4" md="4" offset-md="2" lg="3" offset-lg="4" xl="2" offset-xl="5">
+            <v-col class="pa-lg-0" cols="5" sm="5" md="4" offset-md="2" lg="3" offset-lg="4" xl="2" offset-xl="5">
               <like-btn :likes="200" ></like-btn>
           
             </v-col>

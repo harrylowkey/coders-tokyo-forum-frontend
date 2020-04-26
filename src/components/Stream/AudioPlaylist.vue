@@ -1,5 +1,5 @@
 <template>
-  <v-row class="d-flex justify-center flex-wrap">
+  <v-row class="d-flex justify-center flex-wrap ">
     <template v-for="(item, i) in items">
       <v-col :key="i" cols="12" md="3" style="max-width: 21%">
         <Audio

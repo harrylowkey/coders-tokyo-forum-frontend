@@ -107,10 +107,6 @@
                         >start</v-icon>
                       </v-container>
                     </v-card-text>
-                    <v-card-actions class="ml-1 pt-0">
-                      <v-spacer></v-spacer>
-                      <v-btn class="pl-1" color="primary" depressed small text>Read more...</v-btn>
-                    </v-card-actions>
                   </v-container>
                 </div>
                 <div class="d-none d-md-flex d-lg-none">

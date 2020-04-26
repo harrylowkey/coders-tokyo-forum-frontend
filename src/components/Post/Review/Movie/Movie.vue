@@ -161,8 +161,7 @@
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <v-list-item-title class="headline movie-title mb-0 mt-3">{{ topic }}</v-list-item-title>
           <p class="description mb-0 pt-2">{{ content }}</p>
-          <span style="font-size: 0.775rem;" class="pt-1">
-          </span>
+          <span style="font-size: 0.775rem;" class="pt-1"></span>
           <div class="d-flex justify-space-between" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
               <a style=" text-decoration: none" href="#">Read more...</a>
@@ -187,8 +186,8 @@
           <v-row>
             <v-col
               class="pa-lg-0"
-              cols="3"
-              offset-sm="4"
+              cols="5"
+              sm="5"
               md="4"
               offset-md="2"
               lg="3"
@@ -215,7 +214,7 @@ import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
 import { movieDescription } from "@/mixins/movieDescription";
-import ReadTime from "@/components/Shared/readTime"
+import ReadTime from "@/components/Shared/readTime";
 
 export default {
   mixins: [movieDescription],

@@ -38,8 +38,8 @@
           <v-row>
             <v-col
               class="pa-lg-0"
-              cols="3"
-              offset-sm="4"
+              cols="5"
+              sm="5"
               md="4"
               offset-md="2"
               lg="3"
