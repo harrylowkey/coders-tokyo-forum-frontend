@@ -5,6 +5,7 @@
         <post-reactions
           :likes="post.metadata.likes"
           :saves="post.metadata.saves"
+          :flowers="123"
           :postId="post._id"
         ></post-reactions>
       </v-col>
@@ -60,6 +61,9 @@
               </v-list-item-content>
             </v-list-item>
             <div v-html="$options.filters.markdown(post.content)"></div>
+            <div class="d-flex justify-end">
+              <span class="signature">{{ post.user.username }}</span>
+            </div>
           </v-container>
         </v-card>
       </v-col>
@@ -524,9 +528,16 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+
 #blog-card {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
+}
+
+.signature {
+  font-family: 'Great Vibes', cursive;
+  font-size: 28px;
 }
 
 .blog-title {
