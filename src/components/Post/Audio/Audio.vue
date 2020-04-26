@@ -40,16 +40,18 @@
               <small v-if="currentTime !== 0" class="end-time">{{ totalLength }}</small>
             </div>
 
-            <v-icon @click="toggleMutedVolume" class="volume-icon" color="#fff">{{ volumeIcon }}</v-icon>
-            <v-slider
-              dark
-              class="volume-bar"
-              v-model="currentVolume"
-              max="100"
-              min="1"
-              color="#fff"
-              vertical
-            ></v-slider>
+            <div class="wrapper-volume">
+              <v-icon @click="toggleMutedVolume" class="volume-icon" color="#fff">{{ volumeIcon }}</v-icon>
+              <v-slider
+                dark
+                class="volume-bar"
+                v-model="currentVolume"
+                max="100"
+                min="1"
+                color="#fff"
+                vertical
+              ></v-slider>
+            </div>
           </div>
         </v-img>
 
@@ -272,11 +274,9 @@ export default {
 }
 
 .volume-icon {
-  left: 248px;
-  top: -21px;
+  left: 4px;
+  top: 153px;
   cursor: pointer;
-  // height: 180px;
-  // padding-top: 160px;
 }
 
 .volume-icon:hover ~ .volume-bar {
@@ -290,14 +290,26 @@ export default {
 .volume-bar {
   position: absolute;
   height: 50px;
-  right: 25px;
   color: red;
   width: 20px;
   height: 163px;
-  right: 15px;
-  top: 16px;
-  // opacity: 0 !important;
+  right: 5px;
+  top: 0px;
+  opacity: 0 !important;
   transition: ease 0.5s;
+}
+
+.wrapper-volume {
+  position: relative;
+  height: 173px;
+  bottom: 175px;
+  width: 30px;
+  left: 240px;
+  color: red;
+}
+
+.wrapper-volume:hover .volume-bar {
+  opacity: 1;
 }
 
 .volume-bar:hover {
