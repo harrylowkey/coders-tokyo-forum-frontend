@@ -573,20 +573,6 @@ export default {
   position: relative;
 }
 
-.icon-container {
-  position: fixed;
-  top: 85px;
-  left: 55px;
-  padding: 20px 10px;
-  height: 300px;
-}
-
-.counter {
-  position: absolute;
-  top: 40px;
-  right: -8px;
-}
-
 .other-blogs {
   flex: 30%;
   padding: 20px;
