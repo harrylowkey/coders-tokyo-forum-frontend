@@ -3,7 +3,7 @@
     <v-card class="comment mb-5">
       <v-list-item-content class="">
         <v-row>
-          <v-col class="pl-9 pr-0 pb-0 d-flex flex-column" cols="5" sm="3" md="4" lg="4" xl="3">
+          <v-col class="pl-9 pr-0 pb-0 d-flex flex-column" cols="5" sm="3" md="4" lg="4" xl="4">
             <div class="d-flex">
               <v-avatar size="60" style="cursor: pointer" dark>
                 <img
@@ -37,12 +37,12 @@
             style="font-size: 15px; line-height: 1.5"
             class="pr-0 pb-0 pl-0"
             cols="7"
-            sm="7"
+            sm="6"
             md="7"
             lg="7"
             xl="8"
           >
-            <p class="comment-content">{{ comment.content }}</p>
+            <p v-html="$options.filters.markdown(comment.content)" class="comment-content"></p>
           </v-col>
         </v-row>
         <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
@@ -103,7 +103,7 @@
               lg="7"
               xl="8"
             >
-              <p class="comment-content">{{ childComment.content }}</p>
+              <p v-html="$options.filters.markdown(childComment.content)" class="comment-content"></p>
             </v-col>
           </v-row>
         </v-list-item-content>

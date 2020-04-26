@@ -92,6 +92,40 @@
         <div class="mt-5">
           <v-divider></v-divider>
           <h1 class="mb-3 mt-8">Comments</h1>
+
+          <div class="mb-5">
+            <v-form>
+              <v-textarea
+                v-if="!isPreviewing"
+                name="input-7-1"
+                filled
+                auto-grow
+                solo
+                placeholder="Add comment..."
+                class="mb-n3"
+                v-model="comment"
+              ></v-textarea>
+              <v-card v-else class="preview px-10 pt-8 pb-5 mb-4" style="min-height: 130px">
+                <p style="line-height: 1.5" v-html="this.markdownComment"></p>
+              </v-card>
+              <div class="d-flex justify-end">
+                <v-btn
+                  v-if="!isPreviewing"
+                  dark
+                  color="primary"
+                  @click="togglePreviewComment"
+                >Preview</v-btn>
+                <v-btn
+                 v-else
+                  dark
+                  color="primary"
+                  @click="togglePreviewComment"
+                >Continue writing comment</v-btn>
+
+                <v-btn dark color="green" class="ml-3">Submit</v-btn>
+              </div>
+            </v-form>
+          </div>
           <div v-if="post.comments.length">
             <comment
               v-for="comment in post.comments"
@@ -139,6 +173,7 @@ export default {
   mixins: [userSocialLinks],
   data() {
     return {
+      isPreviewing: false,
       post: {
         _id: "5e9ab00f0591fb40fc87faa2",
         tags: [
@@ -157,7 +192,8 @@ export default {
             childComments: [
               {
                 _id: "5ea08f6d14328169d8422a42",
-                content: "reply thread",
+                content:
+                  "#reply thread \n\nWhy Markdown?\n [Marked] lets you convert [Markdown] into HTML\n\n[Marked]: https://github.com/markedjs/marked/\n[Markdown]: http://daringfireball.net/projects/markdown/\n",
                 user: {
                   _id: "5e8b577f1a2dde32298795f4",
                   username: "hongquang",
@@ -503,12 +539,27 @@ export default {
         letterSpacing: "0.0111333333em !important",
         marginLeft: "12px !important",
         borderRadius: "4px"
-      }
+      },
+      comment: "",
+      markdownComment: ""
     };
   },
+  watch: {
+    comment() {
+      this.markdownComment = this.$options.filters.markdown(this.comment);
+    }
+  },
   computed: {},
-  created() {},
-  methods: {},
+  methods: {
+    togglePreviewComment() {
+      if (this.isPreviewing) {
+        return (this.isPreviewing = false);
+      }
+      if (!this.isPreviewing && this.comment !== '') {
+        return (this.isPreviewing = true);
+      }
+    }
+  },
   components: {
     Tag,
     ReadTime,
@@ -536,7 +587,7 @@ export default {
 }
 
 .signature {
-  font-family: 'Great Vibes', cursive;
+  font-family: "Great Vibes", cursive;
   font-size: 28px;
 }
 
