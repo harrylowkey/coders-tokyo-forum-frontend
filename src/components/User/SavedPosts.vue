@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import Song from "@/components/Post/Audio/Audio";
+import Song from "@/components/Post/Audio/Song/Song";
 import Discussion from "@/components/Post/Discussion/Discussion";
 import Blog from "@/components/Post/Blog/Blog";
 import Movie from "@/components/Post/Review/Movie/Movie";

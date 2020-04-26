@@ -60,10 +60,10 @@
 
 <script>
 import SideCard from "@/components/Shared/SideCard";
-import Audio from "../Audio";
+import Song from "./Song";
 export default {
   components: {
-    song: Audio,
+    Song,
     SideCard
   },
   data() {

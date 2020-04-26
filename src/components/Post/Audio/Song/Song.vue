@@ -289,7 +289,6 @@ export default {
 
 .volume-bar {
   position: absolute;
-  height: 50px;
   color: red;
   width: 20px;
   height: 163px;
@@ -347,17 +346,17 @@ export default {
     -webkit-appearance: none;
     appearance: none;
     background-color: white;
-    color: blue;
+    color: #4A148C;
     height: 5px;
   }
   progress[value]::-webkit-progress-bar {
     background-color: white;
     border-radius: 2px;
     border: 1px solid lighten(#acacac, 20%);
-    color: blue;
+    color: #4A148C;
   }
   progress::-webkit-progress-value {
-    background-color: blue;
+    background-color: #4A148C;
   }
   p {
     font-size: 1.6rem;
