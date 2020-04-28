@@ -18,17 +18,16 @@
         <v-card-actions style="margin-right: 25px; height: 30px" class="pb-1 pl-0">
           <v-card-text
             class="font-italic font-weight-light pt-0 pl-0 pr-0"
-            style="font-size: 13px; height: 30px; margin-top: 16px !important; margin-right: 50px"
+            style="font-size: 13px; width: 150px; height: 30px; margin-top: 16px !important; margin-right: 20px"
           >
             <span class="mt-2">{{ createdAt | date }}</span>
           </v-card-text>
-          <v-spacer></v-spacer>
           <v-container class="pt-4 pl-0 pr-0 d-flex justify-space-around">
-            <like-btn :likes="4" style="padding-right: 40px;"></like-btn>
+            <like-btn :likes="4"></like-btn>
             <comment-btn :comments="9"></comment-btn>
           </v-container>
         </v-card-actions>
-        <v-card-actions style="padding: 0px 0px 0 25px; " class="d-flex">
+        <v-card-actions style="padding: 0;" class="d-flex">
           <v-spacer></v-spacer>
           <tag
             style="margin-top: 6px"

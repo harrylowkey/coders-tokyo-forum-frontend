@@ -82,8 +82,8 @@
             <span class="mt-2">{{ createdAt | date }}</span>
           </v-card-text>
           <v-spacer></v-spacer>
-          <v-container class="pt-4 pl-6 pr-0 d-flex justify-center">
-            <like-btn :likes="4" style="padding-right: 40px;"></like-btn>
+          <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
+            <like-btn :likes="4" ></like-btn>
             <comment-btn :comments="9"></comment-btn>
           </v-container>
         </v-card-actions>
