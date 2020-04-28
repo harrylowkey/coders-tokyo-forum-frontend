@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import APlayer from '@moefe/vue-aplayer';
+import AudioVisual from 'vue-audio-visual'
 
 import DateFilter from './filters/date'
 import DateTimeFilter from './filters/dateTime'
@@ -27,6 +28,8 @@ Vue.use(APlayer, {
   defaultCover: 'https://github.com/u3u.png',
   productionTip: true,
 })
+
+Vue.use(AudioVisual)
 
 new Vue({
   router,

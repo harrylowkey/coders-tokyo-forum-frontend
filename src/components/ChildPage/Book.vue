@@ -238,6 +238,28 @@
             <div v-html="$options.filters.markdown(post.content)"></div>
           </v-container>
         </v-card>
+        <v-container>
+          <v-divider></v-divider>
+          <v-row id="comments">
+            <div class="mt-5">
+              <h1 class="mb-3 mt-8">Comments</h1>
+              <div v-if="post.comments.length">
+                <comment
+                  v-for="comment in post.comments"
+                  :key="comment._id"
+                  :comment="comment"
+                  :author="post.user"
+                  :postId="post._id"
+                ></comment>
+              </div>
+            </div>
+          </v-row>
+          <v-divider></v-divider>
+          <v-row id="other-posts-of-author" v-if="otherBooksOfAuthor.length" class="mb-10">
+            <h1 class="mt-8 mb-3">Other blogs of author</h1>
+            <other-posts-of-author :posts="otherBooksOfAuthor"></other-posts-of-author>
+          </v-row>
+        </v-container>
       </v-col>
 
       <v-col
@@ -257,36 +279,6 @@
           :description="user.description"
         ></author-follow-card>
       </v-col>
-    </v-row>
-
-    <v-row id="comments">
-      <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0"></v-col>
-      <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <div class="mt-5">
-          <v-divider></v-divider>
-          <h1 class="mb-3 mt-8">Comments</h1>
-          <div v-if="post.comments.length">
-            <comment
-              v-for="comment in post.comments"
-              :key="comment._id"
-              :comment="comment"
-              :author="post.user"
-              :postId="post._id"
-            ></comment>
-          </div>
-        </div>
-      </v-col>
-      <v-col cols="12" sm="12" md="3" lg="3" xl="3"></v-col>
-    </v-row>
-
-    <v-row id="other-posts-of-author" v-if="otherBooksOfAuthor.length" class="mb-10">
-      <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0"></v-col>
-      <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <v-divider></v-divider>
-        <h1 class="mt-8 mb-3">Other blogs of author</h1>
-        <other-posts-of-author :posts="otherBooksOfAuthor"></other-posts-of-author>
-      </v-col>
-      <v-col cols="12" sm="12" md="3" lg="3" xl="3"></v-col>
     </v-row>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="like-icon">
+  <div class="comment-icon">
     <v-img
       src="https://res.cloudinary.com/hongquangraem/image/upload/v1587889292/blog_obzs2l.svg"
       class="react-icon comment-icon"

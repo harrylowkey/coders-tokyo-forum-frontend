@@ -14,6 +14,7 @@ const BlogDetails = () => import('@/components/ChildPage/Blog')
 const BookDetails = () => import('@/components/ChildPage/Book')
 const MovieDetails = () => import('@/components/ChildPage/Movie')
 const FoodDetails = () => import('@/components/ChildPage/Food')
+const SongDetails = () => import('@/components/ChildPage/Song')
 
 Vue.use(VueRouter)
 
@@ -86,6 +87,11 @@ const routes = [
     path: '/foodReviews/:id', 
     name: 'foodDetails',
     component: FoodDetails
+  },
+  {
+    path: '/songs/:id', 
+    name: 'songDetails',
+    component: SongDetails
   }
 ]
 
