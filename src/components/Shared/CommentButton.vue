@@ -1,26 +1,36 @@
 <template>
   <div class="like-icon">
-     <v-icon size="20px" color="#64B5F6">mdi-comment-text-multiple</v-icon>
-      <span class="comment-icon-content"> {{ comments }} </span>
+    <v-img
+      src="https://res.cloudinary.com/hongquangraem/image/upload/v1587889292/blog_obzs2l.svg"
+      class="react-icon comment-icon"
+    ></v-img>
+    <span class="comment-icon-content">{{ comments }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['comments']
+  props: ["comments"]
 };
 </script>
 
 <style scoped>
-  div {
-    position: relative;
-  }
-  
-  span {
-    position: absolute !important;
-    top: 10px;
-    left: 22px;
-    font-size: 12px;
-  }
+.react-icon {
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out;
+}
 
+.comment-icon {
+  width: 20px;
+}
+div {
+  position: relative;
+}
+
+span {
+  position: absolute !important;
+  top: 10px;
+  left: 22px;
+  font-size: 12px;
+}
 </style>
