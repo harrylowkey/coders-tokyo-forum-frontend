@@ -88,7 +88,7 @@ export default {
   animation-play-state: paused;
 }
 
-.audio-cover {
+/* .audio-cover {
   cursor: pointer;
   -webkit-animation: spin 3.5s linear infinite;
   -moz-animation: spin 3.5s linear infinite;
@@ -109,5 +109,5 @@ export default {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
-}
+} */
 </style>
