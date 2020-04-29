@@ -1,5 +1,6 @@
 <template>
   <v-row class="d-flex justify-center flex-wrap ">
+    <span class="title pt-3">Trending</span>
     <template v-for="(item, i) in items">
       <v-col :key="i" cols="12" md="3" style="max-width: 21%">
         <Audio

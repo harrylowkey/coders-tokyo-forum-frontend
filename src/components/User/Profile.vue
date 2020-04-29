@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-    <v-col cols="12" sm="8">
+      <v-col cols="12" sm="8">
         <profile-tabs></profile-tabs>
       </v-col>
       <v-col cols="12" sm="4">
@@ -10,10 +10,7 @@
             <v-card max-width="344" class="mx-auto" shaped :elevation="hover ? 15 : 5">
               <v-list-item-content class="text-center pt-5 pb-3" style=" postition: relative">
                 <v-avatar size="70" style="cursor: pointer;">
-                  <img
-                    src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-                    alt="Avatar"
-                  />
+                  <img @click="showAvatar =! showAvatar" :src="user.avatar.secureURL" alt="Avatar" />
                 </v-avatar>
                 <v-card-actions style="position: absolute; top: 0; left: 53%">
                   <v-spacer></v-spacer>
@@ -22,44 +19,30 @@
                   </v-btn>
                 </v-card-actions>
               </v-list-item-content>
-              <v-dialog v-model="dialogUploadAvatar" persistent max-width="600px">
-                <v-card>
-                  <v-card-title>
-                    <span class="headline">Update Avatar</span>
-                  </v-card-title>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6" offset-sm="3" class="d-flex justify-center">
-                        <v-btn
-                          :loading="loading"
-                          :disabled="loading"
-                          color="primary"
-                          class="ma-2 white--text"
-                          @click="onPickFile"
-                        >
-                          Upload Image
-                          <v-icon right dark>mdi-cloud-upload</v-icon>
-                        </v-btn>
-                        <input
-                          type="file"
-                          ref="fileInput"
-                          style="display: none"
-                          accept="image/*"
-                          @change="onPickedFile"
-                        />
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col cols="12" sm="6" offset-sm="3" class="d-flex justify-center">
-                        <img :src="src" height="170" />
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="dialogUploadAvatar = false">Close</v-btn>
-                    <v-btn color="blue darken-1" text @click="dialogUploadAvatar = false">Save</v-btn>
-                  </v-card-actions>
+              <my-upload
+                field="img"
+                @crop-success="cropSuccess"
+                @crop-upload-success="cropUploadSuccess"
+                @crop-upload-fail="cropUploadFail"
+                v-model="dialogUploadAvatar"
+                :width="400"
+                :height="400"
+                url="/upload"
+                :params="params"
+                :headers="headers"
+                img-format="jpg"
+                langType="en"
+              ></my-upload>
+              <v-dialog v-model="showAvatar" max-width="400">
+                <v-card style="height: 400 !important">
+                  <v-img
+                    :src="user.avatar.secureURL"
+                    height="100%"
+                    width="100%"
+                    class="avatar"
+                    style="cursor: pointer"
+                    @click="showAvatar =! showAvatar"
+                  ></v-img>
                 </v-card>
               </v-dialog>
               <v-dialog v-model="dialogChangePassword" persistent max-width="600px">
@@ -207,15 +190,18 @@
         <v-container class="profile-introduction">
           <v-hover v-slot:default="{ hover }">
             <v-card max-width="344" class="mx-auto" shaped :elevation="hover ? 15 : 5">
-              <v-card-title class="text-center pl-4">
-                Introduction
-              </v-card-title>
+              <v-card-title class="text-center pl-4">Introduction</v-card-title>
               <v-divider></v-divider>
               <v-card-text class="px-8 py-1">
                 <v-form>
                   <v-row>
                     <v-col cols="12" sm="12" md="12" style="padding: 0;">
-                      <v-textarea class="pt-0" :value="user.description" :readonly="!isUpdateDescription"></v-textarea>
+                      <v-textarea
+                        auto-grow
+                        class="pt-0"
+                        :value="user.description"
+                        :readonly="!isUpdateDescription"
+                      ></v-textarea>
                     </v-col>
                   </v-row>
                 </v-form>
@@ -240,7 +226,8 @@
 </template>
 
 <script>
-import ProfileTabs from './ProfileTabs'
+import ProfileTabs from "./ProfileTabs";
+import myUpload from "vue-image-crop-upload";
 export default {
   data() {
     return {
@@ -266,8 +253,12 @@ export default {
         updatedAt: "2020-04-13T14:43:32.772Z",
         job: "Developer",
         sex: "Male",
-        avatar: null,
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
+        avatar: {
+          secureURL:
+            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
+        },
+        description:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed? Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
       },
       propertyUserInfoStyle: {
         paddingLeft: "1px",
@@ -288,7 +279,16 @@ export default {
       newPassword: "",
       confirmPassword: "",
       oldPassword: "",
-      isUpdateDescription: false
+      isUpdateDescription: false,
+      imgDataUrl: "",
+      params: {
+        token: "123456798",
+        name: "avatar"
+      },
+      headers: {
+        smail: "*_~"
+      },
+      showAvatar: false
     };
   },
   computed: {
@@ -330,16 +330,37 @@ export default {
       });
       fileReader.readAsDataURL(files[0]);
       this.image = files[0];
+    },
+    cropSuccess(imgDataUrl, field) {
+      console.log("-------- crop success --------");
+      this.user.avatar.secureURL = imgDataUrl;
+    },
+    cropUploadSuccess(jsonData, field) {
+      console.log("-------- upload success --------");
+      console.log(jsonData);
+      console.log("field: " + field);
+    },
+    cropUploadFail(status, field) {
+      console.log("-------- upload fail --------");
+      console.log(status);
+      console.log("field: " + field);
     }
   },
   components: {
-    ProfileTabs
+    ProfileTabs,
+    myUpload
   }
 };
 </script>
 
 <style scoped>
-  .profile-detail {
-    border: 1px solid lightgrey;
-  }
+.profile-detail {
+  border: 1px solid lightgrey;
+}
+
+#image-placeholder {
+  padding-top: 8em;
+  padding-bottom: 8em;
+  border: 2px dashed rgb(209, 209, 209);
+}
 </style>
