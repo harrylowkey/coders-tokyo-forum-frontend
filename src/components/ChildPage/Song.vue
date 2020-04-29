@@ -52,9 +52,10 @@
                   :noplayed-line-color="'grey'"
                   :playtime="false"
                   :playtime-with-ms="false"
-                  :playtime-font-color="'#000'"
+                  :playtime-font-color="'#5e5b5b'"
                   :playtime-slider-width="2.5"
                   :playtime-slider-color="'#4CAF50'"
+                  :playtime-font-family="'Roboto' || 'sans-serif'"
                 />
                 <div class="d-flex pr-5 justify-end">
                   <span
@@ -172,7 +173,7 @@
 
         <div
           v-if="otherSongsOfAuthor.length"
-          class="d-flex flex-column justify-center align-center"
+          class="d-flex flex-column justify-center align-center mt-2"
         >
           <v-hover
             v-slot:default="{ hover }"
@@ -201,7 +202,7 @@
                     style="color: #fff"
                     @click="hanldePlayAnotherSong"
                     size="50"
-                  >mdi-play-circle-outline</v-icon>
+                  >mdi-music-circle-outline</v-icon>
                 </div>
               </v-img>
 
@@ -593,6 +594,8 @@ export default {
   },
   watch: {
     currentVolume(newValue, oldValue) {
+      if (newValue === 1) this.volumeIcon = "mdi-volume-off";
+      if (newValue !== 1) this.volumeIcon = "mdi-volume-high";
       return (this.$refs.player.audio.volume = newValue / 100);
     }
   },

@@ -181,6 +181,8 @@ export default {
   },
   watch: {
     currentVolume(newValue, oldValue) {
+      if (newValue === 1) this.volumeIcon = "mdi-volume-off";
+      if (newValue !== 1) this.volumeIcon = "mdi-volume-high";
       return (this.$refs.player.volume = newValue / 100);
     }
   },
