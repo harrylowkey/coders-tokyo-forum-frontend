@@ -10,69 +10,63 @@
         ></post-reactions>
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <v-card id="song" class="mx-auto pa-0 pa-8">
-          <v-container class="d-flex">
-            <v-img
-              class="cover"
-              src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              min-height="210px"
-              max-height="210px"
-              min-width="210px"
-              max-width="210px"
-              style="cursor: pointer"
-              @click="togglePlayPause"
-            >
-              <div class="align-self-center d-flex justify-center wrapper-play-pause-icon">
-                <v-icon class="play-pause-icon" size="50">{{ togglePlayPauseIcon }}</v-icon>
-              </div>
-            </v-img>
-
-            <v-card-text class="song-description pl-0 pt-0">
-              <v-card-title class="ml-5 headline pt-0">{{ post.song.name}}</v-card-title>
-              <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
-                <span style="font-size: 13px" v-for="(author, i) in post.authors" :key="author._id">
-                  {{ author.name }}
-                  <span
-                    style="font-size: 12px"
-                  >{{ isAddFt(i, post.authors.length) }}</span>
-                </span>
-              </v-card-subtitle>
-
-              <div class="ml-9">
-                <av-waveform
-                  class="mt-4"
+        <v-card id="podcast" class="mx-auto pa-0 pa-8">
+          <v-row>
+            <v-col cols="3" sm="3" md="4" lg="3" xl="3">
+              <v-container class="d-flex pb-7 pt-0 pr-0 pl-4">
+                <v-img
+                  :class="coverClasses"
+                  class="cover"
+                  src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
+                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                  min-height="160px"
+                  max-height="160px"
+                  min-width="160px"
+                  max-width="160px"
+                  style="cursor: pointer"
+                  @click="togglePlayPause"
+                >
+                  <div class="align-self-center d-flex justify-center wrapper-play-pause-icon">
+                    <v-icon
+                      v-if="!isPlaying"
+                      class="play-pause-icon"
+                      size="50"
+                    >{{ togglePlayPauseIcon }}</v-icon>
+                  </div>
+                </v-img>
+                <av-circle
                   ref="player"
+                  @click="togglePlayPause"
+                  :canv-width="210"
+                  :canv-height="150"
+                  :class="playerClasses"
+                  :cors-anonym="corsAnonym"
+                  :outline-width="1"
+                  :bar-width="1"
+                  :bar-length="30"
+                  :progress-width="5"
+                  :outline-meter-space="5"
+                  :playtime="true"
+                  :radius="60"
+                  playtime-font="18px Monaco"
                   audio-src="https://cdn.moefe.org/music/mp3/thing.mp3"
-                  :canv-width="600"
-                  :canv-height="80"
-                  :played-line-width="1.1"
-                  :played-line-color="'#4CAF50'"
-                  :noplayed-line-width="0.5"
-                  :noplayed-line-color="'grey'"
-                  :playtime="false"
-                  :playtime-with-ms="false"
-                  :playtime-font-color="'#5e5b5b'"
-                  :playtime-slider-width="2.5"
-                  :playtime-slider-color="'#4CAF50'"
-                  :playtime-font-family="'Roboto' || 'sans-serif'"
                 />
-                <div class="d-flex pr-5 justify-end">
-                  <span
-                    style="font-size: 13px; color: grey"
-                    class="font-italic mb-0"
-                  >{{ totalLength }}</span>
-                </div>
-              </div>
-              <div class="wrapper-volume pr-3 pt-0">
-                <v-card-actions class="d-flex ml-5 pt-0">
-                  <tag :tagName="tag.tagName" v-for="tag in post.tags" :key="tag._id"></tag>
-                </v-card-actions>
-                <v-spacer></v-spacer>
-                <div class="volume">
+                <span
+                  style="font-size: 13px; color: grey"
+                  :class="totalLengthClasses"
+                >{{ totalLength }}</span>
+
+                <v-icon
+                  @click="togglePlayPause"
+                  v-if="isPlaying"
+                  :class="pauseIconClasses"
+                  size="28"
+                  color="#0000FF"
+                >mdi-pause-circle-outline</v-icon>
+                <div :class="volumeClasses" v-if="isPlaying">
                   <v-icon @click="toggleMutedVolume" class="volume-icon">{{ volumeIcon }}</v-icon>
                   <v-slider
-                    :color="'#4CAF50'"
+                    color="#0000FF"
                     class="volume-bar"
                     v-model="currentVolume"
                     max="100"
@@ -80,9 +74,35 @@
                     track-color="grey"
                   ></v-slider>
                 </div>
-              </div>
-            </v-card-text>
-          </v-container>
+              </v-container>
+            </v-col>
+
+            <v-col cols="8" sm="8" md="7" lg="8" xl="8">
+              <v-card-text class="podcast-description pl-0 pt-0">
+                <v-card-title class="ml-5 headline pt-0">{{ post.podcast.name}}</v-card-title>
+                <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
+                  <span
+                    style="font-size: 13px"
+                    v-for="(author, i) in post.authors"
+                    :key="author._id"
+                  >
+                    {{ author.name }}
+                    <span
+                      style="font-size: 12px"
+                    >{{ isAddFt(i, post.authors.length) }}</span>
+                  </span>
+                </v-card-subtitle>
+
+                <div class="pr-3 pt-5">
+                  <v-card-actions class="d-flex ml-5 pt-0">
+                    <tag :tagName="tag.tagName" v-for="tag in post.tags" :key="tag._id"></tag>
+                  </v-card-actions>
+                  <v-spacer></v-spacer>
+                </div>
+              </v-card-text>
+            </v-col>
+          </v-row>
+
           <v-divider></v-divider>
           <v-container>
             <v-row>
@@ -172,35 +192,34 @@
         ></author-follow-card>
 
         <div
-          v-if="otherSongsOfAuthor.length"
+          v-if="otherPodcastsOfAuthor.length"
           class="d-flex flex-column justify-center align-center mt-2"
         >
           <v-hover
             v-slot:default="{ hover }"
             style="transition: 0.3s"
-            v-for="song in otherSongsOfAuthor"
-            :key="song._id"
+            v-for="podcast in otherPodcastsOfAuthor"
+            :key="podcast._id"
           >
             <v-card :elevation="hover ? 10 : 3" :class="{ 'on-hover': hover }" id="audio-card">
               <v-img
-                class="cover"
                 src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="100px"
                 style="cursor: pointer"
               >
                 <v-card-title class="title white--text d-flex flex-column align-start pb-0 pt-2">
-                  <p class="mt-0 mb-0 font-italic subheading text-left">{{ song.topic }}</p>
+                  <p class="mt-0 mb-0 font-italic subheading text-left">{{ podcast.topic }}</p>
                   <p
                     class="caption font-weight-medium font-italic text-left"
-                  >{{ song.authors[0].name }}</p>
+                  >{{ podcast.authors[0].name }}</p>
                 </v-card-title>
 
                 <div class="align-self-center d-flex justify-center mb-2 wrapper-icon">
                   <v-icon
                     class="play-icon"
                     style="color: #fff"
-                    @click="hanldePlayAnotherSong"
+                    @click="hanldePlayAnotherpodcast"
                     size="50"
                   >mdi-music-circle-outline</v-icon>
                 </div>
@@ -211,7 +230,7 @@
                   class="font-italic font-weight-light pt-0"
                   style="font-size: 13px; height: 30px; margin-top: 16px !important"
                 >
-                  <span class="mt-2">{{ song.createdAt | date }}</span>
+                  <span class="mt-2">{{ podcast.createdAt | date }}</span>
                 </v-card-text>
                 <v-spacer></v-spacer>
                 <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
@@ -248,8 +267,15 @@ export default {
   mixins: [userSocialLinks],
   data() {
     return {
+      totalLengthClasses: ["total-length", "font-italic", "mb-0"],
+      pauseIconClasses: ["pause-icon"],
+      volumeClasses: ["volume"],
+      playerClasses: ["player"],
+      coverClasses: ["cover"],
+      corsAnonym: Boolean(true),
       lyricClasses: ["lyric-wrapper"],
       isShowMore: false,
+      isPlaying: false,
       togglePlayPauseIcon: "mdi-play-circle-outline",
       volumeIcon: "mdi-volume-high",
       currentVolume: 100,
@@ -289,7 +315,7 @@ export default {
         description: "Rock Ballad",
         content:
           "\nLyrics :  \nAnh sẽ mang tên em vào trong mixtape  \nSau đêm nay chỉ mong em vui lên  \nI see you wanna be mah girl  \nVà nếu em là mãi mãi\n\nJust let me show you what love really do  \nHaving the best moment for me n you  \nSo what you say girl  \nWill you be my world ?  \nHold my hand and feel my love\n\nĐôi chân phiêu du anh đưa tay tới nơi phía chân trời  \nLặng nhìn bầu trời vàng trong hoàng hôn  \nCho nỗi nhớ em thêm đầy vơi  \nBaby tell me you feel the same  \nCause I wanna be your man  \nGive me one more chance  \nTo be with you again  \nI wanna see you on the night\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.\n\nTên của em nó nằm trong bảng chữ cái A B C  \nVà Mr Yanbi đã nhắc tên em ở trong một cái MP3  \nSẽ là một nơi em đến  \nBao nhiêu người xung quanh yêu mến  \nAnh thắp chút ánh nến hòa với đôi môi em ngọt như là bánh Cookie Cookie  \nChỉ cần có em bay theo điệu nhạc với một chiếc bút bi bút bi  \nAnh sẽ hát bài ca này trên Radio và TV  \nGhi dấu lại những dòng tâm tư và thu vào trong cái CD  \nLet me see you babe girl  \nEm đẹp xinh khiến anh ngẩn ngơ  \nMọi thứ cứ xảy ra như thế vì đâu ai ngờ  \nNgay bây giờ ngay từng nhịp điệu anh viết chắc em nghĩ anh là Florida  \nVì em đẹp hơn cả Nexttop Model  \nEm sẽ phải sống ra sao khi trong cơn say này xô bồ  \nKhi T-Akayz in da track  \nEm không yêu chỉ còn 1 cách  \nEm sẽ không thể quên được anh đâu  \nMây mưa trăng sao mình bên nhau  \nVà đêm từng đêm về  \nEm ơi không cần câu nệ  \nNow let me see ya overnight\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.",
-        type: "song",
+        type: "podcast",
         media: {
           _id: "5e99206e3c513c2611a9df8a",
           secureURL:
@@ -316,7 +342,7 @@ export default {
           updatedAt: "2020-04-17T03:20:14.881Z",
           __v: 0
         },
-        song: {
+        podcast: {
           name: "Memories place",
           artist: "Chillies",
           url: "https://cdn.moefe.org/music/mp3/thing.mp3",
@@ -361,7 +387,7 @@ export default {
         description:
           "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse. ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
       },
-      otherSongsOfAuthor: [
+      otherPodcastsOfAuthor: [
         {
           _id: "5e9920603c513c2611a9df88",
           tags: [
@@ -388,7 +414,7 @@ export default {
           topic: " Memories place",
           description: "Rock Ballad",
           content: "lyric",
-          type: "song",
+          type: "podcast",
           media: {
             _id: "5e99206e3c513c2611a9df8a",
             secureURL:
@@ -460,9 +486,9 @@ export default {
           savedBy: [],
           userId: "5e8b577f1a2dde32298795f4",
           topic: "The last time",
-          description: "A good song",
+          description: "A good podcast",
           content: "lyric",
-          type: "song",
+          type: "podcast",
           media: {
             _id: "5e9920363c513c2611a9df87",
             secureURL:
@@ -512,8 +538,8 @@ export default {
     slicedTags(tags) {
       return tags.slice(0, this.maxTags);
     },
-    hanldePlayAnotherSong() {
-      console.log("Play another song");
+    hanldePlayAnotherpodcast() {
+      console.log("Play another podcast");
     },
     toggleShowLyrics() {
       if (this.isShowMore) {
@@ -526,9 +552,21 @@ export default {
     togglePlayPause() {
       if (this.togglePlayPauseIcon === "mdi-play-circle-outline") {
         this.togglePlayPauseIcon = "mdi-pause-circle-outline";
+        this.playerClasses.push("show-player");
+        this.coverClasses.push("hide-cover");
+        this.pauseIconClasses.push("show-opacity");
+        this.volumeClasses.push("show-opacity");
+        this.totalLengthClasses.push("show-opacity");
+        this.isPlaying = true;
         return this.$refs.player.audio.play();
       } else {
+        this.isPlaying = false;
         this.togglePlayPauseIcon = "mdi-play-circle-outline";
+        this.playerClasses.pop();
+        this.coverClasses.pop();
+        this.pauseIconClasses.pop();
+        this.volumeClasses.pop();
+        this.totalLengthClasses.pop();
         return this.$refs.player.audio.pause();
       }
     },
@@ -594,6 +632,7 @@ export default {
   },
   watch: {
     currentVolume(newValue, oldValue) {
+      console.log(this.$refs.player.audio.volume);
       if (newValue === 1) this.volumeIcon = "mdi-volume-off";
       if (newValue !== 1) this.volumeIcon = "mdi-volume-high";
       return (this.$refs.player.audio.volume = newValue / 100);
@@ -623,6 +662,24 @@ export default {
 </script>
 
 <style lang="scss">
+.player {
+  opacity: 0;
+  position: absolute;
+  top: -500px;
+}
+
+.hide-cover {
+  opacity: 1;
+  top: -500px;
+  transition: opacity 1.8s ease-in;
+}
+.show-player {
+  opacity: 1;
+  top: 26px;
+  left: 21px;
+  transition: opacity 1s ease-in;
+}
+
 .lyric-wrapper {
   height: 270px;
   overflow: hidden;
@@ -632,18 +689,64 @@ export default {
   height: auto;
 }
 
+.total-length {
+  position: absolute;
+  top: 170px;
+  left: 197px;
+  height: 25px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.pause-icon {
+  position: absolute;
+  top: 160px;
+  left: -146px;
+  height: 25px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 1.8s ease-in;
+}
+
+.volume {
+  display: flex;
+  width: 20%;
+  position: absolute;
+  top: 32%;
+  left: 9%;
+  width: 15%;
+  display: flex;
+  opacity: 0;
+  transition: opacity 1.8s ease-in;
+
+  .volume-icon {
+    cursor: pointer;
+    transition: opacity 1.8s ease-in;
+  }
+  .volume-bar {
+    width: 163px;
+    height: 20px;
+    margin-bottom: 14px;
+    color: #000;
+    transition: opacity 1.8s ease-in;
+  }
+}
+
+.show-opacity {
+  opacity: 1;
+  transition: opacity 1.8s ease-in;
+}
+
 .v-application--is-ltr .v-list-item__action:first-child,
 .v-application--is-ltr .v-list-item__icon:first-child {
   margin-right: 0 !important;
 }
-.song-description {
-  // border: 1px solid grey;
-  // border-left: none;
-  // border-top-right-radius: 5px;
-  // border-bottom-right-radius: 5px;
-}
+
 .cover {
   position: relative;
+  opacity: 1;
+  border-radius: 50%;
+  cursor: pointer;
 
   .wrapper-play-pause-icon {
     position: absolute;
@@ -654,9 +757,15 @@ export default {
       color: #fff;
     }
   }
+
+  canvas {
+    position: absolute;
+    top: 36%;
+    left: 36%;
+  }
 }
 
-#song {
+#podcast {
   padding: 16px 15px 8px 15px !important;
 }
 
@@ -740,28 +849,6 @@ export default {
 
 audio {
   display: none;
-}
-
-.wrapper-volume {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-
-  .volume {
-    display: flex;
-    width: 20%;
-
-    .volume-icon {
-      cursor: pointer;
-    }
-    .volume-bar {
-      width: 163px;
-      height: 20px;
-      margin-bottom: 14px;
-      transition: ease 0.5s;
-      color: #000;
-    }
-  }
 }
 
 #audio-card {
