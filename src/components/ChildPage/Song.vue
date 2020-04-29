@@ -185,17 +185,19 @@
                 class="cover"
                 src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                height="200px"
+                height="100px"
+                style="cursor: pointer"
               >
-                <v-card-title class="title white--text d-flex flex-column align-start pb-0">
-                  <p class="mt-2 mb-0 font-italic subheading text-left">{{ song.topic }}</p>
+                <v-card-title class="title white--text d-flex flex-column align-start pb-0 pt-2">
+                  <p class="mt-0 mb-0 font-italic subheading text-left">{{ song.topic }}</p>
                   <p
                     class="caption font-weight-medium font-italic text-left"
                   >{{ song.authors[0].name }}</p>
                 </v-card-title>
 
-                <div class="align-self-center d-flex justify-center">
+                <div class="align-self-center d-flex justify-center mb-2 wrapper-icon">
                   <v-icon
+                    class="play-icon"
                     style="color: #fff"
                     @click="hanldePlayAnotherSong"
                     size="50"
@@ -203,7 +205,7 @@
                 </div>
               </v-img>
 
-              <v-card-actions style="padding: 30px 25px 0 15px; height: 30px" class="pb-1">
+              <v-card-actions style="padding: 25px 25px 0 15px; height: 30px" class="pb-1">
                 <v-card-text
                   class="font-italic font-weight-light pt-0"
                   style="font-size: 13px; height: 30px; margin-top: 16px !important"
@@ -760,9 +762,19 @@ audio {
 }
 
 #audio-card {
-  height: 275px;
-  border-radius: 46px;
+  height: 155px;
   width: 270px;
   margin-top: 30px;
+  position: relative;
+
+  .wrapper-icon {
+    position: absolute;
+    top: 70%;
+    left: 6%;
+
+    .play-icon {
+      font-size: 21px !important;
+    }
+  }
 }
 </style>
