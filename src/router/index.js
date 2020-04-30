@@ -16,6 +16,7 @@ const MovieDetails = () => import('@/components/ChildPage/Movie')
 const FoodDetails = () => import('@/components/ChildPage/Food')
 const SongDetails = () => import('@/components/ChildPage/Song')
 const PodcastDetails = () => import('@/components/ChildPage/Podcast')
+const CreatePost = () => import('@/components/Post/CreatePost')
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/stream',
     name: 'stream',
     component: Stream,
+  },
+  {
+    path: '/post-create',
+    name: 'createPost',
+    component: CreatePost,
   },
   {
     path: '/stream/discussions',

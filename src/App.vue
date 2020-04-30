@@ -96,7 +96,7 @@ export default {
             title: "Stream",
             link: "/stream"
           },
-          { title: "Create post", icon: "edit", link: "/meetup/new" }
+          { title: "Create post", icon: "edit", link: "/post-create" }
         ];
       }
       return menus;
