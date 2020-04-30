@@ -46,9 +46,6 @@ export default {
       this.tag = "";
       return this.$emit("handleAddTag", tag);
     }
-  },
-  created() {
-    console.log(this.tags);
   }
 };
 </script>

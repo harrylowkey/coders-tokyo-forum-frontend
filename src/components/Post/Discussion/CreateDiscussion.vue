@@ -1,7 +1,7 @@
 <template>
   <v-form>
     <v-card class="d-flex py-3">
-      <div style="flex: 30%" class="d-flex flex-column align-center">
+      <div style="flex: 26%" class="d-flex flex-column align-center">
         <user-avatar
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
           :username="user.username"
@@ -27,7 +27,7 @@
         ></create-tag>
 
       </div>
-      <div>
+      <div style="flex:80%">
         <v-card-title class="pb-0">
           <span class="headline">Make a discussion</span>
         </v-card-title>
