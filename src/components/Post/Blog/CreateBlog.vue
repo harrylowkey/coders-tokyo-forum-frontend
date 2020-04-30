@@ -30,7 +30,7 @@
               @click="uploadBanner = !uploadBanner"
               style="cursor: pointer"
               text-color="#fff"
-              class="ma-2 mr-5"
+              class="ma-2 mr-12"
               color="green"
               label
             >

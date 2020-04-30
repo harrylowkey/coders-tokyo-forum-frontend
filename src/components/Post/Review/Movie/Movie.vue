@@ -61,14 +61,14 @@
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Year:</p>
+                  <p class="key mb-0 mr-3">Link:</p>
                   <v-chip
                     label
                     text-color="black"
                     outlined
                     small
                     :style="calMovieYearColor"
-                  >{{ movie.year }}</v-chip>
+                  ><a target="_blank" :href="movie.link">{{ movie.link }}</a></v-chip>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">

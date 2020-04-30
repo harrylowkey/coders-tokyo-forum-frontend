@@ -33,11 +33,6 @@
                   <v-container class="ml-1 pl-3 movie-detail">
                     <v-card-text class="pb-2 pt-2">
                       <p class="title text--primary mb-0 pt-1">{{ post.topic }}</p>
-                      <v-container class="d-flex pl-1 pb-0 pt-2">
-                        <p class="key mb-0 mr-3">Status:</p>
-                        <p class="value mb-0" :style="calMovieStatusColor">{{ movie.status }}</p>
-                      </v-container>
-
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Director:</p>
                         <span></span>
@@ -72,6 +67,21 @@
                           style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
                         >{{ movie.imdb }}</v-chip>
                       </v-container>
+                      <v-container class="d-flex pl-1 pb-0">
+                        <p class="key mb-0 mr-3">Genres:</p>
+                        <span v-if="post.movie.genres.length">
+                          <v-chip
+                            label
+                            text-color="black"
+                            outlined
+                            small
+                            style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
+                            v-for="genre in post.movie.genres"
+                            :key="genre._id"
+                            class="mr-1"
+                          >{{ genre }}</v-chip>
+                        </span>
+                      </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Nation:</p>
@@ -79,14 +89,14 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Year:</p>
+                        <p class="key mb-0 mr-3">Link:</p>
                         <v-chip
                           label
                           text-color="black"
                           outlined
                           small
                           :style="calMovieYearColor"
-                        >{{ movie.year }}</v-chip>
+                        ><a target="_blank" :href="movie.link">{{ movie.link }}</a></v-chip>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -389,10 +399,10 @@ export default {
           saves: 1
         },
         movie: {
-          status: "Finished",
+          genres: ['Action'],
           imdb: 5.2,
           country: "England",
-          year: 2019,
+          link: 'facebook.com',
           releaseDate: "22/11/2019",
           time: 91,
           stars: 4

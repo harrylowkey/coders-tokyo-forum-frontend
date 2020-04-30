@@ -72,7 +72,7 @@
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Genre:</p>
-                        <span v-if="slicedGenres">
+                        <span v-if="slicedGenres.length">
                           <v-chip
                             label
                             text-color="black"

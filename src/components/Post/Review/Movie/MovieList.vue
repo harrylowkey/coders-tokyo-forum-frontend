@@ -141,10 +141,10 @@ export default {
             saves: 1
           },
           movie: {
-            status: "Finished",
+            genres: ['Action'],
             imdb: 5.2,
             country: "England",
-            year: 2019,
+            link: 'facebook.com',
             releaseDate: "22/11/2019",
             time: 91,
             stars: 4

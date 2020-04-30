@@ -63,90 +63,132 @@
                       <v-img max-width="650" max-height="250" :src="data.cover"></v-img>
                     </v-container>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field label="Book name*" required></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      :value="data.book.status"
-                      label="Status"
-                      hint="Finished or 15/34 Chapters example"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field label="Nation"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <div class="d-flex align-end">
-                      <v-text-field label="Author"></v-text-field>
-                      <span class="pb-4 pl-3" v-if="!coAuthor">
-                        <v-icon
-                          @click="coAuthor = !coAuthor"
-                          color="green"
-                          style="cursor: pointer"
-                        >mdi-plus-circle-outline</v-icon>
-                      </span>
-                      <span class="pb-4 pl-3" v-if="coAuthor">
-                        <v-icon
-                          @click="coAuthor = !coAuthor"
-                          color="warning"
-                          style="cursor: pointer"
-                        >mdi-close-circle-outline</v-icon>
-                      </span>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="coAuthor">
-                    <div class="d-flex align-end">
-                      <v-text-field label="Co - Author"></v-text-field>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field hint="200 pages" label="Length"></v-text-field>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field label="Movie name*" required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="6">
+                    <v-text-field label="Nation"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="2">
+                    <v-text-field label="IMDb"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="2">
+                    <v-text-field hint="minutes" label="Times"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="8">
+                    <v-text-field label="Link"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
                     <div class="d-flex align-end">
-                      <v-text-field label="Recommender"></v-text-field>
-                      <span class="pb-4 pl-3" v-if="!recommender2">
+                      <v-text-field label="Director"></v-text-field>
+                      <span class="pb-4 pl-3" v-if="!coDirector">
                         <v-icon
-                          @click="recommender2 = !recommender2"
+                          @click="coDirector = !coDirector"
                           color="green"
                           style="cursor: pointer"
                         >mdi-plus-circle-outline</v-icon>
                       </span>
-                      <span class="pb-4 pl-3" v-if="recommender2">
+                      <span class="pb-4 pl-3" v-if="coDirector">
                         <v-icon
-                          @click="recommender2 = !recommender2"
+                          @click="coDirector = !coDirector"
                           color="warning"
                           style="cursor: pointer"
                         >mdi-close-circle-outline</v-icon>
                       </span>
                     </div>
                   </v-col>
-                  <v-col cols="12" sm="6" md="6" v-if="recommender2">
+                  <v-col cols="12" sm="6" md="4" v-if="coDirector">
                     <div class="d-flex align-end">
-                      <v-text-field label="Recommender"></v-text-field>
+                      <v-text-field label="Co - Director"></v-text-field>
                     </div>
                   </v-col>
-                  <v-container class="d-flex">
-                    <span 
-                      style="font-size: 17px; color: rgba(0, 0, 0, 0.57);" 
-                      class="mb-0 pt-1 pr-5"
-                    >Your stars:</span>
-                    <v-rating
-                      v-model="data.book.stars"
-                      color="yellow darken-3"
-                      background-color="grey darken-1"
-                      empty-icon="$ratingFull"
-                      half-increments
-                      hover
-                      small
-                    ></v-rating>
-                  </v-container>
+                  <v-col cols="12" sm="6" md="4">
+                    <div class="d-flex align-end">
+                      <v-text-field label="Actor/Actress"></v-text-field>
+                      <span class="pb-4 pl-3" v-if="!actor2">
+                        <v-icon
+                          @click="actor2 = !actor2"
+                          color="green"
+                          style="cursor: pointer"
+                        >mdi-plus-circle-outline</v-icon>
+                      </span>
+                      <span class="pb-4 pl-3" v-if="actor2">
+                        <v-icon
+                          @click="actor2 = !actor2"
+                          color="warning"
+                          style="cursor: pointer"
+                        >mdi-close-circle-outline</v-icon>
+                      </span>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4" v-if="actor2">
+                    <div class="d-flex align-end">
+                      <v-text-field label="Actor/Actress"></v-text-field>
+                      <span class="pb-4 pl-3" v-if="!actor3">
+                        <v-icon
+                          @click="actor3 = !actor3"
+                          color="green"
+                          style="cursor: pointer"
+                        >mdi-plus-circle-outline</v-icon>
+                      </span>
+                      <span class="pb-4 pl-3" v-if="actor3">
+                        <v-icon
+                          @click="actor3 = !actor3"
+                          color="warning"
+                          style="cursor: pointer"
+                        >mdi-close-circle-outline</v-icon>
+                      </span>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4" v-if="actor3">
+                    <div class="d-flex align-end">
+                      <v-text-field label="Actor/Actress"></v-text-field>
+                      <span class="pb-4 pl-3" v-if="!actor4">
+                        <v-icon
+                          @click="actor4 = !actor4"
+                          color="green"
+                          style="cursor: pointer"
+                        >mdi-plus-circle-outline</v-icon>
+                      </span>
+                      <span class="pb-4 pl-3" v-if="actor4">
+                        <v-icon
+                          @click="actor4 = !actor4"
+                          color="warning"
+                          style="cursor: pointer"
+                        >mdi-close-circle-outline</v-icon>
+                      </span>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4" v-if="actor4">
+                    <div class="d-flex align-end">
+                      <v-text-field label="Actor/Actress"></v-text-field>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" sm="5" md="5">
+                    <v-text-field label="Release Date"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="7" md="7">
+                    <v-container class="d-flex">
+                      <span
+                        style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
+                        class="mb-0 pt-1 pr-5"
+                      >Your stars:</span>
+                      <v-rating
+                        v-model="data.movie.stars"
+                        color="yellow darken-3"
+                        background-color="grey darken-1"
+                        empty-icon="$ratingFull"
+                        half-increments
+                        hover
+                        small
+                      ></v-rating>
+                    </v-container>
+                  </v-col>
                   <v-col cols="12" sm="12" md="12">
                     <v-autocomplete
                       :items="genres"
                       label="Genres"
-                      v-model="data.book.genres"
+                      v-model="data.movie.genres"
                       multiple
                     ></v-autocomplete>
                   </v-col>
@@ -211,8 +253,10 @@ export default {
   },
   data() {
     return {
-      coAuthor: false,
-      recommender2: false,
+      coDirector: false,
+      actor2: false,
+      actor3: false,
+      actor4: false,
       user: {
         username: "hong_quang"
       },
@@ -227,7 +271,7 @@ export default {
       },
       data: {
         tags: [],
-        book: {
+        movie: {
           status: "Finished",
           country: "",
           year: "",
@@ -240,12 +284,12 @@ export default {
         topic: "",
         description: "",
         content: "",
-        type: "book",
+        type: "movie",
         cover: ""
       },
       imgDataUrl: "",
       isPreviewing: false,
-      genres: ["Literary", "Deactive", "Action", "Improve-self"]
+      genres: ["Action", "Funny", "Moving", "History"]
     };
   },
   computed: {},
