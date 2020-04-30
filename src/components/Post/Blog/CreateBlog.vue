@@ -149,7 +149,7 @@ export default {
       if (this.isPreviewing) {
         return (this.isPreviewing = false);
       }
-      if (!this.isPreviewing && this.data.content !== "") {
+      if (!this.isPreviewing && this.data.content.trim() !== "") {
         return (this.isPreviewing = true);
       }
     },

@@ -4,7 +4,7 @@
       v-if="tags.length < 3"
       @click="addTag = !addTag"
       style="cursor: pointer"
-      class="ma-2"
+      class="my-2 ml-0 create-tag"
       color="#e57373"
       label
       text-color="white"
@@ -74,5 +74,9 @@ export default {
 
 .v-text-field {
   padding: 0 15px;
+}
+
+.create-tag {
+  margin-right: 22px;
 }
 </style>
