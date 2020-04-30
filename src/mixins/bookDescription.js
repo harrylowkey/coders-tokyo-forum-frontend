@@ -1,7 +1,7 @@
 export const bookDescription = {
   methods: {
     isAddComma(index, dataLength) {
-      return (index + 1) < dataLength ? ',' : ''
+      return (index + 1) < dataLength ? ', ' : ''
     },
     isStar(index) {
       if (index <= this.book.stars) return "#FDD835";

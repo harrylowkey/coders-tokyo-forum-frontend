@@ -3,7 +3,10 @@ export const movieDescription = {
     isStar(index) {
       if (index <= this.movie.stars) return "#FDD835";
       else return "";
-    }
+    },
+    isAddComma(index, dataLength) {
+      return (index + 1) < dataLength ? ', ' : ''
+    },
   },
   computed: {
     calMovieStatusColor() {
@@ -28,7 +31,22 @@ export const movieDescription = {
   },
   created() {
     this.movie = this.post ? this.post.movie : this.movie
-    this.director = this.post ? this.post.authors.find(person => person.type === 'director') :
-      this.authors.find(person => person.type === 'director')
+
+    let directors = 
+      this.post ? 
+      this.post.authors.filter(person => person.type === 'director') :
+      this.authors.filter(person => person.type === 'director')
+    if (!this.post) directors = directors.slice(0, 1)      
+    this.directors = directors
+      
+    
+    let actors = 
+      this.post ? 
+      this.post.authors.filter(person => person.type === 'actor' || person.type === 'actress') :
+      this.authors.filter(person => person.type === 'actor' || person.type === 'actress')
+
+    if (!this.post) actors = actors.slice(0, 3)
+    this.actors = actors
+      
   }
 } 

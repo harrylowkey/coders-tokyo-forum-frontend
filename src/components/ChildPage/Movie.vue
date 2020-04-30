@@ -15,7 +15,7 @@
               <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
                 <v-img
                   src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
-                  height="360px"
+                  height="400px"
                   style
                   class="cover-movie"
                 ></v-img>
@@ -40,7 +40,26 @@
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Director:</p>
-                        <p class="value mb-0" v-if="director">{{ director.name }}</p>
+                        <span></span>
+                        <p class="mb-0 mr-3">
+                          <span
+                            v-for="(director, i) in directors"
+                            :key="director._id"
+                            class="value mb-0"
+                          >{{ director.name }}{{ isAddComma(i, directors.length) }}</span>
+                        </p>
+                      </v-container>
+
+                      <v-container class="d-flex pl-1 pb-0">
+                        <p class="key mb-0 mr-3">Actors:</p>
+                        <span></span>
+                        <p class="mb-0 mr-3">
+                          <span
+                            v-for="(actor, i) in actors"
+                            :key="actor._id"
+                            class="value mb-0"
+                          >{{ actor.name }}{{ isAddComma(i, actors.length) }}</span>
+                        </p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -97,10 +116,6 @@
                         >start</v-icon>
                       </v-container>
                     </v-card-text>
-                    <v-card-actions class="ml-1 pt-0">
-                      <v-spacer></v-spacer>
-                      <v-btn class="pl-1" color="primary" depressed small text>Read more...</v-btn>
-                    </v-card-actions>
                   </v-container>
                 </div>
                 <div class="d-none d-md-flex d-lg-none">
@@ -112,9 +127,28 @@
                           <p class="value mb-0" :style="calMovieStatusColor">{{ movie.status }}</p>
                         </v-container>
 
-                        <v-container class="d-flex pl-1 pb-0" v-if="director">
+                        <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Director:</p>
-                          <p class="value mb-0">{{ director.name }}</p>
+                          <span></span>
+                          <p class="mb-0 mr-3">
+                            <span
+                              v-for="(director, i) in directors"
+                              :key="director._id"
+                              class="value mb-0"
+                            >{{ director.name }}{{ isAddComma(i, directors.length) }}</span>
+                          </p>
+                        </v-container>
+
+                        <v-container class="d-flex pl-1 pb-0">
+                          <p class="key mb-0 mr-3">Actors:</p>
+                          <span></span>
+                          <p class="mb-0 mr-3">
+                            <span
+                              v-for="(actor, i) in actors"
+                              :key="actor._id"
+                              class="value mb-0"
+                            >{{ actor.name }}{{ isAddComma(i, actors.length) }}</span>
+                          </p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -557,11 +591,14 @@ export default {
         borderRadius: "4px"
       },
       movie: {},
-      director: {}
+      directors: [],
+      actors: []
     };
   },
   computed: {},
-  created() {},
+  created() {
+    console.log(this.actors, this.directors);
+  },
   methods: {},
   components: {
     Tag,

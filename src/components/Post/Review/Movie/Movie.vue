@@ -5,7 +5,7 @@
         <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
           <v-img
             src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
-            height="360px"
+            height="400px"
             style
             class="cover-movie"
           ></v-img>
@@ -22,7 +22,26 @@
 
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-3">Director:</p>
-                  <p class="value mb-0" v-if="director">{{ director.name }}</p>
+                  <span></span>
+                  <p class="mb-0 mr-3">
+                    <span
+                      v-for="(director, i) in directors"
+                      :key="director._id"
+                      class="value mb-0"
+                    >{{ director.name }}{{ isAddComma(i, directors.length) }}</span>
+                  </p>
+                </v-container>
+
+                <v-container class="d-flex pl-1 pb-0">
+                  <p class="key mb-0 mr-3">Actors:</p>
+                  <span></span>
+                  <p class="mb-0 mr-3">
+                    <span
+                      v-for="(actor, i) in actors"
+                      :key="actor._id"
+                      class="value mb-0"
+                    >{{ actor.name }}{{ isAddComma(i, actors.length) }}</span>
+                  </p>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
@@ -92,7 +111,26 @@
 
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-3">Director:</p>
-                    <p class="value mb-0" v-if="director">{{ director.name }}</p>
+                    <span></span>
+                    <p class="mb-0 mr-3">
+                      <span
+                        v-for="(director, i) in directors"
+                        :key="director._id"
+                        class="value mb-0"
+                      >{{ director.name }}{{ isAddComma(i, directors.length) }}</span>
+                    </p>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0">
+                    <p class="key mb-0 mr-3">Actors:</p>
+                    <span></span>
+                    <p class="mb-0 mr-3">
+                      <span
+                        v-for="(actor, i) in actors"
+                        :key="actor._id"
+                        class="value mb-0"
+                      >{{ actor.name }}{{ isAddComma(i, actors.length) }}</span>
+                    </p>
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
@@ -293,8 +331,12 @@ export default {
   },
   data() {
     return {
-      director: {}
+      director: {},
+      actors: {}
     };
+  },
+  created() {
+    console.log(this.actors)
   },
   methods: {},
   computed: {}
