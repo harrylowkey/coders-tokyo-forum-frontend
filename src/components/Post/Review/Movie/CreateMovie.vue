@@ -164,11 +164,11 @@
                       <v-text-field label="Actor/Actress"></v-text-field>
                     </div>
                   </v-col>
-                  <v-col cols="12" sm="5" md="5">
+                  <v-col cols="12" sm="6" md="5">
                     <v-text-field label="Release Date"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="7" md="7">
-                    <v-container class="d-flex">
+                  <v-col cols="12" sm="12" md="7" >
+                    <v-container class="d-flex pl-0 pb-0 pr-0 mt-2">
                       <span
                         style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                         class="mb-0 pt-1 pr-5"

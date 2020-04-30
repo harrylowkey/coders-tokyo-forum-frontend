@@ -63,18 +63,15 @@
                       <v-img max-width="650" max-height="250" :src="data.cover"></v-img>
                     </v-container>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="12" sm="8" md="8">
                     <v-text-field label="Book name*" required></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="12" sm="4" md="4">
                     <v-text-field
                       :value="data.book.status"
                       label="Status"
                       hint="Finished or 15/34 Chapters example"
                     ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field label="Nation"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <div class="d-flex align-end">
@@ -100,9 +97,6 @@
                       <v-text-field label="Co - Author"></v-text-field>
                     </div>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field hint="200 pages" label="Length"></v-text-field>
-                  </v-col>
                   <v-col cols="12" sm="6" md="6">
                     <div class="d-flex align-end">
                       <v-text-field label="Recommender"></v-text-field>
@@ -127,21 +121,29 @@
                       <v-text-field label="Recommender"></v-text-field>
                     </div>
                   </v-col>
-                  <v-container class="d-flex">
-                    <span 
-                      style="font-size: 17px; color: rgba(0, 0, 0, 0.57);" 
-                      class="mb-0 pt-1 pr-5"
-                    >Your stars:</span>
-                    <v-rating
-                      v-model="data.book.stars"
-                      color="yellow darken-3"
-                      background-color="grey darken-1"
-                      empty-icon="$ratingFull"
-                      half-increments
-                      hover
-                      small
-                    ></v-rating>
-                  </v-container>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field label="Nation"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="3">
+                    <v-text-field hint="200 pages" label="Length"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="12" md="5">
+                    <v-container class="d-flex pl-0 pr-0 mt-2">
+                      <span
+                        style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
+                        class="mb-0 pt-1 pr-5"
+                      >Your stars:</span>
+                      <v-rating
+                        v-model="data.book.stars"
+                        color="yellow darken-3"
+                        background-color="grey darken-1"
+                        empty-icon="$ratingFull"
+                        half-increments
+                        hover
+                        small
+                      ></v-rating>
+                    </v-container>
+                  </v-col>
                   <v-col cols="12" sm="12" md="12">
                     <v-autocomplete
                       :items="genres"
