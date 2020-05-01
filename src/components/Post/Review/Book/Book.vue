@@ -14,7 +14,7 @@
           <div class="d-md-none d-lg-flex">
             <v-container class="ml-1 pl-3 book-detail">
               <v-card-text class="pb-2 pt-2">
-                <p class="title text--primary mb-0 pt-1">{{ topic }}</p>
+                <p class="title text--primary mb-0 pt-1">{{ book.name }}</p>
                 <v-container class="d-flex pl-1 pb-0 pt-2">
                   <p class="key mb-0 mr-3">Status:</p>
                   <p class="value mb-0" :style="calBookStatusColor">{{ book.status }}</p>

@@ -62,7 +62,7 @@
                     </v-col>
                     <v-col cols="12">
                       <ValidationProvider name="Topic" rules="required" v-slot="{ errors }">
-                        <v-text-field :error-messages="errors" label="Topic*" required></v-text-field>
+                        <v-text-field  v-model="data.topic" :error-messages="errors" label="Topic*" required></v-text-field>
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12">
@@ -124,6 +124,8 @@ import CreateTagBlog from "@/components/Shared/CreateTagBlog";
 import myUpload from "vue-image-crop-upload";
 import { uploadBanner } from "@/mixins/uploadBanner";
 import ToggleTag from "@/components/Shared/ToggleTag";
+import { extend, setInteractionMode } from 'vee-validate';
+setInteractionMode("eager");
 export default {
   mixins: [uploadBanner],
   components: {
