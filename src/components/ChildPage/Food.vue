@@ -37,7 +37,7 @@
 
                       <v-container class="d-flex pl-1 pb-0 pt-2">
                         <v-icon color="green" size="15" class="mb-0 mr-2">mdi-tag-text</v-icon>
-                        <p class="value mb-0">{{ food.priceAverage }} {{ food.priceUnit}}</p>
+                        <p class="value mb-0">{{ food.priceAverage }}</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -92,7 +92,10 @@
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Location:</p>
                         <p class="value mb-0">
-                          <a href="#">{{ food.address }}</a>
+                          <a
+                            target="_blank"
+                            :href="`https://www.google.com/maps/place/${food.address}`"
+                          >{{ food.address }}</a>
                         </p>
                       </v-container>
 
@@ -117,7 +120,7 @@
 
                         <v-container class="d-flex pl-1 pb-0 pt-2">
                           <v-icon color="green" size="15" class="mb-0 mr-2">mdi-tag-text</v-icon>
-                          <p class="value mb-0">{{ food.priceAverage }} {{ food.priceUnit}}</p>
+                          <p class="value mb-0">{{ food.priceAverage }}</p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -197,8 +200,8 @@
           </v-container>
           <v-divider></v-divider>
           <v-sheet class="mx-auto">
-            <v-slide-group v-model="foodPhotos" class="px-4 pt-4" show-arrows center-active>
-              <v-slide-item v-for="(photo, i) in foodPhotos" :key="i">
+            <v-slide-group v-model="post.foodPhotos" class="px-4 pt-4" show-arrows center-active>
+              <v-slide-item v-for="(photo, i) in post.foodPhotos" :key="i">
                 <v-card class="ma-4" height="155" width="155">
                   <v-img
                     :src="photo.secureURL"
@@ -206,23 +209,29 @@
                     width="100%"
                     class="cover-book"
                     style="cursor: pointer"
-                    @click="handleZoomPhoto(photo.secureURL)"
+                    @click="handleZoomPhoto(i)"
                   ></v-img>
                 </v-card>
               </v-slide-item>
             </v-slide-group>
             <div class="d-flex justify-end mx-10 pb-4">
               <p
-                v-if="foodPhotos.length > 3"
+                v-if="post.foodPhotos.length > 3"
                 style="font-size: 13px;"
                 class="font-italic mb-0"
-              >{{ foodPhotos.length }} photos</p>
+              >{{ post.foodPhotos.length }} photos</p>
             </div>
           </v-sheet>
 
           <v-row justify="center">
-            <v-dialog v-model="dialog" max-width="700">
-              <v-card style="height: 500px !important">
+            <!-- <v-dialog  max-width="700"> -->
+            <vue-image-lightbox-carousel
+              ref="lightbox" 
+              :images="foodPhotos"
+              :show="dialog"
+              @close="dialog = false"
+            ></vue-image-lightbox-carousel>
+            <!-- <v-card style="height: 500px !important">
                 <v-img
                   :src="dialogImageSrc"
                   height="100%"
@@ -231,8 +240,8 @@
                   style="cursor: pointer"
                   @click="dialog = !dialog"
                 ></v-img>
-              </v-card>
-            </v-dialog>
+            </v-card>-->
+            <!-- </v-dialog> -->
           </v-row>
 
           <v-divider></v-divider>
@@ -342,6 +351,7 @@ import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
 import { foodDescription } from "@/mixins/foodDescription";
 import { userSocialLinks } from "@/mixins/userSocialLinks";
 import ReadTime from "@/components/Shared/readTime";
+import VueImageLightboxCarousel from "vue-image-lightbox-carousel";
 
 export default {
   mixins: [foodDescription, userSocialLinks],
@@ -441,8 +451,7 @@ export default {
         ],
         food: {
           foodName: "sushi",
-          priceAverage: "200000 - 250000",
-          priceUnit: "VND",
+          priceAverage: "200000 - 250000 VND",
           address: "Let’s Sushi 13B Quốc Tử Giám",
           stars: 5,
           restaurant: "Let's sushi",
@@ -545,8 +554,7 @@ export default {
           ],
           food: {
             foodName: "sushi",
-            priceAverage: "200000 - 250000",
-            priceUnit: "VND",
+            priceAverage: "200000 - 250000 VND",
             address: "Let’s Sushi 13B Quốc Tử Giám",
             stars: 5,
             restaurant: "Let's sushi",
@@ -601,12 +609,12 @@ export default {
   },
   computed: {},
   created() {
-    this.foodPhotos = this.post.foodPhotos;
+    this.foodPhotos = this.post.foodPhotos.map(photo => ({ path: photo.secureURL, caption: 'Caption' }))
   },
   methods: {
-    handleZoomPhoto(photoSrc) {
-      this.dialogImageSrc = photoSrc;
+    handleZoomPhoto(photoIndex) {
       this.dialog = !this.dialog;
+      this.$refs.lightbox.showImage(photoIndex);
     }
   },
   components: {
@@ -622,7 +630,8 @@ export default {
     AuthorProfile,
     AuthorFollowCard,
     PostReactions,
-    OtherPostsOfAuthor
+    OtherPostsOfAuthor,
+    VueImageLightboxCarousel
   }
 };
 </script>

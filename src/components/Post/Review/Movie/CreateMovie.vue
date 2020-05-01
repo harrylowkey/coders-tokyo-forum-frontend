@@ -73,7 +73,7 @@
                     <v-text-field label="IMDb"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="4" md="2">
-                    <v-text-field hint="minutes" label="Times"></v-text-field>
+                    <v-text-field hint="Unit: minutes" label="Times"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="4" md="8">
                     <v-text-field label="Link"></v-text-field>
