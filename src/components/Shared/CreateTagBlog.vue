@@ -9,7 +9,8 @@
       label
       text-color="white"
     >
-      <v-icon left>mdi-plus-circle-outline</v-icon>Tags
+      <span v-if="!addTag" ><v-icon left>mdi-plus-circle-outline</v-icon>Tags</span>
+      <span v-else><v-icon left>mdi-close-circle-outline</v-icon>Tags</span>
     </v-chip>
     <v-card v-if="!!addTag" elevation="5" class="add-tag-dialog">
       <v-text-field
@@ -41,7 +42,7 @@ export default {
   },
   methods: {
     handleAddTag(tag) {
-      if (tag[0] !== "#" || tag.length > 20) return;
+      if (tag[0] !== "#" || tag.length > 20 || tag.trim() === '#') return;
       this.addTag = !this.addTag;
       this.tag = "#";
       return this.$emit("handleAddTag", tag);

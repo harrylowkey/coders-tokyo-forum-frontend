@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver ref="observer" >
+  <ValidationObserver ref="observer">
     <v-form>
       <v-card class="d-flex py-3">
         <div style="flex: 26%" class="d-flex flex-column align-center">
@@ -8,17 +8,12 @@
             :username="user.username"
             style="height: 150px;"
           ></user-avatar>
-
-          <v-chip
-            style="cursor: pointer"
-            class="ma-2"
-            color="#e57373"
-            label
-            text-color="white"
+          <toggle-tag
             v-for="(tag, i) in data.tags"
             :key="i"
-          >{{ tag }}</v-chip>
-
+            :tagName="tag"
+            @handleRemoveTag="handleRemoveTag(i)"
+          ></toggle-tag>
           <create-tag v-if="data.tags.length < 3" @handleAddTag="handleAddTag" :tags="data.tags"></create-tag>
         </div>
         <div style="flex:80%">
@@ -68,6 +63,7 @@ import UserAvatar from "@/components/Shared/UserAvatar";
 import CreateTag from "@/components/Shared/CreateTag";
 import { extend, setInteractionMode } from "vee-validate";
 import { required, email } from "vee-validate/dist/rules";
+import ToggleTag from '@/components/Shared/ToggleTag'
 setInteractionMode("eager");
 extend("required", {
   ...required,
@@ -76,7 +72,8 @@ extend("required", {
 export default {
   components: {
     UserAvatar,
-    CreateTag
+    CreateTag,
+    ToggleTag
   },
   data() {
     return {
@@ -93,6 +90,9 @@ export default {
   methods: {
     handleAddTag(tag) {
       this.data.tags.push(tag);
+    },
+    handleRemoveTag(tagIndex) {
+      this.data.tags.splice(tagIndex, 1)
     },
     submit() {
       this.$refs.observer.validate();

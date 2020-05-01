@@ -14,18 +14,14 @@
           </v-col>
           <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
             <div class="d-flex ml-7">
-              <div class="d-flex">
-                <v-chip
-                  style="cursor: pointer"
-                  class="ma-2"
-                  color="#e57373"
-                  label
-                  text-color="white"
-                  v-for="(tag, i) in tags"
-                  :key="i"
-                >{{ tag }}</v-chip>
-              </div>
-              <create-tag-blog v-if="tags.length < 3" @handleAddTag="handleAddTag" :tags="tags"></create-tag-blog>
+              <div class="d-flex"></div>
+              <toggle-tag
+                v-for="(tag, i) in data.tags"
+                :key="i"
+                :tagName="tag"
+                @handleRemoveTag="handleRemoveTag(i)"
+              ></toggle-tag>
+              <create-tag-blog v-if="data.tags.length < 3" @handleAddTag="handleAddTag" :tags="data.tags"></create-tag-blog>
               <v-spacer></v-spacer>
               <v-chip
                 @click="uploadBanner = !uploadBanner"
@@ -127,19 +123,21 @@ import UserAvatar from "@/components/Shared/UserAvatar";
 import CreateTagBlog from "@/components/Shared/CreateTagBlog";
 import myUpload from "vue-image-crop-upload";
 import { uploadBanner } from "@/mixins/uploadBanner";
+import ToggleTag from "@/components/Shared/ToggleTag";
 export default {
   mixins: [uploadBanner],
   components: {
     UserAvatar,
     CreateTagBlog,
-    myUpload
+    myUpload,
+    ToggleTag
   },
   data() {
     return {
       user: {
         username: "hong_quang"
       },
-      tags: [],
+
       params: {
         token: "123456798",
         name: "avatar"
@@ -151,16 +149,20 @@ export default {
         topic: "",
         description: "",
         content: "",
-        coverImage: ""
+        coverImage: "",
+        tags: []
       },
       imgDataUrl: "",
       isPreviewing: false,
-      uploadBanner: false,
+      uploadBanner: false
     };
   },
   methods: {
     handleAddTag(tag) {
-      this.tags.push(tag);
+      this.data.tags.push(tag);
+    },
+    handleRemoveTag(tagIndex) {
+      this.data.tags.splice(tagIndex, 1)
     },
     togglePreviewContent() {
       if (this.isPreviewing) {
