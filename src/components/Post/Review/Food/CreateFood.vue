@@ -73,7 +73,7 @@
                   </v-col>
                   <v-col cols="12">
                     <v-container class="ml-n2 headline">
-                      <v-icon size="18" left>mdi-paperclip</v-icon>
+                      <v-icon color="primary" size="18" left>mdi-paperclip</v-icon>
                       <span style="font-size: 17px">Attach photos</span>
                     </v-container>
                     <div
@@ -204,7 +204,9 @@ import UserAvatar from "@/components/Shared/UserAvatar";
 import CreateTagBlog from "@/components/Shared/CreateTagBlog";
 import myUpload from "vue-image-crop-upload";
 import VueUploadMultipleImage from "vue-upload-multiple-image";
+import { uploadBanner } from '@/mixins/uploadBanner'
 export default {
+  mixins: [uploadBanner],
   components: {
     UserAvatar,
     CreateTagBlog,
@@ -269,27 +271,6 @@ export default {
       if (!this.isPreviewing && this.data.content.trim() !== "") {
         return (this.isPreviewing = true);
       }
-    },
-    cropSuccess(imgDataUrl, field) {
-      console.log("-------- crop success --------");
-      this.data.cover = imgDataUrl;
-    },
-    cropUploadSuccess(jsonData, field) {
-      console.log("-------- upload success --------");
-      console.log(jsonData);
-      console.log("field: " + field);
-    },
-    cropUploadFail(status, field) {
-      console.log("-------- upload fail --------");
-      console.log(status);
-      console.log("field: " + field);
-    },
-    uploadImageSuccess(formData, index, fileList) {
-      console.log("data", formData, index, fileList);
-      // Upload image api
-      // axios.post('http://your-url-upload', formData).then(response => {
-      //   console.log(response)
-      // })
     },
     beforeRemove(index, done, fileList) {
       done();

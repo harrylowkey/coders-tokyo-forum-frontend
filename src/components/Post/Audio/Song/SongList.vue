@@ -104,7 +104,7 @@ export default {
           media: {
             _id: "5e99206e3c513c2611a9df8a",
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             publicId:
               "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
             fileName: "hongquang_song_Vung Ky Uc - Chillies",
@@ -131,7 +131,7 @@ export default {
             name: "Memories place",
             artist: "Chillies",
             url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
             lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
           },
@@ -174,7 +174,7 @@ export default {
           media: {
             _id: "5e99206e3c513c2611a9df8a",
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             publicId:
               "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
             fileName: "hongquang_song_Vung Ky Uc - Chillies",
@@ -201,7 +201,7 @@ export default {
             name: "Memories place",
             artist: "Chillies",
             url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
             lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
           },
@@ -244,7 +244,7 @@ export default {
           media: {
             _id: "5e99206e3c513c2611a9df8a",
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             publicId:
               "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
             fileName: "hongquang_song_Vung Ky Uc - Chillies",
@@ -271,7 +271,7 @@ export default {
             name: "Memories place",
             artist: "Chillies",
             url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
             lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
           },
@@ -314,7 +314,7 @@ export default {
           media: {
             _id: "5e99206e3c513c2611a9df8a",
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             publicId:
               "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
             fileName: "hongquang_song_Vung Ky Uc - Chillies",
@@ -341,7 +341,7 @@ export default {
             name: "Memories place",
             artist: "Chillies",
             url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
             lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
           },
@@ -384,7 +384,7 @@ export default {
           media: {
             _id: "5e99206e3c513c2611a9df8a",
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             publicId:
               "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
             fileName: "hongquang_song_Vung Ky Uc - Chillies",
@@ -411,7 +411,7 @@ export default {
             name: "Memories place",
             artist: "Chillies",
             url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
             lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
           },
@@ -454,7 +454,7 @@ export default {
           media: {
             _id: "5e99206e3c513c2611a9df8a",
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             publicId:
               "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
             fileName: "hongquang_song_Vung Ky Uc - Chillies",
@@ -481,7 +481,7 @@ export default {
             name: "Memories place",
             artist: "Chillies",
             url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
             cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
             lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
           },

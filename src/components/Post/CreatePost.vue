@@ -10,8 +10,8 @@
           <div class="pt-6">
             <create-discussion v-if="activePage === 'Discussions'"></create-discussion>
             <create-blog v-if="activePage === 'Blogs'"></create-blog>
-            <create-audio :type="podcast" v-if="activePage === 'Podcasts'"></create-audio>
-            <create-audio :type="song" v-if="activePage === 'Songs'"></create-audio>
+            <create-audio type="podcast" v-if="activePage === 'Podcasts'"></create-audio>
+            <create-audio type="song" v-if="activePage === 'Songs'"></create-audio>
             <create-movie v-if="activePage === 'Movies'"></create-movie>
             <create-book v-if="activePage === 'Books'"></create-book>
             <create-food v-if="activePage === 'Food'"></create-food>

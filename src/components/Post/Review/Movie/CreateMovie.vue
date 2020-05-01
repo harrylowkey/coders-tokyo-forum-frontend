@@ -167,7 +167,7 @@
                   <v-col cols="12" sm="6" md="5">
                     <v-text-field label="Release Date"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="12" md="7" >
+                  <v-col cols="12" sm="12" md="7">
                     <v-container class="d-flex pl-0 pb-0 pr-0 mt-2">
                       <span
                         style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
@@ -245,7 +245,9 @@
 import UserAvatar from "@/components/Shared/UserAvatar";
 import CreateTagBlog from "@/components/Shared/CreateTagBlog";
 import myUpload from "vue-image-crop-upload";
+import { uploadBanner } from "@/mixins/uploadBanner";
 export default {
+  mixins: [uploadBanner],
   components: {
     UserAvatar,
     CreateTagBlog,
@@ -304,20 +306,6 @@ export default {
       if (!this.isPreviewing && this.data.content.trim() !== "") {
         return (this.isPreviewing = true);
       }
-    },
-    cropSuccess(imgDataUrl, field) {
-      console.log("-------- crop success --------");
-      this.data.cover = imgDataUrl;
-    },
-    cropUploadSuccess(jsonData, field) {
-      console.log("-------- upload success --------");
-      console.log(jsonData);
-      console.log("field: " + field);
-    },
-    cropUploadFail(status, field) {
-      console.log("-------- upload fail --------");
-      console.log(status);
-      console.log("field: " + field);
     }
   }
 };

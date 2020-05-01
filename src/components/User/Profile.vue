@@ -228,7 +228,9 @@
 <script>
 import ProfileTabs from "./ProfileTabs";
 import myUpload from "vue-image-crop-upload";
+import { uploadBanner } from "@/mixins/uploadBanner";
 export default {
+  mixins: [uploadBanner],
   data() {
     return {
       user: {
@@ -330,20 +332,6 @@ export default {
       });
       fileReader.readAsDataURL(files[0]);
       this.image = files[0];
-    },
-    cropSuccess(imgDataUrl, field) {
-      console.log("-------- crop success --------");
-      this.user.avatar.secureURL = imgDataUrl;
-    },
-    cropUploadSuccess(jsonData, field) {
-      console.log("-------- upload success --------");
-      console.log(jsonData);
-      console.log("field: " + field);
-    },
-    cropUploadFail(status, field) {
-      console.log("-------- upload fail --------");
-      console.log(status);
-      console.log("field: " + field);
     }
   },
   components: {

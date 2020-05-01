@@ -6,6 +6,8 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import APlayer from '@moefe/vue-aplayer';
 import AudioVisual from 'vue-audio-visual'
+import VueFileAgent from 'vue-file-agent';
+import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css';
 
 import DateFilter from './filters/date'
 import DateTimeFilter from './filters/dateTime'
@@ -30,6 +32,8 @@ Vue.use(APlayer, {
 })
 
 Vue.use(AudioVisual)
+
+Vue.use(VueFileAgent);
 
 new Vue({
   router,
