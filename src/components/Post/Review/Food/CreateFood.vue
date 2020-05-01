@@ -42,7 +42,7 @@
               color="green"
               label
             >
-              <v-icon left>mdi-cloud-upload-outline</v-icon>Banner
+              <v-icon left>mdi-cloud-upload-outline</v-icon>Image
             </v-chip>
           </div>
         </v-col>

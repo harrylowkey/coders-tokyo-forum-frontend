@@ -19,129 +19,255 @@
             ></user-avatar>
           </div>
         </v-col>
-        <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
-          <div class="d-flex ml-7">
-            <div class="d-flex">
-              <v-chip
-                style="cursor: pointer"
-                class="ma-2"
-                color="#e57373"
-                label
-                text-color="white"
-                v-for="(tag, i) in tags"
-                :key="i"
-              >{{ tag }}</v-chip>
-            </div>
-            <create-tag-blog v-if="tags.length < 3" @handleAddTag="handleAddTag" :tags="tags"></create-tag-blog>
-            <v-spacer></v-spacer>
-            <v-chip
-              @click="uploadBanner = !uploadBanner"
-              style="cursor: pointer"
-              text-color="#fff"
-              class="ma-2 mr-12"
-              color="green"
-              label
-            >
-              <v-icon left>mdi-cloud-upload-outline</v-icon>Banner
-            </v-chip>
-          </div>
-        </v-col>
         <v-col cols="12" class="pt-0">
           <v-container class="pt-0">
             <v-card-text class="pb-0 pt-0 px-6">
               <v-container class="py-0">
                 <v-row>
-                  <v-col cols="12" class="pa-0">
-                    <my-upload
-                      class="pt-0"
-                      field="img"
-                      @crop-success="cropSuccess"
-                      @crop-upload-success="cropUploadSuccess"
-                      @crop-upload-fail="cropUploadFail"
-                      v-model="uploadBanner"
-                      :width="800"
-                      :height="400"
-                      :params="params"
-                      :headers="headers"
-                      img-format="jpg"
-                      langType="en"
-                      noCircle
-                    ></my-upload>
-                    <v-container class="d-flex justify-center" v-if="data.cover">
-                      <v-img max-width="650" max-height="250" :src="data.cover"></v-img>
-                    </v-container>
-                  </v-col>
-                  <v-col cols="12">
+                  <v-col cols="12" class="pt-0">
                     <v-container class="ml-n2 headline">
-                      <v-icon color="primary" size="18" left>mdi-paperclip</v-icon>
-                      <span style="font-size: 17px">Upload audio</span>
+                      <v-btn @click="chooseFile()" dark small color="primary" class="mb-8 ml-2">
+                        <v-icon left color="white" size="18">mdi-paperclip</v-icon>Choose audio file
+                      </v-btn>
+                      <div :class="fileSelectClasses">
+                        <VueFileAgent
+                          ref="vueFileAgent"
+                          :theme="'list'"
+                          :deletable="true"
+                          :meta="true"
+                          :accept="'.mp3, .wma, .wav'"
+                          :maxSize="'10MB'"
+                          :helpText="'Drag audio file or choose here'"
+                          :errorText="{
+                          type: 'Invalid audio type. Only audio extension allowed',
+                          size: 'Files should not exceed 10MB in size',
+                        }"
+                          multiple="false"
+                          @select="filesSelected($event)"
+                          @delete="fileDeleted($event)"
+                          v-model="fileRecords"
+                          :class="fileSelectClasses"
+                        ></VueFileAgent>
+                      </div>
                     </v-container>
                   </v-col>
-                  <v-col cols="12" sm="6" md="3">
-                    <v-text-field hint="1 - 10 points" label="Quality"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="3">
-                    <v-text-field hint="1 - 10 points" label="Price"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="3">
-                    <v-text-field hint="1 - 10 points" label="Service"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="3">
-                    <v-text-field hint="1 - 10 points" label="Space"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="12" md="5">
-                    <v-container class="d-flex pl-0 pr-0 mt-2">
-                      <span
-                        style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
-                        class="mb-0 pt-1 pr-5"
-                      >Your stars:</span>
-                      <v-rating
-                        color="yellow darken-3"
-                        background-color="grey darken-1"
-                        empty-icon="$ratingFull"
-                        half-increments
-                        hover
-                        small
-                      ></v-rating>
-                    </v-container>
-                  </v-col>
-                  <v-col cols="12" sm="12" md="12">
-                    <v-text-field v-model="data.topic" label="Title*" required></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field
-                      label="Description"
-                      persistent-hint
-                      rows="2"
-                      hint="example of helper text only on focus"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-textarea
-                      label="Content*"
-                      auto-grow
-                      rows="15"
-                      required
-                      v-model="data.content"
-                      placeholder="Markdown"
-                    ></v-textarea>
-
-                    <v-dialog v-model="isPreviewing" max-width="800">
-                      <v-card
-                        class="preview px-8 pt-8 pb-5 d-flex flex-column"
-                        style="min-height: 330px;"
-                      >
-                        <p
-                          style="line-height: 1.5"
-                          v-html="$options.filters.markdown(data.content || '')"
-                        ></p>
-                        <v-spacer></v-spacer>
-                        <div class="d-flex justify-end">
-                          <span class="signature">hong_quang</span>
+                  <v-row class="mt-5">
+                    <v-col cols="12" sm="12" md="4">
+                      <v-col cols="12" class="pa-0">
+                        <my-upload
+                          class="pt-0"
+                          field="img"
+                          @crop-success="cropSuccess"
+                          @crop-upload-success="cropUploadSuccess"
+                          @crop-upload-fail="cropUploadFail"
+                          v-model="uploadBanner"
+                          :width="210"
+                          :height="210"
+                          :params="params"
+                          :headers="headers"
+                          img-format="jpg"
+                          langType="en"
+                          noCircle
+                        ></my-upload>
+                      </v-col>
+                      <div style="flex: 26%" class="d-flex flex-column align-center">
+                        <div
+                          v-if="!data.cover"
+                          class="banner d-flex justify-center align-center pr-2"
+                        >
+                          <v-chip
+                            @click="uploadBanner = !uploadBanner"
+                            style="cursor: pointer"
+                            text-color="#fff"
+                            class="upload-btn"
+                            color="green"
+                            label
+                          >
+                            <v-icon left>mdi-cloud-upload-outline</v-icon>Image
+                          </v-chip>
                         </div>
-                      </v-card>
-                    </v-dialog>
-                  </v-col>
+                        <v-container class="d-flex justify-center" v-if="data.cover">
+                          <v-img max-width="210" max-height="210" :src="data.cover"></v-img>
+                        </v-container>
+                        <div class="mt-10 d-flex justify-center align-center flex-column">
+                          <v-chip
+                            style="cursor: pointer"
+                            class="ma-2"
+                            color="#e57373"
+                            label
+                            text-color="white"
+                            v-for="(tag, i) in tags"
+                            :key="i"
+                          >{{ tag }}</v-chip>
+
+                          <create-tag
+                            v-if="tags.length < 3"
+                            @handleAddTag="handleAddTag"
+                            :tags="tags"
+                          ></create-tag>
+                        </div>
+                      </div>
+                    </v-col>
+                    <v-col cols="12" sm="12" md="8" class="pt-0">
+                      <v-col cols="12" sm="12" md="12" class="pt-0">
+                        <v-text-field class="mt-0" v-model="data.topic" label="Song name*" required></v-text-field>
+                      </v-col>
+                      <div class="d-flex flex-wrap">
+                        <v-col cols="12" sm="6" md="6">
+                          <div class="d-flex align-end">
+                            <v-text-field label="Composer"></v-text-field>
+                            <span class="pb-4 pl-3" v-if="!composer2">
+                              <v-icon
+                                @click="composer2 = !composer2"
+                                color="green"
+                                style="cursor: pointer"
+                              >mdi-plus-circle-outline</v-icon>
+                            </span>
+                            <span class="pb-4 pl-3" v-if="composer2">
+                              <v-icon
+                                @click="composer2 = !composer2"
+                                color="warning"
+                                style="cursor: pointer"
+                              >mdi-close-circle-outline</v-icon>
+                            </span>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6" v-if="composer2" class>
+                          <div class="d-flex align-end">
+                            <v-text-field label="Composer"></v-text-field>
+                            <span class="pb-4 pl-3" v-if="!composer3">
+                              <v-icon
+                                @click="composer3 = !composer3"
+                                color="green"
+                                style="cursor: pointer"
+                              >mdi-plus-circle-outline</v-icon>
+                            </span>
+                            <span class="pb-4 pl-3" v-if="composer3">
+                              <v-icon
+                                @click="composer3 = !composer3"
+                                color="warning"
+                                style="cursor: pointer"
+                              >mdi-close-circle-outline</v-icon>
+                            </span>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6" v-if="composer3" class>
+                          <div class="d-flex align-end">
+                            <v-text-field label="Composer"></v-text-field>
+                            <span class="pb-4 pl-3" v-if="!composer4">
+                              <v-icon
+                                @click="composer4 = !composer4"
+                                color="green"
+                                style="cursor: pointer"
+                              >mdi-plus-circle-outline</v-icon>
+                            </span>
+                            <span class="pb-4 pl-3" v-if="composer4">
+                              <v-icon
+                                @click="composer4 = !composer4"
+                                color="warning"
+                                style="cursor: pointer"
+                              >mdi-close-circle-outline</v-icon>
+                            </span>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6" v-if="composer4">
+                          <div class="d-flex align-end">
+                            <v-text-field label="Composer"></v-text-field>
+                          </div>
+                        </v-col>
+                      </div>
+                      <div class="d-flex flex-wrap">
+                        <v-col cols="12" sm="6" md="6">
+                          <div class="d-flex align-end">
+                            <v-text-field label="Singer/Rapper"></v-text-field>
+                            <span class="pb-4 pl-3" v-if="!singer2">
+                              <v-icon
+                                @click="singer2 = !singer2"
+                                color="green"
+                                style="cursor: pointer"
+                              >mdi-plus-circle-outline</v-icon>
+                            </span>
+                            <span class="pb-4 pl-3" v-if="singer2">
+                              <v-icon
+                                @click="singer2 = !singer2"
+                                color="warning"
+                                style="cursor: pointer"
+                              >mdi-close-circle-outline</v-icon>
+                            </span>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6" v-if="singer2" class>
+                          <div class="d-flex align-end">
+                            <v-text-field label="Singer/Rapper"></v-text-field>
+                            <span class="pb-4 pl-3" v-if="!singer3">
+                              <v-icon
+                                @click="singer3 = !singer3"
+                                color="green"
+                                style="cursor: pointer"
+                              >mdi-plus-circle-outline</v-icon>
+                            </span>
+                            <span class="pb-4 pl-3" v-if="singer3">
+                              <v-icon
+                                @click="singer3 = !singer3"
+                                color="warning"
+                                style="cursor: pointer"
+                              >mdi-close-circle-outline</v-icon>
+                            </span>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6" v-if="singer3">
+                          <div class="d-flex align-end">
+                            <v-text-field label="Singer/Rapper"></v-text-field>
+                            <span class="pb-4 pl-3" v-if="!singer4">
+                              <v-icon
+                                @click="singer4 = !singer4"
+                                color="green"
+                                style="cursor: pointer"
+                              >mdi-plus-circle-outline</v-icon>
+                            </span>
+                            <span class="pb-4 pl-3" v-if="singer4">
+                              <v-icon
+                                @click="singer4 = !singer4"
+                                color="warning"
+                                style="cursor: pointer"
+                              >mdi-close-circle-outline</v-icon>
+                            </span>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6" v-if="singer4">
+                          <div class="d-flex align-end">
+                            <v-text-field label="Singer/Rapper"></v-text-field>
+                          </div>
+                        </v-col>
+                      </div>
+                      <v-col cols="12">
+                        <v-textarea
+                          label="Lyric*"
+                          auto-grow
+                          rows="15"
+                          required
+                          v-model="data.content"
+                          placeholder="Markdown"
+                        ></v-textarea>
+
+                        <v-dialog v-model="isPreviewing" max-width="800">
+                          <v-card
+                            class="preview px-8 pt-8 pb-5 d-flex flex-column"
+                            style="min-height: 330px;"
+                          >
+                            <p
+                              style="line-height: 1.5"
+                              v-html="$options.filters.markdown(data.content || '')"
+                            ></p>
+                            <v-spacer></v-spacer>
+                            <div class="d-flex justify-end">
+                              <span class="signature">hong_quang</span>
+                            </div>
+                          </v-card>
+                        </v-dialog>
+                      </v-col>
+                    </v-col>
+                  </v-row>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -159,21 +285,27 @@
 
 <script>
 import UserAvatar from "@/components/Shared/UserAvatar";
-import CreateTagBlog from "@/components/Shared/CreateTagBlog";
 import myUpload from "vue-image-crop-upload";
 import VueUploadMultipleImage from "vue-upload-multiple-image";
-import { uploadBanner } from '@/mixins/uploadBanner'
+import { uploadBanner } from "@/mixins/uploadBanner";
+import CreateTag from "@/components/Shared/CreateTag";
 export default {
   mixins: [uploadBanner],
-  props: ['type'],
+  props: ["type"],
   components: {
     UserAvatar,
-    CreateTagBlog,
+    CreateTag,
     myUpload,
     VueUploadMultipleImage
   },
   data() {
     return {
+      singer2: false,
+      singer3: false,
+      singer4: false,
+      composer2: false,
+      composer3: false,
+      composer4: false,
       alert: false,
       alertMessage: "",
       maxImages: 20,
@@ -194,20 +326,26 @@ export default {
       },
       data: {
         tags: [],
-        audio: '',
+        audio: "",
         authors: [],
         topic: "",
         description: "",
         content: "",
-        type: ''
+        type: ""
       },
       imgDataUrl: "",
-      isPreviewing: false
+      isPreviewing: false,
+      fileRecords: [],
+      uploadUrl: "https://www.mocky.io/v2/5d4fb20b3000005c111099e3",
+      uploadHeaders: { "X-Test-Header": "vue-file-agent" },
+      fileRecordsForUpload: [],
+      choseFile: false,
+      fileSelectClasses: ["file-select", "wrapper-file-select"]
     };
   },
   computed: {},
   created() {
-    this.data.type = this.type
+    this.data.type = this.type;
   },
   methods: {
     handleAddTag(tag) {
@@ -220,6 +358,48 @@ export default {
       if (!this.isPreviewing && this.data.content.trim() !== "") {
         return (this.isPreviewing = true);
       }
+    },
+    chooseFile() {
+      this.$refs.vueFileAgent.$refs.fileInput.click();
+    },
+    uploadFiles: function() {
+      // Using the default uploader. You may use another uploader instead.
+      this.$refs.vueFileAgent.upload(
+        this.uploadUrl,
+        this.uploadHeaders,
+        this.fileRecordsForUpload
+      );
+      this.fileRecordsForUpload = [];
+    },
+    deleteUploadedFile: function(fileRecord) {
+      // Using the default uploader. You may use another uploader instead.
+      this.$refs.vueFileAgent.deleteUpload(
+        this.uploadUrl,
+        this.uploadHeaders,
+        fileRecord
+      );
+    },
+    filesSelected: function(fileRecordsNewlySelected) {
+      var validFileRecords = fileRecordsNewlySelected.filter(
+        fileRecord => !fileRecord.error
+      );
+      this.fileRecordsForUpload = this.fileRecordsForUpload.concat(
+        validFileRecords
+      );
+      this.choseFile = true;
+      this.fileSelectClasses.push(
+        ...["show-wrapper-file-select", "show-file-select"]
+      );
+      console.log(this.fileSelectClasses);
+    },
+    fileDeleted: function(fileRecord) {
+      var i = this.fileRecordsForUpload.indexOf(fileRecord);
+      if (i !== -1) {
+        this.fileRecordsForUpload.splice(i, 1);
+      } else {
+        this.deleteUploadedFile(fileRecord);
+      }
+      this.fileSelectClasses = ["file-select", "wrapper-file-select"];
     }
   }
 };
@@ -238,6 +418,26 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.wrapper-file-select {
+  height: 0;
+  transition: height 0.5s ease-in-out;
+}
+
+.show-wrapper-file-select {
+  height: auto;
+}
+
+.file-select {
+  opacity: 0;
+  position: relative;
+  left: -900px;
+}
+
+.show-file-select {
+  opacity: 1;
+  left: 0px;
 }
 
 h1,
@@ -264,5 +464,14 @@ a {
   top: 65px;
   right: 0;
   z-index: 1;
+}
+
+.banner {
+  width: 210px;
+  height: 210px;
+  border: 1px dotted grey;
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.16);
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.16);
 }
 </style>
