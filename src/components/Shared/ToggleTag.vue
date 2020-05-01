@@ -1,11 +1,13 @@
 <template>
+<v-hover v-slot="{ hover }">
   <v-chip 
-    class="ma-2" 
-    color="#e57373" 
+    :color="hover ? 'red' : '#e57373'"
+    class="ma-2 tag" 
     label text-color="white"
     @click="onClickRemove"
     >{{ tagName }}
   </v-chip>
+  </v-hover>
 </template>
 
 <script>
