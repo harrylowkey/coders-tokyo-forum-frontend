@@ -461,6 +461,7 @@ export default {
         { type: "singer", name: this.singer4 },
       ].filter(person => person.name !== "");
       this.data.audio = this.fileRecordsForUpload[0]
+      if (this.data.content === '') this.data.content = 'Update later'
       this.$refs.observer.validate();
     }
   }
