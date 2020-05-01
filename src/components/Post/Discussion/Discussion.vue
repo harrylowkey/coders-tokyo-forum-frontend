@@ -4,7 +4,7 @@
       <v-list-item three-line style="padding: 0px 25px 0 20px">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <v-list-item-title class="headline mb-0 discuss-title pt-3">{{ topic }}</v-list-item-title>
-          <v-list-item-subtitle style="line-height: 1.4;" class="mt-lg-n9 pt-lg-10">{{ content }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="content" style="line-height: 1.4;" class="mt-lg-n9 pt-lg-10">{{ content }}</v-list-item-subtitle>
         </v-list-item-content>
         <user-avatar
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"

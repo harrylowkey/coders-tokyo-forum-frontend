@@ -178,7 +178,7 @@
       <v-list-item three-line style="padding: 0 25px 0 20px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <v-list-item-title class="headline book-title mb-0 mt-3">{{ topic }}</v-list-item-title>
-          <p class="description mb-0 pt-2">{{ content }}</p>
+          <p class="description mb-0 pt-2">{{ description || content }}</p>
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
               <a style=" text-decoration: none" href="#">Read more...</a>
