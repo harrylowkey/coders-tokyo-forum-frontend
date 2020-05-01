@@ -59,8 +59,8 @@
                       langType="en"
                       noCircle
                     ></my-upload>
-                    <v-container class="d-flex justify-center" v-if="data.cover">
-                      <v-img max-width="650" max-height="250" :src="data.cover"></v-img>
+                    <v-container class="d-flex justify-center" v-if="data.coverImage">
+                      <v-img max-width="650" max-height="250" :src="data.coverImage"></v-img>
                     </v-container>
                   </v-col>
                   <v-col cols="12" sm="8" md="8">
@@ -151,6 +151,14 @@
                       v-model="data.book.genres"
                       multiple
                     ></v-autocomplete>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Title*"
+                      persistent-hint
+                      rows="2"
+                      hint="example of helper text only on focus"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12">
                     <v-text-field

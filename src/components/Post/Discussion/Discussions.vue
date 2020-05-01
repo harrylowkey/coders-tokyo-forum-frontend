@@ -83,7 +83,7 @@ export default {
           topic:
             "How can I remove an image in a folder on cloudinary in Nodejs?",
           content:
-            "I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
+            "I have tried this way but the result still the same, anyone help me with this problem? Here is my code. I have tried this way but the result still the same, anyone help me with this problem? Here is my code...I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
           type: "discussion",
           createdAt: "2020-04-13T16:36:14.767Z",
           updatedAt: "2020-04-13T16:46:02.835Z",

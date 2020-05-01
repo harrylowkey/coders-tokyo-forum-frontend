@@ -72,7 +72,7 @@
                       </v-col>
                       <div style="flex: 26%" class="d-flex flex-column align-center">
                         <div
-                          v-if="!data.cover"
+                          v-if="!data.coverImage"
                           class="banner d-flex justify-center align-center pr-2"
                         >
                           <v-chip
@@ -86,8 +86,8 @@
                             <v-icon left>mdi-cloud-upload-outline</v-icon>Image
                           </v-chip>
                         </div>
-                        <v-container class="d-flex justify-center" v-if="data.cover">
-                          <v-img max-width="210" max-height="210" :src="data.cover"></v-img>
+                        <v-container class="d-flex justify-center" v-if="data.coverImage">
+                          <v-img max-width="210" max-height="210" :src="data.coverImage"></v-img>
                         </v-container>
                         <div class="mt-10 d-flex justify-center align-center flex-column">
                           <v-chip
@@ -273,7 +273,6 @@
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
-              <v-btn class="mr-5" color="primary" @click="togglePreviewContent" dark>Preview</v-btn>
               <v-btn class="mr-5" color="green" dark>Post</v-btn>
             </v-card-actions>
           </v-container>
@@ -469,9 +468,8 @@ a {
 .banner {
   width: 210px;
   height: 210px;
-  border: 1px dotted grey;
-  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.16);
-  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.16);
-  -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: 9px 9px 10px 6px rgba(0, 0, 0, 0.16);
+  -webkit-box-shadow: 9px 9px 10px 6px rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 9px 9px 10px 6px rgba(0, 0, 0, 0.16)
 }
 </style>

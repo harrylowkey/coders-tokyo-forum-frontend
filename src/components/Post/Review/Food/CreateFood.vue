@@ -67,8 +67,8 @@
                       langType="en"
                       noCircle
                     ></my-upload>
-                    <v-container class="d-flex justify-center" v-if="data.cover">
-                      <v-img max-width="650" max-height="250" :src="data.cover"></v-img>
+                    <v-container class="d-flex justify-center" v-if="data.coverImage">
+                      <v-img max-width="650" max-height="250" :src="data.coverImage"></v-img>
                     </v-container>
                   </v-col>
                   <v-col cols="12">

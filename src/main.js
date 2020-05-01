@@ -8,6 +8,7 @@ import APlayer from '@moefe/vue-aplayer';
 import AudioVisual from 'vue-audio-visual'
 import VueFileAgent from 'vue-file-agent';
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css';
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 
 import DateFilter from './filters/date'
 import DateTimeFilter from './filters/dateTime'
@@ -34,6 +35,9 @@ Vue.use(APlayer, {
 Vue.use(AudioVisual)
 
 Vue.use(VueFileAgent);
+
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 
 new Vue({
   router,

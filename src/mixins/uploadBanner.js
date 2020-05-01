@@ -6,7 +6,7 @@ export const uploadBanner = {
   },
   methods: {
     cropSuccess(imgDataUrl, field) {
-      this.data.cover = imgDataUrl;
+      this.data.coverImage = imgDataUrl;
     },
     cropUploadSuccess(jsonData, field) {
       console.log("-------- upload success --------");
