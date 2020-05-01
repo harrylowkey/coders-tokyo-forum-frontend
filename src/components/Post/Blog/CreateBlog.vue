@@ -1,5 +1,6 @@
 <template>
   <ValidationObserver ref="observer">
+    <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
     <v-form>
       <v-card class="d-flex py-3 pt-0">
         <v-row>
@@ -21,7 +22,11 @@
                 :tagName="tag"
                 @handleRemoveTag="handleRemoveTag(i)"
               ></toggle-tag>
-              <create-tag-blog v-if="data.tags.length < 3" @handleAddTag="handleAddTag" :tags="data.tags"></create-tag-blog>
+              <create-tag-blog
+                v-if="data.tags.length < 3"
+                @handleAddTag="handleAddTag"
+                :tags="data.tags"
+              ></create-tag-blog>
               <v-spacer></v-spacer>
               <v-chip
                 @click="uploadBanner = !uploadBanner"
@@ -62,7 +67,12 @@
                     </v-col>
                     <v-col cols="12">
                       <ValidationProvider name="Topic" rules="required" v-slot="{ errors }">
-                        <v-text-field  v-model="data.topic" :error-messages="errors" label="Topic*" required></v-text-field>
+                        <v-text-field
+                          v-model="data.topic"
+                          :error-messages="errors"
+                          label="Topic*"
+                          required
+                        ></v-text-field>
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12">
@@ -124,7 +134,7 @@ import CreateTagBlog from "@/components/Shared/CreateTagBlog";
 import myUpload from "vue-image-crop-upload";
 import { uploadBanner } from "@/mixins/uploadBanner";
 import ToggleTag from "@/components/Shared/ToggleTag";
-import { extend, setInteractionMode } from 'vee-validate';
+import { extend, setInteractionMode } from "vee-validate";
 setInteractionMode("eager");
 export default {
   mixins: [uploadBanner],
@@ -136,10 +146,11 @@ export default {
   },
   data() {
     return {
+      alert: false,
+      alertMessage: "",
       user: {
         username: "hong_quang"
       },
-
       params: {
         token: "123456798",
         name: "avatar"
@@ -164,7 +175,7 @@ export default {
       this.data.tags.push(tag);
     },
     handleRemoveTag(tagIndex) {
-      this.data.tags.splice(tagIndex, 1)
+      this.data.tags.splice(tagIndex, 1);
     },
     togglePreviewContent() {
       if (this.isPreviewing) {
@@ -175,6 +186,14 @@ export default {
       }
     },
     submit() {
+      if (this.data.coverImage === "") {
+        this.alertMessage = "Hang on! Let's upload cover images for blog";
+        this.alert = true;
+        setTimeout(() => {
+          this.alert = false;
+        }, 3000);
+        return
+      }
       this.$refs.observer.validate();
     }
   }

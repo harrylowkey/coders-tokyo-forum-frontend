@@ -1,5 +1,6 @@
 <template>
   <ValidationObserver ref="observer">
+    <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
     <v-form>
       <v-card class="d-flex py-3 pt-0">
         <v-row>
@@ -273,7 +274,7 @@ import UserAvatar from "@/components/Shared/UserAvatar";
 import CreateTagBlog from "@/components/Shared/CreateTagBlog";
 import myUpload from "vue-image-crop-upload";
 import { uploadBanner } from "@/mixins/uploadBanner";
-import { extend, setInteractionMode } from 'vee-validate';
+import { extend, setInteractionMode } from "vee-validate";
 setInteractionMode("eager");
 export default {
   mixins: [uploadBanner],
@@ -284,6 +285,8 @@ export default {
   },
   data() {
     return {
+      alert: false,
+      alertMessage: "",
       director: "",
       coDirector: "",
       actor: "",
@@ -339,6 +342,14 @@ export default {
       }
     },
     submit() {
+      if (this.data.coverImage === "") {
+        this.alertMessage = "Hang on! Let's upload cover images for blog";
+        this.alert = true;
+        setTimeout(() => {
+          this.alert = false;
+        }, 3000);
+        return;
+      }
       this.data.authors = [
         { type: "actor", name: this.actor },
         { type: "actor", name: this.actor2 },

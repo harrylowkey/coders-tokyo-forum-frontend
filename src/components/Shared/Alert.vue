@@ -1,20 +1,24 @@
 <template>
-  <v-alert type="error" dismissible :value="true" @click="onClose">
-    {{ text }}
-  </v-alert>
+  <v-alert
+    id="alert"
+    type="warning"
+    border="left"
+    transition="slide-x-reverse-transition"
+    dismissible
+  >{{ alertMessage }}</v-alert>
 </template>
 
 <script>
 export default {
-  props: ['text'],
-  methods: {
-    onClose() {
-      this.$emit('dismissed')
-    }
-  }
-}
+  props: ["alertMessage"],
+};
 </script>
 
 <style>
-
+#alert {
+  position: fixed;
+  top: 65px;
+  right: 0;
+  z-index: 1;
+}
 </style>

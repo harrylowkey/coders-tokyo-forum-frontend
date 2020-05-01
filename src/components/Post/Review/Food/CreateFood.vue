@@ -1,14 +1,7 @@
 <template>
   <ValidationObserver ref="observer">
+    <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
     <v-form>
-      <v-alert
-        v-if="alert"
-        id="alert"
-        type="warning"
-        border="left"
-        transition="slide-x-reverse-transition"
-        dismissible
-      >{{ alertMessage }}</v-alert>
       <v-card class="d-flex py-3 pt-0">
         <v-row>
           <v-col cols="4" offset-sm="4" class="py-1">
@@ -91,7 +84,7 @@
                           @edit-image="editImage"
                           idUpload="myIdUpload"
                           editUpload="myIdEdit"
-                          :data-images="data.food.foodPhotos"
+                          :data-images="foodPhotos"
                           :maxImage="maxImages"
                           :primaryText="''"
                           :showPrimary="false"
@@ -315,13 +308,14 @@ export default {
       alert: false,
       alertMessage: "",
       maxImages: 20,
-      selectUnitPrice: false,
       coAuthor: false,
       recommender2: false,
+      uploadBanner: false,
       user: {
         username: "hong_quang"
       },
-      uploadBanner: false,
+      imgDataUrl: "",
+      isPreviewing: false,
       params: {
         token: "123456798",
         name: "avatar"
@@ -332,7 +326,6 @@ export default {
       data: {
         tags: [],
         food: {
-          name: "",
           priceAverage: "",
           priceUnit: "",
           year: "",
@@ -342,7 +335,8 @@ export default {
           service: 10,
           space: 8,
           openTime: "",
-          stars: 5
+          stars: 5,
+          foodPhotos: [],
         },
         authors: [],
         topic: "",
@@ -351,8 +345,7 @@ export default {
         type: "food",
         cover: ""
       },
-      imgDataUrl: "",
-      isPreviewing: false
+      foodPhotos: []
     };
   },
   computed: {},
@@ -382,6 +375,23 @@ export default {
       }, 3000);
     },
     submit() {
+      if (this.data.coverImage === "") {
+        this.alertMessage = "Hang on! Let's upload cover images for blog";
+        this.alert = true;
+        setTimeout(() => {
+          this.alert = false;
+        }, 3000);
+        return;
+      }
+
+      if (!this.data.food.foodPhotos.length) {
+        this.alertMessage = "Attach at least 1 photo for your blog";
+        this.alert = true;
+        setTimeout(() => {
+          this.alert = false;
+        }, 3000);
+        return;
+      }
       this.$refs.observer.validate();
     }
   }
@@ -420,12 +430,5 @@ li {
 
 a {
   color: #42b983;
-}
-
-#alert {
-  position: fixed;
-  top: 65px;
-  right: 0;
-  z-index: 1;
 }
 </style>

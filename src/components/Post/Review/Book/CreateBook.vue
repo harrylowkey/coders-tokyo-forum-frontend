@@ -1,5 +1,6 @@
 <template>
   <ValidationObserver ref="observer">
+    <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
     <v-form>
       <v-card class="d-flex py-3 pt-0">
         <v-row>
@@ -243,7 +244,7 @@ import UserAvatar from "@/components/Shared/UserAvatar";
 import CreateTagBlog from "@/components/Shared/CreateTagBlog";
 import myUpload from "vue-image-crop-upload";
 import { uploadBanner } from "@/mixins/uploadBanner";
-import { extend, setInteractionMode } from 'vee-validate';
+import { extend, setInteractionMode } from "vee-validate";
 setInteractionMode("eager");
 export default {
   mixins: [uploadBanner],
@@ -254,10 +255,12 @@ export default {
   },
   data() {
     return {
-      author: '',
-      coAuthor: '',
-      recommender: '',
-      recommender2: '',
+      alert: false,
+      alertMessage: "",
+      author: "",
+      coAuthor: "",
+      recommender: "",
+      recommender2: "",
       user: {
         username: "hong_quang"
       },
@@ -272,7 +275,7 @@ export default {
       data: {
         tags: [],
         book: {
-          name: '',
+          name: "",
           status: "Finished",
           country: "",
           year: "",
@@ -318,11 +321,21 @@ export default {
       }
     },
     submit() {
+      if (this.data.coverImage === "") {
+        this.alertMessage = "Hang on! Let's upload cover images for blog";
+        this.alert = true;
+        setTimeout(() => {
+          this.alert = false;
+        }, 3000);
+        return;
+      }
       this.data.authors = [
-        { type: 'author', name: this.author },
-        { type: 'author', name: this.coAuthor }
-        ].filter(author => author.name !== '')
-      this.data.book.suggestedBy = [this.recommender, this.recommender2].filter(recommender => recommender !== '')
+        { type: "author", name: this.author },
+        { type: "author", name: this.coAuthor }
+      ].filter(author => author.name !== "");
+      this.data.book.suggestedBy = [this.recommender, this.recommender2].filter(
+        recommender => recommender !== ""
+      );
       this.$refs.observer.validate();
     }
   }
