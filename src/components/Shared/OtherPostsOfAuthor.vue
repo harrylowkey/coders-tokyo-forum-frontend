@@ -2,7 +2,9 @@
   <div class="d-flex">
     <v-card class="other-posts px-7 pt-4 pb-4 mx-3" v-for="post in posts" :key="post._id">
       <v-list-item-content>
-        <v-list-item-title class="headline post-title">{{ post.topic }}</v-list-item-title>
+        <router-link class="title-link" :to="`/${postType}/${post._id}`">
+          <v-list-item-title class="headline post-title">{{ post.topic }}</v-list-item-title>
+        </router-link>
         <p class="description mb-0 pt-2">{{ post.description }}</p>
         <div class="d-flex justify-space-between" style="height: 20px">
           <span style="font-size: 0.775rem;" class="pt-3">
@@ -21,8 +23,9 @@ export default {
   props: {
     posts: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
+    postType: String
   },
   components: {
     ReadTime

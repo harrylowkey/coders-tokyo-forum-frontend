@@ -1,7 +1,7 @@
 <template>
 <v-hover v-slot="{ hover }">
   <v-chip 
-    :color="hover ? 'red' : '#e57373'"
+    :color="hover ? '#e57373' : 'red'"
     class="ma-2 tag" 
     label text-color="white"
     @click="onClickRemove"

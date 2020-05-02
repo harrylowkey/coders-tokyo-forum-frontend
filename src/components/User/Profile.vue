@@ -94,14 +94,16 @@
                       <v-subheader class="pa-0">Username</v-subheader>
                     </v-col>
                     <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0;">
-                      <v-text-field :value="user.username" :disabled="!isEdit" class="pt-0"></v-text-field>
+                      <v-text-field v-if="isEdit" :value="user.username" class="pt-0"></v-text-field>
+                      <p class="mb-0 user-info" v-else>{{ user.username }}</p>
                     </v-col>
 
                     <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
                       <v-subheader class="pa-0">Email</v-subheader>
                     </v-col>
                     <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
-                      <v-text-field :value="user.email" disabled class="pt-0"></v-text-field>
+                      <v-text-field v-if="isEdit" :value="user.email" class="pt-0"></v-text-field>
+                      <p class="mb-0 user-info" v-else>{{ user.email }}</p>
                     </v-col>
 
                     <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
@@ -111,7 +113,6 @@
                     <v-col cols="12" sm="9" md="7" style="padding: 0">
                       <v-text-field
                         readonly
-                        disabled
                         :rules="[rules.required, rules.min]"
                         :type="isEditPassword ? 'text' : 'password'"
                         name="input-10-2"
@@ -154,21 +155,22 @@
                         <v-radio label="Female" value="Female"></v-radio>
                         <v-radio label="Unknown" value="Unknown"></v-radio>
                       </v-radio-group>
-                      <v-text-field v-else :value="user.sex" :disabled="!isEdit" class="pt-0"></v-text-field>
+                      <p v-else class="user-info">{{ user.sex }}</p>
                     </v-col>
 
                     <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
                       <v-subheader class="pa-0">Job</v-subheader>
                     </v-col>
                     <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
-                      <v-text-field :value="user.job" :disabled="!isEdit" class="pt-0"></v-text-field>
+                      <v-text-field v-if="isEdit" :value="user.job" class="pt-0"></v-text-field>
+                        <p v-else class="user-info">{{ user.job }}</p>
                     </v-col>
 
                     <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
                       <v-subheader class="pa-0">Date join</v-subheader>
                     </v-col>
                     <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
-                      <v-text-field :value="user.createdAt | date" disabled class="pt-0"></v-text-field>
+                      <p class="pt-0 user-info">{{ user.createdAt | date }}</p>
                     </v-col>
                   </v-row>
                 </v-form>
@@ -350,5 +352,10 @@ export default {
   padding-top: 8em;
   padding-bottom: 8em;
   border: 2px dashed rgb(209, 209, 209);
+}
+
+.user-info {
+  margin-top: 13px; 
+  color: #000
 }
 </style>

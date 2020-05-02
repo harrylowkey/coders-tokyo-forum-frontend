@@ -89,7 +89,7 @@
           <v-divider></v-divider>
           <v-row id="other-posts-of-author" v-if="otherBlogsOfAuthor.length" class="mb-10">
             <h1 class="mt-8 mb-3">Other blogs of author</h1>
-            <other-posts-of-author :posts="otherBlogsOfAuthor"></other-posts-of-author>
+            <other-posts-of-author postType='blogs' :posts="otherBlogsOfAuthor"></other-posts-of-author>
           </v-row>
         </v-container>
       </v-col>

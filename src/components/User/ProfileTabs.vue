@@ -9,7 +9,7 @@
     </v-tabs>
 
     <v-tabs-items>
-      <user-posts v-if="tab === 'Your Legacies'"></user-posts>
+      <user-posts v-if="tab === 'Legacies'"></user-posts>
       <saved-posts v-if="tab === 'Saved Posts'"></saved-posts>
     </v-tabs-items>
   </v-card>
@@ -21,11 +21,11 @@ import SavedPosts from './SavedPosts'
 export default {
   data() {
     return {
-      tab: 'Your Legacies',
+      tab: 'Legacies',
       text:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint sunt totam unde voluptatem qui ab praesentium velit magni? Officia molestiae porro ab dolor nulla animi praesentium fuga perspiciatis quam autem.",
       username: "hongquangraem",
-      profileTabs: ["Your Legacies", "Saved Posts"],
+      profileTabs: ["Legacies"],
       savedPostMenus: [
         { menu: "Discussions", category: "Discussions", icon: "menu_book" },
         { menu: "Blogs", category: "Blogs", icon: "fastfood" },

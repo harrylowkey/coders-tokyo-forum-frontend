@@ -60,7 +60,7 @@
           <v-divider></v-divider>
           <v-row id="other-posts-of-author" v-if="otherDiscussionsOfAuthor.length" class="mb-10">
             <h1 class="mt-8 mb-3">Other discussions</h1>
-            <other-posts-of-author :posts="otherDiscussionsOfAuthor"></other-posts-of-author>
+            <other-posts-of-author postType="discussions" :posts="otherDiscussionsOfAuthor"></other-posts-of-author>
           </v-row>
         </v-container>
       </v-col>

@@ -202,6 +202,7 @@
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="100px"
                 style="cursor: pointer"
+                @click="hanldePlayAnotherpodcast(podcast._id)"
               >
                 <v-card-title class="title white--text d-flex flex-column align-start pb-0 pt-2">
                   <p class="mt-0 mb-0 font-italic subheading text-left">{{ podcast.topic }}</p>
@@ -214,7 +215,6 @@
                   <v-icon
                     class="play-icon"
                     style="color: #fff"
-                    @click="hanldePlayAnotherpodcast"
                     size="50"
                   >mdi-music-circle-outline</v-icon>
                 </div>
@@ -538,8 +538,8 @@ export default {
     slicedTags(tags) {
       return tags.slice(0, this.maxTags);
     },
-    hanldePlayAnotherpodcast() {
-      console.log("Play another podcast");
+    hanldePlayAnotherpodcast(podcastId) {
+       this.$router.push({ path: `/podcasts/${podcastId}`})
     },
     toggleShowLyrics() {
       if (this.isShowMore) {

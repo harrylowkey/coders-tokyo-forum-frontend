@@ -10,10 +10,16 @@
                   <img
                     src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
                     alt="Avatar"
+                    @click="onClickAvatar"
                   />
                 </v-avatar>
                 <div class="pl-4">
-                  <p class="title mb-1 mt-1">{{ comment.user.username }}</p>
+                  <p class="title mb-1 mt-1">
+                    <a
+                      style="text-decoration: none; color: #000"
+                      :href="link"
+                    >{{ comment.user.username }}</a>
+                  </p>
                   <p
                     style="font-size: 13px; color: grey"
                     class="font-italic mb-0"
@@ -23,10 +29,7 @@
               <div class="d-flex flex-column pt-3">
                 <p style="font-size: 13px; color: grey" class="font-italic mb-2">
                   <v-icon size="18">mdi-reply-outline</v-icon>
-                  <a
-                    style="text-decoration: none"
-                    :href="`/profile/${author._id}`"
-                  >@{{ author.username}}</a>
+                  <a style="text-decoration: none" :href="link">@{{ author.username}}</a>
                 </p>
                 <p
                   style="font-size: 13px; color: grey"
@@ -60,7 +63,7 @@
         </v-list-item-content>
       </v-card>
       <write-reply-comment
-        v-if="isReplyComment" 
+        v-if="isReplyComment"
         :rows="3"
         :placeholder="`Reply ${comment.user.username}`"
       ></write-reply-comment>
@@ -114,13 +117,15 @@
               </v-col>
             </v-row>
             <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
-              <v-icon @click="isReplyChildComments[childComment._id] = !isReplyChildComments[childComment._id]" size="18">mdi-reply-outline</v-icon>
+              <v-icon
+                @click="isReplyChildComments[childComment._id] = !isReplyChildComments[childComment._id]"
+                size="18"
+              >mdi-reply-outline</v-icon>
               <span
                 v-if="comment.childComments.length"
                 style="font-size: 13px; color: green"
                 class="font-italic mb-0"
-              >
-              </span>
+              ></span>
             </v-container>
           </v-list-item-content>
         </v-card>
@@ -128,7 +133,7 @@
           v-if="isReplyChildComments[childComment._id]"
           :rows="3"
           :placeholder="`Reply ${childComment.user.username}`"
-         ></write-reply-comment>
+        ></write-reply-comment>
       </div>
     </div>
     <div class="d-flex justify-center mb-3" v-if="leftLoadMores > 0">
@@ -166,7 +171,8 @@ export default {
       leftChildCommentsNotShow: [],
       isPreviewing: false,
       isReplyComment: false,
-      isReplyChildComments: {}
+      isReplyChildComments: {},
+      link: ""
     };
   },
   created() {
@@ -193,6 +199,9 @@ export default {
     this.isReplyChildComments = initReplyChildComments;
   },
   methods: {
+    onClickAvatar() {
+      this.$router.push({ path: this.link });
+    },
     handleClickLoadmoreChildComments() {
       ++this.loadMoreCounter;
       this.showingChildComments = [
@@ -211,7 +220,10 @@ export default {
   components: {
     WriteReplyComment
   },
-  computed: {}
+  computed: {},
+  created() {
+    this.link = `/users/${this.author.username}`;
+  }
 };
 </script>
 

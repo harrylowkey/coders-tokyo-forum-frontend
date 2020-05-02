@@ -8,11 +8,12 @@
               <img
                 src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
                 alt="Avatar"
+                @click="onClickAvatar"
               />
             </v-avatar>
           </v-col>
           <v-col sm="12" md="8">
-            <p class="title mb-1 mt-1">{{ user.username }}</p>
+            <p class="title mb-1 mt-1"><a style="color: #000; text-decoration: none" :href="link">{{ user.username }}</a></p>
             <p style="font-size: 13px; color: grey" class="font-italic">{{ user.job }}</p>
           </v-col>
         </v-row>
@@ -45,11 +46,20 @@ export default {
   },
   data() {
     return {
-      isFollowing: true
+      isFollowing: true,
+      link: ""
     };
   },
   components: {
     UserSocialLinks
+  },
+  methods: {
+    onClickAvatar() {
+      this.$router.push({ path: this.link });
+    }
+  },
+  created() {
+    this.link = `/users/${this.user.username}`
   }
 };
 </script>

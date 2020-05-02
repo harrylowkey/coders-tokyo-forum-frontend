@@ -183,6 +183,7 @@
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="100px"
                 style="cursor: pointer"
+                @click="playAnotherSong(song._id)"
               >
                 <v-card-title class="title white--text d-flex flex-column align-start pb-0 pt-2">
                   <p class="mt-0 mb-0 font-italic subheading text-left">{{ song.topic }}</p>
@@ -504,6 +505,9 @@ export default {
     };
   },
   methods: {
+    playAnotherSong(songId) {
+      this.$router.push({ path: `/songs/${songId}`})
+    },
     slicedTags(tags) {
       return tags.slice(0, this.maxTags);
     },

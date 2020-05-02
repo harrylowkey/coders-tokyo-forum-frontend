@@ -288,7 +288,7 @@
           <v-divider></v-divider>
           <v-row id="other-posts-of-author" v-if="otherMovieReviewsOfAuthor.length" class="mb-10">
             <h1 class="mt-8 mb-3">Other movie reviews of author</h1>
-            <other-posts-of-author :posts="otherMovieReviewsOfAuthor"></other-posts-of-author>
+            <other-posts-of-author postType='movie' :posts="otherMovieReviewsOfAuthor"></other-posts-of-author>
           </v-row>
         </v-container>
       </v-col>
