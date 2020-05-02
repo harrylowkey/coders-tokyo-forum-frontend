@@ -51,11 +51,12 @@
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
                   <tag
-                    v-for="tag in post.tags"
-                    :key="tag._id"
+                    v-for="(tag, i) in post.tags"
+                    :key="i"
                     class="ml-2"
                     :tagName="tag.tagName"
                     :style="tagStyle"
+                    postType="blog"
                   ></tag>
                 </v-card-text>
               </v-list-item-content>
@@ -102,9 +103,6 @@
       >
         <author-follow-card
           class="author-follow"
-          :githubLink="userGithub.url"
-          :facebookLink="userFacebook.url"
-          :linkedinLink="userLinkedin.url"
           :user="user"
           :description="user.description"
         ></author-follow-card>

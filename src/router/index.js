@@ -16,7 +16,7 @@ const MovieDetails = () => import('@/components/ChildPage/Movie')
 const FoodDetails = () => import('@/components/ChildPage/Food')
 const SongDetails = () => import('@/components/ChildPage/Song')
 const PodcastDetails = () => import('@/components/ChildPage/Podcast')
-// const DiscussionDetails = () => import('@/components/ChildPage/Discussion')
+const DiscussionDetails = () => import('@/components/ChildPage/Discussion')
 const CreatePost = () => import('@/components/Post/CreatePost')
 
 Vue.use(VueRouter)
@@ -72,37 +72,42 @@ const routes = [
     component: Blogs,
   },
   {
-    path: '/profile', 
+    path: '/profile',
     name: 'profile',
     component: Profile
   },
   {
-    path: '/blogs/:id', 
+    path: '/discussions/:id',
+    name: 'discussionDetails',
+    component: DiscussionDetails
+  },
+  {
+    path: '/blogs/:id',
     name: 'blogDetails',
     component: BlogDetails
   },
   {
-    path: '/bookReviews/:id', 
+    path: '/bookReviews/:id',
     name: 'bookDetails',
     component: BookDetails
   },
   {
-    path: '/movieReviews/:id', 
+    path: '/movieReviews/:id',
     name: 'movieDetails',
     component: MovieDetails
   },
   {
-    path: '/foodReviews/:id', 
+    path: '/foodReviews/:id',
     name: 'foodDetails',
     component: FoodDetails
   },
   {
-    path: '/songs/:id', 
+    path: '/songs/:id',
     name: 'songDetails',
     component: SongDetails
   },
   {
-    path: '/podcasts/:id', 
+    path: '/podcasts/:id',
     name: 'podcastDetails',
     component: PodcastDetails
   }

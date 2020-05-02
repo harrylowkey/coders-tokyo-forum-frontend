@@ -7,7 +7,6 @@
             <v-list-item-title class="headline discuss-title mb-0 pt-3">{{ topic }}</v-list-item-title>
           </router-link>
           <v-list-item-subtitle
-            v-if="content"
             style="line-height: 1.4;"
             class="mt-lg-n9 pt-lg-10"
           >{{ content }}</v-list-item-subtitle>
