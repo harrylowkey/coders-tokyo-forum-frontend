@@ -15,14 +15,28 @@
           src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
           height="200px"
+          @click="togglePlayPause"
+          style="cursor:pointer"
         >
           <v-card-title class="title white--text d-flex flex-column align-start pb-0">
-            <p class="mt-2 mb-0 font-italic subheading text-left">{{ topic }}</p>
-            <p class="caption font-weight-medium font-italic text-left">{{ authors[0].name }}</p>
+            <router-link class="title-link" :to="podcastLink">
+              <p style="color: #fff" class="mt-2 mb-0 font-italic subheading text-left">{{ topic }}</p>
+            </router-link>
+            <p class="mb-2">
+              <span
+                style="font-size: 13px; cursor: pointer"
+                v-for="(singer, i) in singers"
+                :key="i"
+                @click="searchPodcastBySinger(singer.name)"
+              >
+                {{ singer.name }}
+                <span style="font-size: 12px">{{ isAddFt(i, singers.length) }}</span>
+              </span>
+            </p>
           </v-card-title>
 
           <div class="align-self-center d-flex justify-center">
-            <v-icon style="color: #fff" @click="togglePlayPause" size="50">{{ togglePlayPauseIcon }}</v-icon>
+            <v-icon style="color: #fff" size="50">{{ togglePlayPauseIcon }}</v-icon>
           </div>
 
           <div class="audio-btns" :class="{ 'show-btns': hover }">
@@ -57,9 +71,7 @@
 
         <v-list-item three-line style="padding: 0 25px 0 15px">
           <user-social-links
-            :githubLink="'a'"
-            :facebookLink="'b'"
-            :linkedinLink="'c'"
+            :socialLinks="socialLinks"
             :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
             :username="'chau_chau'"
           ></user-social-links>
@@ -68,8 +80,9 @@
             <tag
               style="margin-top: 6px"
               :tagName="tag.tagName"
-              v-for="tag in slicedTags"
-              :key="tag._id"
+              v-for="(tag, i) in slicedTags"
+              :key="i"
+              postType="audio"
             ></tag>
           </v-card-actions>
         </v-list-item>
@@ -83,7 +96,7 @@
           </v-card-text>
           <v-spacer></v-spacer>
           <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
-            <like-btn :likes="4" ></like-btn>
+            <like-btn :likes="4"></like-btn>
             <comment-btn :comments="9"></comment-btn>
           </v-container>
         </v-card-actions>
@@ -97,8 +110,9 @@ import Tag from "@/components/Shared/Tag";
 import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
 import UserSocialLinks from "@/components/Shared/UserSocialLinks";
-
+import { userSocialLinks } from "@/mixins/userSocialLinks";
 export default {
+  mixins: [userSocialLinks],
   props: {
     _id: {
       type: String,
@@ -170,7 +184,37 @@ export default {
       progressBar: {
         value: 0,
         max: 1
-      }
+      },
+      user: {
+        _id: "5e8b577f1a2dde32298795f4",
+        hobbies: ["music, reading book"],
+        username: "hongquang",
+        password: "hell0aA@",
+        email: "quang.dang@homa.company",
+        socialLinks: [
+          {
+            _id: "5e8f536b0416274996f69e75",
+            type: "Github",
+            url: "https://github.com/hongquangraem"
+          },
+          {
+            _id: "5e8f536b0416274996f69e76",
+            type: "Facebook",
+            url: "https://facebook.com/spaceraem"
+          }
+        ],
+        createdAt: "2020-04-06T16:23:27.385Z",
+        updatedAt: "2020-04-13T14:43:32.772Z",
+        job: "Developer",
+        sex: "Male",
+        avatar: {
+          secureURL:
+            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
+        },
+        description:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed? Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
+      },
+      composers: []
     };
   },
   components: {
@@ -192,6 +236,14 @@ export default {
     }
   },
   methods: {
+    isAddFt(index, dataLength) {
+      return index + 1 < dataLength ? "ft" : "";
+    },
+    searchPodcastBySinger(singer) {
+      this.$router.push({
+        path: `/posts?singer=${singer}&type=podcast`
+      });
+    },
     calProgressBar() {
       const player = this.$refs.player;
       const currentTime = player.currentTime;
@@ -253,7 +305,15 @@ export default {
       const percent = evt.offsetX / (this.$el.offsetWidth - 81);
       this.$refs.player.currentTime = percent * this.$refs.player.duration;
       this.progressBar.value = percent / 100;
+    },
+    linkToPodcast() {
+      this.$router.push({ path: this.podcastLink });
     }
+  },
+  created() {
+    this.podcastLink = `/podcasts/${this._id}`;
+    let singers = this.authors.filter(person => person.type === 'singer')
+    this.singers = singers.slice(0, 4)
   }
 };
 </script>
@@ -348,17 +408,17 @@ export default {
     -webkit-appearance: none;
     appearance: none;
     background-color: white;
-    color: #4A148C;
+    color: #4a148c;
     height: 5px;
   }
   progress[value]::-webkit-progress-bar {
     background-color: white;
     border-radius: 2px;
     border: 1px solid lighten(#acacac, 20%);
-    color: #4A148C;
+    color: #4a148c;
   }
   progress::-webkit-progress-value {
-    background-color: #4A148C;
+    background-color: #4a148c;
   }
   p {
     font-size: 1.6rem;
@@ -376,8 +436,13 @@ export default {
 
 .cover {
   transition: ease 0.5s;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  transition: border-radius 0.4s ease-in-out;
 }
 .cover:hover {
   opacity: 1;
+  border-bottom-left-radius: 0%;
+  border-bottom-right-radius: 0%;
 }
 </style>

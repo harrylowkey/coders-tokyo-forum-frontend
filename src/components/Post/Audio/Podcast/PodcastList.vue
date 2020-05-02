@@ -89,6 +89,11 @@ export default {
               _id: "5e9920603c513c2611a9df89",
               type: "singer",
               name: "Chillies"
+            },
+            {
+              _id: "5e9920603c513c2611a9df89",
+              type: "singer",
+              name: "Chillies"
             }
           ],
           likes: [],
@@ -161,7 +166,12 @@ export default {
             },
             {
               _id: "5e8c5f27abf7df7d3be426de",
-              type: "composer",
+              type: "singer",
+              name: "Sweettie"
+            },
+            {
+              _id: "5e8c5f27abf7df7d3be426de",
+              type: "singer",
               name: "Sweettie"
             }
           ],

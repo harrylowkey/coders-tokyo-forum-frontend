@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
     <v-card id="song" class="mx-auto pb-4 mb-8" :elevation="hover ? 10 : 3">
-      <aplayer loop="none" :audio="audio" :lrcType="3" />
+      <aplayer @click="linkToSong" loop="none" :audio="audio" :lrcType="3" />
 
       <v-list-item
         three-line
@@ -9,9 +9,7 @@
         class="d-flex flex-wrap justify-center"
       >
         <user-social-links
-          :githubLink="'a'"
-          :facebookLink="'b'"
-          :linkedinLink="'c'"
+          :socialLinks="socialLinks"
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
           :username="'chau_chau'"
         ></user-social-links>
@@ -32,8 +30,9 @@
           <tag
             style="margin-top: 6px"
             :tagName="tag.tagName"
-            v-for="tag in slicedTags"
-            :key="tag._id"
+            v-for="(tag, i) in slicedTags"
+            :key="i"
+            postType="song"
           ></tag>
         </v-card-actions>
       </v-list-item>
@@ -46,7 +45,10 @@ import Tag from "@/components/Shared/Tag";
 import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
 import UserSocialLinks from "@/components/Shared/UserSocialLinks";
+import { userSocialLinks } from "@/mixins/userSocialLinks";
+
 export default {
+  mixins: [userSocialLinks],
   props: {
     _id: {
       type: String,
@@ -107,7 +109,37 @@ export default {
   },
   data() {
     return {
-      maxTags: 3
+      maxTags: 3,
+      audioLink: "",
+      user: {
+        _id: "5e8b577f1a2dde32298795f4",
+        hobbies: ["music, reading book"],
+        username: "hongquang",
+        password: "hell0aA@",
+        email: "quang.dang@homa.company",
+        socialLinks: [
+          {
+            _id: "5e8f536b0416274996f69e75",
+            type: "Github",
+            url: "https://github.com/hongquangraem"
+          },
+          {
+            _id: "5e8f536b0416274996f69e76",
+            type: "Facebook",
+            url: "https://facebook.com/spaceraem"
+          }
+        ],
+        createdAt: "2020-04-06T16:23:27.385Z",
+        updatedAt: "2020-04-13T14:43:32.772Z",
+        job: "Developer",
+        sex: "Male",
+        avatar: {
+          secureURL:
+            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
+        },
+        description:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed? Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
+      }
     };
   },
   created() {
@@ -117,6 +149,17 @@ export default {
     slicedTags() {
       return this.tags.slice(0, this.maxTags);
     }
+  },
+  methods: {
+    linkToSong() {
+      this.$router.push({ path: this.audioLink });
+    }
+  },
+  created() {
+    this.audioLink = `/songs/${this._id}`;
+  },
+  mounted() {
+    let songTitle = document.querySelector(".aplayer-title");
   },
   components: {
     Tag,
@@ -128,6 +171,10 @@ export default {
 </script>
 
 <style lang="scss">
+.title-link {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87) !important;
+}
 .aplayer {
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -159,8 +206,8 @@ export default {
     .aplayer-music {
       .aplayer-title {
         font-size: 1.05rem !important;
+        cursor: pointer;
       }
-
       .aplayer-author {
         font-size: 0.85rem !important;
       }

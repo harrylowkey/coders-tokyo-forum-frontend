@@ -1,36 +1,31 @@
 <template>
   <div class="user text-center d-flex">
-    <v-list-item-avatar 
-      tile 
-      :size="customize.avatarSize || 60" 
-      style="margin: 16px 0 0 0"
-    >
+    <v-list-item-avatar tile :size="customize.avatarSize || 60" style="margin: 16px 0 0 0">
       <v-img
         src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
         style="cursor: pointer"
+        @click="onClickAvatar"
       ></v-img>
     </v-list-item-avatar>
     <v-container class="pb-0 pr-0">
       <v-list-item-icon class="mb-0">
-        <v-icon
-          v-for="link in socialLinks"
-          :key="link.icon"
-          :color="link.color"
-          :size="customize.iconSize || 20"
-          class="pr-1"
-          style="cursor: pointer"
-          @click="handleClickLink(link.url)"
-        >{{ link.icon }}</v-icon>
+        <div v-if="socialLinks.length" class="d-flex">
+          <v-icon
+            v-for="link in socialLinks"
+            :key="link.icon"
+            :color="link.color"
+            :size="customize.iconSize || 20"
+            class="pr-1"
+            style="cursor: pointer"
+            @click="handleClickLink(link.url)"
+          >{{ link.icon }}</v-icon>
+        </div>
+        <div v-else style="height: 17px"></div>
       </v-list-item-icon>
       <v-list-item-content class="pt-0 pb-0">
-        <v-list-item-title 
-          class="caption text-start pl-1" 
-          :style="usernameWrapper"
-        >
-          <a :style="customize.usernameStyle" class="username-link" href="#">
-            {{ username }}
-          </a>
-          </v-list-item-title>
+        <v-list-item-title class="caption text-start" :style="usernameWrapper">
+          <a :style="customize.usernameStyle" class="username-link ml-1" :href="userProfileLink">{{ username }}</a>
+        </v-list-item-title>
       </v-list-item-content>
     </v-container>
   </div>
@@ -43,17 +38,9 @@ export default {
       type: Object,
       default: () => ({})
     },
-    githubLink: {
-      type: String,
-      default: ""
-    },
-    facebookLink: {
-      type: String,
-      default: ""
-    },
-    linkedinLink: {
-      type: String,
-      default: ""
+    socialLinks: {
+      type: Array,
+      default: () => []
     },
     src: {
       type: String,
@@ -67,30 +54,32 @@ export default {
   data() {
     return {
       usernameWrapper: {
-        paddingTop: this.customize ? '4px !important' : 0
-      }
-    }
+        paddingTop: this.customize ? "4px !important" : 0
+      },
+      userProfileLink: ''
+    };
   },
   methods: {
     handleClickLink(url) {
-      return window.open(url, '_blank')
+      return window.open(url, "_blank");
+    },
+    onClickAvatar() {
+      this.$router.push({ path: this.userProfileLink });
     }
   },
-  computed: {
-    socialLinks() {
-      let links = [];
-      if (this.githubLink) links.push({ url: this.githubLink, icon: "mdi-github", color: 'black' });
-      if (this.facebookLink) links.push({ url: this.facebookLink, icon: "mdi-facebook", color: 'primary' });
-      if (this.linkedinLink) links.push({ url: this.linkedinLink, icon: "mdi-linkedin", color: '#006699' });
-      return links;
-    }
+  created() {
+    this.userProfileLink = `/users/${this.username}`
   }
 };
 </script>
 
 <style>
-  .username-link {
-    text-decoration: none;
-    color: #000 !important;
-  }
+.username-link {
+  text-decoration: none;
+  color: #000 !important;
+}
+
+.user {
+  width: 150px;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <span class="caption text-center" id="tag">
-    <a href="#" id="tag-link">#{{ tagName }}</a>
+    <a :href="link" id="tag-link">#{{ tagName }}</a>
   </span>
 </template>
 
@@ -11,10 +11,13 @@ export default {
     customize: {
       type: Object,
       default: () => ({})
-    }
+    },
+    postType: String
   },
   data() {
-    return {};
+    return {
+      link: ""
+    };
   },
   created() {
     if (this.customize) {
@@ -23,6 +26,7 @@ export default {
         ...this.customize
       };
     }
+    this.link = `/posts?tag=${this.tagName}&type=${this.postType}`;
   }
 };
 </script>

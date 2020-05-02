@@ -1,42 +1,33 @@
 export const userSocialLinks = {
   data() {
     return {
-      userGithub: {},
-      userFacebook: {},
-      userLinkedin: {},
-    }
-  },
-  computed: {
-    socialLinks() {
-      let links = [];
-      if (this.userGithub)
-        links.push({
-          url: this.userGithub.url,
-          icon: "mdi-github",
-          color: "black"
-        });
-      if (this.userFacebook)
-        links.push({
-          url: this.userFacebook.url,
-          icon: "mdi-facebook",
-          color: "primary"
-        });
-      if (this.userLinkedin)
-        links.push({
-          url: this.userLinkedin.url,
-          icon: "mdi-linkedin",
-          color: "#006699"
-        });
-      return links;
+      socialLinks: []
     }
   },
   created() {
-    this.userGithub =
-      this.user.socialLinks.find(link => link.type === "Github") || {};
-    this.userFacebook =
-      this.user.socialLinks.find(link => link.type === "Facebook") || {};
-    this.userLinkedin =
-      this.user.socialLinks.find(link => link.type === "Linkedin") || {};
+    this.socialLinks = this.user.socialLinks.map(link => {
+      let obj = { 
+        _id: link._id,
+        url: link. url, 
+        type: link.type
+       }
+      if (link.type === 'Github')
+        {
+          obj.color = 'black'
+          obj.icon = 'mdi-github'
+        }
+      if (link.type === 'Facebook')
+        {
+          obj.color = 'primary'
+          obj.icon = 'mdi-facebook'
+        }
+      if (link.type === 'Linkedin')
+        {
+          obj.color = "#006699"
+          obj.icon = 'mdi-linkedin'
+        }
+      return obj
+    })
   },
   methods: {
     handleClickLink(url) {

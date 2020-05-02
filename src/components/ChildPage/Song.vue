@@ -90,9 +90,7 @@
                 <div class="d-flex flex-column justify-center">
                   <v-container class="d-flex justify-center">
                     <user-social-links
-                      :githubLink="'a'"
-                      :facebookLink="'b'"
-                      :linkedinLink="'c'"
+                      :socialLinks="socialLinks"
                       :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
                       :username="'chau_chau'"
                     ></user-social-links>
@@ -164,9 +162,6 @@
       >
         <author-follow-card
           class="author-follow"
-          :githubLink="userGithub.url"
-          :facebookLink="userFacebook.url"
-          :linkedinLink="userLinkedin.url"
           :user="user"
           :description="user.description"
         ></author-follow-card>

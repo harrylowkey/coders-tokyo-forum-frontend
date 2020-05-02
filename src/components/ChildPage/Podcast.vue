@@ -95,7 +95,7 @@
 
                 <div class="pr-3 pt-5">
                   <v-card-actions class="d-flex ml-5 pt-0">
-                    <tag :tagName="tag.tagName" v-for="tag in post.tags" :key="tag._id"></tag>
+                    <tag :tagName="tag.tagName" v-for="(tag, i) in post.tags" :key="i" postType="podcast"></tag>
                   </v-card-actions>
                   <v-spacer></v-spacer>
                 </div>
@@ -110,9 +110,7 @@
                 <div class="d-flex flex-column justify-center">
                   <v-container class="d-flex justify-center">
                     <user-social-links
-                      :githubLink="'a'"
-                      :facebookLink="'b'"
-                      :linkedinLink="'c'"
+                      :socialLinks="socialLinks"
                       :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
                       :username="'chau_chau'"
                     ></user-social-links>
@@ -184,9 +182,6 @@
       >
         <author-follow-card
           class="author-follow"
-          :githubLink="userGithub.url"
-          :facebookLink="userFacebook.url"
-          :linkedinLink="userLinkedin.url"
           :user="user"
           :description="user.description"
         ></author-follow-card>
@@ -373,6 +368,11 @@ export default {
           {
             _id: "5e8f536b0416274996f69e76",
             type: "Facebook",
+            url: "https://facebook.com/spaceraem"
+          },
+          {
+            _id: "5e8f536b0416274996f69e76",
+            type: "Linkedin",
             url: "https://facebook.com/spaceraem"
           }
         ],

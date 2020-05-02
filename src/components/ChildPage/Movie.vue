@@ -606,9 +606,6 @@ export default {
     };
   },
   computed: {},
-  created() {
-    console.log(this.actors, this.directors);
-  },
   methods: {},
   components: {
     Tag,

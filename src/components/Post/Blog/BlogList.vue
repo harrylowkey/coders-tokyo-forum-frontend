@@ -12,7 +12,7 @@
           :content="item.content"
           :tags="item.tags"
           :cover="item.cover"
-          :userId="item.userId"
+          :user="item.userId"
           :type="item.type"
           :createdAt="item.createdAt"
           :updatedAt="item.updatedAt"

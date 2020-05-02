@@ -36,9 +36,6 @@
 import UserSocialLinks from "@/components/Shared/UserSocialLinks";
 export default {
   props: {
-    githubLink: String,
-    facebookLink: String,
-    linkedinLink: String,
     description: {
       type: String
     },

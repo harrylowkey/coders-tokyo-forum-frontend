@@ -127,6 +127,7 @@ export default {
             saves: 1
           },
           book: {
+            name: 'Lập trình quỹ đạo cuộc đời',
             status: "Finished",
             country: "Vietnam",
             year: 2019,

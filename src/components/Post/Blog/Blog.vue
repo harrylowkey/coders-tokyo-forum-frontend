@@ -5,25 +5,26 @@
         v-if="cover.secureURL"
         src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
         height="350px"
-        style
         class="cover-blog"
+        @click="linkToBlog"
       ></v-img>
 
       <v-list-item three-line style="padding: 0 25px 0 20px">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-          <v-list-item-title class="headline blog-title mb-0 mt-3">{{ topic }}</v-list-item-title>
+          <router-link class="title-link" :to="blogLink">
+            <v-list-item-title class="headline blog-title mb-0 mt-3">{{ topic }}</v-list-item-title>
+          </router-link>
           <p class="description mb-0 pt-2">{{ description || content }}</p>
-         <div class="d-flex justify-space-between mt-1" style="height: 20px">
-            <span style="font-size: 0.775rem;" class="pt-1"><a style=" text-decoration: none" href="#">Read more...</a></span>
-            <read-time
-            class="pt-0"
-             :text="content"
-             :customize="'font-size: 0.775rem'"></read-time>
-         </div>
+          <div class="d-flex justify-space-between mt-1" style="height: 20px">
+            <span style="font-size: 0.775rem;" class="pt-1">
+              <a style=" text-decoration: none" :href="blogLink">Read more...</a>
+            </span>
+            <read-time class="pt-0" :text="content" :customize="'font-size: 0.775rem'"></read-time>
+          </div>
         </v-list-item-content>
         <user-avatar
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
-          :username="userId.username"
+          :username="user.username"
           style="padding-bottom: 7px;"
         ></user-avatar>
       </v-list-item>
@@ -54,7 +55,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <tag :tagName="tags[0].tagName"></tag>
+        <tag :tagName="tags[0].tagName" :postType="'blog'"></tag>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -65,7 +66,7 @@ import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
-import ReadTime from "@/components/Shared/readTime"
+import ReadTime from "@/components/Shared/readTime";
 
 export default {
   props: {
@@ -89,7 +90,7 @@ export default {
       type: Array,
       default: () => []
     },
-    userId: {
+    user: {
       type: Object,
       default: () => ({})
     },
@@ -132,6 +133,19 @@ export default {
     CommentBtn,
     UserAvatar,
     ReadTime
+  },
+  data() {
+    return {
+      blogLink: ""
+    };
+  },
+  methods: {
+    linkToBlog() {
+      this.$router.push({ path: this.blogLink });
+    }
+  },
+  created() {
+    this.blogLink = `/blogs/${this._id}`;
   }
 };
 </script>
@@ -144,13 +158,21 @@ export default {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   display: -webkit-box;
+  cursor: pointer;
 }
+
+.title-link {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
 .blog-card {
   border-radius: 7px !important;
 }
 
 .cover-blog {
   border-top-left-radius: 7px !important;
+  cursor: pointer;
 }
 .like-icon,
 .comment-icon {

@@ -3,14 +3,15 @@
     <v-card class="mx-auto mt-6 food-card" :elevation="hover ? 20 : 3">
       <v-row style="margin-right: 0">
         <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
-          <v-img :src="cover.secureURL" height="378px" style class="cover-food"></v-img>
+          <v-img @click="linkToBlog" :src="cover.secureURL" height="378px" style="cursor: pointer" class="cover-food"></v-img>
         </v-col>
         <v-col class="pa-0" cols="12" sm="12" md="12" lg="5" xl="4" style="position: relative">
           <div class="d-md-none d-lg-flex">
             <v-container class="ml-1 food-detail">
               <v-card-text class="pb-2 pt-2">
-                <p class="title text--primary mb-0 pt-1">{{ food.restaurant }}</p>
-
+                <router-link class="title-link" :to="blogLink">
+                  <p class="title text--primary mb-0 pt-1">{{ food.restaurant }}</p>
+                </router-link>
                 <v-container class="d-flex pl-1 pb-0 pt-2">
                   <v-icon color="green" size="15" class="mb-0 mr-2">mdi-tag-text</v-icon>
                   <p class="value mb-0">{{ food.priceAverage }} {{ food.priceUnit}}</p>
@@ -175,11 +176,13 @@
 
       <v-list-item three-line style="padding: 0 25px 0 20px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-          <v-list-item-title class="headline food-title mb-0 mt-3">{{ topic }}</v-list-item-title>
+          <router-link class="title-link" :to="blogLink">
+            <v-list-item-title class="headline food-title mb-0 mt-3">{{ topic }}</v-list-item-title>
+          </router-link>
           <p class="description mb-0 pt-2">{{ description || content }}</p>
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
-              <a style=" text-decoration: none" href="#">Read more...</a>
+              <a style=" text-decoration: none" :href="blogLink">Read more...</a>
             </span>
             <read-time class="pt-0" :text="content" :customize="'font-size: 0.775rem'"></read-time>
           </div>
@@ -217,7 +220,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <tag :tagName="tags[0].tagName"></tag>
+        <tag :tagName="tags[0].tagName" :postType="'food'"></tag>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -312,6 +315,7 @@ export default {
     return {
       maxSlice1: 1,
       maxSlice: 2,
+      blogLink: ""
     };
   },
   methods: {
@@ -335,9 +339,14 @@ export default {
           border: "1px solid #90d2a3 !important",
           backgroundColor: "#C5E1A5 !important"
         };
+    },
+    linkToBlog() {
+      this.$router.push({ path: this.blogLink });
     }
   },
-  computed: {}
+  created() {
+    this.blogLink = `/foodReviews/${this._id}`;
+  }
 };
 </script>
 
@@ -353,6 +362,12 @@ export default {
   -webkit-box-orient: vertical;
   display: -webkit-box;
 }
+
+.title-link {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
 .food-card {
   border-radius: 7px !important;
 }

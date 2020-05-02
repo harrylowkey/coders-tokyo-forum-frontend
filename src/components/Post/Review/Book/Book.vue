@@ -6,15 +6,18 @@
           <v-img
             src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
             height="360px"
-            style
+            style="cursor: pointer"
             class="cover-book"
+            @click="linkToBlog"
           ></v-img>
         </v-col>
         <v-col class="pa-0" cols="12" sm="12" md="12" lg="5" xl="4" style="position: relative">
           <div class="d-md-none d-lg-flex">
             <v-container class="ml-1 pl-3 book-detail">
               <v-card-text class="pb-2 pt-2">
-                <p class="title text--primary mb-0 pt-1">{{ book.name }}</p>
+                <router-link class="title-link" :to="blogLink">
+                  <p class="title text--primary mb-0 pt-1">{{ book.name }}</p>
+                </router-link>
                 <v-container class="d-flex pl-1 pb-0 pt-2">
                   <p class="key mb-0 mr-3">Status:</p>
                   <p class="value mb-0" :style="calBookStatusColor">{{ book.status }}</p>
@@ -177,11 +180,13 @@
 
       <v-list-item three-line style="padding: 0 25px 0 20px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-          <v-list-item-title class="headline book-title mb-0 mt-3">{{ topic }}</v-list-item-title>
+          <router-link class="title-link" :to="blogLink">
+            <v-list-item-title class="headline book-title mb-0 mt-3">{{ topic }}</v-list-item-title>
+          </router-link>
           <p class="description mb-0 pt-2">{{ description || content }}</p>
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
-              <a style=" text-decoration: none" href="#">Read more...</a>
+              <a style=" text-decoration: none" :href="linkToBlog">Read more...</a>
             </span>
             <read-time class="pt-0" :text="content" :customize="'font-size: 0.775rem'"></read-time>
           </div>
@@ -219,7 +224,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <tag :tagName="tags[0].tagName"></tag>
+        <tag :tagName="tags[0].tagName" :postType="'book'"></tag>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -231,7 +236,7 @@ import CommentBtn from "@/components/Shared/CommentButton";
 import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
 import { bookDescription } from "@/mixins/bookDescription";
-import ReadTime from "@/components/Shared/readTime"
+import ReadTime from "@/components/Shared/readTime";
 
 export default {
   mixins: [bookDescription],
@@ -303,6 +308,19 @@ export default {
     LikeBtn,
     CommentBtn,
     UserAvatar
+  },
+  data() {
+    return {
+      blogLink: ""
+    };
+  },
+  methods: {
+    linkToBlog() {
+      this.$router.push({ path: this.blogLink });
+    }
+  },
+  created() {
+    this.blogLink = `/bookReviews/${this._id}`;
   }
 };
 </script>
@@ -319,6 +337,12 @@ export default {
   -webkit-box-orient: vertical;
   display: -webkit-box;
 }
+
+.title-link {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
 .book-card {
   border-radius: 7px !important;
 }

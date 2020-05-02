@@ -3,8 +3,14 @@
     <v-card class="mx-auto mt-6" :elevation="hover ? 10 : 3">
       <v-list-item three-line style="padding: 0px 25px 0 20px">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-          <v-list-item-title class="headline mb-0 discuss-title pt-3">{{ topic }}</v-list-item-title>
-          <v-list-item-subtitle v-if="content" style="line-height: 1.4;" class="mt-lg-n9 pt-lg-10">{{ content }}</v-list-item-subtitle>
+          <router-link class="title-link" :to="discussionLink">
+            <v-list-item-title class="headline discuss-title mb-0 pt-3">{{ topic }}</v-list-item-title>
+          </router-link>
+          <v-list-item-subtitle
+            v-if="content"
+            style="line-height: 1.4;"
+            class="mt-lg-n9 pt-lg-10"
+          >{{ content }}</v-list-item-subtitle>
         </v-list-item-content>
         <user-avatar
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
@@ -20,26 +26,35 @@
         <v-spacer></v-spacer>
         <v-container>
           <v-row>
-            <v-col class="pa-lg-0" cols="5" sm="5" md="4" offset-md="2" lg="3" offset-lg="4" xl="2" offset-xl="5">
-              <like-btn :likes="200" ></like-btn>
-          
+            <v-col
+              class="pa-lg-0"
+              cols="5"
+              sm="5"
+              md="4"
+              offset-md="2"
+              lg="3"
+              offset-lg="4"
+              xl="2"
+              offset-xl="5"
+            >
+              <like-btn :likes="200"></like-btn>
             </v-col>
             <v-col class="pa-lg-0">
               <comment-btn :comments="500"></comment-btn>
             </v-col>
           </v-row>
         </v-container>
-        <tag :tagName="tags[0].tagName"></tag>
+        <tag :tagName="tags[0].tagName"  postType="discussion"></tag>
       </v-card-actions>
     </v-card>
   </v-hover>
 </template>
 
 <script>
-import LikeBtn from '@/components/Shared/LikeButton'
-import CommentBtn from '@/components/Shared/CommentButton'
-import Tag from '@/components/Shared/Tag'
-import UserAvatar from '@/components/Shared/UserAvatar'
+import LikeBtn from "@/components/Shared/LikeButton";
+import CommentBtn from "@/components/Shared/CommentButton";
+import Tag from "@/components/Shared/Tag";
+import UserAvatar from "@/components/Shared/UserAvatar";
 
 export default {
   props: {
@@ -92,6 +107,19 @@ export default {
       default: () => ({})
     }
   },
+  data() {
+    return {
+      discussionLink: ""
+    };
+  },
+  methods: {
+    linkToDiscussion() {
+      this.$router.push({ path: this.discussionLink });
+    }
+  },
+  created() {
+    this.discussionLink = `/discussions/${this._id}`;
+  },
   components: {
     Tag,
     LikeBtn,
@@ -110,6 +138,12 @@ export default {
   -webkit-box-orient: vertical;
   display: -webkit-box;
 }
+
+.title-link {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
 .like-icon,
 .comment-icon {
   position: relative;
