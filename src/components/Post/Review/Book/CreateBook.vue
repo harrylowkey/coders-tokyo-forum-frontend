@@ -16,15 +16,12 @@
           <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
             <div class="d-flex ml-7">
               <div class="d-flex">
-                <v-chip
-                  style="cursor: pointer"
-                  class="ma-2"
-                  color="#e57373"
-                  label
-                  text-color="white"
+                <toggle-tag
                   v-for="(tag, i) in data.tags"
                   :key="i"
-                >{{ tag }}</v-chip>
+                  :tagName="tag"
+                  @handleRemoveTag="handleRemoveTag(i)"
+                ></toggle-tag>
               </div>
               <create-tag-blog
                 v-if="data.tags.length < 3"
@@ -100,47 +97,49 @@
                             :error-messages="errors"
                           ></v-text-field>
                         </ValidationProvider>
-                        <span class="pb-4 pl-3" v-if="!coAuthor">
+                        <span class="pb-4 pl-3" v-if="!addCoAuthor">
                           <v-icon
-                            @click="coAuthor = !coAuthor"
+                            @click="addCoAuthor = !addCoAuthor"
                             color="green"
                             style="cursor: pointer"
                           >mdi-plus-circle-outline</v-icon>
                         </span>
-                        <span class="pb-4 pl-3" v-if="coAuthor">
+                        <span class="pb-4 pl-3" v-if="addCoAuthor">
                           <v-icon
-                            @click="coAuthor = !coAuthor"
+                            @click="handleRemoveCoAuthor"
                             color="warning"
                             style="cursor: pointer"
                           >mdi-close-circle-outline</v-icon>
                         </span>
                       </div>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4" v-if="coAuthor">
+                    <v-col cols="12" sm="6" md="4" v-if="addCoAuthor">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="coAuthor" label="Co - Author"></v-text-field>
+                        <ValidationProvider name="Name" rules="required" v-slot="{ errors }">
+                          <v-text-field :error-messages="errors" v-model="coAuthor" label="Co - Author"></v-text-field>
+                        </ValidationProvider>
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
                       <div class="d-flex align-end">
                         <v-text-field v-model="recommender" label="Recommender"></v-text-field>
-                        <span class="pb-4 pl-3" v-if="!recommender2">
+                        <span class="pb-4 pl-3" v-if="!addRecomender2">
                           <v-icon
-                            @click="recommender2 = !recommender2"
+                            @click="addRecomender2 = !addRecomender2"
                             color="green"
                             style="cursor: pointer"
                           >mdi-plus-circle-outline</v-icon>
                         </span>
-                        <span class="pb-4 pl-3" v-if="recommender2">
+                        <span class="pb-4 pl-3" v-if="addRecomender2">
                           <v-icon
-                            @click="recommender2 = !recommender2"
+                            @click="handleRemoveRecommender2"
                             color="warning"
                             style="cursor: pointer"
                           >mdi-close-circle-outline</v-icon>
                         </span>
                       </div>
                     </v-col>
-                    <v-col cols="12" sm="6" md="6" v-if="recommender2">
+                    <v-col cols="12" sm="6" md="6" v-if="addRecomender2">
                       <div class="d-flex align-end">
                         <v-text-field v-model="recommender2" label="Recommender"></v-text-field>
                       </div>
@@ -245,13 +244,15 @@ import CreateTagBlog from "@/components/Shared/CreateTagBlog";
 import myUpload from "vue-image-crop-upload";
 import { uploadBanner } from "@/mixins/uploadBanner";
 import { extend, setInteractionMode } from "vee-validate";
+import ToggleTag from "@/components/Shared/ToggleTag";
 setInteractionMode("eager");
 export default {
   mixins: [uploadBanner],
   components: {
     UserAvatar,
     CreateTagBlog,
-    myUpload
+    myUpload,
+    ToggleTag
   },
   data() {
     return {
@@ -261,6 +262,8 @@ export default {
       coAuthor: "",
       recommender: "",
       recommender2: "",
+      addCoAuthor: false,
+      addRecomender2: false,
       user: {
         username: "hong_quang"
       },
@@ -311,6 +314,17 @@ export default {
   methods: {
     handleAddTag(tag) {
       this.data.tags.push(tag);
+    },
+    handleRemoveTag(tagIndex) {
+      this.data.tags.splice(tagIndex, 1);
+    },
+    handleRemoveCoAuthor() {
+      this.addCoAuthor = !this.addCoAuthor;
+      this.coAuthor = "";
+    },
+    handleRemoveRecommender2() {
+      this.addRecomender2 = !this.addRecomender2;
+      this.recommender2 = 0;
     },
     togglePreviewContent() {
       if (this.isPreviewing) {
