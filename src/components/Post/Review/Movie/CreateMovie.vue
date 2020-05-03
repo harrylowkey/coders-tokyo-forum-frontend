@@ -77,16 +77,16 @@
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
-                      <v-text-field label="Nation"></v-text-field>
+                      <v-text-field v-model="data.movie.country" label="Nation"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="4" md="2">
-                      <v-text-field label="IMDb"></v-text-field>
+                      <v-text-field v-model="data.movie.imdb" label="IMDb"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="4" md="2">
-                      <v-text-field hint="Unit: minutes" label="Times"></v-text-field>
+                      <v-text-field v-model="data.movie.time" hint="Unit: minutes" label="Times"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="4" md="8">
-                      <v-text-field label="Link"></v-text-field>
+                      <v-text-field v-model="data.movie.link" label="Link"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <div class="d-flex align-end">
@@ -175,7 +175,7 @@
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="5">
-                      <v-text-field label="Release Date"></v-text-field>
+                      <v-text-field v-model="data.movie.releaseDate" label="Release Date"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="12" md="7">
                       <v-container class="d-flex pl-0 pb-0 pr-0 mt-2">
@@ -207,6 +207,7 @@
                         <v-text-field
                           label="Topic*"
                           persistent-hint
+                          v-model="data.topic"
                           rows="2"
                           required
                           :error-messages="errors"
@@ -216,6 +217,7 @@
                     </v-col>
                     <v-col cols="12">
                       <v-text-field
+                        v-model="data.description"
                         label="Description"
                         persistent-hint
                         rows="2"
@@ -336,14 +338,14 @@ export default {
     handleAddTag(tag) {
       this.data.tags.push(tag);
     },
-     handleRemoveTag(tagIndex) {
+    handleRemoveTag(tagIndex) {
       this.data.tags.splice(tagIndex, 1);
     },
     handleRemoveCoDirector() {
       this.addCoDirector = !this.addCoDirector;
       this.coDirector = "";
     },
-     handleRemoveActor(index) {
+    handleRemoveActor(index) {
       this[`addActor${index}`] = !this[`addActor${index}`];
       this[`actor${index}`] = "";
     },
@@ -373,7 +375,6 @@ export default {
         { type: "director", name: this.coDirector }
       ].filter(person => person.name !== "");
 
-      console.log(this.data)
       this.$refs.observer.validate();
     }
   }

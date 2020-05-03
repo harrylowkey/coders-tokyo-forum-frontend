@@ -111,121 +111,137 @@
                                   </v-chip>
                                 </v-container>
                               </v-col>
-                              <v-col cols="12" sm="8" md="8">
+                              <v-col cols="12" sm="6" md="6">
                                 <ValidationProvider
-                                  name="Book name"
+                                  name="Movie name"
                                   rules="required"
                                   v-slot="{ errors }"
                                 >
                                   <v-text-field
-                                    v-model="post.book.name"
-                                    label="Book name*"
-                                    required
                                     :error-messages="errors"
-                                  ></v-text-field>
-                                </ValidationProvider>
-                              </v-col>
-                              <v-col cols="12" sm="4" md="4">
-                                <ValidationProvider
-                                  name="Status"
-                                  rules="required"
-                                  v-slot="{ errors }"
-                                >
-                                  <v-text-field
-                                    v-model="post.book.status"
-                                    :error-messages="errors"
-                                    label="Status"
-                                    hint="E.g: Finished or 15/34 Chapters"
+                                    v-model="post.movie.name"
+                                    label="Movie name*"
                                     required
                                   ></v-text-field>
                                 </ValidationProvider>
-                              </v-col>
-                              <v-col cols="12" sm="6" md="4">
-                                <div class="d-flex align-end">
-                                  <ValidationProvider
-                                    name="Author"
-                                    rules="required"
-                                    v-slot="{ errors }"
-                                  >
-                                    <v-text-field
-                                      required
-                                      v-model="author"
-                                      label="Author"
-                                      :error-messages="errors"
-                                    ></v-text-field>
-                                  </ValidationProvider>
-                                  <span class="pb-4 pl-3" v-if="!addCoAuthor">
-                                    <v-icon
-                                      @click="addCoAuthor = !addCoAuthor"
-                                      color="green"
-                                      style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
-                                  </span>
-                                  <span class="pb-4 pl-3" v-if="addCoAuthor">
-                                    <v-icon
-                                      @click="handleRemoveCoAuthor"
-                                      color="warning"
-                                      style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
-                                  </span>
-                                </div>
-                              </v-col>
-                              <v-col cols="12" sm="6" md="4" v-if="addCoAuthor">
-                                <div class="d-flex align-end">
-                                  <ValidationProvider
-                                    name="Name"
-                                    rules="required"
-                                    v-slot="{ errors }"
-                                  >
-                                    <v-text-field
-                                      :error-messages="errors"
-                                      v-model="coAuthor"
-                                      label="Co - Author"
-                                    ></v-text-field>
-                                  </ValidationProvider>
-                                </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="6">
+                                <v-text-field v-model="post.movie.country" label="Nation"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="4" md="2">
+                                <v-text-field v-model="post.movie.imdb" label="IMDb"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="4" md="2">
+                                <v-text-field
+                                  v-model="post.movie.time"
+                                  hint="Unit: minutes"
+                                  label="Times"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="4" md="8">
+                                <v-text-field v-model="post.movie.link" label="Link"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="6" md="4">
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="recommender" label="Recommender"></v-text-field>
-                                  <span class="pb-4 pl-3" v-if="!addRecomender2">
+                                  <v-text-field v-model="director" label="Director"></v-text-field>
+                                  <span class="pb-4 pl-3" v-if="!addCoDirector">
                                     <v-icon
-                                      @click="addRecomender2 = !addRecomender2"
+                                      @click="addCoDirector = !addCoDirector"
                                       color="green"
                                       style="cursor: pointer"
                                     >mdi-plus-circle-outline</v-icon>
                                   </span>
-                                  <span class="pb-4 pl-3" v-if="addRecomender2">
+                                  <span class="pb-4 pl-3" v-if="addCoDirector">
                                     <v-icon
-                                      @click="handleRemoveRecommender2"
+                                      @click="handleRemoveCoDirector"
                                       color="warning"
                                       style="cursor: pointer"
                                     >mdi-close-circle-outline</v-icon>
                                   </span>
                                 </div>
                               </v-col>
-                              <v-col cols="12" sm="6" md="6" v-if="addRecomender2">
+                              <v-col cols="12" sm="6" md="4" v-if="addCoDirector">
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="recommender2" label="Recommender"></v-text-field>
+                                  <v-text-field v-model="coDirector" label="Co - Director"></v-text-field>
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="4">
-                                <v-text-field v-model="post.book.country" label="Nation"></v-text-field>
+                                <div class="d-flex align-end">
+                                  <v-text-field v-model="actor" label="Actor/Actress"></v-text-field>
+                                  <span class="pb-4 pl-3" v-if="!addActor2">
+                                    <v-icon
+                                      @click="addActor2 = !addActor2"
+                                      color="green"
+                                      style="cursor: pointer"
+                                    >mdi-plus-circle-outline</v-icon>
+                                  </span>
+                                  <span class="pb-4 pl-3" v-if="addActor2">
+                                    <v-icon
+                                      @click="handleRemoveCoDirector(2)"
+                                      color="warning"
+                                      style="cursor: pointer"
+                                    >mdi-close-circle-outline</v-icon>
+                                  </span>
+                                </div>
                               </v-col>
-                              <v-col cols="12" sm="6" md="3">
-                                <v-text-field v-model="post.book.length" hint="E.g: 200 pages" label="Length"></v-text-field>
+                              <v-col cols="12" sm="6" md="4" v-if="addActor2">
+                                <div class="d-flex align-end">
+                                  <v-text-field v-model="actor2" label="Actor/Actress"></v-text-field>
+                                  <span class="pb-4 pl-3" v-if="!addActor3">
+                                    <v-icon
+                                      @click="addActor3 = !addActor3"
+                                      color="green"
+                                      style="cursor: pointer"
+                                    >mdi-plus-circle-outline</v-icon>
+                                  </span>
+                                  <span class="pb-4 pl-3" v-if="addActor3">
+                                    <v-icon
+                                      @click="handleRemoveActor(3)"
+                                      color="warning"
+                                      style="cursor: pointer"
+                                    >mdi-close-circle-outline</v-icon>
+                                  </span>
+                                </div>
                               </v-col>
-                              <v-col cols="12" sm="12" md="5">
-                                <v-container class="d-flex pl-0 pr-0 mt-2">
+                              <v-col cols="12" sm="6" md="4" v-if="addActor3">
+                                <div class="d-flex align-end">
+                                  <v-text-field v-model="actor3" label="Actor/Actress"></v-text-field>
+                                  <span class="pb-4 pl-3" v-if="!addActor4">
+                                    <v-icon
+                                      @click="addActor4 = !addActor4"
+                                      color="green"
+                                      style="cursor: pointer"
+                                    >mdi-plus-circle-outline</v-icon>
+                                  </span>
+                                  <span class="pb-4 pl-3" v-if="addActor4">
+                                    <v-icon
+                                      @click="handleRemoveActor(4)"
+                                      color="warning"
+                                      style="cursor: pointer"
+                                    >mdi-close-circle-outline</v-icon>
+                                  </span>
+                                </div>
+                              </v-col>
+                              <v-col cols="12" sm="6" md="4" v-if="addActor4">
+                                <div class="d-flex align-end">
+                                  <v-text-field v-model="actor4" label="Actor/Actress"></v-text-field>
+                                </div>
+                              </v-col>
+                              <v-col cols="12" sm="6" md="5">
+                                <v-text-field v-model="post.movie.releaseDate" label="Release Date"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="12" md="7">
+                                <v-container class="d-flex pl-0 pb-0 pr-0 mt-2">
                                   <span
                                     style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                                     class="mb-0 pt-1 pr-5"
                                   >Your stars:</span>
                                   <v-rating
-                                    v-model="post.book.stars"
+                                    v-model="post.movie.stars"
                                     color="yellow darken-3"
                                     background-color="grey darken-1"
                                     empty-icon="$ratingFull"
+                                    half-increments
                                     hover
                                     small
                                   ></v-rating>
@@ -235,7 +251,7 @@
                                 <v-autocomplete
                                   :items="genres"
                                   label="Genres"
-                                  v-model="post.book.genres"
+                                  v-model="post.movie.genres"
                                   multiple
                                 ></v-autocomplete>
                               </v-col>
@@ -246,23 +262,24 @@
                                   v-slot="{ errors }"
                                 >
                                   <v-text-field
+                                    label="Topic*"
                                     v-model="post.topic"
                                     @change="dataUpdate.topic = post.topic"
-                                    required
-                                    :error-messages="errors"
-                                    label="Topic*"
                                     persistent-hint
                                     rows="2"
+                                    required
+                                    :error-messages="errors"
+                                    hint="Write description to attract people at the first glance"
                                   ></v-text-field>
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12">
                                 <v-text-field
                                   label="Description"
-                                  persistent-hint
-                                  rows="2"
                                   v-model="post.description"
                                   @change="dataUpdate.description = post.description"
+                                  persistent-hint
+                                  rows="2"
                                   hint="Write description to attract people at the first glance"
                                 ></v-text-field>
                               </v-col>
@@ -275,7 +292,7 @@
                                   <v-textarea
                                     label="Content*"
                                     v-model="post.content"
-                                    @change="dataUpdate.content = post.content"
+                                    @change="dataUpdate.description = post.description"
                                     auto-grow
                                     rows="15"
                                     required
@@ -371,300 +388,116 @@ export default {
       uploadUrl: "https://www.mocky.io/v2/5d4fb20b3000005c111099e3",
       uploadHeaders: { "X-Test-Header": "vue-file-agent" },
       post: {
-        _id: "5e9c33a20ea604201558edfa",
+        _id: "5e9b04f5d1f1da5baece2ff5",
         tags: [
           {
-            _id: "5e9c33a20ea604201558edfc",
-            tagName: "kientran"
+            _id: "5e8c563eeda853638189e854",
+            tagName: "#action"
           },
           {
-            _id: "5e9c33a20ea604201558edfd",
-            tagName: "laptrinhquydaocuocdoi"
+            _id: "5e9b047ef82e7d563b8e2c5a",
+            tagName: "#funny"
           }
         ],
-        comments: [
-          {
-            _id: "5ea04ece861ec016ab4e7280",
-            childComments: [
-              {
-                _id: "5ea08f6d14328169d8422a42",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea04ece861ec016ab4e7280",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "nhat_anh"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:41.982Z"
-              },
-              {
-                _id: "5ea08f6073749769b53fd952",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea04ece861ec016ab4e7280",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "nhat_anh"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:28.963Z"
-              },
-              {
-                _id: "5ea08f0a467cac6969fe223f",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "thanh_ton",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f6073749769b53fd952",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:38:02.161Z"
-              },
-              {
-                _id: "5ea08efc467cac6969fe223e",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:37:48.322Z"
-              },
-              {
-                _id: "5ea08f6d14328169d8422a42",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "dev"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f0a467cac6969fe223f",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:41.982Z"
-              },
-              {
-                _id: "5ea08f6073749769b53fd952",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f0a467cac6969fe223f",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:28.963Z"
-              },
-              {
-                _id: "5ea08f0a467cac6969fe223f",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:38:02.161Z"
-              },
-              {
-                _id: "5ea08efc467cac6969fe223e",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:37:48.322Z"
-              }
-            ],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content:
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse.",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "nhat_anh",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:58.083Z",
-            updatedAt: "2020-04-22T14:21:50.493Z"
-          },
-          {
-            _id: "5ea04eca861ec016ab4e727f",
-            childComments: [],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content: "comment2",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "thanh_ton",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:54.429Z",
-            updatedAt: "2020-04-22T14:03:54.429Z"
-          },
-          {
-            _id: "5ea04ec4861ec016ab4e727e",
-            childComments: [],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content: "comment1",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "thanh_ton",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:48.372Z",
-            updatedAt: "2020-04-22T14:03:48.372Z"
-          }
-        ],
-        authors: [
-          {
-            _id: "5e9c33a20ea604201558edfe",
-            type: 'author',
-            name: "Kiên Trần"
-          }
-        ],
+        comments: [],
         user: {
-          _id: "5e8b577f1a2dde322987924",
+          _id: "5e8b577f1a2dde3229879524",
           username: "nhat_anh"
         },
-        likes: [],
-        savedBy: [],
-        topic: "Lập trình qũy đạo cuộc đời",
-        description:
-          "Đây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành",
-        content:
-          "[Marked] lets you convert [Markdown] into HTML.  Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML.  This demo page will let you type anything you like and see how it gets converted.  Live.  No more waiting around.\n\nHow To Use The Demo\n-------------------\n\n1. Type in stuff on the left.\n2. See the live updates on the right.\n\nThat's it.  Pretty simple.  There's also a drop-down option in the upper right to switch between various views:\n\n- **Preview:**  A live display of the generated HTML as it would render in a browser.\n- **HTML Source:**  The generated HTML before your browser makes it pretty.\n- **Lexer Data:**  What [marked] uses internally, in case you like gory stuff like this.\n- **Quick Reference:**  A brief run-down of how to format things using markdown.\n\nWhy Markdown?\n-------------\n\nIt's easy.  It's not overly bloated, unlike HTML.  Also, as the creator of [markdown] says,\n\n> The overriding design goal for Markdown's\n> formatting syntax is to make it as readable\n> as possible. The idea is that a\n> Markdown-formatted document should be\n> publishable as-is, as plain text, without\n> looking like it's been marked up with tags\n> or formatting instructions.\n\nReady to start writing?  Either start changing stuff on the left or\n[clear everything](/demo/?text=) with a simple click.\n\n[Marked]: https://github.com/markedjs/marked/\n[Markdown]: http://daringfireball.net/projects/markdown/\n",
-        type: "book",
-        cover: {
-          _id: "5e9c33a20ea604201558edfb",
-          secureURL:
-            "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80",
-          publicId: "Coders-Tokyo-Forum/posts/a.jpg",
-          fileName: "a.jpg",
-          sizeBytes: 107648,
-          userId: {
-            _id: "5e8b577f1a2dde3229879524",
-            username: "nhat_anh"
+        authors: [
+          {
+            _id: "5e9b047ef82e7d563b8e2c5b",
+            type: "actor",
+            name: "Dave Bautista (JJ)"
           },
-          postId: "5e9c33a20ea604201558edfa",
+          {
+            _id: "5e9b047ef82e7d563b8e2c5d",
+            type: "actor",
+            name: "Ken Jeong (Kim)"
+          },
+          {
+            _id: "5e9b04f5d1f1da5baece2ff7",
+            type: "director",
+            name: "KristenSchall (Bobbi)"
+          }
+        ],
+        likes: [],
+        url: "http://www.phimmoi.net/phim/diep-vien-ti-hon-8928/",
+        savedBy: [],
+        topic: "My Spey (2019)",
+        description:
+          "Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta",
+        content:
+          "Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta",
+        type: "movie",
+        cover: {
+          _id: "5e9ab00f0591fb40fc87faa3",
+          secureURL:
+            "https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png",
+          publicId: "Coders-Tokyo-Forum/posts/javascript.png",
+          fileName: "javascript.png",
+          sizeBytes: 316358,
+          userId: "5e8b577f1a2dde32298795f4",
+          postId: "5e9ab00f0591fb40fc87faa2",
           resourceType: "image",
-          createdAt: "2020-04-19T11:18:58.228Z",
-          updatedAt: "2020-04-19T11:18:58.228Z",
+          createdAt: "2020-04-18T07:45:19.838Z",
+          updatedAt: "2020-04-18T07:45:19.838Z",
           __v: 0
         },
-        createdAt: "2020-04-19T11:18:58.251Z",
-        updatedAt: "2020-04-19T11:18:58.251Z",
         metadata: {
           _id: "5e9494fe935dfb5ed30435",
           comments: 123,
           likes: 69,
           saves: 1
         },
-        book: {
-          name: 'Lập trình quỹ đạo cuộc đời',
-          status: "Finished",
-          country: "Vietnam",
-          year: 2019,
-          length: 200,
-          genres: ["Literary", "Action"],
-          suggestedBy: ["Trần Tôn"],
-          stars: 5
-        }
+        movie: {
+          name: "Spy",
+          genres: ["Action"],
+          imdb: 5.2,
+          country: "England",
+          link: "facebook.com",
+          releaseDate: "22/11/2019",
+          time: 91,
+          stars: 4
+        },
+        createdAt: "2020-04-18T13:47:33.708Z",
+        updatedAt: "2020-04-18T13:47:33.708Z"
       },
-      author: "",
-      coAuthor: "",
-      recommender: "",
-      recommender2: "",
-      addCoAuthor: false,
-      addRecomender2: false,
+      director: "",
+      coDirector: "",
+      actor: "",
+      actor2: "",
+      actor3: "",
+      actor4: "",
+      addCoDirector: false,
+      addActor2: "",
+      addActor3: "",
+      addActor4: "",
       tags: [],
       dataUpdate: {},
       imgDataUrl: "",
       isPreviewing: false,
-      genres: [
-        "Fiction",
-        "Science",
-        "Fantasy",
-        "Thriller",
-        "Poetry",
-        "Novel",
-        "Narrative",
-        "Literary",
-        "Deactive",
-        "Action",
-        "Improve-self"
-      ]
+      genres: ["Action", "Funny", "Moving", "History"]
     };
   },
   computed: {},
   created() {
     this.tags = this.post.tags.map(tag => tag.tagName);
     this.bannerImage = this.post.cover.secureURL;
-    let authors = this.post.authors.filter(
-      person => person.type === "author"
-    );
-    this.author = authors[0] ? authors[0].name : ''
-    this.coAuthor = authors[1] ? authors[1].name : ''
+    let actors = this.post.authors.filter(person => person.type === "actor");
+    this.actor = actors[0] ? actors[0].name : "";
+    this.actor2 = actors[1] ? actors[1].name : "";
+    this.actor3 = actors[2] ? actors[2].name : "";
+    this.actor4 = actors[3] ? actors[3].name : "";
+    this.addActor2 = this.actor2 ? true : false;
+    this.addActor3 = this.actor3 ? true : false;
+    this.addActor24 = this.actor4 ? true : false;
 
-    let recommenders = this.post.book.suggestedBy
-    this.recommender = recommenders[0] || ''
-    this.recommender2 = recommenders[1] || ''
+    let directors = this.post.authors.filter(
+      person => person.type === "director"
+    );
+    this.director = directors[0] ? directors[0].name : "";
+    this.coDirector = directors[1] ? directors[1].name : "";
   },
   methods: {
     handleAddTag(tag) {
@@ -673,13 +506,13 @@ export default {
     handleRemoveTag(tagIndex) {
       this.tags.splice(tagIndex, 1);
     },
-    handleRemoveCoAuthor() {
-      this.addCoAuthor = !this.addCoAuthor;
-      this.coAuthor = "";
+    handleRemoveCoDirector() {
+      this.addCoDirector = !this.addCoDirector;
+      this.coDirector = "";
     },
-    handleRemoveRecommender2() {
-      this.addRecomender2 = !this.addRecomender2;
-      this.recommender2 = 0;
+    handleRemoveActor(index) {
+      this[`addActor${index}`] = !this[`addActor${index}`];
+      this[`actor${index}`] = "";
     },
     togglePreviewContent() {
       if (this.isPreviewing) {
@@ -691,16 +524,20 @@ export default {
     },
     submit() {
       this.dataUpdate.authors = [
-        { type: "author", name: this.author },
-        { type: "author", name: this.coAuthor }
-      ].filter(author => author.name !== "");
+        { type: "actor", name: this.actor },
+        { type: "actor", name: this.actor2 },
+        { type: "actor", name: this.actor3 },
+        { type: "actor", name: this.actor4 },
+        { type: "director", name: this.director },
+        { type: "director", name: this.coDirector }
+      ].filter(person => person.name !== "");
 
       this.dataUpdate.book.suggestedBy = [
         this.recommender,
         this.recommender2
       ].filter(recommender => recommender !== "");
       this.dataUpdate.tags = this.tags;
-      this.dataUpdate.book = this.post.book
+      this.dataUpdate.book = this.post.book;
       this.$refs.observer.validate();
     }
   }
@@ -789,11 +626,11 @@ a {
 
 .update-banner-btn {
   position: absolute;
-  top: 13.8%;
+  top: 19.5%;
   opacity: 0.9;
 }
 
 .update-banner-btn:hover {
-  opacity: 1
+  opacity: 1;
 }
 </style>
