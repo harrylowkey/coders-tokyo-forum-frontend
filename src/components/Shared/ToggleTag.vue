@@ -5,7 +5,7 @@
     class="ma-2 tag" 
     label text-color="white"
     @click="onClickRemove"
-    >{{ tagName }}
+    >#{{ tagName }}
   </v-chip>
   </v-hover>
 </template>

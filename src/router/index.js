@@ -21,6 +21,8 @@ const CreatePost = () => import('@/components/Post/CreatePost')
 const EditAudio = () => import('@/components/Post/Audio/EditAudio')
 const EditBlog = () => import('@/components/Post/Blog/EditBlog')
 const EditDiscussion = () => import('@/components/Post/Discussion/EditDiscussion')
+const EditBook = () => import('@/components/Post/Review/Book/EditBook')
+
 
 Vue.use(VueRouter)
 
@@ -115,19 +117,24 @@ const routes = [
     component: PodcastDetails
   },
   {
-    path: '/edit/audio/:audioId',
+    path: '/edit/audio/:postId',
     name: 'editAudio',
     component: EditAudio
   },
   {
-    path: '/edit/discussion/:discussionId',
+    path: '/edit/discussion/:postId',
     name: 'editDiscussion',
     component: EditDiscussion
   },
   {
-    path: '/edit/blog/:blogId',
+    path: '/edit/blog/:postId',
     name: 'editBlog',
     component: EditBlog
+  },
+  {
+    path: '/edit/book/:postId',
+    name: 'editBook',
+    component: EditBook
   },
 ]
 

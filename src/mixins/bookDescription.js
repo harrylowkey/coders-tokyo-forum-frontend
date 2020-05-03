@@ -46,6 +46,6 @@ export const bookDescription = {
   },
   created() {
     this.book = this.post ? this.post.book : this.book
-    this.authors = this.post ? this.post.authors : this.authors
+    this.authors = this.post ? this.post.authors.filter(person => person.type === 'author') : this.authors.filter(person => person.type === 'author')
   }
 }

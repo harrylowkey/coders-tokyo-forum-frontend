@@ -145,10 +145,10 @@
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field label="Nation"></v-text-field>
+                      <v-text-field v-model="data.book.country" label="Nation"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
-                      <v-text-field hint="E.g: 200 pages" label="Length"></v-text-field>
+                      <v-text-field v-model="data.book.length" hint="E.g: 200 pages" label="Length"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="12" md="5">
                       <v-container class="d-flex pl-0 pr-0 mt-2">
