@@ -92,15 +92,12 @@
                             <v-img max-width="210" max-height="210" :src="data.coverImage"></v-img>
                           </v-container>
                           <div class="mt-10 d-flex justify-center align-center flex-column">
-                            <v-chip
-                              style="cursor: pointer"
-                              class="ma-2"
-                              color="#e57373"
-                              label
-                              text-color="white"
+                            <toggle-tag
                               v-for="(tag, i) in tags"
                               :key="i"
-                            >{{ tag }}</v-chip>
+                              :tagName="tag"
+                              @handleRemoveTag="handleRemoveTag(i)"
+                            ></toggle-tag>
 
                             <create-tag
                               v-if="tags.length < 3"
@@ -137,63 +134,93 @@
                                   label="Composer"
                                 ></v-text-field>
                               </ValidationProvider>
-                              <span class="pb-4 pl-3" v-if="!composer2">
+                              <span class="pb-4 pl-3" v-if="!addComposer2">
                                 <v-icon
-                                  @click="composer2 = !composer2"
+                                  @click="addComposer2 = !addComposer2"
                                   color="green"
                                   style="cursor: pointer"
                                 >mdi-plus-circle-outline</v-icon>
                               </span>
-                              <span class="pb-4 pl-3" v-if="composer2">
+                              <span class="pb-4 pl-3" v-if="addComposer2">
                                 <v-icon
-                                  @click="composer2 = !composer2"
+                                  @click="handleRemoveComposer(2)"
                                   color="warning"
                                   style="cursor: pointer"
                                 >mdi-close-circle-outline</v-icon>
                               </span>
                             </div>
                           </v-col>
-                          <v-col cols="12" sm="6" md="6" v-if="composer2" class>
+                          <v-col cols="12" sm="6" md="6" v-if="addComposer2" class>
                             <div class="d-flex align-end">
-                              <v-text-field label="Composer"></v-text-field>
-                              <span class="pb-4 pl-3" v-if="!composer3">
+                              <ValidationProvider
+                                name="Composer"
+                                rules="required"
+                                v-slot="{ errors }"
+                              >
+                                <v-text-field
+                                  :error-messages="errors"
+                                  v-model="composer2"
+                                  label="Composer"
+                                ></v-text-field>
+                              </ValidationProvider>
+                              <span class="pb-4 pl-3" v-if="!addComposer3">
                                 <v-icon
-                                  @click="composer3 = !composer3"
+                                  @click="addComposer3 = !addComposer3"
                                   color="green"
                                   style="cursor: pointer"
                                 >mdi-plus-circle-outline</v-icon>
                               </span>
-                              <span class="pb-4 pl-3" v-if="composer3">
+                              <span class="pb-4 pl-3" v-if="addComposer3">
                                 <v-icon
-                                  @click="composer3 = !composer3"
+                                  @click="handleRemoveComposer(3)"
                                   color="warning"
                                   style="cursor: pointer"
                                 >mdi-close-circle-outline</v-icon>
                               </span>
                             </div>
                           </v-col>
-                          <v-col cols="12" sm="6" md="6" v-if="composer3" class>
+                          <v-col cols="12" sm="6" md="6" v-if="addComposer3" class>
                             <div class="d-flex align-end">
-                              <v-text-field label="Composer"></v-text-field>
-                              <span class="pb-4 pl-3" v-if="!composer4">
+                              <ValidationProvider
+                                name="Composer"
+                                rules="required"
+                                v-slot="{ errors }"
+                              >
+                                <v-text-field
+                                  :error-messages="errors"
+                                  v-model="composer3"
+                                  label="Composer"
+                                ></v-text-field>
+                              </ValidationProvider>
+                              <span class="pb-4 pl-3" v-if="!addComposer4">
                                 <v-icon
-                                  @click="composer4 = !composer4"
+                                  @click="addComposer4 = !addComposer4"
                                   color="green"
                                   style="cursor: pointer"
                                 >mdi-plus-circle-outline</v-icon>
                               </span>
-                              <span class="pb-4 pl-3" v-if="composer4">
+                              <span class="pb-4 pl-3" v-if="addComposer4">
                                 <v-icon
-                                  @click="composer4 = !composer4"
+                                  @click="handleRemoveComposer(4)"
                                   color="warning"
                                   style="cursor: pointer"
                                 >mdi-close-circle-outline</v-icon>
                               </span>
                             </div>
                           </v-col>
-                          <v-col cols="12" sm="6" md="6" v-if="composer4">
+                          <v-col cols="12" sm="6" md="6" v-if="addComposer4">
                             <div class="d-flex align-end">
-                              <v-text-field label="Composer"></v-text-field>
+                              <ValidationProvider
+                                name="Composer"
+                                rules="required"
+                                v-slot="{ errors }"
+                              >
+                                <v-text-field
+                                  :error-messages="errors"
+                                  v-model="composer4"
+                                  label="Composer"
+                                ></v-text-field>
+                              </ValidationProvider>
                             </div>
                           </v-col>
                         </div>
@@ -212,63 +239,93 @@
                                   label="Singer/Rapper"
                                 ></v-text-field>
                               </ValidationProvider>
-                              <span class="pb-4 pl-3" v-if="!singer2">
+                              <span class="pb-4 pl-3" v-if="!addSinger2">
                                 <v-icon
-                                  @click="singer2 = !singer2"
+                                  @click="addSinger2 = !addSinger2"
                                   color="green"
                                   style="cursor: pointer"
                                 >mdi-plus-circle-outline</v-icon>
                               </span>
-                              <span class="pb-4 pl-3" v-if="singer2">
+                              <span class="pb-4 pl-3" v-if="addSinger2">
                                 <v-icon
-                                  @click="singer2 = !singer2"
+                                  @click="handleRemoveSinger(2)"
                                   color="warning"
                                   style="cursor: pointer"
                                 >mdi-close-circle-outline</v-icon>
                               </span>
                             </div>
                           </v-col>
-                          <v-col cols="12" sm="6" md="6" v-if="singer2" class>
+                          <v-col cols="12" sm="6" md="6" v-if="addSinger2" class>
                             <div class="d-flex align-end">
-                              <v-text-field label="Singer/Rapper"></v-text-field>
-                              <span class="pb-4 pl-3" v-if="!singer3">
+                              <ValidationProvider
+                                name="Singer"
+                                rules="required"
+                                v-slot="{ errors }"
+                              >
+                                <v-text-field
+                                  :error-messages="errors"
+                                  v-model="singer2"
+                                  label="Singer/Rapper"
+                                ></v-text-field>
+                              </ValidationProvider>
+                              <span class="pb-4 pl-3" v-if="!addSinger3">
                                 <v-icon
-                                  @click="singer3 = !singer3"
+                                  @click="addSinger3 = !addSinger3"
                                   color="green"
                                   style="cursor: pointer"
                                 >mdi-plus-circle-outline</v-icon>
                               </span>
-                              <span class="pb-4 pl-3" v-if="singer3">
+                              <span class="pb-4 pl-3" v-if="addSinger3">
                                 <v-icon
-                                  @click="singer3 = !singer3"
+                                  @click="handleRemoveSinger(3)"
                                   color="warning"
                                   style="cursor: pointer"
                                 >mdi-close-circle-outline</v-icon>
                               </span>
                             </div>
                           </v-col>
-                          <v-col cols="12" sm="6" md="6" v-if="singer3">
+                          <v-col cols="12" sm="6" md="6" v-if="addSinger3">
                             <div class="d-flex align-end">
-                              <v-text-field label="Singer/Rapper"></v-text-field>
-                              <span class="pb-4 pl-3" v-if="!singer4">
+                              <ValidationProvider
+                                name="Singer"
+                                rules="required"
+                                v-slot="{ errors }"
+                              >
+                                <v-text-field
+                                  :error-messages="errors"
+                                  v-model="singer3"
+                                  label="Singer/Rapper"
+                                ></v-text-field>
+                              </ValidationProvider>
+                              <span class="pb-4 pl-3" v-if="!addSinger4">
                                 <v-icon
-                                  @click="singer4 = !singer4"
+                                  @click="addSinger4 = !addSinger4"
                                   color="green"
                                   style="cursor: pointer"
                                 >mdi-plus-circle-outline</v-icon>
                               </span>
-                              <span class="pb-4 pl-3" v-if="singer4">
+                              <span class="pb-4 pl-3" v-if="addSinger4">
                                 <v-icon
-                                  @click="singer4 = !singer4"
+                                  @click="handleRemoveSinger(4)"
                                   color="warning"
                                   style="cursor: pointer"
                                 >mdi-close-circle-outline</v-icon>
                               </span>
                             </div>
                           </v-col>
-                          <v-col cols="12" sm="6" md="6" v-if="singer4">
+                          <v-col cols="12" sm="6" md="6" v-if="addSinger4">
                             <div class="d-flex align-end">
-                              <v-text-field label="Singer/Rapper"></v-text-field>
+                              <ValidationProvider
+                                name="Singer"
+                                rules="required"
+                                v-slot="{ errors }"
+                              >
+                                <v-text-field
+                                  :error-messages="errors"
+                                  v-model="singer4"
+                                  label="Singer/Rapper"
+                                ></v-text-field>
+                              </ValidationProvider>
                             </div>
                           </v-col>
                         </div>
@@ -281,7 +338,6 @@
                             v-model="data.content"
                             placeholder="Markdown"
                           ></v-textarea>
-
                         </v-col>
                       </v-col>
                     </v-row>
@@ -306,11 +362,13 @@ import myUpload from "vue-image-crop-upload";
 import VueUploadMultipleImage from "vue-upload-multiple-image";
 import { uploadBanner } from "@/mixins/uploadBanner";
 import CreateTag from "@/components/Shared/CreateTag";
+import ToggleTag from "@/components/Shared/ToggleTag";
 export default {
   mixins: [uploadBanner],
   props: ["type"],
   components: {
     UserAvatar,
+    ToggleTag,
     CreateTag,
     myUpload,
     VueUploadMultipleImage
@@ -325,6 +383,12 @@ export default {
       composer2: "",
       composer3: "",
       composer4: "",
+      addSinger2: false,
+      addSinger3: false,
+      addSinger4: false,
+      addComposer2: false,
+      addComposer3: false,
+      addComposer4: false,
       alert: false,
       alertMessage: "",
       maxImages: 20,
@@ -367,6 +431,17 @@ export default {
   methods: {
     handleAddTag(tag) {
       this.tags.push(tag);
+    },
+    handleRemoveTag(tagIndex) {
+      this.tags.splice(tagIndex, 1);
+    },
+    handleRemoveComposer(index) {
+      this[`addComposer${index}`] = !this[`addComposer${index}`];
+      this[`composer${index}`] = "";
+    },
+    handleRemoveSinger(index) {
+      this[`addSinger${index}`] = !this[`addSinger${index}`];
+      this[`singer${index}`] = "";
     },
     chooseFile() {
       this.$refs.vueFileAgent.$refs.fileInput.click();
@@ -434,10 +509,10 @@ export default {
         { type: "singer", name: this.singer },
         { type: "singer", name: this.singer2 },
         { type: "singer", name: this.singer3 },
-        { type: "singer", name: this.singer4 },
+        { type: "singer", name: this.singer4 }
       ].filter(person => person.name !== "");
-      this.data.audio = this.fileRecordsForUpload[0]
-      if (this.data.content === '') this.data.content = 'Update later'
+      this.data.audio = this.fileRecordsForUpload[0];
+      if (this.data.content === "") this.data.content = "Update later";
       this.$refs.observer.validate();
     }
   }
