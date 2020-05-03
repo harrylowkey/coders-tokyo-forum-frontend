@@ -160,6 +160,10 @@ export default {
   },
   mounted() {
     let songTitle = document.querySelector(".aplayer-title");
+    songTitle.addEventListener('click', () => window.open(`/songs/${this._id}`))
+
+   let songComposer = document.querySelector(".aplayer-author");
+    songComposer.addEventListener('click', () => window.open(`/posts?artist=${this.audio.artist}&type=song`))
   },
   components: {
     Tag,
@@ -210,6 +214,7 @@ export default {
       }
       .aplayer-author {
         font-size: 0.85rem !important;
+        cursor: pointer;
       }
     }
   }

@@ -23,11 +23,11 @@
             <p class="mb-2">
               <span
                 style="font-size: 13px; cursor: pointer"
-                v-for="(singer, i) in singers"
+                v-for="(artist, i) in singers"
                 :key="i"
-                @click="searchPodcastBySinger(singer.name)"
+                @click="searchPodcastBySinger(artist.name)"
               >
-                {{ singer.name }}
+                {{ artist.name }}
                 <span style="font-size: 12px">{{ isAddFt(i, singers.length) }}</span>
               </span>
             </p>
@@ -238,10 +238,8 @@ export default {
     isAddFt(index, dataLength) {
       return index + 1 < dataLength ? "ft" : "";
     },
-    searchPodcastBySinger(singer) {
-      this.$router.push({
-        path: `/posts?singer=${singer}&type=podcast`
-      });
+    searchPodcastBySinger(artist) {
+      return window.open(`/posts?artist=${artist}&type=podcast`)
     },
     calProgressBar() {
       const player = this.$refs.player;
@@ -313,7 +311,7 @@ export default {
   },
   created() {
     this.podcastLink = `/podcasts/${this._id}`;
-    let singers = this.authors.filter(person => person.type === 'singer')
+    let singers = this.authors.filter(person => person.type === 'artist')
     this.singers = singers.slice(0, 4)
   }
 };

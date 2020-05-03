@@ -247,7 +247,7 @@ export default {
           authors: [
             {
               _id: "5e9920603c513c2611a9df89",
-              type: "singer",
+              type: "artist",
               name: "Chillies"
             }
           ],
@@ -458,7 +458,7 @@ export default {
           authors: [
             {
               _id: "5e9920603c513c2611a9df89",
-              type: "singer",
+              type: "artist",
               name: "Chillies"
             }
           ],
@@ -520,7 +520,7 @@ export default {
           authors: [
             {
               _id: "5e8c5f27abf7df7d3be426dd",
-              type: "singer",
+              type: "artist",
               name: "Sweettie"
             },
             {

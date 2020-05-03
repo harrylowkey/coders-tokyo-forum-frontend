@@ -10,7 +10,7 @@
                 <p
                   style="font-size: 14px !important"
                   class="ma-0 body-1 font-weight-bold font-italic text-left"
-                >{{ text }}</p>
+               w >{{ text }}</p>
                 <p class="caption font-weight-medium font-italic text-left">{{ subtext }}</p>
               </div>
 

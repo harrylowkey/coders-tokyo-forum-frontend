@@ -228,102 +228,102 @@
                           <v-col cols="12" sm="6" md="6">
                             <div class="d-flex align-end">
                               <ValidationProvider
-                                name="Singer"
+                                name="Name"
                                 rules="required"
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
                                   :error-messages="errors"
                                   required
-                                  v-model="singer"
-                                  label="Singer/Rapper"
+                                  v-model="artist"
+                                  label="Artist"
                                 ></v-text-field>
                               </ValidationProvider>
-                              <span class="pb-4 pl-3" v-if="!addSinger2">
+                              <span class="pb-4 pl-3" v-if="!addArtist2">
                                 <v-icon
-                                  @click="addSinger2 = !addSinger2"
+                                  @click="addArtist2 = !addArtist2"
                                   color="green"
                                   style="cursor: pointer"
                                 >mdi-plus-circle-outline</v-icon>
                               </span>
-                              <span class="pb-4 pl-3" v-if="addSinger2">
+                              <span class="pb-4 pl-3" v-if="addArtist2">
                                 <v-icon
-                                  @click="handleRemoveSinger(2)"
+                                  @click="handleRemoveArtist(2)"
                                   color="warning"
                                   style="cursor: pointer"
                                 >mdi-close-circle-outline</v-icon>
                               </span>
                             </div>
                           </v-col>
-                          <v-col cols="12" sm="6" md="6" v-if="addSinger2" class>
+                          <v-col cols="12" sm="6" md="6" v-if="addArtist2" class>
                             <div class="d-flex align-end">
                               <ValidationProvider
-                                name="Singer"
+                                name="Name"
                                 rules="required"
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
                                   :error-messages="errors"
-                                  v-model="singer2"
-                                  label="Singer/Rapper"
+                                  v-model="artist2"
+                                  label="Artist"
                                 ></v-text-field>
                               </ValidationProvider>
-                              <span class="pb-4 pl-3" v-if="!addSinger3">
+                              <span class="pb-4 pl-3" v-if="!addArtist3">
                                 <v-icon
-                                  @click="addSinger3 = !addSinger3"
+                                  @click="addArtist3 = !addArtist3"
                                   color="green"
                                   style="cursor: pointer"
                                 >mdi-plus-circle-outline</v-icon>
                               </span>
-                              <span class="pb-4 pl-3" v-if="addSinger3">
+                              <span class="pb-4 pl-3" v-if="addArtist3">
                                 <v-icon
-                                  @click="handleRemoveSinger(3)"
+                                  @click="handleRemoveArtist(3)"
                                   color="warning"
                                   style="cursor: pointer"
                                 >mdi-close-circle-outline</v-icon>
                               </span>
                             </div>
                           </v-col>
-                          <v-col cols="12" sm="6" md="6" v-if="addSinger3">
+                          <v-col cols="12" sm="6" md="6" v-if="addArtist3">
                             <div class="d-flex align-end">
                               <ValidationProvider
-                                name="Singer"
+                                name="Name"
                                 rules="required"
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
                                   :error-messages="errors"
-                                  v-model="singer3"
-                                  label="Singer/Rapper"
+                                  v-model="artist3"
+                                  label="Artist"
                                 ></v-text-field>
                               </ValidationProvider>
-                              <span class="pb-4 pl-3" v-if="!addSinger4">
+                              <span class="pb-4 pl-3" v-if="!addArtist4">
                                 <v-icon
-                                  @click="addSinger4 = !addSinger4"
+                                  @click="addArtist4 = !addArtist4"
                                   color="green"
                                   style="cursor: pointer"
                                 >mdi-plus-circle-outline</v-icon>
                               </span>
-                              <span class="pb-4 pl-3" v-if="addSinger4">
+                              <span class="pb-4 pl-3" v-if="addArtist4">
                                 <v-icon
-                                  @click="handleRemoveSinger(4)"
+                                  @click="handleRemoveArtist(4)"
                                   color="warning"
                                   style="cursor: pointer"
                                 >mdi-close-circle-outline</v-icon>
                               </span>
                             </div>
                           </v-col>
-                          <v-col cols="12" sm="6" md="6" v-if="addSinger4">
+                          <v-col cols="12" sm="6" md="6" v-if="addArtist4">
                             <div class="d-flex align-end">
                               <ValidationProvider
-                                name="Singer"
+                                name="Name"
                                 rules="required"
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
                                   :error-messages="errors"
-                                  v-model="singer4"
-                                  label="Singer/Rapper"
+                                  v-model="artist4"
+                                  label="Artist"
                                 ></v-text-field>
                               </ValidationProvider>
                             </div>
@@ -375,17 +375,17 @@ export default {
   },
   data() {
     return {
-      singer: "",
-      singer2: "",
-      singer3: "",
-      singer4: "",
+      artist: "",
+      artist2: "",
+      artist3: "",
+      artist4: "",
       composer: "",
       composer2: "",
       composer3: "",
       composer4: "",
-      addSinger2: false,
-      addSinger3: false,
-      addSinger4: false,
+      addArtist2: false,
+      addArtist3: false,
+      addArtist4: false,
       addComposer2: false,
       addComposer3: false,
       addComposer4: false,
@@ -439,9 +439,9 @@ export default {
       this[`addComposer${index}`] = !this[`addComposer${index}`];
       this[`composer${index}`] = "";
     },
-    handleRemoveSinger(index) {
-      this[`addSinger${index}`] = !this[`addSinger${index}`];
-      this[`singer${index}`] = "";
+    handleRemoveArtist(index) {
+      this[`addArtist${index}`] = !this[`addArtist${index}`];
+      this[`artist${index}`] = "";
     },
     chooseFile() {
       this.$refs.vueFileAgent.$refs.fileInput.click();
@@ -506,10 +506,10 @@ export default {
         { type: "composer", name: this.composer2 },
         { type: "composer", name: this.composer3 },
         { type: "composer", name: this.composer4 },
-        { type: "singer", name: this.singer },
-        { type: "singer", name: this.singer2 },
-        { type: "singer", name: this.singer3 },
-        { type: "singer", name: this.singer4 }
+        { type: "artist", name: this.artist },
+        { type: "artist", name: this.artist2 },
+        { type: "artist", name: this.artist3 },
+        { type: "artist", name: this.artist4 }
       ].filter(person => person.name !== "");
       this.data.audio = this.fileRecordsForUpload[0];
       if (this.data.content === "") this.data.content = "Update later";

@@ -90,7 +90,7 @@ export default {
           authors: [
             {
               _id: "5e9920603c513c2611a9df89",
-              type: "singer",
+              type: "artist",
               name: "Chillies"
             }
           ],
@@ -160,7 +160,7 @@ export default {
           authors: [
             {
               _id: "5e9920603c513c2611a9df89",
-              type: "singer",
+              type: "artist",
               name: "Chillies"
             }
           ],
@@ -230,7 +230,7 @@ export default {
           authors: [
             {
               _id: "5e9920603c513c2611a9df89",
-              type: "singer",
+              type: "artist",
               name: "Chillies"
             }
           ],
@@ -300,7 +300,7 @@ export default {
           authors: [
             {
               _id: "5e9920603c513c2611a9df89",
-              type: "singer",
+              type: "artist",
               name: "Chillies"
             }
           ],
@@ -370,7 +370,7 @@ export default {
           authors: [
             {
               _id: "5e9920603c513c2611a9df89",
-              type: "singer",
+              type: "artist",
               name: "Chillies"
             }
           ],
@@ -440,7 +440,7 @@ export default {
           authors: [
             {
               _id: "5e9920603c513c2611a9df89",
-              type: "singer",
+              type: "artist",
               name: "Chillies"
             }
           ],
