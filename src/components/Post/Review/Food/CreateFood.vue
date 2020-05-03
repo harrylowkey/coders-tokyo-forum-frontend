@@ -214,6 +214,7 @@
                       <v-text-field
                         label="Description"
                         persistent-hint
+                        v-model="data.description"
                         rows="2"
                         hint="Write description to attract people at the first glance"
                       ></v-text-field>
@@ -308,13 +309,10 @@ export default {
       alert: false,
       alertMessage: "",
       maxImages: 20,
-      coAuthor: false,
-      recommender2: false,
       uploadBanner: false,
       user: {
         username: "hong_quang"
       },
-      imgDataUrl: "",
       isPreviewing: false,
       params: {
         token: "123456798",

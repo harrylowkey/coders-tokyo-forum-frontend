@@ -23,7 +23,7 @@ const EditBlog = () => import('@/components/Post/Blog/EditBlog')
 const EditDiscussion = () => import('@/components/Post/Discussion/EditDiscussion')
 const EditBook = () => import('@/components/Post/Review/Book/EditBook')
 const EditMovie = () => import('@/components/Post/Review/Movie/EditMovie')
-
+const EditFood = () => import('@/components/Post/Review/Food/EditFood')
 
 Vue.use(VueRouter)
 
@@ -141,6 +141,11 @@ const routes = [
     path: '/edit/movie/:postId',
     name: 'editMovie',
     component: EditMovie
+  },
+  {
+    path: '/edit/food/:postId',
+    name: 'editFood',
+    component: EditFood
   },
 ]
 
