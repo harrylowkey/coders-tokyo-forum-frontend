@@ -32,9 +32,10 @@
               <v-card-title class="ml-5 headline pt-0">{{ post.song.name}}</v-card-title>
               <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
                 <span style="font-size: 13px" v-for="(author, i) in post.authors" :key="author._id">
-                  {{ author.name }}
+                  <a target="_blank" style="text-decoration: none; color: #000" :href="`/posts?artist=${author.name}&type=podcast`">{{ author.name }}</a>
                   <span
                     style="font-size: 12px"
+                    class="mx-1 font-italic"
                   >{{ isAddFt(i, post.authors.length) }}</span>
                 </span>
               </v-card-subtitle>
@@ -622,6 +623,13 @@ export default {
     AuthorFollowCard,
     PostReactions,
     OtherPostsOfAuthor
+  },
+  mounted() {
+    let waveBar = document.querySelector('canvas');
+    waveBar.style.cursor = 'pointer'
+
+    let songTitle = document.querySelector('.v-card__title')
+    songTitle.style.cursor = 'pointer'
   }
 };
 </script>

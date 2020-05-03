@@ -79,16 +79,17 @@
 
             <v-col cols="9" sm="9" md="7" lg="9" xl="9">
               <v-card-text class="podcast-description pl-0 pt-0">
-                <v-card-title class="ml-5 headline pt-0">{{ post.podcast.name}}</v-card-title>
+                <v-card-title style="cursor: pointer" class="ml-5 headline pt-0">{{ post.podcast.name}}</v-card-title>
                 <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
                   <span
                     style="font-size: 13px"
                     v-for="(author, i) in post.authors"
                     :key="author._id"
                   >
-                    {{ author.name }}
+                   <a target="_blank" style="text-decoration: none; color: #000" :href="`/posts?artist=${author.name}&type=podcast`">{{ author.name }}</a>
                     <span
                       style="font-size: 12px"
+                      class="mx-1 font-italic"
                     >{{ isAddFt(i, post.authors.length) }}</span>
                   </span>
                 </v-card-subtitle>
@@ -394,7 +395,7 @@ export default {
       },
       otherPodcastsOfAuthor: [
         {
-          _id: "5e9920603c513c2611a9df88",
+          _id: "5e992603c513c2611a9df88",
           tags: [
             {
               _id: "5e8c5f27abf7df7d3be426db",
@@ -463,7 +464,7 @@ export default {
           }
         },
         {
-          _id: "5e99202c3c513c2611a9df86",
+          _id: "5e9202c3c513c2611a9df86",
           tags: [
             {
               _id: "5e8c5f27abf7df7d3be426db",
@@ -544,6 +545,7 @@ export default {
       return tags.slice(0, this.maxTags);
     },
     hanldePlayAnotherpodcast(podcastId) {
+      console.log('here')
       this.$router.push({ path: `/podcasts/${podcastId}` });
     },
     toggleShowLyrics() {
