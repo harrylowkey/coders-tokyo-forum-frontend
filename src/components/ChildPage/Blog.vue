@@ -48,6 +48,10 @@
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
                   <read-time class="pl-0" :text="post.content"></read-time>
+                  <edit-delete-btns
+                    @handleEditPost="handleEditPost"
+                    @handleDeletePost="handleDeletePost"
+                  ></edit-delete-btns>
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
                   <tag
@@ -128,6 +132,7 @@ import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
 import { userSocialLinks } from "@/mixins/userSocialLinks";
 import ReadTime from "@/components/Shared/readTime";
 import WriteComment from "@/components/Comment/WriteComment";
+import EditDeleteBtns from '../Post/EditDeleteBtns'
 
 export default {
   mixins: [userSocialLinks],
@@ -510,6 +515,7 @@ export default {
   methods: {},
   components: {
     Tag,
+    EditDeleteBtns,
     ReadTime,
     UserSocialLinks,
     LikeBtn,

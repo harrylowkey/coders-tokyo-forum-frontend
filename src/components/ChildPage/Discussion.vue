@@ -23,19 +23,32 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-card-actions style="padding: 0 25px 0px 6px" class="pb-1 pb-lg-2 d-flex justify-around">
-            <v-card-text
-              class="font-italic font-weight-light pt-0 pb-0"
-              style="font-size: small"
-            >{{ post.createdAt | date }}</v-card-text>
-            <tag
-              v-for="(tag, i) in post.tags"
-              :key="i"
-              class="ml-2"
-              :tagName="tag.tagName"
-              :style="tagStyle"
-              postType="blog"
-            ></tag>
+          <v-card-actions
+            style="padding: 0 25px 0px 6px"
+            class="pb-1 pb-lg-2 d-flex justify-space-between"
+          >
+            <div class="d-flex">
+              <v-card-text
+                class="font-italic font-weight-light pt-0 pb-0"
+                style="font-size: small"
+              >{{ post.createdAt | date }}</v-card-text>
+              <div style="width: 200px">
+                <edit-delete-btns
+                  @handleEditPost="handleEditPost"
+                  @handleDeletePost="handleDeletePost"
+                ></edit-delete-btns>
+              </div>
+            </div>
+            <div>
+              <tag
+                v-for="(tag, i) in post.tags"
+                :key="i"
+                class="ml-2"
+                :tagName="tag.tagName"
+                :style="tagStyle"
+                postType="blog"
+              ></tag>
+            </div>
           </v-card-actions>
         </v-card>
         <v-container>
@@ -95,6 +108,7 @@ import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
 import { userSocialLinks } from "@/mixins/userSocialLinks";
 import ReadTime from "@/components/Shared/readTime";
 import WriteComment from "@/components/Comment/WriteComment";
+import EditDeleteBtns from "../Post/EditDeleteBtns";
 
 export default {
   mixins: [userSocialLinks],
@@ -107,7 +121,7 @@ export default {
             _id: "5e931565701c6a1f851074ec",
             tagName: "javascript"
           },
-           {
+          {
             _id: "5e931565701c6a1f851074ec",
             tagName: "javascript"
           }
@@ -435,6 +449,7 @@ export default {
     UserSocialLinks,
     LikeBtn,
     CommentBtn,
+    EditDeleteBtns,
     UserAvatar,
     FacebookBtn,
     ViewsBtn,

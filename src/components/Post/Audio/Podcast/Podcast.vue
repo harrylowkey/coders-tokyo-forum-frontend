@@ -11,12 +11,10 @@
     <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
       <v-card :elevation="hover ? 10 : 3" :class="{ 'on-hover': hover }" id="audio-card">
         <v-img
-          class="cover"
+          :class="coverClasses"
           src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
           height="200px"
-          @click="togglePlayPause"
-          style="cursor:pointer"
         >
           <v-card-title class="title white--text d-flex flex-column align-start pb-0">
             <router-link class="title-link" :to="podcastLink">
@@ -36,7 +34,7 @@
           </v-card-title>
 
           <div class="align-self-center d-flex justify-center">
-            <v-icon style="color: #fff" size="50">{{ togglePlayPauseIcon }}</v-icon>
+            <v-icon style="color: #fff" size="50"  @click="togglePlayPause">{{ togglePlayPauseIcon }}</v-icon>
           </div>
 
           <div class="audio-btns" :class="{ 'show-btns': hover }">
@@ -173,6 +171,7 @@ export default {
   },
   data() {
     return {
+      coverClasses: ['cover'],
       maxTags: 3,
       togglePlayPauseIcon: "mdi-play-circle-outline",
       volumeIcon: "mdi-volume-high",
@@ -263,8 +262,10 @@ export default {
       //TODO: Cannot pause anoter audio if playing when playing audio
       if (this.togglePlayPauseIcon === "mdi-play-circle-outline") {
         this.togglePlayPauseIcon = "mdi-pause-circle-outline";
+        this.coverClasses.push('none-boder-cover-radius')
         return this.$refs.player.play();
       } else {
+        this.coverClasses.pop()
         this.togglePlayPauseIcon = "mdi-play-circle-outline";
         return this.$refs.player.pause();
       }
@@ -325,6 +326,17 @@ export default {
 #audio-card {
   height: 335px;
   border-radius: 35px;
+}
+
+#audio-card:hover .cover {
+  opacity: 1;
+  border-bottom-left-radius: 0%;
+  border-bottom-right-radius: 0%;
+}
+
+.none-boder-cover-radius {
+  border-bottom-left-radius: 0% !important;
+  border-bottom-right-radius: 0% !important;
 }
 
 .v-card {
@@ -439,10 +451,5 @@ export default {
   border-bottom-left-radius: 50%;
   border-bottom-right-radius: 50%;
   transition: border-radius 0.4s ease-in-out;
-}
-.cover:hover {
-  opacity: 1;
-  border-bottom-left-radius: 0%;
-  border-bottom-right-radius: 0%;
 }
 </style>

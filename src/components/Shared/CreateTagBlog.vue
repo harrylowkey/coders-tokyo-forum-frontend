@@ -5,7 +5,7 @@
       @click="addTag = !addTag"
       style="cursor: pointer"
       class="my-2 ml-0 create-tag"
-      color="red"
+      color="#e57373"
       label
       text-color="white"
     >

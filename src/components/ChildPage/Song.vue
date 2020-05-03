@@ -130,6 +130,12 @@
                   style="font-size: 13px; color: grey; cursor: pointer"
                   class="font-italic mb-0 show-more"
                 >Show less</span>
+                <div class="ml-9 mt-5 d-flex justify-end">
+                  <edit-delete-btns
+                    @handleEditPost="handleEditPost"
+                    @handleDeletePost="handleDeletePost"
+                  ></edit-delete-btns>
+                </div>
               </v-col>
             </v-row>
           </v-container>
@@ -160,11 +166,7 @@
         xl="3"
         class="wrapper-author-follow d-sm-none d-md-flex flex-column"
       >
-        <author-follow-card
-          class="author-follow"
-          :user="user"
-          :description="user.description"
-        ></author-follow-card>
+        <author-follow-card class="author-follow" :user="user" :description="user.description"></author-follow-card>
 
         <div
           v-if="otherSongsOfAuthor.length"
@@ -240,6 +242,8 @@ import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
 import { userSocialLinks } from "@/mixins/userSocialLinks";
 import ReadTime from "@/components/Shared/readTime";
 import WriteComment from "@/components/Comment/WriteComment";
+import EditDeleteBtns from "../Post/EditDeleteBtns";
+
 export default {
   mixins: [userSocialLinks],
   data() {
@@ -506,7 +510,7 @@ export default {
   },
   methods: {
     playAnotherSong(songId) {
-      this.$router.push({ path: `/songs/${songId}`})
+      this.$router.push({ path: `/songs/${songId}` });
     },
     slicedTags(tags) {
       return tags.slice(0, this.maxTags);
@@ -605,6 +609,7 @@ export default {
   components: {
     Tag,
     ReadTime,
+    EditDeleteBtns,
     UserSocialLinks,
     LikeBtn,
     CommentBtn,

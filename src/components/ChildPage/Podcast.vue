@@ -77,7 +77,7 @@
               </v-container>
             </v-col>
 
-            <v-col cols="8" sm="8" md="7" lg="8" xl="8">
+            <v-col cols="9" sm="9" md="7" lg="9" xl="9">
               <v-card-text class="podcast-description pl-0 pt-0">
                 <v-card-title class="ml-5 headline pt-0">{{ post.podcast.name}}</v-card-title>
                 <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
@@ -95,7 +95,12 @@
 
                 <div class="pr-3 pt-5">
                   <v-card-actions class="d-flex ml-5 pt-0">
-                    <tag :tagName="tag.tagName" v-for="(tag, i) in post.tags" :key="i" postType="podcast"></tag>
+                    <tag
+                      :tagName="tag.tagName"
+                      v-for="(tag, i) in post.tags"
+                      :key="i"
+                      postType="podcast"
+                    ></tag>
                   </v-card-actions>
                   <v-spacer></v-spacer>
                 </div>
@@ -150,6 +155,12 @@
                   style="font-size: 13px; color: grey; cursor: pointer"
                   class="font-italic mb-0 show-more"
                 >Show less</span>
+                <div class="ml-9 mt-5 d-flex justify-end">
+                  <edit-delete-btns
+                    @handleEditPost="handleEditPost"
+                    @handleDeletePost="handleDeletePost"
+                  ></edit-delete-btns>
+                </div>
               </v-col>
             </v-row>
           </v-container>
@@ -180,11 +191,7 @@
         xl="3"
         class="wrapper-author-follow d-sm-none d-md-flex flex-column"
       >
-        <author-follow-card
-          class="author-follow"
-          :user="user"
-          :description="user.description"
-        ></author-follow-card>
+        <author-follow-card class="author-follow" :user="user" :description="user.description"></author-follow-card>
 
         <div
           v-if="otherPodcastsOfAuthor.length"
@@ -212,11 +219,7 @@
                 </v-card-title>
 
                 <div class="align-self-center d-flex justify-center mb-2 wrapper-icon">
-                  <v-icon
-                    class="play-icon"
-                    style="color: #fff"
-                    size="50"
-                  >mdi-music-circle-outline</v-icon>
+                  <v-icon class="play-icon" style="color: #fff" size="50">mdi-music-circle-outline</v-icon>
                 </div>
               </v-img>
 
@@ -258,6 +261,8 @@ import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
 import { userSocialLinks } from "@/mixins/userSocialLinks";
 import ReadTime from "@/components/Shared/readTime";
 import WriteComment from "@/components/Comment/WriteComment";
+import EditDeleteBtns from "../Post/EditDeleteBtns";
+
 export default {
   mixins: [userSocialLinks],
   data() {
@@ -539,7 +544,7 @@ export default {
       return tags.slice(0, this.maxTags);
     },
     hanldePlayAnotherpodcast(podcastId) {
-       this.$router.push({ path: `/podcasts/${podcastId}`})
+      this.$router.push({ path: `/podcasts/${podcastId}` });
     },
     toggleShowLyrics() {
       if (this.isShowMore) {
@@ -644,6 +649,7 @@ export default {
   computed: {},
   components: {
     Tag,
+    EditDeleteBtns,
     ReadTime,
     UserSocialLinks,
     LikeBtn,

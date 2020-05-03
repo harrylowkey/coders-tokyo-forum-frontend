@@ -252,6 +252,10 @@
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
                   <read-time class="pl-0" :text="post.content"></read-time>
+                  <edit-delete-btns
+                    @handleEditPost="handleEditPost"
+                    @handleDeletePost="handleDeletePost"
+                  ></edit-delete-btns>
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
                   <tag
@@ -302,9 +306,6 @@
       >
         <author-follow-card
           class="author-follow"
-          :githubLink="userGithub.url"
-          :facebookLink="userFacebook.url"
-          :linkedinLink="userLinkedin.url"
           :user="user"
           :description="user.description"
         ></author-follow-card>
@@ -330,6 +331,7 @@ import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
 import { movieDescription } from "@/mixins/movieDescription";
 import { userSocialLinks } from "@/mixins/userSocialLinks";
 import ReadTime from "@/components/Shared/readTime";
+import EditDeleteBtns from '../Post/EditDeleteBtns'
 
 export default {
   mixins: [movieDescription, userSocialLinks],
@@ -609,6 +611,7 @@ export default {
   methods: {},
   components: {
     Tag,
+    EditDeleteBtns,
     ReadTime,
     UserSocialLinks,
     LikeBtn,
@@ -673,14 +676,6 @@ export default {
 
 .wrapper-icon {
   position: relative;
-}
-
-.icon-container {
-  position: fixed;
-  top: 85px;
-  left: 55px;
-  padding: 20px 10px;
-  height: 300px;
 }
 
 .counter {

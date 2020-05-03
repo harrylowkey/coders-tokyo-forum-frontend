@@ -1,19 +1,19 @@
 <template>
   <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
     <v-card id="song" class="mx-auto pb-4 mb-8" :elevation="hover ? 10 : 3">
-      <aplayer @click="linkToSong" loop="none" :audio="audio" :lrcType="3" />
+      <aplayer @click="linkToSong" loop="none" :audio="audio" :lrcType="0" />
 
       <v-list-item
         three-line
         style="padding: 0 15px 0 15px"
-        class="d-flex flex-wrap justify-center"
+        class="d-flex flex-wrap justify-center align-center"
       >
         <user-social-links
           :socialLinks="socialLinks"
           :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
           :username="'chau_chau'"
         ></user-social-links>
-        <v-card-actions style="margin-right: 25px; height: 30px" class="pb-1 pl-0">
+        <v-card-actions class="pb-1 pl-0 pt-md-0 pt-sm-5">
           <v-card-text
             class="font-italic font-weight-light pt-0 pl-0 pr-0"
             style="font-size: 13px; width: 150px; height: 30px; margin-top: 16px !important; margin-right: 20px"
@@ -25,14 +25,14 @@
             <comment-btn :comments="9"></comment-btn>
           </v-container>
         </v-card-actions>
-        <v-card-actions style="padding: 0;" class="d-flex">
-          <v-spacer></v-spacer>
+        <v-card-actions class="d-flex">
           <tag
-            style="margin-top: 6px"
+            style="margin-top: 6px;"
             :tagName="tag.tagName"
             v-for="(tag, i) in slicedTags"
             :key="i"
             postType="song"
+            
           ></tag>
         </v-card-actions>
       </v-list-item>

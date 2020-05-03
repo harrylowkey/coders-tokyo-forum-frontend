@@ -5,6 +5,7 @@
         <post-reactions
           :likes="post.metadata.likes"
           :saves="post.metadata.saves"
+          :flowers="123"
           :postId="post._id"
         ></post-reactions>
       </v-col>
@@ -226,7 +227,7 @@
           <v-row justify="center">
             <!-- <v-dialog  max-width="700"> -->
             <vue-image-lightbox-carousel
-              ref="lightbox" 
+              ref="lightbox"
               :images="foodPhotos"
               :show="dialog"
               @close="dialog = false"
@@ -274,6 +275,10 @@
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
                   <read-time class="pl-0" :text="post.content"></read-time>
+                  <edit-delete-btns
+                    @handleEditPost="handleEditPost"
+                    @handleDeletePost="handleDeletePost"
+                  ></edit-delete-btns>
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
                   <tag
@@ -307,8 +312,8 @@
           </v-row>
           <v-divider></v-divider>
           <v-row id="other-posts-of-author" v-if="otherBooksOfAuthor.length" class="mb-10">
-            <h1 class="mt-8 mb-3">Other blogs of author</h1>
-            <other-posts-of-author psotType='food' :posts="otherBooksOfAuthor"></other-posts-of-author>
+            <h1 class="mt-8 mb-3">Other blogs</h1>
+            <other-posts-of-author psotType="food" :posts="otherBooksOfAuthor"></other-posts-of-author>
           </v-row>
         </v-container>
       </v-col>
@@ -321,14 +326,7 @@
         xl="3"
         class="wrapper-author-follow d-sm-none d-md-flex"
       >
-        <author-follow-card
-          class="author-follow"
-          :githubLink="userGithub.url"
-          :facebookLink="userFacebook.url"
-          :linkedinLink="userLinkedin.url"
-          :user="user"
-          :description="user.description"
-        ></author-follow-card>
+        <author-follow-card class="author-follow" :user="user" :description="user.description"></author-follow-card>
       </v-col>
     </v-row>
   </div>
@@ -352,6 +350,7 @@ import { foodDescription } from "@/mixins/foodDescription";
 import { userSocialLinks } from "@/mixins/userSocialLinks";
 import ReadTime from "@/components/Shared/readTime";
 import VueImageLightboxCarousel from "vue-image-lightbox-carousel";
+import EditDeleteBtns from '../Post/EditDeleteBtns'
 
 export default {
   mixins: [foodDescription, userSocialLinks],
@@ -609,12 +608,21 @@ export default {
   },
   computed: {},
   created() {
-    this.foodPhotos = this.post.foodPhotos.map(photo => ({ path: photo.secureURL, caption: 'Caption' }))
+    this.foodPhotos = this.post.foodPhotos.map(photo => ({
+      path: photo.secureURL,
+      caption: "Caption"
+    }));
   },
   methods: {
     handleZoomPhoto(photoIndex) {
       this.dialog = !this.dialog;
       this.$refs.lightbox.showImage(photoIndex);
+    },
+    handleEditPost() {
+
+    },
+    handleDeletePost() {
+
     }
   },
   components: {
@@ -626,6 +634,7 @@ export default {
     UserAvatar,
     FacebookBtn,
     ViewsBtn,
+    EditDeleteBtns,
     Comment,
     AuthorProfile,
     AuthorFollowCard,
@@ -684,14 +693,6 @@ export default {
 
 .wrapper-icon {
   position: relative;
-}
-
-.icon-container {
-  position: fixed;
-  top: 85px;
-  left: 55px;
-  padding: 20px 10px;
-  height: 300px;
 }
 
 .counter {
