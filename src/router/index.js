@@ -19,6 +19,7 @@ const PodcastDetails = () => import('@/components/ChildPage/Podcast')
 const DiscussionDetails = () => import('@/components/ChildPage/Discussion')
 const CreatePost = () => import('@/components/Post/CreatePost')
 const EditAudio = () => import('@/components/Post/Audio/EditAudio')
+const EditDiscussion = () => import('@/components/Post/Discussion/EditDiscussion')
 
 Vue.use(VueRouter)
 
@@ -116,6 +117,11 @@ const routes = [
     path: '/edit/audio/:audioId',
     name: 'editAudio',
     component: EditAudio
+  },
+  {
+    path: '/edit/discussion/:discussionId',
+    name: 'editDiscussion',
+    component: EditDiscussion
   },
 ]
 
