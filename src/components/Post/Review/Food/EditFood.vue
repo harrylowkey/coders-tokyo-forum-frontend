@@ -518,6 +518,7 @@ export default {
   created() {
     this.tags = this.post.tags.map(tag => tag.tagName);
     this.foodPhotosConvert = this.post.foodPhotos.map(photo => ({ path: photo.secureURL }))
+    console.log(this.foodPhotosConvert)
   },
   methods: {
     handleAddTag(tag) {

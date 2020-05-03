@@ -24,10 +24,20 @@ const EditDiscussion = () => import('@/components/Post/Discussion/EditDiscussion
 const EditBook = () => import('@/components/Post/Review/Book/EditBook')
 const EditMovie = () => import('@/components/Post/Review/Movie/EditMovie')
 const EditFood = () => import('@/components/Post/Review/Food/EditFood')
+const SignIn = () => import('@/components/Auth/Signin')
+const SignUp = () => import('@/components/Auth/Signup')
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/signin',
+    component: SignIn
+  },
+  {
+    path: '/signup',
+    component: SignUp
+  },
   {
     path: '/',
     component: Stream,

@@ -74,7 +74,7 @@ export default {
   components: {},
   data() {
     return {
-       isSearching: false,
+      isSearching: false,
       search: "",
       sideNav: false,
       dropdownMenus: [
@@ -86,6 +86,10 @@ export default {
   computed: {
     menuItems() {
       let menus = [
+        {
+          title: "Stream",
+          link: "/stream"
+        },
         { title: "Sign up", icon: "how_to_reg", link: "/signup" },
         { title: "Sign in", icon: "lock_open", link: "/signin" }
       ];
@@ -113,7 +117,7 @@ export default {
       return this.$store.dispatch("logOut");
     },
     onClickLogo() {
-      return this.$refs.forumTitle.click()
+      return this.$refs.forumTitle.click();
     },
     onClickAvatar() {
       return this.$router.push({ path: "/profile" });

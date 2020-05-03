@@ -1,6 +1,6 @@
 export default {
   state: {
-    user: 1,
+    user: null,
     authError: false,
     authLoading: false
   },
