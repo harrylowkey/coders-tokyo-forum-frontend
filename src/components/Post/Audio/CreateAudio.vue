@@ -201,7 +201,7 @@
                           <v-col cols="12" sm="6" md="6">
                             <div class="d-flex align-end">
                               <ValidationProvider
-                                name="Composer"
+                                name="Singer"
                                 rules="required"
                                 v-slot="{ errors }"
                               >
@@ -282,21 +282,6 @@
                             placeholder="Markdown"
                           ></v-textarea>
 
-                          <v-dialog v-model="isPreviewing" max-width="800">
-                            <v-card
-                              class="preview px-8 pt-8 pb-5 d-flex flex-column"
-                              style="min-height: 330px;"
-                            >
-                              <p
-                                style="line-height: 1.5"
-                                v-html="$options.filters.markdown(data.content || '')"
-                              ></p>
-                              <v-spacer></v-spacer>
-                              <div class="d-flex justify-end">
-                                <span class="signature">hong_quang</span>
-                              </div>
-                            </v-card>
-                          </v-dialog>
                         </v-col>
                       </v-col>
                     </v-row>
@@ -367,7 +352,6 @@ export default {
         type: ""
       },
       imgDataUrl: "",
-      isPreviewing: false,
       fileRecords: [],
       uploadUrl: "https://www.mocky.io/v2/5d4fb20b3000005c111099e3",
       uploadHeaders: { "X-Test-Header": "vue-file-agent" },
@@ -383,14 +367,6 @@ export default {
   methods: {
     handleAddTag(tag) {
       this.tags.push(tag);
-    },
-    togglePreviewContent() {
-      if (this.isPreviewing) {
-        return (this.isPreviewing = false);
-      }
-      if (!this.isPreviewing && this.data.content.trim() !== "") {
-        return (this.isPreviewing = true);
-      }
     },
     chooseFile() {
       this.$refs.vueFileAgent.$refs.fileInput.click();
