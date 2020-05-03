@@ -55,17 +55,6 @@
                           @handleAddTag="handleAddTag"
                           :tags="tags"
                         ></create-tag-blog>
-                        <v-spacer></v-spacer>
-                        <v-chip
-                          @click="uploadBanner = !uploadBanner"
-                          style="cursor: pointer"
-                          text-color="#fff"
-                          class="ma-2 mr-12"
-                          color="green"
-                          label
-                        >
-                          <v-icon left>mdi-cloud-upload-outline</v-icon>Image
-                        </v-chip>
                       </div>
                     </v-col>
                     <v-col cols="12" class="pt-0">
@@ -327,7 +316,7 @@
                             @click="togglePreviewContent"
                             dark
                           >Preview</v-btn>
-                          <v-btn class="mr-5" color="green" dark @click="submit">Post</v-btn>
+                          <v-btn class="mr-5" color="warning" dark @click="submit">Update</v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
