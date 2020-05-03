@@ -359,7 +359,7 @@
                         </v-card-text>
                         <v-card-actions class="pt-0">
                           <v-spacer></v-spacer>
-                          <v-btn class="mr-5" color="primary" dark @click="submit">Update</v-btn>
+                          <v-btn class="mr-5" color="warning" dark @click="submit">Update</v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>

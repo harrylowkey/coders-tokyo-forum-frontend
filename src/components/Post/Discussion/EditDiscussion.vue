@@ -84,7 +84,7 @@
                     </v-card-text>
                     <v-card-actions class="pt-0">
                       <v-spacer></v-spacer>
-                      <v-btn @click="submit" class="mr-5" color="primary" dark>Update</v-btn>
+                      <v-btn @click="submit" class="mr-5" color="warning" dark>Update</v-btn>
                     </v-card-actions>
                   </div>
                 </v-card>

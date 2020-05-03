@@ -9,7 +9,7 @@ import AudioVisual from 'vue-audio-visual'
 import VueFileAgent from 'vue-file-agent';
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
-
+//TODO: change descripotion text-file to v-textareat with limit words
 import DateFilter from './filters/date'
 import DateTimeFilter from './filters/dateTime'
 import MarkdownFilter from './filters/markdown'
