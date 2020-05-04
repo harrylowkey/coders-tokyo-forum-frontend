@@ -2,14 +2,21 @@ import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
-import store from './store'
+import { store } from './store'
 import vuetify from './plugins/vuetify';
 import APlayer from '@moefe/vue-aplayer';
 import AudioVisual from 'vue-audio-visual'
 import VueFileAgent from 'vue-file-agent';
+import axios from 'axios'
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
+
 //TODO: change descripotion text-file to v-textareat with limit words
+
+axios.defaults.baseURL = 'http://localhost:3000/api/v1'
+axios.defaults.headers.get['Accepts'] = 'application/json'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 import DateFilter from './filters/date'
 import DateTimeFilter from './filters/dateTime'
 import MarkdownFilter from './filters/markdown'

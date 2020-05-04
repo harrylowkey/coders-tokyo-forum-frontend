@@ -12,7 +12,13 @@
                 </v-toolbar>
                 <v-card-text class="pb-0">
                   <v-form>
-                    <v-text-field label="Email" v-model="email" name="email" prepend-icon="person" type="text"></v-text-field>
+                    <v-text-field
+                      label="Email"
+                      v-model="email"
+                      name="email"
+                      prepend-icon="person"
+                      type="text"
+                    ></v-text-field>
                     <v-text-field
                       id="password"
                       label="Password"
@@ -24,9 +30,13 @@
                   </v-form>
                 </v-card-text>
                 <v-card-actions class="pa-4">
-                  <a style="text-decoration: none; font-size: 14px" class="font-italic" href="/signup">Don't have an account yet? </a>
+                  <a
+                    style="text-decoration: none; font-size: 14px"
+                    class="font-italic"
+                    href="/signup"
+                  >Don't have an account yet?</a>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary">Login</v-btn>
+                  <v-btn color="primary" @click="signin">Login</v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -42,9 +52,21 @@ export default {
   data() {
     return {
       drawer: null,
-      email: '',
-      password: ''
+      email: "",
+      password: ""
     };
+  },
+  methods: {
+    signin() {
+      const formData = {
+        email: this.email,
+        password: this.password
+      };
+      this.$store.dispatch("signIn", {
+        email: formData.email,
+        password: formData.password
+      });
+    }
   }
 };
 </script>

@@ -24,10 +24,7 @@
           :key="item.title"
           :to="item.link"
           text
-        >
-          <!-- <v-icon v-if="item.icon" left>{{ item.icon }}</v-icon> -->
-          {{ item.title }}
-        </v-btn>
+        >{{ item.title }}</v-btn>
         <v-menu transition="slide-y-transition" style="top: 48px" open-on-hover>
           <template v-slot:activator="{ on }">
             <v-avatar
@@ -39,7 +36,7 @@
               v-on="on"
             >
               <img
-                src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
+                :src="user.avatar.secureURL"
                 alt="Avatar"
               />
             </v-avatar>
@@ -79,8 +76,9 @@ export default {
       sideNav: false,
       dropdownMenus: [
         { title: "Profile", link: "/profile", icon: "person" },
-        { title: "Create post", link: "create-post", icon: "create" }
-      ]
+        { title: "Create post", link: "post-create", icon: "create" }
+      ],
+      user: {}
     };
   },
   computed: {
@@ -106,15 +104,12 @@ export default {
       return menus;
     },
     userIsAuthenticated() {
-      return (
-        this.$store.getters.user !== null &&
-        this.$store.getters.user !== undefined
-      );
+      return this.$store.getters.user !== null;
     }
   },
   methods: {
     onLogout() {
-      return this.$store.dispatch("logOut");
+      return this.$store.dispatch("logout");
     },
     onClickLogo() {
       return this.$refs.forumTitle.click();
@@ -122,6 +117,10 @@ export default {
     onClickAvatar() {
       return this.$router.push({ path: "/profile" });
     }
+  },
+  created() {
+    this.$store.dispatch("tryAutoSignin");
+    this.user = this.$store.getters.user;
   }
 };
 </script>

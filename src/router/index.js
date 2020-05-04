@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import AuthGuard from './auth-guard'
 const Profile = () => import('@/components/User/Profile')
 const Stream = () => import('@/components/Stream/Stream')
 const Discussions = () => import('@/components/Post/Discussion/Discussions')
@@ -51,6 +52,7 @@ const routes = [
     path: '/post-create',
     name: 'createPost',
     component: CreatePost,
+    beforeEnter: AuthGuard
   },
   {
     path: '/stream/discussions',
@@ -130,17 +132,20 @@ const routes = [
   {
     path: '/edit/audio/:postId',
     name: 'editAudio',
-    component: EditAudio
+    component: EditAudio,
+    beforeEnter: AuthGuard
   },
   {
     path: '/edit/discussion/:postId',
     name: 'editDiscussion',
-    component: EditDiscussion
+    component: EditDiscussion,
+    beforeEnter: AuthGuard
   },
   {
     path: '/edit/blog/:postId',
     name: 'editBlog',
-    component: EditBlog
+    component: EditBlog,
+    beforeEnter: AuthGuard
   },
   {
     path: '/edit/book/:postId',
@@ -150,12 +155,14 @@ const routes = [
   {
     path: '/edit/movie/:postId',
     name: 'editMovie',
-    component: EditMovie
+    component: EditMovie,
+    beforeEnter: AuthGuard
   },
   {
     path: '/edit/food/:postId',
     name: 'editFood',
-    component: EditFood
+    component: EditFood,
+    beforeEnter: AuthGuard
   },
 ]
 
