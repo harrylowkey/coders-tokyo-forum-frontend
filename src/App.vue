@@ -28,7 +28,7 @@
         <v-menu transition="slide-y-transition" style="top: 48px" open-on-hover>
           <template v-slot:activator="{ on }">
             <v-avatar
-              v-if="userIsAuthenticated"
+              v-if="isAuthenticated"
               size="37"
               class="ml-2"
               style="cursor: pointer"
@@ -49,7 +49,7 @@
               <v-list-item-title style="cursor: pointer">{{ item.title }}</v-list-item-title>
             </v-list-item>
             <v-divider></v-divider>
-            <v-list-item @click="onLogout">
+            <v-list-item @click="signOut">
               <v-list-item-icon>
                 <v-icon color="red" size="20">exit_to_app</v-icon>
               </v-list-item-icon>
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   name: "App",
   components: {},
@@ -76,12 +77,12 @@ export default {
       sideNav: false,
       dropdownMenus: [
         { title: "Profile", link: "/profile", icon: "person" },
-        { title: "Create post", link: "post-create", icon: "create" }
+        { title: "Create post", link: "/post-create", icon: "create" }
       ],
-      user: {}
     };
   },
   computed: {
+    ...mapState('auth', ['user', 'isAuthenticated']),
     menuItems() {
       let menus = [
         {
@@ -92,7 +93,7 @@ export default {
         { title: "Sign in", icon: "lock_open", link: "/signin" }
       ];
 
-      if (this.userIsAuthenticated) {
+      if (this.isAuthenticated) {
         menus = [
           {
             title: "Stream",
@@ -103,14 +104,9 @@ export default {
       }
       return menus;
     },
-    userIsAuthenticated() {
-      return this.$store.getters.user !== null;
-    }
   },
   methods: {
-    onLogout() {
-      return this.$store.dispatch("logout");
-    },
+    ...mapActions('auth', ['signOut']),
     onClickLogo() {
       return this.$refs.forumTitle.click();
     },
@@ -118,9 +114,11 @@ export default {
       return this.$router.push({ path: "/profile" });
     }
   },
+  watch: {
+
+  },
   created() {
-    this.$store.dispatch("tryAutoSignin");
-    this.user = this.$store.getters.user;
+    this.$store.dispatch("auth/tryAutoSignIn");
   }
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <notifications class="notif" group="auth" />
     <v-app id="inspire">
       <v-content>
         <v-container fluid fill-height>
@@ -26,6 +27,7 @@
                       prepend-icon="lock"
                       v-model="password"
                       type="password"
+                      @keyup.enter="signIn({ email, password})"
                     ></v-text-field>
                   </v-form>
                 </v-card-text>
@@ -36,7 +38,7 @@
                     href="/signup"
                   >Don't have an account yet?</a>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" @click="signin">Login</v-btn>
+                  <v-btn :disabled="!email || !password" color="primary" @click="signIn({ email, password })">Login</v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -48,28 +50,46 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      drawer: null,
+      alert: false,
+      alertMessage: '',
       email: "",
-      password: ""
+      password: "",
+      redirect: "/stream",
     };
   },
-  methods: {
-    signin() {
-      const formData = {
-        email: this.email,
-        password: this.password
-      };
-      this.$store.dispatch("signIn", {
-        email: formData.email,
-        password: formData.password
-      });
+  computed: {
+    ...mapState("auth", ["isAuthenticated"]),
+    ...mapState("utils", ["errorMes"])
+  },
+  watch: {
+    isAuthenticated(newVal) {
+      if (newVal) {
+        this.$router.push({ path: this.redirect });
+      }
+    },
+    errorMes(newVal) {
+      if (newVal.length) {
+        this.$notify({
+          group: 'auth',
+          type: 'error',
+          title: 'Login failed',
+          text: newVal,
+        });
+      }
     }
+  },
+  methods: {
+    ...mapActions("auth", ["signIn"])
   }
 };
 </script>
 
 <style>
+.notif {
+  margin-top: 60px
+}
 </style>

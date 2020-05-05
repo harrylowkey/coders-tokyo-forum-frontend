@@ -1,5 +1,6 @@
 <template>
   <v-container fluid style="padding: 0 !important">
+    <notifications class="notif" group="auth" />
     <app-banner></app-banner>
     <v-divider></v-divider>
     <v-divider inset></v-divider>
@@ -55,7 +56,8 @@ export default {
   data() {
     return {
       changeLayout: false,
-      activePage: "Discussions"
+      activePage: "Discussions",
+      isWelcomeLogin: false
     };
   },
   methods: {
@@ -63,12 +65,26 @@ export default {
       return (this.activePage = page);
     }
   },
-  beforeOuteLeave(to, from, next) {
-    if (to.path !== "/stream") this.changeLayout = true;
+  beforeRouteEnter(to, from, next) {
+    if (from.path === "/signin") {
+      return next(vm => (vm.isWelcomeLogin = true) )
+    }
     next();
+  },
+  mounted() {
+    if (this.isWelcomeLogin) {
+      this.$notify({
+        group: "auth",
+        type: "success",
+        title: "Login success"
+      });
+    }
   }
 };
 </script>
 
 <style>
+.notif {
+  margin-top: 60px;
+}
 </style>

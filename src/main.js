@@ -10,6 +10,7 @@ import VueFileAgent from 'vue-file-agent';
 import axios from 'axios'
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import Notifications from 'vue-notification';
 
 //TODO: change descripotion text-file to v-textareat with limit words
 
@@ -33,6 +34,8 @@ Vue.filter('readTime', ReadTimeFilter)
 
 Vue.component('app-alert', AlertCmp)
 Vue.component('app-banner', Banner)
+
+Vue.use(Notifications);
 
 Vue.use(APlayer, {
   defaultCover: 'https://github.com/u3u.png',
