@@ -79,10 +79,11 @@ export default {
         { title: "Profile", link: "/profile", icon: "person" },
         { title: "Create post", link: "/post-create", icon: "create" }
       ],
+      redirect: '/stream'
     };
   },
   computed: {
-    ...mapState('auth', ['user', 'isAuthenticated']),
+    ...mapState('user', ['user', 'isAuthenticated']),
     menuItems() {
       let menus = [
         {
@@ -106,7 +107,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('auth', ['signOut']),
+    ...mapActions('user', ['signOut']),
     onClickLogo() {
       return this.$refs.forumTitle.click();
     },
@@ -115,10 +116,14 @@ export default {
     }
   },
   watch: {
-
+    isAuthenticated(newVal) {
+      if (newVal) {
+         this.$router.push({ path: this.redirect });
+      }
+    }
   },
   created() {
-    this.$store.dispatch("auth/tryAutoSignIn");
+    this.$store.dispatch("user/tryAutoSignIn");
   }
 };
 </script>

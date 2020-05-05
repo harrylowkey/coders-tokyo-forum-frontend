@@ -62,7 +62,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("auth", ["isAuthenticated"]),
+    ...mapState("user", ["isAuthenticated"]),
     ...mapState("utils", ["errorMes"])
   },
   watch: {
@@ -83,7 +83,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("auth", ["signIn"])
+    ...mapActions("user", ["signIn"])
   }
 };
 </script>

@@ -90,7 +90,7 @@
       ></food>
 
       <song
-      class="song"
+        class="song"
         v-if="post.type === 'song'"
         :key="post._id"
         :_id="post._id"
@@ -108,6 +108,7 @@
         :updatedAt="post.updatedAt"
         :media="post.media"
         :metadata="post.metadata"
+        :audio="post.song"
       ></song>
     </v-container>
   </v-container>
@@ -133,14 +134,14 @@ export default {
     return {
       data: [
         {
-          _id: "5e992003c513c2611a9df88",
+          _id: "5e992603c513c2611a9df88",
           tags: [
             {
               _id: "5e8c5f27abf7df7d3be426db",
               tagName: "aucoustic"
             },
             {
-              _id: "5e8c5f27abf7df7d3be426dc",
+              _id: "5e8c5f27abf7df7d3e426dc",
               tagName: "tinh ca"
             }
           ],
@@ -150,6 +151,11 @@ export default {
               _id: "5e9920603c513c2611a9df89",
               type: "artist",
               name: "Chillies"
+            },
+            {
+              _id: "5e9920603c513c26119df89",
+              type: "artist",
+              name: "ChilliesB"
             }
           ],
           likes: [],
@@ -157,7 +163,8 @@ export default {
           userId: "5e8b577f1a2dde32298795f4",
           topic: " Memories place",
           description: "Rock Ballad",
-          content: "lyric",
+          content:
+            "\nLyrics :  \nAnh sẽ mang tên em vào trong mixtape  \nSau đêm nay chỉ mong em vui lên  \nI see you wanna be mah girl  \nVà nếu em là mãi mãi\n\nJust let me show you what love really do  \nHaving the best moment for me n you  \nSo what you say girl  \nWill you be my world ?  \nHold my hand and feel my love\n\nĐôi chân phiêu du anh đưa tay tới nơi phía chân trời  \nLặng nhìn bầu trời vàng trong hoàng hôn  \nCho nỗi nhớ em thêm đầy vơi  \nBaby tell me you feel the same  \nCause I wanna be your man  \nGive me one more chance  \nTo be with you again  \nI wanna see you on the night\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.\n\nTên của em nó nằm trong bảng chữ cái A B C  \nVà Mr Yanbi đã nhắc tên em ở trong một cái MP3  \nSẽ là một nơi em đến  \nBao nhiêu người xung quanh yêu mến  \nAnh thắp chút ánh nến hòa với đôi môi em ngọt như là bánh Cookie Cookie  \nChỉ cần có em bay theo điệu nhạc với một chiếc bút bi bút bi  \nAnh sẽ hát bài ca này trên Radio và TV  \nGhi dấu lại những dòng tâm tư và thu vào trong cái CD  \nLet me see you babe girl  \nEm đẹp xinh khiến anh ngẩn ngơ  \nMọi thứ cứ xảy ra như thế vì đâu ai ngờ  \nNgay bây giờ ngay từng nhịp điệu anh viết chắc em nghĩ anh là Florida  \nVì em đẹp hơn cả Nexttop Model  \nEm sẽ phải sống ra sao khi trong cơn say này xô bồ  \nKhi T-Akayz in da track  \nEm không yêu chỉ còn 1 cách  \nEm sẽ không thể quên được anh đâu  \nMây mưa trăng sao mình bên nhau  \nVà đêm từng đêm về  \nEm ơi không cần câu nệ  \nNow let me see ya overnight\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.",
           type: "song",
           media: {
             _id: "5e99206e3c513c2611a9df8a",
@@ -185,6 +192,13 @@ export default {
             updatedAt: "2020-04-17T03:20:14.881Z",
             __v: 0
           },
+          song: {
+            name: "Memories place",
+            artist: "Chillies",
+            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
+            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
+          },
           createdAt: "2020-04-17T03:20:14.886Z",
           updatedAt: "2020-04-17T03:20:14.886Z",
           metadata: {
@@ -195,51 +209,52 @@ export default {
           }
         },
         {
-          _id: "5e99202c3c513c2611a9df86",
+          _id: "5e9920603c513c269df88",
           tags: [
             {
               _id: "5e8c5f27abf7df7d3be426db",
-              tagName: "rock"
+              tagName: "aucoustic"
             },
             {
-              _id: "5e8c5f27abf7df7d3be426dc",
-              tagName: "rockballad"
+              _id: "5e8c5f27abf7df7d3e426dc",
+              tagName: "tinh ca"
             }
           ],
           comments: [],
           authors: [
             {
-              _id: "5e8c5f27abf7df7d3be426dd",
+              _id: "5e9920603c513c2611a9df89",
               type: "artist",
-              name: "Sweettie"
+              name: "Chillies"
             },
             {
-              _id: "5e8c5f27abf7df7d3be426de",
-              type: "composer",
-              name: "Sweettie"
+              _id: "5e9920603c513c26119df89",
+              type: "artist",
+              name: "ChilliesB"
             }
           ],
           likes: [],
           savedBy: [],
           userId: "5e8b577f1a2dde32298795f4",
-          topic: "The last time",
-          description: "A good song",
-          content: "lyric",
+          topic: " Memories place",
+          description: "Rock Ballad",
+          content:
+            "\nLyrics :  \nAnh sẽ mang tên em vào trong mixtape  \nSau đêm nay chỉ mong em vui lên  \nI see you wanna be mah girl  \nVà nếu em là mãi mãi\n\nJust let me show you what love really do  \nHaving the best moment for me n you  \nSo what you say girl  \nWill you be my world ?  \nHold my hand and feel my love\n\nĐôi chân phiêu du anh đưa tay tới nơi phía chân trời  \nLặng nhìn bầu trời vàng trong hoàng hôn  \nCho nỗi nhớ em thêm đầy vơi  \nBaby tell me you feel the same  \nCause I wanna be your man  \nGive me one more chance  \nTo be with you again  \nI wanna see you on the night\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.\n\nTên của em nó nằm trong bảng chữ cái A B C  \nVà Mr Yanbi đã nhắc tên em ở trong một cái MP3  \nSẽ là một nơi em đến  \nBao nhiêu người xung quanh yêu mến  \nAnh thắp chút ánh nến hòa với đôi môi em ngọt như là bánh Cookie Cookie  \nChỉ cần có em bay theo điệu nhạc với một chiếc bút bi bút bi  \nAnh sẽ hát bài ca này trên Radio và TV  \nGhi dấu lại những dòng tâm tư và thu vào trong cái CD  \nLet me see you babe girl  \nEm đẹp xinh khiến anh ngẩn ngơ  \nMọi thứ cứ xảy ra như thế vì đâu ai ngờ  \nNgay bây giờ ngay từng nhịp điệu anh viết chắc em nghĩ anh là Florida  \nVì em đẹp hơn cả Nexttop Model  \nEm sẽ phải sống ra sao khi trong cơn say này xô bồ  \nKhi T-Akayz in da track  \nEm không yêu chỉ còn 1 cách  \nEm sẽ không thể quên được anh đâu  \nMây mưa trăng sao mình bên nhau  \nVà đêm từng đêm về  \nEm ơi không cần câu nệ  \nNow let me see ya overnight\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.",
           type: "song",
           media: {
-            _id: "5e9920363c513c2611a9df87",
+            _id: "5e99206e3c513c2611a9df8a",
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093557/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093558.mp3",
+              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614.mp3",
             publicId:
-              "Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093558",
+              "Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614",
             fileName: "hongquang_podcast_Vung Ky Uc - Chillies",
             sizeBytes: 4835851,
             userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e99202c3c513c2611a9df86",
+            postId: "5e9920603c513c2611a9df88",
             resourceType: "video",
             media: {
               type: "upload",
-              signature: "1f824197f0826b949e90ed5a78544ba7c268d52a",
+              signature: "b1cd21b54d3ac48aab7b3097fe59957cb525e614",
               width: 500,
               height: 500,
               format: "mp3",
@@ -248,12 +263,19 @@ export default {
               bit_rate: 129717,
               duration: 298.24
             },
-            createdAt: "2020-04-17T03:19:18.857Z",
-            updatedAt: "2020-04-17T03:19:18.857Z",
+            createdAt: "2020-04-17T03:20:14.881Z",
+            updatedAt: "2020-04-17T03:20:14.881Z",
             __v: 0
           },
-          createdAt: "2020-04-17T03:19:18.881Z",
-          updatedAt: "2020-04-17T03:19:18.881Z",
+          song: {
+            name: "Memories place",
+            artist: "Chillies",
+            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
+            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
+          },
+          createdAt: "2020-04-17T03:20:14.886Z",
+          updatedAt: "2020-04-17T03:20:14.886Z",
           metadata: {
             _id: "5e9494fe935dfb5ed30435",
             comments: 123,
@@ -509,14 +531,14 @@ export default {
           }
         },
         {
-          _id: "5e990603c513c2611a9df88",
+          _id: "920603c513c2611a9df88",
           tags: [
             {
               _id: "5e8c5f27abf7df7d3be426db",
               tagName: "aucoustic"
             },
             {
-              _id: "5e8c5f27abf7df7d3be426dc",
+              _id: "5e8c5f27abf7df7d3e426dc",
               tagName: "tinh ca"
             }
           ],
@@ -526,6 +548,11 @@ export default {
               _id: "5e9920603c513c2611a9df89",
               type: "artist",
               name: "Chillies"
+            },
+            {
+              _id: "5e9920603c513c26119df89",
+              type: "artist",
+              name: "ChilliesB"
             }
           ],
           likes: [],
@@ -533,7 +560,8 @@ export default {
           userId: "5e8b577f1a2dde32298795f4",
           topic: " Memories place",
           description: "Rock Ballad",
-          content: "lyric",
+          content:
+            "\nLyrics :  \nAnh sẽ mang tên em vào trong mixtape  \nSau đêm nay chỉ mong em vui lên  \nI see you wanna be mah girl  \nVà nếu em là mãi mãi\n\nJust let me show you what love really do  \nHaving the best moment for me n you  \nSo what you say girl  \nWill you be my world ?  \nHold my hand and feel my love\n\nĐôi chân phiêu du anh đưa tay tới nơi phía chân trời  \nLặng nhìn bầu trời vàng trong hoàng hôn  \nCho nỗi nhớ em thêm đầy vơi  \nBaby tell me you feel the same  \nCause I wanna be your man  \nGive me one more chance  \nTo be with you again  \nI wanna see you on the night\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.\n\nTên của em nó nằm trong bảng chữ cái A B C  \nVà Mr Yanbi đã nhắc tên em ở trong một cái MP3  \nSẽ là một nơi em đến  \nBao nhiêu người xung quanh yêu mến  \nAnh thắp chút ánh nến hòa với đôi môi em ngọt như là bánh Cookie Cookie  \nChỉ cần có em bay theo điệu nhạc với một chiếc bút bi bút bi  \nAnh sẽ hát bài ca này trên Radio và TV  \nGhi dấu lại những dòng tâm tư và thu vào trong cái CD  \nLet me see you babe girl  \nEm đẹp xinh khiến anh ngẩn ngơ  \nMọi thứ cứ xảy ra như thế vì đâu ai ngờ  \nNgay bây giờ ngay từng nhịp điệu anh viết chắc em nghĩ anh là Florida  \nVì em đẹp hơn cả Nexttop Model  \nEm sẽ phải sống ra sao khi trong cơn say này xô bồ  \nKhi T-Akayz in da track  \nEm không yêu chỉ còn 1 cách  \nEm sẽ không thể quên được anh đâu  \nMây mưa trăng sao mình bên nhau  \nVà đêm từng đêm về  \nEm ơi không cần câu nệ  \nNow let me see ya overnight\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.",
           type: "song",
           media: {
             _id: "5e99206e3c513c2611a9df8a",
@@ -560,6 +588,13 @@ export default {
             createdAt: "2020-04-17T03:20:14.881Z",
             updatedAt: "2020-04-17T03:20:14.881Z",
             __v: 0
+          },
+          song: {
+            name: "Memories place",
+            artist: "Chillies",
+            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
+            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
           },
           createdAt: "2020-04-17T03:20:14.886Z",
           updatedAt: "2020-04-17T03:20:14.886Z",
@@ -650,13 +685,12 @@ export default {
   },
   methods: {
     calWidth(type) {
-      if (type === 'song') return { width: '40% !important'}
-      return { width: '100%'}
+      if (type === "song") return { width: "40% !important" };
+      return { width: "100%" };
     }
   }
 };
 </script>
 
 <style>
-
 </style>

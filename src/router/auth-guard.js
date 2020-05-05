@@ -1,7 +1,7 @@
-import auth from '../store/auth'
+import getters from '../store/getters'
 
 export default (to, from, next) => {
-  if (auth.getters.user) {
+  if (getters.user) {
     return next()
   } else {
     return next('/signin')

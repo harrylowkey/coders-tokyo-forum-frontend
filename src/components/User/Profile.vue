@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <notifications class="notif" group="upload" />
     <v-row>
       <v-col cols="12" sm="8">
         <profile-tabs></profile-tabs>
@@ -20,169 +21,184 @@
                 </v-card-actions>
               </v-list-item-content>
               <my-upload
-                field="img"
+                field="path"
                 @crop-success="cropSuccess"
                 @crop-upload-success="cropUploadSuccess"
                 @crop-upload-fail="cropUploadFail"
                 v-model="dialogUploadAvatar"
                 :width="400"
                 :height="400"
-                url="/upload"
-                :params="params"
+                url="http://localhost:3000/api/v1/users/avatars"
                 :headers="headers"
                 img-format="jpg"
                 langType="en"
               ></my-upload>
               <v-dialog v-model="showAvatar" max-width="400">
-                <v-card style="height: 400 !important">
+                <v-card style="height: 400 !important:" class="d-flex jutify-center">
                   <v-img
                     :src="user.avatar.secureURL"
-                    height="100%"
-                    width="100%"
+                    height="80%"
+                    width="80%"
                     class="avatar"
                     style="cursor: pointer"
                     @click="showAvatar =! showAvatar"
                   ></v-img>
                 </v-card>
               </v-dialog>
-              <v-dialog v-model="dialogChangePassword" persistent max-width="600px">
-                <v-card>
-                  <v-card-title>
-                    <span class="headline">Change Password</span>
-                  </v-card-title>
-                  <v-card-text class="pb-0">
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" sm="11">
-                          <v-text-field
-                            v-model="oldPassword"
-                            label="Old Password*"
-                            type="password"
-                            required
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="11">
-                          <v-text-field
-                            v-model="newPassword"
-                            label="New password*"
-                            type="password"
-                            required
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="11">
-                          <v-text-field
-                            v-model="confirmPassword"
-                            label="Confirm password*"
-                            type="password"
-                            required
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-card-text>
-                  <v-card-actions class="pt-0">
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="dialogChangePassword = false">Close</v-btn>
-                    <v-btn color="blue darken-1" text @click="dialogChangePassword = false">Save</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
               <v-card-text class="px-8 py-1">
-                <v-form>
+                <v-form v-if="!isEdit">
                   <v-row>
-                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
+                    <v-col
+                      class="col"
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      lg="3"
+                      :style="propertyUserInfoStyle"
+                    >
                       <v-subheader class="pa-0">Username</v-subheader>
                     </v-col>
-                    <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0;">
-                      <v-text-field v-if="isEdit" :value="user.username" class="pt-0"></v-text-field>
-                      <p class="mb-0 user-info" v-else>{{ user.username }}</p>
+                    <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0;">
+                      <p class="mb-0 user-info">{{ user.username }}</p>
                     </v-col>
 
-                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
+                    <v-col
+                      class="col"
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      lg="3"
+                      :style="propertyUserInfoStyle"
+                    >
                       <v-subheader class="pa-0">Email</v-subheader>
                     </v-col>
-                    <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
-                      <v-text-field v-if="isEdit" :value="user.email" class="pt-0"></v-text-field>
-                      <p class="mb-0 user-info" v-else>{{ user.email }}</p>
+                    <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
+                      <p class="mb-0 user-info">{{ user.email }}</p>
                     </v-col>
 
-                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
+                    <v-col
+                      class="col"
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      lg="3"
+                      :style="propertyUserInfoStyle"
+                    >
                       <v-subheader class="pa-0">Password</v-subheader>
                     </v-col>
 
-                    <v-col cols="12" sm="9" md="7" style="padding: 0">
+                    <v-col class="col" cols="12" sm="9" md="7" style="padding: 0">
                       <v-text-field
                         readonly
-                        :rules="[rules.required, rules.min]"
-                        :type="isEditPassword ? 'text' : 'password'"
+                        type="password"
                         name="input-10-2"
                         :value="'password'"
-                        @click:append="isEditPassword = !isEditPassword"
                         class="pt-0"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="3" md="2">
-                      <v-btn
-                        icon
-                        v-if="isOwner"
-                        @click="dialogChangePassword = !dialogChangePassword"
-                      >
-                        <v-icon size="20" color="red">lock</v-icon>
-                      </v-btn>
+
+                    <v-col
+                      class="col"
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      lg="3"
+                      :style="propertyUserInfoStyle"
+                    >
+                      <v-subheader class="pa-0">Github</v-subheader>
+                    </v-col>
+                    <v-col class="col" cols="12" sm="12" md="12" lg="9" :style="socialLinksStyle">
+                      <a :href="userGithub.url" target="_blank">{{ userGithub.url }}</a>
                     </v-col>
 
-                    <v-row class="px-3" v-for="link in user.socialLinks" :key="link._id">
-                      <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
-                        <v-subheader class="pa-0">{{ link.type }}</v-subheader>
-                      </v-col>
-                      <v-col cols="12" sm="12" md="12" lg="9" :style="socialLinksStyle">
-                        <v-text-field
-                          v-if="isEdit"
-                          :value="link.url"
-                          :disabled="!isEdit"
-                          class="pt-0"
-                        ></v-text-field>
-                        <a v-else :href="link.url" target="_blank">{{ link.url }}</a>
-                      </v-col>
-                    </v-row>
+                    <v-col
+                      class="col"
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      lg="3"
+                      :style="propertyUserInfoStyle"
+                    >
+                      <v-subheader class="pa-0">Facebook</v-subheader>
+                    </v-col>
+                    <v-col class="col" cols="12" sm="12" md="12" lg="9" :style="socialLinksStyle">
+                      <a :href="userFacebook.url" target="_blank">{{ userFacebook.url }}</a>
+                    </v-col>
 
-                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
+                    <v-col
+                      class="col"
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      lg="3"
+                      :style="propertyUserInfoStyle"
+                    >
+                      <v-subheader class="pa-0">Linked</v-subheader>
+                    </v-col>
+                    <v-col class="col" cols="12" sm="12" md="12" lg="9" :style="socialLinksStyle">
+                      <a :href="userLinkedin.url" target="_blank">{{ userLinkedin.url }}</a>
+                    </v-col>
+
+                    <v-col
+                      class="col"
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      lg="3"
+                      :style="propertyUserInfoStyle"
+                    >
                       <v-subheader class="pa-0">Sex</v-subheader>
                     </v-col>
-                    <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
-                      <v-radio-group v-if="isEdit" v-model="user.sex" row>
-                        <v-radio label="Male" value="Male"></v-radio>
-                        <v-radio label="Female" value="Female"></v-radio>
-                        <v-radio label="Unknown" value="Unknown"></v-radio>
-                      </v-radio-group>
-                      <p v-else class="user-info">{{ user.sex }}</p>
+                    <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
+                      <p class="user-info">{{ user.sex }}</p>
                     </v-col>
 
-                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
+                    <v-col
+                      class="col"
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      lg="3"
+                      :style="propertyUserInfoStyle"
+                    >
                       <v-subheader class="pa-0">Job</v-subheader>
                     </v-col>
-                    <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
-                      <v-text-field v-if="isEdit" :value="user.job" class="pt-0"></v-text-field>
-                        <p v-else class="user-info">{{ user.job }}</p>
+                    <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
+                      <p class="user-info">{{ user.job }}</p>
                     </v-col>
 
-                    <v-col cols="12" sm="12" md="12" lg="3" :style="propertyUserInfoStyle">
+                    <v-col
+                      class="col"
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      lg="3"
+                      :style="propertyUserInfoStyle"
+                    >
                       <v-subheader class="pa-0">Date join</v-subheader>
                     </v-col>
-                    <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
+                    <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
                       <p class="pt-0 user-info">{{ user.createdAt | date }}</p>
                     </v-col>
                   </v-row>
                 </v-form>
+                <edit-profile
+                  v-else
+                  :user="user"
+                  :userGithub="userGithub"
+                  :userFacebook="userFacebook"
+                  :userLinkedin="userLinkedin"
+                  @handleUpdateProfile="handleUpdateProfile"
+                  @handleCancelEditProfile="handleCancelEditProfile"
+                ></edit-profile>
               </v-card-text>
-              <v-card-actions class="pt-0">
-                <v-row v-if="isEdit">
-                  <v-col class="d-flex justify-center" cols="12" offset-sm="1" sm="12">
-                    <v-btn color="success" class="mr-4">Update</v-btn>
-                  </v-col>
-                </v-row>
-                <v-spacer v-if="!isEdit"></v-spacer>
-                <v-btn icon v-if="isOwner" @click="isEdit = !isEdit">
+              <v-card-actions class="pt-0 pb-5 d-flex justify-end">
+                <v-btn
+                  class="edit-btn-profile"
+                  icon
+                  v-if="isOwner && !isEdit"
+                  @click="isEdit = !isEdit"
+                >
                   <v-icon color="primary">edit</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -209,13 +225,13 @@
                 </v-form>
               </v-card-text>
               <v-card-actions class="pt-0">
-                <v-row v-if="isUpdateDescription">
-                  <v-col class="d-flex justify-center" cols="12" offset-sm="1" sm="12">
-                    <v-btn color="success" class="mr-4">Update</v-btn>
-                  </v-col>
-                </v-row>
                 <v-spacer v-if="!isUpdateDescription"></v-spacer>
-                <v-btn icon v-if="isOwner" @click="isUpdateDescription = !isUpdateDescription">
+                <v-btn
+                  class="edit-btn-description"
+                  icon
+                  v-if="isOwner && !isUpdateDescription"
+                  @click="isUpdateDescription = !isUpdateDescription"
+                >
                   <v-icon color="primary">edit</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -230,40 +246,12 @@
 <script>
 import ProfileTabs from "./ProfileTabs";
 import myUpload from "vue-image-crop-upload";
-import { uploadBanner } from "@/mixins/uploadBanner";
+import EditProfile from "./EditProfile";
+import { mapActions, mapState } from "vuex";
 export default {
-  mixins: [uploadBanner],
   data() {
     return {
-      user: {
-        _id: "5e8b577f1a2dde32298795f4",
-        hobbies: ["music, reading book"],
-        username: "hongquang",
-        password: "hell0aA@",
-        email: "quang.dang@homa.company",
-        socialLinks: [
-          {
-            _id: "5e8f536b0416274996f69e75",
-            type: "Github",
-            url: "https://github.com/hongquangraem"
-          },
-          {
-            _id: "5e8f536b0416274996f69e76",
-            type: "Facebook",
-            url: "https://facebook.com/spaceraem"
-          }
-        ],
-        createdAt: "2020-04-06T16:23:27.385Z",
-        updatedAt: "2020-04-13T14:43:32.772Z",
-        job: "Developer",
-        sex: "Male",
-        avatar: {
-          secureURL:
-            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-        },
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed? Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
-      },
+      user: {},
       propertyUserInfoStyle: {
         paddingLeft: "1px",
         paddingTop: 0,
@@ -271,31 +259,50 @@ export default {
         paddingRight: 0
       },
       isEdit: false,
-      rules: {
-        required: value => !!value || "Required.",
-        min: v => v.length >= 8 || "Min 8 characters"
-      },
-      isEditPassword: false,
       dialogUploadAvatar: false,
-      dialogChangePassword: false,
       loadingImageUpload: false,
       src: "",
-      newPassword: "",
-      confirmPassword: "",
-      oldPassword: "",
       isUpdateDescription: false,
       imgDataUrl: "",
-      params: {
-        token: "123456798",
-        name: "avatar"
-      },
+      dataUpdate: {},
       headers: {
-        smail: "*_~"
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOGI1NzdmMWEyZGRlMzIyOTg3OTVmNCIsImVtYWlsIjoicXVhbmcuZGFuZ0Bob21hLmNvbXBhbnkiLCJpYXQiOjE1ODg2NTMxODMsImV4cCI6MTU4ODY2MDM4M30.voYkKVUkSFvkIWdmIqfS-cXu91oa1r5pfbaflUnduBQ"
       },
-      showAvatar: false
+      showAvatar: false,
+      avatarImg: "",
+      userGithub: {
+        type: "Github",
+        url: ""
+      },
+      userFacebook: {
+        type: "Facebook",
+        url: ""
+      },
+      userLinkedin: {
+        type: "Linkedin",
+        url: ""
+      }
     };
   },
+  created() {
+    this.user = this.$store.getters.user;
+    this.userGithub =
+      this.user.socialLinks.find(link => link.type === "Github") ||
+      this.userGithub;
+    this.userFacebook =
+      this.user.socialLinks.find(link => link.type === "Facebook") ||
+      this.userFacebook;
+    this.userLinkedin =
+      this.user.socialLinks.find(link => link.type === "Linkedin") ||
+      this.userLinkedin;
+  },
   computed: {
+    ...mapState("utils", ["errorMes", "isLoading"]),
+    ...mapState("users", ["accessToken"]),
+    bindHeader() {
+      this.headers = { Authorization: `Bearer ${this.accessToken}` };
+    },
     isOwner() {
       return true;
     },
@@ -316,7 +323,20 @@ export default {
       return this.loadingImageUpload;
     }
   },
+  watch: {
+    errorMes(newVal) {
+      if (newVal.length) {
+        this.$notify({
+          group: "auth",
+          type: "error",
+          title: "Update failed",
+          text: newVal
+        });
+      }
+    }
+  },
   methods: {
+    ...mapActions("user", ["uploadAvatar", "updateProfile"]),
     onPickFile() {
       this.$refs.fileInput.click();
     },
@@ -334,11 +354,52 @@ export default {
       });
       fileReader.readAsDataURL(files[0]);
       this.image = files[0];
+      console.log("image", this.image);
+    },
+    cropSuccess(imgDataUrl, field) {
+      this.avatarImg = imgDataUrl;
+    },
+    cropUploadSuccess(jsonData, field) {
+      this.$notify({
+        group: "upload",
+        type: "success",
+        title: "Update avatar success"
+      });
+      this.uploadAvatar({ data: jsonData.data });
+    },
+    cropUploadFail(status, field) {
+      this.$notify({
+        group: "upload",
+        type: "error",
+        title: "Update avatar failed"
+      });
+    },
+    async handleUpdateProfile(res) {
+      if (res.status === 200) {
+        this.$notify({
+          group: "upload",
+          type: "success",
+          title: "Update profile success"
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          group: "upload",
+          type: "error",
+          title: "Update profile failed"
+        });
+      }
+      this.user = res.data
+      this.isEdit = false;
+    },
+    handleCancelEditProfile() {
+      this.isEdit = false;
     }
   },
   components: {
     ProfileTabs,
-    myUpload
+    myUpload,
+    EditProfile
   }
 };
 </script>
@@ -355,7 +416,36 @@ export default {
 }
 
 .user-info {
-  margin-top: 13px; 
-  color: #000
+  margin-top: 13px;
+  color: #000;
+}
+
+.edit-btn-description {
+  opacity: 0;
+  transition: 600ms;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.edit-btn-profile {
+  opacity: 0;
+  transition: 600ms;
+  transition: 600ms;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.profile-details:hover .edit-btn-profile {
+  opacity: 1;
+}
+
+.profile-introduction:hover .edit-btn-description {
+  opacity: 1;
+}
+
+.col {
+  height: 40px !important;
 }
 </style>

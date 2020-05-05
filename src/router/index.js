@@ -92,7 +92,8 @@ const routes = [
   {
     path: '/profile',
     name: 'profile',
-    component: Profile
+    component: Profile,
+    beforeEnter: AuthGuard
   },
   {
     path: '/discussions/:id',
