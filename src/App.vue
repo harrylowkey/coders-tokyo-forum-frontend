@@ -79,7 +79,6 @@ export default {
         { title: "Profile", link: "/profile", icon: "person" },
         { title: "Create post", link: "/post-create", icon: "create" }
       ],
-      redirect: '/stream'
     };
   },
   computed: {
@@ -113,13 +112,6 @@ export default {
     },
     onClickAvatar() {
       return this.$router.push({ path: "/profile" });
-    }
-  },
-  watch: {
-    isAuthenticated(newVal) {
-      if (newVal) {
-         this.$router.push({ path: this.redirect });
-      }
     }
   },
   created() {

@@ -21,7 +21,7 @@
                 </v-card-actions>
               </v-list-item-content>
               <my-upload
-                field="path"
+                field="avatar"
                 @crop-success="cropSuccess"
                 @crop-upload-success="cropUploadSuccess"
                 @crop-upload-fail="cropUploadFail"
@@ -133,7 +133,7 @@
                       lg="3"
                       :style="propertyUserInfoStyle"
                     >
-                      <v-subheader class="pa-0">Linked</v-subheader>
+                      <v-subheader class="pa-0">Linkedin</v-subheader>
                     </v-col>
                     <v-col class="col" cols="12" sm="12" md="12" lg="9" :style="socialLinksStyle">
                       <a :href="userLinkedin.url" target="_blank">{{ userLinkedin.url }}</a>
@@ -211,26 +211,26 @@
               <v-card-title class="text-center pl-4">Introduction</v-card-title>
               <v-divider></v-divider>
               <v-card-text class="px-8 py-1">
-                <v-form>
+                <v-form v-if="!isEditDescription">
                   <v-row>
                     <v-col cols="12" sm="12" md="12" style="padding: 0;">
-                      <v-textarea
-                        auto-grow
-                        class="pt-0"
-                        :value="user.description"
-                        :readonly="!isUpdateDescription"
-                      ></v-textarea>
+                      <v-textarea auto-grow class="pt-0" :value="user.description" readonly></v-textarea>
                     </v-col>
                   </v-row>
                 </v-form>
+                <edit-description
+                  v-else
+                  @handleUpdateDescription="handleUpdateDescription"
+                  @handleCancelEditDescription="handleCancelEditDescription"
+                  :description="user.description"
+                ></edit-description>
               </v-card-text>
-              <v-card-actions class="pt-0">
-                <v-spacer v-if="!isUpdateDescription"></v-spacer>
+              <v-card-actions class="pt-0 pb-5 d-flex justify-end">
                 <v-btn
                   class="edit-btn-description"
                   icon
-                  v-if="isOwner && !isUpdateDescription"
-                  @click="isUpdateDescription = !isUpdateDescription"
+                  v-if="isOwner && !isEditDescription"
+                  @click="isEditDescription = !isEditDescription"
                 >
                   <v-icon color="primary">edit</v-icon>
                 </v-btn>
@@ -247,6 +247,7 @@
 import ProfileTabs from "./ProfileTabs";
 import myUpload from "vue-image-crop-upload";
 import EditProfile from "./EditProfile";
+import EditDescription from "./EditDescription";
 import { mapActions, mapState } from "vuex";
 export default {
   data() {
@@ -259,16 +260,12 @@ export default {
         paddingRight: 0
       },
       isEdit: false,
+      isEditDescription: false,
       dialogUploadAvatar: false,
       loadingImageUpload: false,
       src: "",
-      isUpdateDescription: false,
       imgDataUrl: "",
       dataUpdate: {},
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOGI1NzdmMWEyZGRlMzIyOTg3OTVmNCIsImVtYWlsIjoicXVhbmcuZGFuZ0Bob21hLmNvbXBhbnkiLCJpYXQiOjE1ODg2NTMxODMsImV4cCI6MTU4ODY2MDM4M30.voYkKVUkSFvkIWdmIqfS-cXu91oa1r5pfbaflUnduBQ"
-      },
       showAvatar: false,
       avatarImg: "",
       userGithub: {
@@ -299,10 +296,7 @@ export default {
   },
   computed: {
     ...mapState("utils", ["errorMes", "isLoading"]),
-    ...mapState("users", ["accessToken"]),
-    bindHeader() {
-      this.headers = { Authorization: `Bearer ${this.accessToken}` };
-    },
+    ...mapState("user", ["accessToken"]),
     isOwner() {
       return true;
     },
@@ -321,6 +315,11 @@ export default {
     },
     loading() {
       return this.loadingImageUpload;
+    },
+    headers() {
+      return {
+        Authorization: `Bearer ${this.accessToken}`
+      };
     }
   },
   watch: {
@@ -354,7 +353,6 @@ export default {
       });
       fileReader.readAsDataURL(files[0]);
       this.image = files[0];
-      console.log("image", this.image);
     },
     cropSuccess(imgDataUrl, field) {
       this.avatarImg = imgDataUrl;
@@ -374,7 +372,7 @@ export default {
         title: "Update avatar failed"
       });
     },
-    async handleUpdateProfile(res) {
+    handleUpdateProfile(res) {
       if (res.status === 200) {
         this.$notify({
           group: "upload",
@@ -389,17 +387,43 @@ export default {
           title: "Update profile failed"
         });
       }
-      this.user = res.data
+      let socialLinks = res.data.socialLinks
+      this.userGithub = socialLinks.find(link => link.type === 'Github') || this.userGithub
+      this.userFacebook = socialLinks.find(link => link.type === 'Facebook') || this.userFacebook
+      this.userLinkedin = socialLinks.find(link => link.type === 'Linkedin') || this.userLinkedin
+      this.user = res.data;
       this.isEdit = false;
+    },
+    handleUpdateDescription(res) {
+      if (res.status === 200) {
+        this.$notify({
+          group: "upload",
+          type: "success",
+          title: "Update description success"
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          group: "upload",
+          type: "error",
+          title: "Update description failed"
+        });
+      }
+      this.user.description = res.data.description;
+      this.isEditDescription = false;
     },
     handleCancelEditProfile() {
       this.isEdit = false;
+    },
+    handleCancelEditDescription() {
+      this.isEditDescription = false;
     }
   },
   components: {
     ProfileTabs,
     myUpload,
-    EditProfile
+    EditProfile,
+    EditDescription
   }
 };
 </script>

@@ -32,7 +32,11 @@
               <v-card-title class="ml-5 headline pt-0">{{ post.song.name}}</v-card-title>
               <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
                 <span style="font-size: 13px" v-for="(author, i) in post.authors" :key="author._id">
-                  <a target="_blank" style="text-decoration: none; color: #000" :href="`/posts?artist=${author.name}&type=podcast`">{{ author.name }}</a>
+                  <a
+                    target="_blank"
+                    style="text-decoration: none; color: #000"
+                    :href="`/posts?artist=${author.name}&type=podcast`"
+                  >{{ author.name }}</a>
                   <span
                     style="font-size: 12px"
                     class="mx-1 font-italic"
@@ -42,9 +46,10 @@
 
               <div class="ml-9">
                 <av-waveform
+                  :cors-anonym="Boolean(true)"
                   class="mt-4"
                   ref="player"
-                  audio-src="https://cdn.moefe.org/music/mp3/thing.mp3"
+                  audio-src="https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3"
                   :canv-width="600"
                   :canv-height="80"
                   :played-line-width="1.1"
@@ -625,11 +630,11 @@ export default {
     OtherPostsOfAuthor
   },
   mounted() {
-    let waveBar = document.querySelector('canvas');
-    waveBar.style.cursor = 'pointer'
+    let waveBar = document.querySelector("canvas");
+    waveBar.style.cursor = "pointer";
 
-    let songTitle = document.querySelector('.v-card__title')
-    songTitle.style.cursor = 'pointer'
+    let songTitle = document.querySelector(".v-card__title");
+    songTitle.style.cursor = "pointer";
   }
 };
 </script>

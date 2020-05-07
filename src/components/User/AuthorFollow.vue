@@ -2,7 +2,7 @@
   <v-container class="profile-details pl-0">
     <v-card class="px-7 pb-3" elevation="15">
       <v-list-item-content class="pb-0">
-        <v-row>
+        <v-row style="height: 80px;">
           <v-col sm="4" md="3">
             <v-avatar size="60" style="cursor: pointer" dark>
               <img

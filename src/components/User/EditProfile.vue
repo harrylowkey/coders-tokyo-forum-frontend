@@ -1,22 +1,22 @@
 <template>
-  <v-form>
+  <v-form> 
     <v-row>
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col col">
         <v-subheader class="pa-0">Username</v-subheader>
       </v-col>
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0;">
-        <v-text-field :rules="[rules.required]" v-model="editUsername" class="pt-0"></v-text-field>
+        <v-text-field @keyup.enter="handleUpdateProfile" :rules="[rules.required]" v-model="editUsername" class="pt-0"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
         <v-subheader class="pa-0">Email</v-subheader>
       </v-col>
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
-        <v-text-field readonly :value="user.email" class="pt-0"></v-text-field>
+        <v-text-field @keyup.enter="handleUpdateProfile" readonly :value="user.email" class="pt-0"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
-        <v-subheader class="pa-0">Password</v-subheader>
+        <v-subheader @keyup.enter="handleUpdateProfile" class="pa-0">Password</v-subheader>
       </v-col>
 
       <v-col class="col" cols="12" sm="9" md="7" style="padding: 0">
@@ -83,21 +83,21 @@
         <v-subheader class="pa-0">Github</v-subheader>
       </v-col>
       <v-col cols="12" sm="12" md="12" lg="9" class="social-links col">
-        <v-text-field v-model="editGithub.url" class="pt-0"></v-text-field>
+        <v-text-field @keyup.enter="handleUpdateProfile" v-model="editGithub.url" class="pt-0"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
         <v-subheader class="pa-0">Facebook</v-subheader>
       </v-col>
       <v-col cols="12" sm="12" md="12" lg="9" class="social-links col">
-        <v-text-field v-model="editFacebook.url" class="pt-0"></v-text-field>
+        <v-text-field @keyup.enter="handleUpdateProfile" v-model="editFacebook.url" class="pt-0"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
-        <v-subheader class="pa-0">Linked</v-subheader>
+        <v-subheader class="pa-0">Linkedin</v-subheader>
       </v-col>
       <v-col cols="12" sm="12" md="12" lg="9" class="social-links col">
-        <v-text-field v-model="editLinkedin.url" class="pt-0"></v-text-field>
+        <v-text-field @keyup.enter="handleUpdateProfile" v-model="editLinkedin.url" class="pt-0"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
@@ -115,7 +115,7 @@
         <v-subheader class="pa-0">Job</v-subheader>
       </v-col>
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
-        <v-text-field v-model="editJob" class="pt-0"></v-text-field>
+        <v-text-field @keyup.enter="handleUpdateProfile" v-model="editJob" class="pt-0"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
@@ -170,7 +170,7 @@ export default {
   },
   created() {},
   methods: {
-    ...mapActions("user", ["uploadAvatar", "updateProfile"]),
+    ...mapActions("user", ["updateProfile"]),
     async handleUpdateProfile() {
       let socialLinks = [
         this.editGithub,
@@ -183,7 +183,6 @@ export default {
         sex: this.editSex,
         job: this.editJob
       };
-
       let res = await this.updateProfile(data);
       this.$emit("handleUpdateProfile", res.data);
     },
