@@ -1,6 +1,6 @@
 <template>
   <span class="caption text-center" id="tag">
-    <a :href="link" id="tag-link">#{{ tagName }}</a>
+    <a :href="link" id="tag-link">{{ tagName }}</a>
   </span>
 </template>
 

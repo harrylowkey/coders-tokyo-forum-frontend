@@ -3,22 +3,22 @@
     <v-row id="post">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
-          :likes="post.metadata.likes"
-          :saves="post.metadata.saves"
-          :flowers="123"
-          :postId="post._id"
+          :likes="(discussion && discussion.metadata) ? discussion.metadata.likes : 0"
+          :saves="(discussion && discussion.metadata) ? discussion.metadata.saves : 0"
+          :flowers="0"
+          :postId="discussion._id"
         ></post-reactions>
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
         <v-card class="mx-auto mt-6 pb-2">
           <v-list-item style="padding: 0px 25px 0 20px">
             <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-              <v-list-item-title class="headline discuss-title mb-0 py-3">{{ post.topic }}</v-list-item-title>
+              <v-list-item-title class="headline discuss-title mb-0 py-3">{{ discussion.topic }}</v-list-item-title>
               <v-divider></v-divider>
               <div
                 style="line-height: 1.4;"
                 class="mt-lg-n9 pt-12"
-                v-html="$options.filters.markdown(post.content)"
+                v-html="$options.filters.markdown(discussion.content)"
               ></div>
             </v-list-item-content>
           </v-list-item>
@@ -31,17 +31,17 @@
               <v-card-text
                 class="font-italic font-weight-light pt-0 pb-0"
                 style="font-size: small"
-              >{{ post.createdAt | date }}</v-card-text>
+              >{{ discussion.createdAt | date }}</v-card-text>
               <div style="width: 200px">
                 <edit-delete-btns
-                  @handleEditPost="handleEditPost"
-                  @handleDeletePost="handleDeletePost"
+                  :postId="discussion._id"
+                  :postType="discussion.type"
                 ></edit-delete-btns>
               </div>
             </div>
             <div>
               <tag
-                v-for="(tag, i) in post.tags"
+                v-for="(tag, i) in discussion.tags"
                 :key="i"
                 class="ml-2"
                 :tagName="tag.tagName"
@@ -54,18 +54,18 @@
         <v-container>
           <v-divider></v-divider>
           <v-row id="comments">
-            <div id="comments" class="mt-5">
+            <div style="width: 100%" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
 
               <write-comment></write-comment>
 
-              <div v-if="post.comments.length">
+              <div v-if="discussion.comments ? discussion.comments.length : false">
                 <comment
-                  v-for="comment in post.comments"
+                  v-for="comment in discussion.comments"
                   :key="comment._id"
                   :comment="comment"
-                  :author="post.user"
-                  :postId="post._id"
+                  :author="discussion.user"
+                  :postId="discussion._id"
                 ></comment>
               </div>
             </div>
@@ -92,7 +92,6 @@
 </template>
 
 <script>
-import marked from "marked";
 import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
 import FacebookBtn from "@/components/Shared/FacebookButton";
@@ -109,262 +108,11 @@ import { userSocialLinks } from "@/mixins/userSocialLinks";
 import ReadTime from "@/components/Shared/readTime";
 import WriteComment from "@/components/Comment/WriteComment";
 import EditDeleteBtns from "../Post/EditDeleteBtns";
-
+import { mapActions, mapState } from 'vuex'
 export default {
   mixins: [userSocialLinks],
   data() {
     return {
-      post: {
-        _id: "5e9494fe935dfb5ed3043975",
-        tags: [
-          {
-            _id: "5e931565701c6a1f851074ec",
-            tagName: "javascript"
-          },
-          {
-            _id: "5e931565701c6a1f851074ec",
-            tagName: "javascript"
-          }
-        ],
-        comments: [
-          {
-            _id: "5ea04ece861ec016ab4e7280",
-            childComments: [
-              {
-                _id: "5ea08f6d14328169d8422a42",
-                content:
-                  "#reply thread \n\nWhy Markdown?\n [Marked] lets you convert [Markdown] into HTML\n\n[Marked]: https://github.com/markedjs/marked/\n[Markdown]: http://daringfireball.net/projects/markdown/\n",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea04ece861ec016ab4e7280",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "nhat_anh"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:41.982Z"
-              },
-              {
-                _id: "5ea08f6073749769b53fd952",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea04ece861ec016ab4e7280",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "nhat_anh"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:28.963Z"
-              },
-              {
-                _id: "5ea08f0a467cac6969fe223f",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "thanh_ton",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f6073749769b53fd952",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:38:02.161Z"
-              },
-              {
-                _id: "5ea08efc467cac6969fe223e",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:37:48.322Z"
-              },
-              {
-                _id: "5ea08f6d14328169d8422a42",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "dev"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f0a467cac6969fe223f",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:41.982Z"
-              },
-              {
-                _id: "5ea08f6073749769b53fd952",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f0a467cac6969fe223f",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:28.963Z"
-              },
-              {
-                _id: "5ea08f0a467cac6969fe223f",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:38:02.161Z"
-              },
-              {
-                _id: "5ea08efc467cac6969fe223e",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:37:48.322Z"
-              }
-            ],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content:
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse.",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "nhat_anh",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:58.083Z",
-            updatedAt: "2020-04-22T14:21:50.493Z"
-          },
-          {
-            _id: "5ea04eca861ec016ab4e727f",
-            childComments: [],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content: "comment2",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "thanh_ton",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:54.429Z",
-            updatedAt: "2020-04-22T14:03:54.429Z"
-          },
-          {
-            _id: "5ea04ec4861ec016ab4e727e",
-            childComments: [],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content: "comment1",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "thanh_ton",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:48.372Z",
-            updatedAt: "2020-04-22T14:03:48.372Z"
-          }
-        ],
-        likes: [],
-        savedBy: ["5e8b577f1a2dde32298795f4"],
-        user: {
-          _id: "5e8b577f1a2dde32298795f4",
-          username: "kenviruss"
-        },
-        topic: "How can I remove an image in a folder on cloudinary in Nodejs?",
-        content:
-          "I have tried this way but the result still the same, anyone help me with this problem? Here is my code. I have tried this way but the result still the same, anyone help me with this problem? Here is my code...I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
-        type: "discussion",
-        createdAt: "2020-04-13T16:36:14.767Z",
-        updatedAt: "2020-04-13T16:46:02.835Z",
-        metadata: {
-          _id: "5e9494fe935dfb5ed3043971",
-          comments: 256,
-          likes: 500,
-          saves: 1
-        }
-      },
-      user: {
-        _id: "5e8b577f1a2dde32298795f4",
-        hobbies: ["music, reading book"],
-        username: "hongquang",
-        password: "hell0aA@",
-        email: "quang.dang@homa.company",
-        socialLinks: [
-          {
-            _id: "5e8f536b0416274996f69e75",
-            type: "Github",
-            url: "https://github.com/hongquangraem"
-          },
-          {
-            _id: "5e8f536b0416274996f69e76",
-            type: "Facebook",
-            url: "https://facebook.com/spaceraem"
-          }
-        ],
-        createdAt: "2020-04-06T16:23:27.385Z",
-        updatedAt: "2020-04-13T14:43:32.772Z",
-        job: "Developer",
-        sex: "Male",
-        avatar: {
-          secureURL:
-            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-        },
-        description:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse. ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
-      },
       otherDiscussionsOfAuthor: [
         {
           _id: "5e9494fe935dfb5ed04975",
@@ -433,16 +181,19 @@ export default {
         letterSpacing: "0.0111333333em !important",
         marginLeft: "12px !important",
         borderRadius: "4px"
-      }
+      },
+      comment: '',
     };
   },
-  watch: {
-    comment() {
-      this.markdownComment = this.$options.filters.markdown(this.comment);
-    }
+  methods: {
+    ...mapActions('post', ['getPostById'])
   },
-  computed: {},
-  methods: {},
+  computed: {
+    ...mapState('user', ['user']),
+    ...mapState('post', ['discussion']),
+    ...mapState('utils', ['isLoading', 'errorMes']),
+
+  },
   components: {
     Tag,
     ReadTime,
@@ -459,7 +210,10 @@ export default {
     AuthorFollowCard,
     PostReactions,
     OtherPostsOfAuthor
-  }
+  },
+  created() {
+    this.getPostById({ id: this.$route.params.id, typeQuery: this.$route.query.type})
+  },
 };
 </script>
 

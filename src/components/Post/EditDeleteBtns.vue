@@ -1,6 +1,8 @@
 <template>
   <div>
-    <v-btn class="mr-3" x-small color="info">Edit</v-btn>
+    <router-link class="edit-btn" :to="`/edit/${postType}/${postId}`">
+      <v-btn class="mr-3" x-small color="info">Edit</v-btn>
+    </router-link>
     <v-btn x-small color="error" @click="dialogDeletePost = true">Delete</v-btn>
     <v-dialog
       style="postition: relative; right: 150px;"
@@ -23,22 +25,27 @@
 
 <script>
 export default {
+  props: ["postId", "postType"],
   data() {
     return {
       dialogDeletePost: false
-    }
+    };
   },
   methods: {
     onClickEdit() {
-      this.$emit('handleEditPost')
+      this.$emit("handleEditPost");
     },
     onClickDelete() {
-      this.dialogDeletePost = false
-      this.$emit('handleDeletePost')
+      this.dialogDeletePost = false;
+      this.$emit("handleDeletePost");
     }
   }
 };
 </script>
 
 <style>
+
+.edit-btn {
+  text-decoration: none;
+}
 </style>

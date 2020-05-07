@@ -1,33 +1,24 @@
 import axios from 'axios'
-import { CREATE_DISCUSSION } from '../constants'
+import { CREATE_DISCUSSION, SET_POST } from '../constants'
 
 export default {
   namespaced: true,
   state: {
-    discussions: []
+    discussions: [],
+    discussion: {}
   },
-  mutation: {
-    [CREATE_DISCUSSION](state, data) {
-      state.discussions.push(data)
+  mutations: {
+    [SET_POST](state, data) {
+      state[data.type] = data
     }
   },
   actions: {
-    async CREATE_DISCUSSION({ commit }, data) {
+    async createDiscussion({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true })
-      const discussion = await axios.post('/posts/discussions', data, {
-        headers: {
-          Authorization: `Bearer ${getters.accessToken}`
-        }
-      }).then(res => {
-        const { data: { data } } = res
-        data.avatar = avatar
-        localStorage.setItem('user', JSON.stringify(data))
-        commit('UPDATE_PROFILE', data)
-        return res
-      })
+      const discussion = await axios.post('/posts/discussions', data)
         .catch(err => {
           commit('utils/SET_ERROR', err, { root: true })
-          return err.response
+          return err
         })
         .then(res => {
           setTimeout(() => {
@@ -36,7 +27,29 @@ export default {
           }, 0)
           return res
         })
-      return dataU
+      return discussion
+    },
+    async getPostById({ commit }, data) {
+      commit('utils/SET_LOADING', true, { root: true })
+      const discussion = await axios.get(`/posts/${data.id}?type=${data.typeQuery}`)
+        .then(res => {
+          const { data, metadata } = res
+          data.metadata = metadata
+          commit('SET_POST', data)
+          return res.data
+        })
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true })
+          return err
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true })
+            commit('utils/SET_ERROR', '', { root: true })
+          }, 0)
+          return res
+        })
+      return discussion
     }
   }
 }

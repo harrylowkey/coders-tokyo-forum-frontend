@@ -66,8 +66,8 @@ export default {
     ...mapState("utils", ["errorMes"])
   },
   watch: {
-    isAuthenticated(newVal) {
-      if (newVal) {
+    isAuthenticated(isAuthen) {
+      if (isAuthen) {
         this.$router.push({ path: this.redirect });
       }
     },

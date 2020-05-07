@@ -1,5 +1,5 @@
 import marked from "marked";
 
-export default (text) => {
+export default (text = '') => {
   return marked(text);
 }

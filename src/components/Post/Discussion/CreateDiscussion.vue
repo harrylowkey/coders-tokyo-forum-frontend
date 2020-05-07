@@ -1,5 +1,6 @@
 <template>
   <ValidationObserver ref="observer">
+    <notifications class="notif"/>
     <v-form>
       <v-card class="d-flex py-3">
         <div style="flex: 26%" class="d-flex flex-column align-center">
@@ -26,6 +27,7 @@
                 <v-col cols="12">
                   <ValidationProvider name="Topic" rules="required" v-slot="{ errors }">
                     <v-text-field
+                      @keyup.enter="submit"
                       label="Topic*"
                       v-model="data.topic"
                       :error-messages="errors"
@@ -36,6 +38,7 @@
                 <v-col cols="12">
                   <ValidationProvider name="Content" rules="required" v-slot="{ errors }">
                     <v-textarea
+                      @keyup.enter="submit"
                       :error-messages="errors"
                       v-model="data.content"
                       label="Content*"
@@ -63,7 +66,8 @@ import UserAvatar from "@/components/Shared/UserAvatar";
 import CreateTag from "@/components/Shared/CreateTag";
 import { extend, setInteractionMode } from "vee-validate";
 import { required, email } from "vee-validate/dist/rules";
-import ToggleTag from '@/components/Shared/ToggleTag'
+import ToggleTag from "@/components/Shared/ToggleTag";
+import { mapActions } from "vuex";
 setInteractionMode("eager");
 extend("required", {
   ...required,
@@ -88,20 +92,43 @@ export default {
     };
   },
   methods: {
+    ...mapActions("post", ["createDiscussion"]),
     handleAddTag(tag) {
       this.data.tags.push(tag);
     },
     handleRemoveTag(tagIndex) {
-      this.data.tags.splice(tagIndex, 1)
+      this.data.tags.splice(tagIndex, 1);
     },
     async submit() {
-      const isValid = await this.$refs.observer.validate()
-      if (!isValid) return
-      
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+
+      const res = await this.createDiscussion(this.data);
+      if (res.status === 200) {
+        this.$notify({
+          type: "success",
+          title: "Success",
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Make a discussion failed",
+          text: res.message
+        });
+      }
+
+      setTimeout(() => {
+        return this.$router.push({ path: `/discussions/${res.data._id}?type=discussion`})
+      }, 1000)
     }
   }
 };
 </script>
 
 <style scoped>
+
+.notif {
+  margin-top: 60px
+}
 </style>

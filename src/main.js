@@ -27,11 +27,14 @@ axios.interceptors.request.use(
     return config;
   },
   error => {
-    Promise.reject(error)
+    Promise.reject(error.response)
   });
 
 axios.interceptors.response.use(response => {
   if (response.data.status === 200) {
+    if (response.data.metadata) {
+      response.metadata = response.data.metadata
+    }
     response.data = response.data.data
   }
   return response
