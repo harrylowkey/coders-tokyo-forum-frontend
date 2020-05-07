@@ -9,3 +9,6 @@ export const SIGN_OUT = 'SIGN_OUT'
 //user
 export const UPLOAD_AVATAR = 'UPLOAD_AVATAR'
 export const UPDATE_PROFILE = 'UPDATE_PROFILE'
+
+//post
+export const CREATE_DISCUSSION = 'CREATE_DISCUSSION'

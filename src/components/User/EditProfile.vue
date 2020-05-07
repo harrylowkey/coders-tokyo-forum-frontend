@@ -184,7 +184,7 @@ export default {
         job: this.editJob
       };
       let res = await this.updateProfile(data);
-      this.$emit("handleUpdateProfile", res.data);
+      this.$emit("handleUpdateProfile", res);
     },
     onCancel() {
       this.$emit("handleCancelEditProfile");

@@ -387,6 +387,7 @@ export default {
           title: "Update profile failed"
         });
       }
+      console.log(res)
       let socialLinks = res.data.socialLinks
       this.userGithub = socialLinks.find(link => link.type === 'Github') || this.userGithub
       this.userFacebook = socialLinks.find(link => link.type === 'Facebook') || this.userFacebook

@@ -33,13 +33,13 @@ export default {
         password: authData.password,
       })
         .then(res => {
-          const { data: { user, access_token } } = res.data
+          const { data: { user, access_token } } = res
           localStorage.setItem('accessToken', access_token)
           localStorage.setItem('user', JSON.stringify(user))
           commit('SIGN_IN', { user, accessToken: access_token })
         })
-        .catch(() => {
-          commit('utils/SET_ERROR', 'Invalid email or password', { root: true })
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true })
         })
         .then(() => {
           setTimeout(() => {
@@ -75,13 +75,9 @@ export default {
     async updateProfile({ commit, getters }, data) {
       commit('utils/SET_LOADING', true, { root: true })
       let avatar = getters.user.avatar
-      let dataUpdated = await axios.put(`/users`, data, {
-        headers: {
-          Authorization: `Bearer ${getters.accessToken}`
-        }
-      })
+      let dataUpdated = await axios.put(`/users`, data)
         .then(res => {
-          const { data: { data } } = res
+          const { data } = res
           data.avatar = avatar
           localStorage.setItem('user', JSON.stringify(data))
           commit('UPDATE_PROFILE', data)

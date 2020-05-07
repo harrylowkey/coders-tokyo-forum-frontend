@@ -11,12 +11,38 @@ import axios from 'axios'
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import Notifications from 'vue-notification';
+import _store from './store/user'
 
 //TODO: change descripotion text-file to v-textareat with limit words
-
 axios.defaults.baseURL = 'http://localhost:3000/api/v1'
 axios.defaults.headers.get['Accepts'] = 'application/json'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.interceptors.request.use(
+  config => {
+    const token = _store.state.accessToken
+    if (token) {
+      config.headers['Authorization'] = 'Bearer ' + token;
+    }
+    // config.headers['Content-Type'] = 'application/json';
+    return config;
+  },
+  error => {
+    Promise.reject(error)
+  });
+
+axios.interceptors.response.use(response => {
+  if (response.data.status === 200) {
+    response.data = response.data.data
+  }
+  return response
+}, function (error) {
+  if (error.response.status === 401) {
+    router.push('/signin');
+    return Promise.reject(error);
+  }
+  return Promise.reject(error);
+});
+
 
 import DateFilter from './filters/date'
 import DateTimeFilter from './filters/dateTime'

@@ -35,7 +35,7 @@ export default {
     },
     async handleUpdateDescription() {
       let res = await this.updateProfile({ description: this.editDescription });
-      this.$emit("handleUpdateDescription", res.data);
+      this.$emit("handleUpdateDescription", res);
     }
   }
 };

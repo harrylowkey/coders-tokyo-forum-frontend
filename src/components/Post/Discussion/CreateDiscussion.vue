@@ -94,8 +94,10 @@ export default {
     handleRemoveTag(tagIndex) {
       this.data.tags.splice(tagIndex, 1)
     },
-    submit() {
-      this.$refs.observer.validate();
+    async submit() {
+      const isValid = await this.$refs.observer.validate()
+      if (!isValid) return
+      
     }
   }
 };
