@@ -3,14 +3,17 @@
     <v-row id="post">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
-          :likes="post.metadata.likes"
-          :saves="post.metadata.saves"
-          :flowers="123"
+          v-if="!isLoading"
+          :likes="(post && post.metadata) ? post.metadata.likes : 0"
+          :saves="(post && post.metadata) ? post.metadata.saves : 0"
+          :flowers="0"
           :postId="post._id"
         ></post-reactions>
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <v-card class="mx-auto mt-6" id="blog-card" elevation="6">
+        <v-skeleton-loader></v-skeleton-loader>
+        <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image, card-avatar, article"></v-boilerplate>
+        <v-card class="mx-auto mt-6" v-else id="blog-card" elevation="6">
           <v-container class="pa-0">
             <v-img
               src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
@@ -49,8 +52,10 @@
                   <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
                   <read-time class="pl-0" :text="post.content"></read-time>
                   <edit-delete-btns
-                    @handleEditPost="handleEditPost"
+                    v-if="isAuthor"
                     @handleDeletePost="handleDeletePost"
+                    :postId="post._id"
+                    :postType="post.type"
                   ></edit-delete-btns>
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
@@ -72,14 +77,14 @@
           </v-container>
         </v-card>
         <v-container>
-          <v-divider></v-divider>
           <v-row id="comments">
-            <div id="comments" class="mt-5">
+            <div style="width: 100%" id="comments" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
 
-              <write-comment></write-comment>
+              <v-boilerplate style="width: 100%" v-if="isLoading" type="image"></v-boilerplate>
+              <write-comment v-if="!isLoading"></write-comment>
 
-              <div v-if="post.comments.length">
+              <div v-if="post ? post.comments.length : false">
                 <comment
                   v-for="comment in post.comments"
                   :key="comment._id"
@@ -93,7 +98,11 @@
           <v-divider></v-divider>
           <v-row id="other-posts-of-author" v-if="otherBlogsOfAuthor.length" class="mb-10">
             <h1 class="mt-8 mb-3">Other blogs of author</h1>
-            <other-posts-of-author postType='blogs' :posts="otherBlogsOfAuthor"></other-posts-of-author>
+            <div style="width: 100%" class="d-flex" v-if="isLoading">
+              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
+              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
+            </div>
+            <other-posts-of-author v-if="!isLoading" postType="blogs" :posts="otherBlogsOfAuthor"></other-posts-of-author>
           </v-row>
         </v-container>
       </v-col>
@@ -105,10 +114,18 @@
         xl="3"
         class="wrapper-author-follow d-sm-none d-md-flex"
       >
-        <author-follow-card
+        <v-boilerplate
           class="author-follow"
-          :user="user"
-          :description="user.description"
+          style="width: 100%"
+          v-if="isLoading"
+          type="list-item-avatar-three-line, divider, list-item-two-line"
+        ></v-boilerplate>
+        <author-follow-card
+          v-if="!isLoading"
+          class="author-follow"
+          :isAuthor="isAuthor"
+          :author="post.user"
+          :userId="user._id"
         ></author-follow-card>
       </v-col>
     </v-row>
@@ -116,301 +133,12 @@
 </template>
 
 <script>
-import marked from "marked";
-import LikeBtn from "@/components/Shared/LikeButton";
-import CommentBtn from "@/components/Shared/CommentButton";
-import FacebookBtn from "@/components/Shared/FacebookButton";
-import ViewsBtn from "@/components/Shared/ViewsButton";
-import Tag from "@/components/Shared/Tag";
-import UserAvatar from "@/components/Shared/UserAvatar";
-import UserSocialLinks from "@/components/Shared/UserSocialLinks";
-import AuthorProfile from "@/components/User/Profile";
-import AuthorFollowCard from "@/components/User/AuthorFollow";
-import Comment from "@/components/Comment/Comment";
-import PostReactions from "@/components/Shared/PostReactions";
-import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
-import { userSocialLinks } from "@/mixins/userSocialLinks";
-import ReadTime from "@/components/Shared/readTime";
-import WriteComment from "@/components/Comment/WriteComment";
-import EditDeleteBtns from '../Post/EditDeleteBtns'
+import { crudPost } from "@/mixins/crudPost";
 
 export default {
-  mixins: [userSocialLinks],
+  mixins: [crudPost],
   data() {
     return {
-      post: {
-        _id: "5e9ab00f0591fb40fc87faa2",
-        tags: [
-          {
-            _id: "5e8ddf319ac8ee2dd68b1cd7",
-            tagName: "coercion"
-          },
-          {
-            _id: "5e8cb5562ded8236f29fc885",
-            tagName: "nhatanh"
-          }
-        ],
-        comments: [
-          {
-            _id: "5ea04ece861ec016ab4e7280",
-            childComments: [
-              {
-                _id: "5ea08f6d14328169d8422a42",
-                content:
-                  "#reply thread \n\nWhy Markdown?\n [Marked] lets you convert [Markdown] into HTML\n\n[Marked]: https://github.com/markedjs/marked/\n[Markdown]: http://daringfireball.net/projects/markdown/\n",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea04ece861ec016ab4e7280",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "nhat_anh"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:41.982Z"
-              },
-              {
-                _id: "5ea08f6073749769b53fd952",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea04ece861ec016ab4e7280",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "nhat_anh"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:28.963Z"
-              },
-              {
-                _id: "5ea08f0a467cac6969fe223f",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "thanh_ton",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f6073749769b53fd952",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:38:02.161Z"
-              },
-              {
-                _id: "5ea08efc467cac6969fe223e",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:37:48.322Z"
-              },
-              {
-                _id: "5ea08f6d14328169d8422a42",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "dev"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f0a467cac6969fe223f",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:41.982Z"
-              },
-              {
-                _id: "5ea08f6073749769b53fd952",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f0a467cac6969fe223f",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:28.963Z"
-              },
-              {
-                _id: "5ea08f0a467cac6969fe223f",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:38:02.161Z"
-              },
-              {
-                _id: "5ea08efc467cac6969fe223e",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:37:48.322Z"
-              }
-            ],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content:
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse.",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "nhat_anh",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:58.083Z",
-            updatedAt: "2020-04-22T14:21:50.493Z"
-          },
-          {
-            _id: "5ea04eca861ec016ab4e727f",
-            childComments: [],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content: "comment2",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "thanh_ton",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:54.429Z",
-            updatedAt: "2020-04-22T14:03:54.429Z"
-          },
-          {
-            _id: "5ea04ec4861ec016ab4e727e",
-            childComments: [],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content: "comment1",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "thanh_ton",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:48.372Z",
-            updatedAt: "2020-04-22T14:03:48.372Z"
-          }
-        ],
-        likes: [],
-        savedBy: [],
-        user: {
-          _id: "5e8b577f1a2dde3229879524",
-          username: "nhat_anh",
-          job: "Developer"
-        },
-        topic: "Bạn chưa hiểu JavaScript đâu kỳ 2 - Coercion",
-        description:
-          "Tại sao mọi người lại  thích rời khỏi nhà và vác ba lô đi khắp thế giới đến như vậy ? Lý do thì muôn trùng không thể đếm xuể. Đôi khi lý do cũng rất khác biệt. Nhưng hãy xem 10 lý do mà tôi liệt kê dưới đây,để xem cái nào đúng nhất với bạn nhé.",
-        content:
-          "[Marked] lets you convert [Markdown] into HTML.  Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML.  This demo page will let you type anything you like and see how it gets converted.  Live.  No more waiting around.\n\nHow To Use The Demo\n-------------------\n\n1. Type in stuff on the left.\n2. See the live updates on the right.\n\nThat's it.  Pretty simple.  There's also a drop-down option in the upper right to switch between various views:\n\n- **Preview:**  A live display of the generated HTML as it would render in a browser.\n- **HTML Source:**  The generated HTML before your browser makes it pretty.\n- **Lexer Data:**  What [marked] uses internally, in case you like gory stuff like this.\n- **Quick Reference:**  A brief run-down of how to format things using markdown.\n\nWhy Markdown?\n-------------\n\nIt's easy.  It's not overly bloated, unlike HTML.  Also, as the creator of [markdown] says,\n\n> The overriding design goal for Markdown's\n> formatting syntax is to make it as readable\n> as possible. The idea is that a\n> Markdown-formatted document should be\n> publishable as-is, as plain text, without\n> looking like it's been marked up with tags\n> or formatting instructions.\n\nReady to start writing?  Either start changing stuff on the left or\n[clear everything](/demo/?text=) with a simple click.\n\n[Marked]: https://github.com/markedjs/marked/\n[Markdown]: http://daringfireball.net/projects/markdown/\n",
-        type: "blog",
-        cover: {
-          _id: "5e9ab00f0591fb40fc87faa3",
-          secureURL:
-            "https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png",
-          publicId: "Coders-Tokyo-Forum/posts/javascript.png",
-          fileName: "javascript.png",
-          sizeBytes: 316358,
-          userId: "5e8b577f1a2dde32298795f4",
-          postId: "5e9ab00f0591fb40fc87faa2",
-          resourceType: "image",
-          createdAt: "2020-04-18T07:45:19.838Z",
-          updatedAt: "2020-04-18T07:45:19.838Z",
-          __v: 0
-        },
-        createdAt: "2020-04-18T07:45:19.846Z",
-        updatedAt: "2020-04-18T07:45:19.846Z",
-        metadata: {
-          likes: 0,
-          comments: 6,
-          saves: 0,
-          comment: {
-            page: 1,
-            pageSize: 5,
-            totalPage: 2,
-            totalRecords: 6
-          }
-        }
-      },
-      user: {
-        _id: "5e8b577f1a2dde32298795f4",
-        hobbies: ["music, reading book"],
-        username: "hongquang",
-        password: "hell0aA@",
-        email: "quang.dang@homa.company",
-        socialLinks: [
-          {
-            _id: "5e8f536b0416274996f69e75",
-            type: "Github",
-            url: "https://github.com/hongquangraem"
-          },
-          {
-            _id: "5e8f536b0416274996f69e76",
-            type: "Facebook",
-            url: "https://facebook.com/spaceraem"
-          }
-        ],
-        createdAt: "2020-04-06T16:23:27.385Z",
-        updatedAt: "2020-04-13T14:43:32.772Z",
-        job: "Developer",
-        sex: "Male",
-        avatar: {
-          secureURL:
-            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-        },
-        description:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse. ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
-      },
       otherBlogsOfAuthor: [
         {
           _id: "5e9ab00f0591fb40fc87faa2",
@@ -495,41 +223,13 @@ export default {
           }
         }
       ],
-      tagStyle: {
-        fontSize: "0.975em !important",
-        fontWeight: 300,
-        padding: "5px 5px",
-        height: "35px",
-        letterSpacing: "0.0111333333em !important",
-        marginLeft: "12px !important",
-        borderRadius: "4px"
-      }
+      comment: ""
     };
   },
-  watch: {
-    comment() {
-      this.markdownComment = this.$options.filters.markdown(this.comment);
-    }
-  },
-  computed: {},
   methods: {},
-  components: {
-    Tag,
-    EditDeleteBtns,
-    ReadTime,
-    UserSocialLinks,
-    LikeBtn,
-    CommentBtn,
-    UserAvatar,
-    FacebookBtn,
-    ViewsBtn,
-    Comment,
-    WriteComment,
-    AuthorProfile,
-    AuthorFollowCard,
-    PostReactions,
-    OtherPostsOfAuthor
-  }
+  computed: {},
+  created() {},
+  components: {}
 };
 </script>
 
@@ -616,5 +316,11 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   display: -webkit-box;
+}
+
+.other-post {
+  flex: 30%;
+  margin: 20px;
+  justify-content: center;
 }
 </style>

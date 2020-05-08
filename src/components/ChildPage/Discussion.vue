@@ -3,7 +3,7 @@
     <v-row id="post">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
-          v-if="post"
+          v-if="!isLoading"
           :likes="(post && post.metadata) ? post.metadata.likes : 0"
           :saves="(post && post.metadata) ? post.metadata.saves : 0"
           :flowers="0"
@@ -59,11 +59,7 @@
           <v-row id="comments">
             <div style="width: 100%" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
-              <v-boilerplate
-                style="width: 100%"
-                v-if="isLoading"
-                type="list-item-three-line, actions"
-              ></v-boilerplate>
+              <v-boilerplate style="width: 100%" v-if="isLoading" type="image"></v-boilerplate>
               <write-comment v-if="!isLoading"></write-comment>
 
               <div v-if="post ? post.comments.length : false">
@@ -119,25 +115,9 @@
 </template>
 
 <script>
-import LikeBtn from "@/components/Shared/LikeButton";
-import CommentBtn from "@/components/Shared/CommentButton";
-import FacebookBtn from "@/components/Shared/FacebookButton";
-import ViewsBtn from "@/components/Shared/ViewsButton";
-import Tag from "@/components/Shared/Tag";
-import UserAvatar from "@/components/Shared/UserAvatar";
-import UserSocialLinks from "@/components/Shared/UserSocialLinks";
-import AuthorProfile from "@/components/User/Profile";
-import AuthorFollowCard from "@/components/User/AuthorFollow";
-import Comment from "@/components/Comment/Comment";
-import PostReactions from "@/components/Shared/PostReactions";
-import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
-import { userSocialLinks } from "@/mixins/userSocialLinks";
-import ReadTime from "@/components/Shared/readTime";
-import WriteComment from "@/components/Comment/WriteComment";
-import EditDeleteBtns from "../Post/EditDeleteBtns";
-import { mapActions, mapState } from "vuex";
+import { crudPost } from "@/mixins/crudPost";
 export default {
-  mixins: [userSocialLinks],
+  mixins: [crudPost],
   data() {
     return {
       otherDiscussionsOfAuthor: [
@@ -200,93 +180,13 @@ export default {
           }
         }
       ],
-      tagStyle: {
-        fontSize: "0.825em !important",
-        fontWeight: 300,
-        padding: "3px 4px",
-        height: "25px",
-        letterSpacing: "0.0111333333em !important",
-        marginLeft: "12px !important",
-        borderRadius: "4px"
-      },
-      comment: "",
-      post: null
+      comment: ""
     };
   },
-  methods: {
-    ...mapActions("post", ["getPostById", "deletePostById"]),
-    async handleDeletePost() {
-      const response = await this.deletePostById({
-        id: this.post._id,
-        typeQuery: this.post.type
-      });
-      if (response.status === 200) {
-        this.$notify({
-          type: "success",
-          title: response.data.message
-        });
-      }
-      if (response.status === 400) {
-        this.$notify({
-          type: "error",
-          title: response.message
-        });
-      }
-      setTimeout(() => {
-        return this.$router.push({ path: "/stream" });
-      }, 1000);
-    },
-    async fetchPost() {
-      this.getPostById({
-        id: this.$route.params.id,
-        typeQuery: this.$route.query.type
-      }).then(data => (this.post = data));
-    }
-  },
-  computed: {
-    ...mapState("user", ["user"]),
-    ...mapState("utils", ["isLoading", "errorMes"]),
-    isAuthor() {
-      return this.post ? this.user._id === this.post.user._id : false;
-    }
-  },
-  async created() {
-    this.post = await this.fetchPost();
-  },
-  components: {
-    Tag,
-    ReadTime,
-    UserSocialLinks,
-    LikeBtn,
-    CommentBtn,
-    EditDeleteBtns,
-    UserAvatar,
-    FacebookBtn,
-    ViewsBtn,
-    Comment,
-    WriteComment,
-    AuthorProfile,
-    AuthorFollowCard,
-    PostReactions,
-    OtherPostsOfAuthor,
-    VBoilerplate: {
-      functional: true,
-      render(h, { data, props, children }) {
-        return h(
-          "v-skeleton-loader",
-          {
-            ...data,
-            props: {
-              boilerplate: true,
-              elevation: 2,
-              ...props
-            }
-          },
-          children
-        );
-      }
-    }
-  }
+  methods: {},
+  computed: {},
+  created() {},
+  components: {}
 };
 </script>
 
