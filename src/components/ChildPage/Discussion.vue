@@ -11,9 +11,10 @@
         ></post-reactions>
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <v-card class="mx-auto mt-6 pb-2">
+        <v-skeleton-loader class="mx-auto mt-6" v-if="isLoading" type="article, actions"></v-skeleton-loader>
+        <v-card class="mx-auto mt-6 pb-2" v-if="!isLoading">
           <v-list-item style="padding: 0px 25px 0 20px">
-            <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0" v-if="post">
+            <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
               <v-list-item-title class="headline discuss-title mb-0 py-3">{{ post.topic }}</v-list-item-title>
               <v-divider></v-divider>
               <div
@@ -28,21 +29,21 @@
             style="padding: 0 25px 0px 6px"
             class="pb-1 pb-lg-2 d-flex justify-space-between"
           >
-            <div class="d-flex" v-if="post">
+            <div class="d-flex">
               <v-card-text
                 class="font-italic font-weight-light pt-0 pb-0"
                 style="font-size: small"
               >{{ post.createdAt | date }}</v-card-text>
               <div style="width: 200px">
                 <edit-delete-btns
-                  v-if="post && isAuthor"
+                  v-if="isAuthor"
                   @handleDeletePost="handleDeletePost"
                   :postId="post._id"
                   :postType="post.type"
                 ></edit-delete-btns>
               </div>
             </div>
-            <div v-if="post">
+            <div>
               <tag
                 v-for="(tag, i) in post.tags"
                 :key="i"
@@ -55,12 +56,15 @@
           </v-card-actions>
         </v-card>
         <v-container>
-          <v-divider></v-divider>
           <v-row id="comments">
             <div style="width: 100%" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
-
-              <write-comment></write-comment>
+              <v-boilerplate
+                style="width: 100%"
+                v-if="isLoading"
+                type="list-item-three-line, actions"
+              ></v-boilerplate>
+              <write-comment v-if="!isLoading"></write-comment>
 
               <div v-if="post ? post.comments.length : false">
                 <comment
@@ -75,8 +79,16 @@
           </v-row>
           <v-divider></v-divider>
           <v-row id="other-posts-of-author" v-if="otherDiscussionsOfAuthor.length" class="mb-10">
-            <h1 class="mt-8 mb-3">Other discussions</h1>
-            <other-posts-of-author postType="discussions" :posts="otherDiscussionsOfAuthor"></other-posts-of-author>
+            <h1 style="width: 100%" class="mt-8 mb-3">Other discussions</h1>
+            <div style="width: 100%" class="d-flex" v-if="isLoading">
+              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
+              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
+            </div>
+            <other-posts-of-author
+              v-if="!isLoading"
+              postType="discussions"
+              :posts="otherDiscussionsOfAuthor"
+            ></other-posts-of-author>
           </v-row>
         </v-container>
       </v-col>
@@ -88,8 +100,14 @@
         xl="3"
         class="wrapper-author-follow d-sm-none d-md-flex"
       >
+        <v-boilerplate
+          class="author-follow"
+          style="width: 100%"
+          v-if="isLoading"
+          type="list-item-avatar-three-line, divider, list-item-two-line"
+        ></v-boilerplate>
         <author-follow-card
-        v-if="post"
+          v-if="!isLoading"
           class="author-follow"
           :isAuthor="isAuthor"
           :author="post.user"
@@ -222,17 +240,18 @@ export default {
       this.getPostById({
         id: this.$route.params.id,
         typeQuery: this.$route.query.type
-      }).then(data => {
-        this.post = data
-      });
+      }).then(data => (this.post = data));
     }
   },
   computed: {
     ...mapState("user", ["user"]),
     ...mapState("utils", ["isLoading", "errorMes"]),
     isAuthor() {
-      return this.user._id === (this.post ? this.post.user._id : false);
+      return this.post ? this.user._id === this.post.user._id : false;
     }
+  },
+  async created() {
+    this.post = await this.fetchPost();
   },
   components: {
     Tag,
@@ -249,10 +268,24 @@ export default {
     AuthorProfile,
     AuthorFollowCard,
     PostReactions,
-    OtherPostsOfAuthor
-  },
-  async created() {
-    await this.fetchPost();
+    OtherPostsOfAuthor,
+    VBoilerplate: {
+      functional: true,
+      render(h, { data, props, children }) {
+        return h(
+          "v-skeleton-loader",
+          {
+            ...data,
+            props: {
+              boilerplate: true,
+              elevation: 2,
+              ...props
+            }
+          },
+          children
+        );
+      }
+    }
   }
 };
 </script>
@@ -340,5 +373,11 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   display: -webkit-box;
+}
+
+.other-post {
+  flex: 30%;
+  margin: 20px;
+  justify-content: center;
 }
 </style>
