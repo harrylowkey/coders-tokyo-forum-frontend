@@ -369,7 +369,6 @@ export default {
     },
     cropUploadFail(status, field) {
       this.$notify({
-        group: "upload",
         type: "error",
         title: "Upload avatar failed"
       });
@@ -377,14 +376,12 @@ export default {
     handleUpdateProfile(res) {
       if (res.status === 200) {
         this.$notify({
-          group: "upload",
           type: "success",
           title: "Update profile success"
         });
       }
       if (res.status === 400) {
         this.$notify({
-          group: "upload",
           type: "error",
           title: "Update profile failed"
         });

@@ -2,9 +2,14 @@
   <v-form>
     <v-row>
       <v-col cols="12" sm="12" md="12" style="padding: 0;">
-        <v-textarea @keyup.enter="handleUpdateDescription" auto-grow class="pt-0" v-model="editDescription"></v-textarea>
+        <v-textarea
+          @keyup.enter="handleUpdateDescription"
+          auto-grow
+          class="pt-0"
+          v-model="editDescription"
+        ></v-textarea>
       </v-col>
-      <v-card-actions class="pt-0">
+      <v-card-actions class="pt-0" style="width: 100%;">
         <v-row>
           <v-col class="d-flex justify-center">
             <v-btn @click="handleUpdateDescription" small color="success">Update</v-btn>
