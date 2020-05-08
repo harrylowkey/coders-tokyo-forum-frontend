@@ -28,8 +28,8 @@
                 :height="400"
                 :headers="headers"
                 method="POST"
-                url="http://localhost:3000/api/v1/users/avatars"
-                img-format="jpg/png"
+                url="http://localhost:3000/api/v1/files/upload/avatar?type=avatar"
+                img-format="jpg"
                 langType="en"
               ></my-upload>
               <v-dialog v-model="showAvatar" max-width="400">
@@ -349,19 +349,30 @@ export default {
       fileReader.readAsDataURL(files[0]);
       this.image = files[0];
     },
-    cropUploadSuccess(jsonData, field) {
-      this.$notify({
-        group: "upload",
-        type: "success",
-        title: "Update avatar success"
-      });
-      this.uploadAvatar({ data: jsonData.data });
+    async cropUploadSuccess(res, field) {
+      const response = await this.uploadAvatar({ avatar: res.data });
+      console.log(response)
+      if (response.status === 200) {
+        this.$notify({
+          group: "upload",
+          type: "success",
+          title: "Update avatar success"
+        });
+      }
+
+      if (response.status === 400) {
+        this.$notify({
+          group: "upload",
+          type: "error",
+          title: "Update avatar failed"
+        });
+      }
     },
     cropUploadFail(status, field) {
       this.$notify({
         group: "upload",
         type: "error",
-        title: "Update avatar failed"
+        title: "Upload avatar failed"
       });
     },
     handleUpdateProfile(res) {

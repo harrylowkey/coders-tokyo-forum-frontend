@@ -65,12 +65,30 @@ export default {
       let user = localStorage.getItem('user')
       commit('SIGN_IN', { user: JSON.parse(user), accessToken })
     },
-    async uploadAvatar({ commit }, { data }) {
-      let user = localStorage.getItem('user')
-      user = JSON.parse(user)
-      user.avatar = data
-      localStorage.setItem('user', JSON.stringify(user))
-      commit('UPLOAD_AVATAR', { data })
+    async uploadAvatar({ commit }, { avatar }) {
+      commit('utils/SET_LOADING', true, { root: true })
+      const response = await axios.post('/users/avatars', { avatar })
+        .then(res => {
+          let user = localStorage.getItem('user')
+          user = JSON.parse(user)
+          user.avatar = res.data
+          localStorage.setItem('user', JSON.stringify(user))
+          commit('UPLOAD_AVATAR', { data: res.data })
+          return res
+        })
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true })
+          return err
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true })
+            commit('utils/SET_ERROR', '', { root: true })
+          }, 0)
+          return res
+        })
+        console.log(response)
+      return response
     },
     async updateProfile({ commit, getters }, data) {
       commit('utils/SET_LOADING', true, { root: true })
@@ -85,7 +103,7 @@ export default {
         })
         .catch(err => {
           commit('utils/SET_ERROR', err, { root: true })
-          return err.response
+          return err
         })
         .then(res => {
           setTimeout(() => {
