@@ -87,7 +87,6 @@ export default {
           }, 0)
           return res
         })
-        console.log(response)
       return response
     },
     async updateProfile({ commit, getters }, data) {

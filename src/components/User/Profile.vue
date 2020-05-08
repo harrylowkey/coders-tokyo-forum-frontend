@@ -351,7 +351,6 @@ export default {
     },
     async cropUploadSuccess(res, field) {
       const response = await this.uploadAvatar({ avatar: res.data });
-      console.log(response)
       if (response.status === 200) {
         this.$notify({
           group: "upload",
