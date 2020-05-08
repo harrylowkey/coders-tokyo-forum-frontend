@@ -50,7 +50,7 @@ axios.interceptors.response.use(response => {
   if (error.response.status === 400) {
     Vue.notify({
       type: "error",
-      title: error.response.data.message,
+      title: 'Not found resource',
     });
     
     router.push('/stream')
