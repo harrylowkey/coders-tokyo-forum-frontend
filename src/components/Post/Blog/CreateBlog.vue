@@ -1,15 +1,14 @@
 <template>
   <ValidationObserver ref="observer">
-    <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
     <v-form>
       <v-card class="d-flex py-3 pt-0">
         <v-row>
           <v-col cols="4" offset-sm="4" class="py-1">
             <div class="d-flex flex-column align-center">
               <user-avatar
-                :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
+                :src="user.avatar.secureURL"
                 :username="user.username"
-                style="height: 130px;"
+                style="height: 130px"
               ></user-avatar>
             </div>
           </v-col>
@@ -29,7 +28,7 @@
               ></create-tag-blog>
               <v-spacer></v-spacer>
               <v-chip
-                @click="uploadBanner = !uploadBanner"
+                @click="isUploadBanner = !isUploadBanner"
                 style="cursor: pointer"
                 text-color="#fff"
                 class="ma-2 mr-12"
@@ -48,21 +47,20 @@
                     <v-col cols="12" class="pa-0">
                       <my-upload
                         class="pt-0"
-                        v-model="uploadBanner"
-                        field="img"
-                        @crop-success="cropSuccess"
+                        v-model="isUploadBanner"
+                        field="banner"
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
+                        url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
                         :width="880"
                         :height="450"
-                        :params="params"
                         :headers="headers"
                         img-format="jpg"
                         langType="en"
                         noCircle
                       ></my-upload>
-                      <v-container class="d-flex justify-center" v-if="data.coverImage">
-                        <v-img max-width="650" max-height="250" :src="data.coverImage"></v-img>
+                      <v-container class="d-flex justify-center" v-if="data.banner.secureURL">
+                        <v-img max-width="650" max-height="250" :src="data.banner.secureURL"></v-img>
                       </v-container>
                     </v-col>
                     <v-col cols="12">
@@ -80,6 +78,7 @@
                         label="Description"
                         persistent-hint
                         rows="2"
+                        v-model="data.description"
                         hint="Write description to attract people at the first glance"
                       ></v-text-field>
                     </v-col>
@@ -135,6 +134,7 @@ import myUpload from "vue-image-crop-upload";
 import { uploadBanner } from "@/mixins/uploadBanner";
 import ToggleTag from "@/components/Shared/ToggleTag";
 import { extend, setInteractionMode } from "vee-validate";
+import { mapActions, mapState } from "vuex";
 setInteractionMode("eager");
 export default {
   mixins: [uploadBanner],
@@ -146,31 +146,25 @@ export default {
   },
   data() {
     return {
-      alert: false,
-      alertMessage: "",
-      user: {
-        username: "hong_quang"
-      },
       params: {
         token: "123456798",
         name: "avatar"
-      },
-      headers: {
-        smail: "*_~"
       },
       data: {
         topic: "",
         description: "",
         content: "",
-        coverImage: "",
-        tags: []
+        banner: "",
+        tags: [],
+        type: "blogs"
       },
       imgDataUrl: "",
       isPreviewing: false,
-      uploadBanner: false
+      isUploadBanner: false
     };
   },
   methods: {
+    ...mapActions("post", ["createPost"]),
     handleAddTag(tag) {
       this.data.tags.push(tag);
     },
@@ -185,16 +179,47 @@ export default {
         return (this.isPreviewing = true);
       }
     },
-    submit() {
-      if (this.data.coverImage === "") {
-        this.alertMessage = "Hang on! Let's upload cover images for blog";
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 3000);
-        return
+    async submit() {
+      if (this.data.banner === "") {
+        this.$notify({
+          type: "error",
+          title: "Let's upload the banner",
+        });
+        return;
       }
-      this.$refs.observer.validate();
+
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+
+      const res = await this.createPost(this.data);
+      if (res.status === 200) {
+        this.$notify({
+          type: "success",
+          title: "Success"
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Failed",
+          text: res.message
+        });
+      }
+
+      setTimeout(() => {
+        return this.$router.push({
+          path: `/blogs/${res.data._id}?type=blog`
+        });
+      }, 1000);
+    }
+  },
+  computed: {
+    ...mapState("utils", ["errorMes", "isLoading"]),
+    ...mapState("user", ["accessToken", "user"]),
+    headers() {
+      return {
+        Authorization: `Bearer ${this.accessToken}`
+      };
     }
   }
 };

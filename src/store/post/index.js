@@ -9,9 +9,11 @@ export default {
   mutations: {
   },
   actions: {
-    async createDiscussion({ commit }, data) {
+    async createPost({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true })
-      const discussion = await axios.post('/posts/discussions', data)
+      let type = data.type
+      delete data.type
+      const post = await axios.post(`/posts/${type}`, data)
         .catch(err => {
           commit('utils/SET_ERROR', err, { root: true })
           return err
@@ -23,11 +25,11 @@ export default {
           }, 0)
           return res
         })
-      return discussion
+      return post
     },
     async getPostById({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true })
-      const discussion = await axios.get(`/posts/${data.id}?type=${data.typeQuery}`)
+      const post = await axios.get(`/posts/${data.id}?type=${data.typeQuery}`)
         .then(res => {
           const { data, metadata } = res
           data.metadata = metadata
@@ -44,7 +46,7 @@ export default {
           }, 0)
           return res
         })
-      return discussion
+      return post
     },
     async deletePostById({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true })

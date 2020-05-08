@@ -1,24 +1,14 @@
 export const uploadBanner = {
   methods: {
-    cropSuccess(imgDataUrl, field) {
-      this.data.coverImage = imgDataUrl;
-    },
-    cropUploadSuccess(jsonData, field) {
-      console.log("-------- upload success --------");
-      console.log(jsonData);
-      console.log("field: " + field);
+    cropUploadSuccess(res, field) {
+      this.data.banner = res.data;
     },
     cropUploadFail(status, field) {
-      console.log("-------- upload fail --------");
-      console.log(status);
-      console.log("field: " + field);
-    },
-    uploadImageSuccess(formData, index, fileList) {
-      console.log("data", formData, index, fileList);
-      // Upload image api
-      // axios.post('http://your-url-upload', formData).then(response => {
-      //   console.log(response)
-      // })
+      this.$notify({
+        group: "upload",
+        type: "error",
+        title: "Upload banner failed"
+      });
     }
   }
 }

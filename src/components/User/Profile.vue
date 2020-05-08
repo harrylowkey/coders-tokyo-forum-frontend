@@ -21,15 +21,15 @@
               </v-list-item-content>
               <my-upload
                 field="avatar"
-                @crop-success="cropSuccess"
                 @crop-upload-success="cropUploadSuccess"
                 @crop-upload-fail="cropUploadFail"
                 v-model="dialogUploadAvatar"
                 :width="400"
                 :height="400"
-                url="http://localhost:3000/api/v1/users/avatars"
                 :headers="headers"
-                img-format="jpg"
+                method="POST"
+                url="http://localhost:3000/api/v1/users/avatars"
+                img-format="jpg/png"
                 langType="en"
               ></my-upload>
               <v-dialog v-model="showAvatar" max-width="400">
@@ -266,7 +266,6 @@ export default {
       imgDataUrl: "",
       dataUpdate: {},
       showAvatar: false,
-      avatarImg: "",
       userGithub: {
         type: "Github",
         url: ""
@@ -312,9 +311,6 @@ export default {
           paddingBottom: "0px"
         };
     },
-    loading() {
-      return this.loadingImageUpload;
-    },
     headers() {
       return {
         Authorization: `Bearer ${this.accessToken}`
@@ -353,9 +349,6 @@ export default {
       fileReader.readAsDataURL(files[0]);
       this.image = files[0];
     },
-    cropSuccess(imgDataUrl, field) {
-      this.avatarImg = imgDataUrl;
-    },
     cropUploadSuccess(jsonData, field) {
       this.$notify({
         group: "upload",
@@ -386,10 +379,13 @@ export default {
           title: "Update profile failed"
         });
       }
-      let socialLinks = res.data.socialLinks
-      this.userGithub = socialLinks.find(link => link.type === 'Github') || this.userGithub
-      this.userFacebook = socialLinks.find(link => link.type === 'Facebook') || this.userFacebook
-      this.userLinkedin = socialLinks.find(link => link.type === 'Linkedin') || this.userLinkedin
+      let socialLinks = res.data.socialLinks;
+      this.userGithub =
+        socialLinks.find(link => link.type === "Github") || this.userGithub;
+      this.userFacebook =
+        socialLinks.find(link => link.type === "Facebook") || this.userFacebook;
+      this.userLinkedin =
+        socialLinks.find(link => link.type === "Linkedin") || this.userLinkedin;
       this.user = res.data;
       this.isEdit = false;
     },

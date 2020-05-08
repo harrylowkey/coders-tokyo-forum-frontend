@@ -86,12 +86,13 @@ export default {
       data: {
         topic: "",
         content: "",
-        tags: []
+        tags: [],
+        type: 'discussions'
       }
     };
   },
   methods: {
-    ...mapActions("post", ["createDiscussion"]),
+    ...mapActions("post", ["createPost"]),
     handleAddTag(tag) {
       this.data.tags.push(tag);
     },
@@ -102,7 +103,7 @@ export default {
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
 
-      const res = await this.createDiscussion(this.data);
+      const res = await this.createPost(this.data);
       if (res.status === 200) {
         this.$notify({
           type: "success",
@@ -113,7 +114,7 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: "error",
-          title: "Make a discussion failed",
+          title: "Failed",
           text: res.message
         });
       }

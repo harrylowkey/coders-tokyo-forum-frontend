@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <v-list-item-avatar tile size="70" style="margin: 16px 0 0 0">
-      <v-img @click="onClickAvatar" :src="src" style="cursor: pointer"></v-img>
+      <v-img @click="onClickAvatar" :src="src" style="cursor: pointer; border-radius: 50%" ></v-img>
     </v-list-item-avatar>
     <v-list-item-content class="pt-md-1.5 pt-lg-1 pb-lg-1">
       <v-list-item-title class="caption text-center">
