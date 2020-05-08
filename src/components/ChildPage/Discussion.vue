@@ -180,7 +180,6 @@ export default {
           }
         }
       ],
-      comment: ""
     };
   },
   methods: {},

@@ -61,54 +61,31 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/Shared/UserAvatar";
-import CreateTag from "@/components/Shared/CreateTag";
-import { extend, setInteractionMode } from "vee-validate";
-import { required, email } from "vee-validate/dist/rules";
-import ToggleTag from "@/components/Shared/ToggleTag";
-import { mapActions, mapState } from "vuex";
-setInteractionMode("eager");
-extend("required", {
-  ...required,
-  message: "{_field_} is required"
-});
+import { createPost } from "@/mixins/createPost";
+
 export default {
-  components: {
-    UserAvatar,
-    CreateTag,
-    ToggleTag
-  },
+  mixins: [createPost],
+  components: {},
   data() {
     return {
-      user: {
-        username: "hong_quang"
-      },
       data: {
         topic: "",
         content: "",
         tags: [],
-        type: 'discussions'
+        type: "discussions"
       }
     };
   },
   methods: {
-    ...mapActions("post", ["createPost"]),
-    handleAddTag(tag) {
-      this.data.tags.push(tag);
-    },
-    handleRemoveTag(tagIndex) {
-      this.data.tags.splice(tagIndex, 1);
-    },
+    //overide submit in mixins
     async submit() {
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
-
       const res = await this.createPost(this.data);
       if (res.status === 200) {
         this.$notify({
           type: "success",
-          title: "Success",
-          text: 'Make a discussion success'
+          title: "Success"
         });
       }
       if (res.status === 400) {
@@ -121,26 +98,16 @@ export default {
 
       setTimeout(() => {
         return this.$router.push({
-          path: `/discussions/${res.data._id}?type=discussion`
+          path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
+            0,
+            this.data.type.length - 1
+          )}`
         });
       }, 1000);
     }
   },
-  computed: {
-    ...mapState("utils", ["errorMes"])
-  },
-  watch: {
-    errorMes(newVal) {
-      if (newVal.length) {
-        this.$notify({
-          group: "auth",
-          type: "error",
-          title: "Login failed",
-          text: newVal
-        });
-      }
-    }
-  }
+  computed: {},
+  watch: {}
 };
 </script>
 

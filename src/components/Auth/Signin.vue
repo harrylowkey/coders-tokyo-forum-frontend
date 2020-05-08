@@ -81,7 +81,6 @@ export default {
     errorMes(newVal) {
       if (newVal.length) {
         this.$notify({
-          group: "auth",
           type: "error",
           title: "Login failed",
           text: newVal

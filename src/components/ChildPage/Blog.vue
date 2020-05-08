@@ -223,7 +223,6 @@ export default {
           }
         }
       ],
-      comment: ""
     };
   },
   methods: {},

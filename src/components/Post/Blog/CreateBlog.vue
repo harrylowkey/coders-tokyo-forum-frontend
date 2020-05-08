@@ -128,28 +128,13 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/Shared/UserAvatar";
-import CreateTagBlog from "@/components/Shared/CreateTagBlog";
-import myUpload from "vue-image-crop-upload";
-import { uploadBanner } from "@/mixins/uploadBanner";
-import ToggleTag from "@/components/Shared/ToggleTag";
-import { extend, setInteractionMode } from "vee-validate";
-import { mapActions, mapState } from "vuex";
-setInteractionMode("eager");
+import { createPost } from "@/mixins/createPost";
+
 export default {
-  mixins: [uploadBanner],
-  components: {
-    UserAvatar,
-    CreateTagBlog,
-    myUpload,
-    ToggleTag
-  },
+  mixins: [createPost],
+  components: {},
   data() {
     return {
-      params: {
-        token: "123456798",
-        name: "avatar"
-      },
       data: {
         topic: "",
         description: "",
@@ -163,65 +148,9 @@ export default {
       isUploadBanner: false
     };
   },
-  methods: {
-    ...mapActions("post", ["createPost"]),
-    handleAddTag(tag) {
-      this.data.tags.push(tag);
-    },
-    handleRemoveTag(tagIndex) {
-      this.data.tags.splice(tagIndex, 1);
-    },
-    togglePreviewContent() {
-      if (this.isPreviewing) {
-        return (this.isPreviewing = false);
-      }
-      if (!this.isPreviewing && this.data.content.trim() !== "") {
-        return (this.isPreviewing = true);
-      }
-    },
-    async submit() {
-      if (this.data.banner === "") {
-        this.$notify({
-          type: "error",
-          title: "Let's upload the banner",
-        });
-        return;
-      }
-
-      const isValid = await this.$refs.observer.validate();
-      if (!isValid) return;
-
-      const res = await this.createPost(this.data);
-      if (res.status === 200) {
-        this.$notify({
-          type: "success",
-          title: "Success"
-        });
-      }
-      if (res.status === 400) {
-        this.$notify({
-          type: "error",
-          title: "Failed",
-          text: res.message
-        });
-      }
-
-      setTimeout(() => {
-        return this.$router.push({
-          path: `/blogs/${res.data._id}?type=blog`
-        });
-      }, 1000);
-    }
-  },
-  computed: {
-    ...mapState("utils", ["errorMes", "isLoading"]),
-    ...mapState("user", ["accessToken", "user"]),
-    headers() {
-      return {
-        Authorization: `Bearer ${this.accessToken}`
-      };
-    }
-  }
+  methods: {},
+  computed: {},
+  watch: {}
 };
 </script>
 

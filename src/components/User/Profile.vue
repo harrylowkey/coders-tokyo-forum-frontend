@@ -321,7 +321,6 @@ export default {
     errorMes(newVal) {
       if (newVal.length) {
         this.$notify({
-          group: "auth",
           type: "error",
           title: "Update failed",
           text: newVal

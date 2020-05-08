@@ -11,9 +11,7 @@ export default {
   actions: {
     async createPost({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true })
-      let type = data.type
-      delete data.type
-      const post = await axios.post(`/posts/${type}`, data)
+      const post = await axios.post(`/posts/${data.type}`, data)
         .catch(err => {
           commit('utils/SET_ERROR', err, { root: true })
           return err

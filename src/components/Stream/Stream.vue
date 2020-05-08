@@ -73,7 +73,6 @@ export default {
   mounted() {
     if (this.isWelcomeLogin) {
       this.$notify({
-        group: "auth",
         type: "success",
         title: "Login success"
       });
