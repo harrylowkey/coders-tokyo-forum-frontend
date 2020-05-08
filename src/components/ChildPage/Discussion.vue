@@ -3,22 +3,22 @@
     <v-row id="post">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
-          :likes="(discussion && discussion.metadata) ? discussion.metadata.likes : 0"
-          :saves="(discussion && discussion.metadata) ? discussion.metadata.saves : 0"
+          :likes="(post && post.metadata) ? post.metadata.likes : 0"
+          :saves="(post && post.metadata) ? post.metadata.saves : 0"
           :flowers="0"
-          :postId="discussion._id"
+          :postId="post._id"
         ></post-reactions>
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
         <v-card class="mx-auto mt-6 pb-2">
           <v-list-item style="padding: 0px 25px 0 20px">
             <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-              <v-list-item-title class="headline discuss-title mb-0 py-3">{{ discussion.topic }}</v-list-item-title>
+              <v-list-item-title class="headline discuss-title mb-0 py-3">{{ post.topic }}</v-list-item-title>
               <v-divider></v-divider>
               <div
                 style="line-height: 1.4;"
                 class="mt-lg-n9 pt-12"
-                v-html="$options.filters.markdown(discussion.content)"
+                v-html="$options.filters.markdown(post.content)"
               ></div>
             </v-list-item-content>
           </v-list-item>
@@ -31,17 +31,19 @@
               <v-card-text
                 class="font-italic font-weight-light pt-0 pb-0"
                 style="font-size: small"
-              >{{ discussion.createdAt | date }}</v-card-text>
+              >{{ post.createdAt | date }}</v-card-text>
               <div style="width: 200px">
                 <edit-delete-btns
-                  :postId="discussion._id"
-                  :postType="discussion.type"
+                  @handleDeletePost="handleDeletePost"
+                  v-if="isAuthor"
+                  :postId="post._id"
+                  :postType="post.type"
                 ></edit-delete-btns>
               </div>
             </div>
             <div>
               <tag
-                v-for="(tag, i) in discussion.tags"
+                v-for="(tag, i) in post.tags"
                 :key="i"
                 class="ml-2"
                 :tagName="tag.tagName"
@@ -59,13 +61,13 @@
 
               <write-comment></write-comment>
 
-              <div v-if="discussion.comments ? discussion.comments.length : false">
+              <div v-if="post.comments ? post.comments.length : false">
                 <comment
-                  v-for="comment in discussion.comments"
+                  v-for="comment in post.comments"
                   :key="comment._id"
                   :comment="comment"
-                  :author="discussion.user"
-                  :postId="discussion._id"
+                  :author="post.user"
+                  :postId="post._id"
                 ></comment>
               </div>
             </div>
@@ -108,7 +110,7 @@ import { userSocialLinks } from "@/mixins/userSocialLinks";
 import ReadTime from "@/components/Shared/readTime";
 import WriteComment from "@/components/Comment/WriteComment";
 import EditDeleteBtns from "../Post/EditDeleteBtns";
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState } from "vuex";
 export default {
   mixins: [userSocialLinks],
   data() {
@@ -133,7 +135,7 @@ export default {
             "How can I remove an image in a folder on cloudinary in Nodejs?",
           content:
             "I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
-          type: "discussion",
+          type: "post",
           createdAt: "2020-04-13T16:36:14.767Z",
           updatedAt: "2020-04-13T16:46:02.835Z",
           metadata: {
@@ -162,7 +164,7 @@ export default {
             "How can I remove an image in a folder on cloudinary in Nodejs?",
           content:
             "I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
-          type: "discussion",
+          type: "post",
           createdAt: "2020-04-13T16:36:14.767Z",
           updatedAt: "2020-04-13T16:46:02.835Z",
           metadata: {
@@ -182,17 +184,40 @@ export default {
         marginLeft: "12px !important",
         borderRadius: "4px"
       },
-      comment: '',
+      comment: "",
+      post: ""
     };
   },
   methods: {
-    ...mapActions('post', ['getPostById'])
+    ...mapActions("post", ["getPostById", "deletePostById"]),
+    async handleDeletePost() {
+      const response = await this.deletePostById({
+        id: this.post._id,
+        typeQuery: this.post.type
+      });
+      if (response.status === 200) {
+        this.$notify({
+          type: "success",
+          title: response.data.message
+        });
+      }
+      if (response.status === 400) {
+        this.$notify({
+          type: "error",
+          title: response.message
+        });
+      }
+      setTimeout(() => {
+        return this.$router.push({ path: "/stream" });
+      }, 1000);
+    }
   },
   computed: {
-    ...mapState('user', ['user']),
-    ...mapState('post', ['discussion']),
-    ...mapState('utils', ['isLoading', 'errorMes']),
-
+    ...mapState("user", ["user"]),
+    ...mapState("utils", ["isLoading", "errorMes"]),
+    isAuthor() {
+      return this.user._id === (this.post ? this.post.user._id : false);
+    }
   },
   components: {
     Tag,
@@ -212,8 +237,11 @@ export default {
     OtherPostsOfAuthor
   },
   created() {
-    this.getPostById({ id: this.$route.params.id, typeQuery: this.$route.query.type})
-  },
+    this.getPostById({
+      id: this.$route.params.id,
+      typeQuery: this.$route.query.type
+    }).then(data => (this.post = data));
+  }
 };
 </script>
 

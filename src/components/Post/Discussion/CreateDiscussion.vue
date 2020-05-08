@@ -1,6 +1,5 @@
 <template>
   <ValidationObserver ref="observer">
-    <notifications class="notif"/>
     <v-form>
       <v-card class="d-flex py-3">
         <div style="flex: 26%" class="d-flex flex-column align-center">
@@ -67,7 +66,7 @@ import CreateTag from "@/components/Shared/CreateTag";
 import { extend, setInteractionMode } from "vee-validate";
 import { required, email } from "vee-validate/dist/rules";
 import ToggleTag from "@/components/Shared/ToggleTag";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 setInteractionMode("eager");
 extend("required", {
   ...required,
@@ -108,6 +107,7 @@ export default {
         this.$notify({
           type: "success",
           title: "Success",
+          text: 'Make a discussion success'
         });
       }
       if (res.status === 400) {
@@ -119,16 +119,29 @@ export default {
       }
 
       setTimeout(() => {
-        return this.$router.push({ path: `/discussions/${res.data._id}?type=discussion`})
-      }, 1000)
+        return this.$router.push({
+          path: `/discussions/${res.data._id}?type=discussion`
+        });
+      }, 1000);
+    }
+  },
+  computed: {
+    ...mapState("utils", ["errorMes"])
+  },
+  watch: {
+    errorMes(newVal) {
+      if (newVal.length) {
+        this.$notify({
+          group: "auth",
+          type: "error",
+          title: "Login failed",
+          text: newVal
+        });
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-
-.notif {
-  margin-top: 60px
-}
 </style>

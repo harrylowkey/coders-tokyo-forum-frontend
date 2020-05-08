@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <notifications class="notif" group="upload" />
     <v-row>
       <v-col cols="12" sm="8">
         <profile-tabs></profile-tabs>
@@ -471,9 +470,5 @@ export default {
 
 .col {
   height: 40px !important;
-}
-
-.notif {
-  margin-top: 60px
 }
 </style>

@@ -12,4 +12,3 @@ export const UPDATE_PROFILE = 'UPDATE_PROFILE'
 
 //post
 export const CREATE_DISCUSSION = 'CREATE_DISCUSSION'
-export const SET_POST = 'SET_POST'

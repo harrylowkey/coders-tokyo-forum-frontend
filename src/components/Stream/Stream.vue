@@ -1,6 +1,5 @@
 <template>
   <v-container fluid style="padding: 0 !important">
-    <notifications class="notif" group="auth" />
     <app-banner></app-banner>
     <v-divider></v-divider>
     <v-divider inset></v-divider>
@@ -84,7 +83,4 @@ export default {
 </script>
 
 <style>
-.notif {
-  margin-top: 60px;
-}
 </style>

@@ -5,12 +5,8 @@ export default {
   namespaced: true,
   state: {
     discussions: [],
-    discussion: {}
   },
   mutations: {
-    [SET_POST](state, data) {
-      state[data.type] = data
-    }
   },
   actions: {
     async createDiscussion({ commit }, data) {
@@ -35,8 +31,7 @@ export default {
         .then(res => {
           const { data, metadata } = res
           data.metadata = metadata
-          commit('SET_POST', data)
-          return res.data
+          return data
         })
         .catch(err => {
           commit('utils/SET_ERROR', err, { root: true })
@@ -50,6 +45,22 @@ export default {
           return res
         })
       return discussion
+    },
+    async deletePostById({ commit }, data) {
+      commit('utils/SET_LOADING', true, { root: true })
+      const response = await axios.delete(`/posts/${data.id}?type=${data.typeQuery}`)
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true })
+          return err
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true })
+            commit('utils/SET_ERROR', '', { root: true })
+          }, 0)
+          return res
+        })
+      return response
     }
   }
 }

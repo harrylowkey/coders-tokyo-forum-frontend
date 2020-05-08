@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <notifications class="notif" group="auth" />
     <v-app id="inspire">
       <v-content>
         <v-container fluid fill-height>
@@ -38,7 +37,11 @@
                     href="/signup"
                   >Don't have an account yet?</a>
                   <v-spacer></v-spacer>
-                  <v-btn :disabled="!email || !password" color="primary" @click="signIn({ email, password })">Login</v-btn>
+                  <v-btn
+                    :disabled="!email || !password"
+                    color="primary"
+                    @click="signIn({ email, password })"
+                  >Login</v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -55,10 +58,10 @@ export default {
   data() {
     return {
       alert: false,
-      alertMessage: '',
+      alertMessage: "",
       email: "",
       password: "",
-      redirect: "/stream",
+      redirect: "/stream"
     };
   },
   computed: {
@@ -68,16 +71,20 @@ export default {
   watch: {
     isAuthenticated(isAuthen) {
       if (isAuthen) {
-        this.$router.push({ path: this.redirect });
+        this.$notify({
+          type: "success",
+          title: "Login success"
+        });
+        setTimeout(() => this.$router.push({ path: this.redirect }), 500);
       }
     },
     errorMes(newVal) {
       if (newVal.length) {
         this.$notify({
-          group: 'auth',
-          type: 'error',
-          title: 'Login failed',
-          text: newVal,
+          group: "auth",
+          type: "error",
+          title: "Login failed",
+          text: newVal
         });
       }
     }
@@ -89,7 +96,4 @@ export default {
 </script>
 
 <style>
-.notif {
-  margin-top: 60px
-}
 </style>
