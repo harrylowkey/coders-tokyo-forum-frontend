@@ -3,6 +3,7 @@
     <v-row id="post">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
+          v-if="post"
           :likes="(post && post.metadata) ? post.metadata.likes : 0"
           :saves="(post && post.metadata) ? post.metadata.saves : 0"
           :flowers="0"
@@ -12,7 +13,7 @@
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
         <v-card class="mx-auto mt-6 pb-2">
           <v-list-item style="padding: 0px 25px 0 20px">
-            <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
+            <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0" v-if="post">
               <v-list-item-title class="headline discuss-title mb-0 py-3">{{ post.topic }}</v-list-item-title>
               <v-divider></v-divider>
               <div
@@ -27,21 +28,21 @@
             style="padding: 0 25px 0px 6px"
             class="pb-1 pb-lg-2 d-flex justify-space-between"
           >
-            <div class="d-flex">
+            <div class="d-flex" v-if="post">
               <v-card-text
                 class="font-italic font-weight-light pt-0 pb-0"
                 style="font-size: small"
               >{{ post.createdAt | date }}</v-card-text>
               <div style="width: 200px">
                 <edit-delete-btns
+                  v-if="post && isAuthor"
                   @handleDeletePost="handleDeletePost"
-                  v-if="isAuthor"
                   :postId="post._id"
                   :postType="post.type"
                 ></edit-delete-btns>
               </div>
             </div>
-            <div>
+            <div v-if="post">
               <tag
                 v-for="(tag, i) in post.tags"
                 :key="i"
@@ -61,7 +62,7 @@
 
               <write-comment></write-comment>
 
-              <div v-if="post.comments ? post.comments.length : false">
+              <div v-if="post ? post.comments.length : false">
                 <comment
                   v-for="comment in post.comments"
                   :key="comment._id"
@@ -87,7 +88,13 @@
         xl="3"
         class="wrapper-author-follow d-sm-none d-md-flex"
       >
-        <author-follow-card class="author-follow" :user="user" :description="user.description"></author-follow-card>
+        <author-follow-card
+        v-if="post"
+          class="author-follow"
+          :isAuthor="isAuthor"
+          :author="post.user"
+          :userId="user._id"
+        ></author-follow-card>
       </v-col>
     </v-row>
   </div>
@@ -185,7 +192,7 @@ export default {
         borderRadius: "4px"
       },
       comment: "",
-      post: ""
+      post: null
     };
   },
   methods: {
@@ -210,6 +217,14 @@ export default {
       setTimeout(() => {
         return this.$router.push({ path: "/stream" });
       }, 1000);
+    },
+    async fetchPost() {
+      this.getPostById({
+        id: this.$route.params.id,
+        typeQuery: this.$route.query.type
+      }).then(data => {
+        this.post = data
+      });
     }
   },
   computed: {
@@ -236,11 +251,8 @@ export default {
     PostReactions,
     OtherPostsOfAuthor
   },
-  created() {
-    this.getPostById({
-      id: this.$route.params.id,
-      typeQuery: this.$route.query.type
-    }).then(data => (this.post = data));
+  async created() {
+    await this.fetchPost();
   }
 };
 </script>

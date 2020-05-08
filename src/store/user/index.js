@@ -65,7 +65,7 @@ export default {
       let user = localStorage.getItem('user')
       commit('SIGN_IN', { user: JSON.parse(user), accessToken })
     },
-    async uploadAvatar({ commit, getters }, { data }) {
+    async uploadAvatar({ commit }, { data }) {
       let user = localStorage.getItem('user')
       user = JSON.parse(user)
       user.avatar = data
@@ -95,6 +95,38 @@ export default {
           return res
         })
       return dataUpdated
+    },
+    async follow({ commit }, userToFollowId) {
+      commit('utils/SET_LOADING', true, { root: true })
+      let response = await axios.post(`/users/${userToFollowId}/follow`)
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true })
+          return err.response
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true })
+            commit('utils/SET_ERROR', '', { root: true })
+          }, 0)
+          return res
+        })
+      return response
+    },
+    async unfollow({ commit }, userToUnFollowId) {
+      commit('utils/SET_LOADING', true, { root: true })
+      let response = await axios.post(`/users/${userToUnFollowId}/unfollow`)
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true })
+          return err.response
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true })
+            commit('utils/SET_ERROR', '', { root: true })
+          }, 0)
+          return res
+        })
+      return response
     }
   },
   getters: {
