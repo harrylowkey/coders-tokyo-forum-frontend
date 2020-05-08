@@ -1,6 +1,5 @@
 <template>
   <ValidationObserver ref="observer">
-    <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
     <v-form>
       <v-card class="d-flex py-3 pt-0">
         <v-row>
@@ -30,7 +29,7 @@
               ></create-tag-blog>
               <v-spacer></v-spacer>
               <v-chip
-                @click="uploadBanner = !uploadBanner"
+                @click="isUploadBanner = !isUploadBanner"
                 style="cursor: pointer"
                 text-color="#fff"
                 class="ma-2 mr-12"
@@ -49,21 +48,20 @@
                     <v-col cols="12" class="pa-0">
                       <my-upload
                         class="pt-0"
-                        field="img"
-                        @crop-success="cropSuccess"
+                        field="banner"
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
-                        v-model="uploadBanner"
+                        v-model="isUploadBanner"
+                        url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
                         :width="800"
                         :height="400"
-                        :params="params"
                         :headers="headers"
                         img-format="jpg"
                         langType="en"
                         noCircle
                       ></my-upload>
-                      <v-container class="d-flex justify-center" v-if="data.coverImage">
-                        <v-img max-width="650" max-height="250" :src="data.coverImage"></v-img>
+                      <v-container class="d-flex justify-center" v-if="data.banner.secureURL">
+                        <v-img max-width="650" max-height="250" :src="data.banner.secureURL"></v-img>
                       </v-container>
                     </v-col>
                     <v-col cols="12" sm="8" md="8">
@@ -116,7 +114,11 @@
                     <v-col cols="12" sm="6" md="4" v-if="addCoAuthor">
                       <div class="d-flex align-end">
                         <ValidationProvider name="Name" rules="required" v-slot="{ errors }">
-                          <v-text-field :error-messages="errors" v-model="coAuthor" label="Co - Author"></v-text-field>
+                          <v-text-field
+                            :error-messages="errors"
+                            v-model="coAuthor"
+                            label="Co - Author"
+                          ></v-text-field>
                         </ValidationProvider>
                       </div>
                     </v-col>
@@ -239,42 +241,13 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/Shared/UserAvatar";
-import CreateTagBlog from "@/components/Shared/CreateTagBlog";
-import myUpload from "vue-image-crop-upload";
-import { uploadBanner } from "@/mixins/uploadBanner";
-import { extend, setInteractionMode } from "vee-validate";
-import ToggleTag from "@/components/Shared/ToggleTag";
-setInteractionMode("eager");
+import { createPost } from "@/mixins/createPost";
+
 export default {
-  mixins: [uploadBanner],
-  components: {
-    UserAvatar,
-    CreateTagBlog,
-    myUpload,
-    ToggleTag
-  },
+  mixins: [createPost],
+  components: {},
   data() {
     return {
-      alert: false,
-      alertMessage: "",
-      author: "",
-      coAuthor: "",
-      recommender: "",
-      recommender2: "",
-      addCoAuthor: false,
-      addRecomender2: false,
-      user: {
-        username: "hong_quang"
-      },
-      uploadBanner: false,
-      params: {
-        token: "123456798",
-        name: "avatar"
-      },
-      headers: {
-        smail: "*_~"
-      },
       data: {
         tags: [],
         book: {
@@ -291,8 +264,16 @@ export default {
         topic: "",
         description: "",
         content: "",
-        type: "book"
+        type: "books",
+        banner: ""
       },
+      author: "",
+      coAuthor: "",
+      recommender: "",
+      recommender2: "",
+      addCoAuthor: false,
+      addRecomender2: false,
+      isUploadBanner: false,
       imgDataUrl: "",
       isPreviewing: false,
       genres: [
@@ -312,12 +293,6 @@ export default {
   },
   computed: {},
   methods: {
-    handleAddTag(tag) {
-      this.data.tags.push(tag);
-    },
-    handleRemoveTag(tagIndex) {
-      this.data.tags.splice(tagIndex, 1);
-    },
     handleRemoveCoAuthor() {
       this.addCoAuthor = !this.addCoAuthor;
       this.coAuthor = "";
@@ -326,23 +301,17 @@ export default {
       this.addRecomender2 = !this.addRecomender2;
       this.recommender2 = 0;
     },
-    togglePreviewContent() {
-      if (this.isPreviewing) {
-        return (this.isPreviewing = false);
-      }
-      if (!this.isPreviewing && this.data.content.trim() !== "") {
-        return (this.isPreviewing = true);
-      }
-    },
-    submit() {
-      if (this.data.coverImage === "") {
-        this.alertMessage = "Hang on! Let's upload cover images for blog";
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 3000);
+    async submit() {
+      if (this.data.banner === "") {
+        this.$notify({
+          type: "error",
+          title: "Let's upload the banner"
+        });
         return;
       }
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+
       this.data.authors = [
         { type: "author", name: this.author },
         { type: "author", name: this.coAuthor }
@@ -350,7 +319,28 @@ export default {
       this.data.book.suggestedBy = [this.recommender, this.recommender2].filter(
         recommender => recommender !== ""
       );
-      this.$refs.observer.validate();
+
+      const res = await this.createPost(this.data);
+      if (res.status === 200) {
+        this.$notify({
+          type: "success",
+          title: "Success"
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Failed",
+          text: res.message
+        });
+      }
+
+      let type = this.data.type.slice(0, this.data.type.length - 1);
+      setTimeout(() => {
+        return this.$router.push({
+          path: `/${type}Reviews/${res.data._id}?type=${type}`
+        });
+      }, 1000);
     }
   }
 };

@@ -1,6 +1,7 @@
 export const uploadBanner = {
   methods: {
     cropUploadSuccess(res, field) {
+      console.log(res.data)
       this.data.banner = res.data;
     },
     cropUploadFail(status, field) {
