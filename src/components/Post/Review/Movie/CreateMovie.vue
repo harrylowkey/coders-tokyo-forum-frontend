@@ -1,6 +1,5 @@
 <template>
   <ValidationObserver ref="observer">
-    <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
     <v-form>
       <v-card class="d-flex py-3 pt-0">
         <v-row>
@@ -30,7 +29,7 @@
               ></create-tag-blog>
               <v-spacer></v-spacer>
               <v-chip
-                @click="uploadBanner = !uploadBanner"
+                @click="isUploadBanner = !isUploadBanner"
                 style="cursor: pointer"
                 text-color="#fff"
                 class="ma-2 mr-12"
@@ -53,7 +52,7 @@
                         @crop-success="cropSuccess"
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
-                        v-model="uploadBanner"
+                        v-model="isUploadBanner"
                         :width="800"
                         :height="400"
                         :params="params"
@@ -62,8 +61,8 @@
                         langType="en"
                         noCircle
                       ></my-upload>
-                      <v-container class="d-flex justify-center" v-if="data.coverImage">
-                        <v-img max-width="650" max-height="250" :src="data.coverImage"></v-img>
+                      <v-container class="d-flex justify-center" v-if="data.banner.secureURL">
+                        <v-img max-width="650" max-height="250" :src="data.banner.secureURL"></v-img>
                       </v-container>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
@@ -269,25 +268,13 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/Shared/UserAvatar";
-import CreateTagBlog from "@/components/Shared/CreateTagBlog";
-import myUpload from "vue-image-crop-upload";
-import { uploadBanner } from "@/mixins/uploadBanner";
-import { extend, setInteractionMode } from "vee-validate";
-import ToggleTag from "@/components/Shared/ToggleTag";
-setInteractionMode("eager");
+import { createPost } from "@/mixins/createPost";
+
 export default {
-  mixins: [uploadBanner],
-  components: {
-    UserAvatar,
-    CreateTagBlog,
-    ToggleTag,
-    myUpload
-  },
+  mixins: [createPost],
+  components: {},
   data() {
     return {
-      alert: false,
-      alertMessage: "",
       director: "",
       coDirector: "",
       actor: "",
@@ -298,17 +285,7 @@ export default {
       addActor2: "",
       addActor3: "",
       addActor4: "",
-      user: {
-        username: "hong_quang"
-      },
-      uploadBanner: false,
-      params: {
-        token: "123456798",
-        name: "avatar"
-      },
-      headers: {
-        smail: "*_~"
-      },
+      isUploadBanner: false,
       data: {
         tags: [],
         movie: {
@@ -325,7 +302,7 @@ export default {
         topic: "",
         description: "",
         content: "",
-        type: "movie",
+        type: "movies",
         cover: ""
       },
       imgDataUrl: "",
@@ -335,12 +312,6 @@ export default {
   },
   computed: {},
   methods: {
-    handleAddTag(tag) {
-      this.data.tags.push(tag);
-    },
-    handleRemoveTag(tagIndex) {
-      this.data.tags.splice(tagIndex, 1);
-    },
     handleRemoveCoDirector() {
       this.addCoDirector = !this.addCoDirector;
       this.coDirector = "";
@@ -349,33 +320,39 @@ export default {
       this[`addActor${index}`] = !this[`addActor${index}`];
       this[`actor${index}`] = "";
     },
-    togglePreviewContent() {
-      if (this.isPreviewing) {
-        return (this.isPreviewing = false);
-      }
-      if (!this.isPreviewing && this.data.content.trim() !== "") {
-        return (this.isPreviewing = true);
-      }
-    },
-    submit() {
-      if (this.data.coverImage === "") {
-        this.alertMessage = "Hang on! Let's upload cover images for blog";
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 3000);
+    async submit() {
+      if (this.data.banner === "") {
+        this.$notify({
+          type: "error",
+          title: "Let's upload the banner"
+        });
         return;
       }
-      this.data.authors = [
-        { type: "actor", name: this.actor },
-        { type: "actor", name: this.actor2 },
-        { type: "actor", name: this.actor3 },
-        { type: "actor", name: this.actor4 },
-        { type: "director", name: this.director },
-        { type: "director", name: this.coDirector }
-      ].filter(person => person.name !== "");
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+      const res = await this.createPost(this.data);
+      if (res.status === 200) {
+        this.$notify({
+          type: "success",
+          title: "Success"
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Failed",
+          text: res.message
+        });
+      }
 
-      this.$refs.observer.validate();
+      setTimeout(() => {
+        return this.$router.push({
+          path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
+            0,
+            this.data.type.length - 1
+          )}`
+        });
+      }, 1000);
     }
   }
 };
