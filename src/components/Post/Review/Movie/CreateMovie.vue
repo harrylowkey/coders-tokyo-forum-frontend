@@ -48,14 +48,13 @@
                     <v-col cols="12" class="pa-0">
                       <my-upload
                         class="pt-0"
-                        field="img"
-                        @crop-success="cropSuccess"
+                        field="banner"
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
                         v-model="isUploadBanner"
+                        url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
                         :width="800"
                         :height="400"
-                        :params="params"
                         :headers="headers"
                         img-format="jpg"
                         langType="en"
@@ -303,7 +302,7 @@ export default {
         description: "",
         content: "",
         type: "movies",
-        cover: ""
+        banner: ""
       },
       imgDataUrl: "",
       isPreviewing: false,
@@ -347,7 +346,7 @@ export default {
 
       setTimeout(() => {
         return this.$router.push({
-          path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
+          path: `/${this.data.type}Reviews/${res.data._id}?type=${this.data.type.slice(
             0,
             this.data.type.length - 1
           )}`

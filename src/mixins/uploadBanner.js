@@ -1,4 +1,4 @@
-export const isUploadBanner = {
+export const uploadBanner = {
   methods: {
     cropUploadSuccess(res, field) {
       this.data.banner = res.data;
