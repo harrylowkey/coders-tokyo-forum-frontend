@@ -77,7 +77,6 @@ export default {
     };
   },
   methods: {
-    //overide submit in mixins
     async submit() {
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;

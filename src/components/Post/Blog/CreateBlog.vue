@@ -148,7 +148,43 @@ export default {
       isUploadBanner: false
     };
   },
-  methods: {},
+  methods: {
+    async submit() {
+      if (this.data.banner === "") {
+        this.$notify({
+          type: "error",
+          title: "Let's upload the banner"
+        });
+        return;
+      }
+
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+      const res = await this.createPost(this.data);
+      if (res.status === 200) {
+        this.$notify({
+          type: "success",
+          title: "Success"
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Failed",
+          text: res.message
+        });
+      }
+
+      setTimeout(() => {
+        return this.$router.push({
+          path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
+            0,
+            this.data.type.length - 1
+          )}`
+        });
+      }, 1000);
+    }
+  },
   computed: {},
   watch: {}
 };
