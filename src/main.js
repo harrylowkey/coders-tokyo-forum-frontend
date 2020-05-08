@@ -35,12 +35,25 @@ axios.interceptors.response.use(response => {
     if (response.data.metadata) {
       response.metadata = response.data.metadata
     }
-    response.data = response.data.data
+    if (response.data.data) {
+      response.data = response.data.data
+    }
+    return response
   }
   return response
 }, function (error) {
   if (error.response.status === 401) {
     router.push('/signin');
+    return Promise.reject(error);
+  }
+
+  if (error.response.status === 400) {
+    Vue.notify({
+      type: "error",
+      title: error.response.data.message,
+    });
+    
+    router.push('/stream')
     return Promise.reject(error);
   }
   return Promise.reject(error);

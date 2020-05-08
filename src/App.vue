@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <notifications class="notif" />
     <v-card color="grey lighten-4">
       <v-toolbar dense class="toolbar">
         <v-app-bar-nav-icon class="hidden-sm-and-up" @click.stop="sideNav = !sideNav"></v-app-bar-nav-icon>
@@ -135,5 +136,9 @@ export default {
   top: 0;
   z-index: 1;
   width: 100%;
+}
+
+.notif {
+  margin-top: 60px;
 }
 </style>
