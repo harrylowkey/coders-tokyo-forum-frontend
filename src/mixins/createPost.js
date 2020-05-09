@@ -4,7 +4,7 @@ import myUpload from "vue-image-crop-upload";
 import { uploadBanner } from "@/mixins/uploadBanner";
 import ToggleTag from "@/components/Shared/ToggleTag";
 import { extend, setInteractionMode } from "vee-validate";
-import { required, email } from "vee-validate/dist/rules";
+import { required, numeric } from "vee-validate/dist/rules";
 import { mapActions, mapState } from "vuex";
 import CreateTag from "@/components/Shared/CreateTag";
 
@@ -13,10 +13,23 @@ extend("required", {
   ...required,
   message: "{_field_} is required"
 });
+
+extend("minmax", {
+  validate(value, { min, max }) {
+    return value >= Number(min) && value <= Number(max);
+  },
+  message: "Valid range: 1 - 10",
+  params: ["min", "max"]
+});
+
+extend("numeric", {
+  ...numeric,
+  message: "{_field_} must be a number"
+});
 export const createPost = {
   mixins: [uploadBanner],
   methods: {
-    ...mapActions("post", ["createPost"]),
+    ...mapActions("post", ["createPost", 'uploadFiles', 'deleteFile']),
     handleAddTag(tag) {
       this.data.tags.push(tag);
     },

@@ -1,6 +1,5 @@
 <template>
   <ValidationObserver ref="observer">
-    <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
     <v-form>
       <v-card class="d-flex py-3 pt-0">
         <v-row>
@@ -52,21 +51,20 @@
                     <v-col cols="12" class="pa-0">
                       <my-upload
                         class="pt-0"
-                        field="img"
-                        @crop-success="cropSuccess"
+                        field="banner"
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
                         v-model="uploadBanner"
                         :width="800"
                         :height="400"
-                        :params="params"
                         :headers="headers"
                         img-format="jpg"
                         langType="en"
                         noCircle
+                        url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
                       ></my-upload>
-                      <v-container class="d-flex justify-center" v-if="data.coverImage">
-                        <v-img max-width="650" max-height="250" :src="data.coverImage"></v-img>
+                      <v-container class="d-flex justify-center" v-if="data.banner.secureURL">
+                        <v-img max-width="650" max-height="250" :src="data.banner.secureURL"></v-img>
                       </v-container>
                     </v-col>
                     <v-col cols="12">
@@ -78,22 +76,29 @@
                         id="my-strictly-unique-vue-upload-multiple-image"
                         style="display: flex; justify-content: center;"
                       >
-                        <vue-upload-multiple-image
-                          @upload-success="uploadImageSuccess"
-                          @before-remove="beforeRemove"
-                          @edit-image="editImage"
-                          idUpload="myIdUpload"
-                          editUpload="myIdEdit"
-                          :data-images="foodPhotos"
-                          :maxImage="maxImages"
-                          :primaryText="''"
-                          :showPrimary="false"
-                          :markIsPrimaryText="''"
-                          :accept="'image/gif,image/jpeg,image/png,image/bmp,image/jpg'"
-                          :dragText="'Drag photos to here'"
-                          :browseText="'or choose'"
-                          @limit-exceeded="handleLimitExceed"
-                        ></vue-upload-multiple-image>
+                        <div >
+                          <vue-upload-multiple-image
+                            @upload-success="uploadImageSuccess"
+                            @before-remove="beforeRemove"
+                            @edit-image="editImage"
+                            :data-images="previewPhotos"
+                            :maxImage="maxImages"
+                            :primaryText="''"
+                            :showPrimary="false"
+                            :markIsPrimaryText="''"
+                            :accept="'image/gif,image/jpeg,image/png,image/bmp,image/jpg'"
+                            :dragText="'Drag photos to here'"
+                            :browseText="'or choose'"
+                            @limit-exceeded="handleLimitExceed"
+                          ></vue-upload-multiple-image>
+                        </div>
+                        <!-- <v-skeleton-loader
+                          v-if="isLoading"
+                          class
+                          height="180"
+                          width="200"
+                          type="card"
+                        ></v-skeleton-loader> -->
                       </div>
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
@@ -264,63 +269,19 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/Shared/UserAvatar";
-import CreateTagBlog from "@/components/Shared/CreateTagBlog";
-import myUpload from "vue-image-crop-upload";
 import VueUploadMultipleImage from "vue-upload-multiple-image";
-import { uploadBanner } from "@/mixins/uploadBanner";
-import { extend, setInteractionMode } from "vee-validate";
-import { required, numeric } from "vee-validate/dist/rules";
-setInteractionMode("eager");
-extend("minmax", {
-  validate(value, { min, max }) {
-    return value >= Number(min) && value <= Number(max);
-  },
-  message: "Valid range: 1 - 10",
-  params: ["min", "max"]
-});
-
-extend("required", {
-  validate(value) {
-    return {
-      required: true,
-      valid: ["", null, undefined].indexOf(value) === -1
-    };
-  },
-  computesRequired: true,
-  message: "{_field_} is required"
-});
-
-extend("numeric", {
-  ...numeric,
-  message: "{_field_} must be a number"
-});
+import { createPost } from "@/mixins/createPost";
 
 export default {
-  mixins: [uploadBanner],
+  mixins: [createPost],
   components: {
-    UserAvatar,
-    CreateTagBlog,
-    myUpload,
     VueUploadMultipleImage
   },
   data() {
     return {
-      alert: false,
-      alertMessage: "",
       maxImages: 20,
       uploadBanner: false,
-      user: {
-        username: "hong_quang"
-      },
       isPreviewing: false,
-      params: {
-        token: "123456798",
-        name: "avatar"
-      },
-      headers: {
-        smail: "*_~"
-      },
       data: {
         tags: [],
         food: {
@@ -334,63 +295,133 @@ export default {
           space: 8,
           openTime: "",
           stars: 5,
-          foodPhotos: [],
+          foodPhotos: []
         },
         authors: [],
         topic: "",
         description: "",
         content: "",
         type: "food",
-        cover: ""
+        banner: ""
       },
-      foodPhotos: []
+      previewPhotos: []
     };
   },
   computed: {},
   methods: {
-    handleAddTag(tag) {
-      this.data.tags.push(tag);
-    },
-    togglePreviewContent() {
-      if (this.isPreviewing) {
-        return (this.isPreviewing = false);
+    async beforeRemove(index, done, fileList) {
+      let photoToDelete = this.data.food.foodPhotos[index];
+      const response = await this.deleteFile({ fileId: photoToDelete._id });
+      if (response.status === 200) {
+        this.data.food.foodPhotos.splice(index, 1);
+        this.$notify({
+          type: "success",
+          title: "Delete success"
+        });
       }
-      if (!this.isPreviewing && this.data.content.trim() !== "") {
-        return (this.isPreviewing = true);
+      if (response.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Delete failed"
+        });
       }
-    },
-    beforeRemove(index, done, fileList) {
       done();
     },
-    editImage(formData, index, fileList) {
-      console.log("edit data", formData, index, fileList);
+    async uploadImageSuccess(formData, index, fileList) {
+      const response = await this.uploadFiles(formData);
+      if (response.status === 200) {
+        this.data.food.foodPhotos.push(response.data);
+        this.previewPhotos.push({ path: response.data.secureURL })
+        
+        // library bug
+        this.previewPhotos = this.previewPhotos.filter(photo => photo.default !== 0)
+        this.$notify({
+          type: "success",
+          title: "Upload success"
+        });
+      }
+
+      if (response.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Upload failed"
+        });
+      }
+    },
+    async editImage(formData, index, fileList) {
+      let photoToDelete = this.data.food.foodPhotos[index];
+      const response = await this.deleteFile({ fileId: photoToDelete._id });
+      if (response.status === 200) {
+        this.data.food.foodPhotos.splice(index, 1);
+
+        const response = await this.uploadFiles(formData);
+        if (response.status === 200) {
+          this.data.food.foodPhotos.push(response.data);
+          this.$notify({
+            type: "success",
+            title: "Update success"
+          });
+        }
+
+        if (response.status === 400) {
+          this.$notify({
+            type: "error",
+            title: "Update failed"
+          });
+        }
+      }
+      if (response.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Delete failed"
+        });
+      }
     },
     handleLimitExceed(amount) {
-      this.alertMessage = "Please choose less than 20 photos";
-      this.alert = true;
-      setTimeout(() => {
-        this.alert = false;
-      }, 3000);
+      this.$notify({
+        type: "error",
+        title: "Please upload less than 20 photos"
+      });
     },
-    submit() {
-      if (this.data.coverImage === "") {
-        this.alertMessage = "Hang on! Let's upload cover images for blog";
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 3000);
+    async submit() {
+      if (this.data.banner === "") {
+        this.$notify({
+          type: "error",
+          title: "Let's upload the banner"
+        });
         return;
       }
 
       if (!this.data.food.foodPhotos.length) {
-        this.alertMessage = "Attach at least 1 photo for your blog";
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 3000);
+        this.$notify({
+          type: "error",
+          title: "Attach at least 1 photo to your blog"
+        });
         return;
       }
-      this.$refs.observer.validate();
+
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+      const res = await this.createPost(this.data);
+      if (res.status === 200) {
+        this.$notify({
+          type: "success",
+          title: "Success"
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Failed",
+          text: res.message
+        });
+      }
+
+      setTimeout(() => {
+        return this.$router.push({
+          path: `/${this.data.type}Reviews/${res.data._id}?type=${this.data.type}`
+        });
+      }, 1000);
     }
   }
 };

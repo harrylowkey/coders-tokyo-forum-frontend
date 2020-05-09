@@ -56,6 +56,16 @@ axios.interceptors.response.use(response => {
     router.push('/stream')
     return Promise.reject(error);
   }
+
+  if (error.response.status === 500) {
+    Vue.notify({
+      type: "error",
+      title: error.response.data.message,
+    });
+    
+    router.push('/stream')
+    return Promise.reject(error);
+  }
   return Promise.reject(error);
 });
 

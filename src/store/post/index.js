@@ -61,6 +61,43 @@ export default {
           return res
         })
       return response
+    },
+    async uploadFiles({ commit }, formData) {
+      commit('utils/SET_LOADING', true, { root: true })
+      const response = await axios.post('/files/upload/foodPhotos', formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true })
+          return err
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true })
+            commit('utils/SET_ERROR', '', { root: true })
+          }, 0)
+          return res
+        })
+
+      return response
+    },
+    async deleteFile({ commit }, { fileId }) {
+      commit('utils/SET_LOADING', true, { root: true })
+      const response = await axios.delete(`/files/${fileId}`)
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true })
+          return err
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true })
+            commit('utils/SET_ERROR', '', { root: true })
+          }, 0)
+          return res
+        })
+console.log(response)
+      return response
     }
   }
 }
