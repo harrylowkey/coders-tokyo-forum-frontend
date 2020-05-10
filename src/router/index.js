@@ -49,7 +49,7 @@ const routes = [
     component: Stream,
   },
   {
-    path: '/post-create',
+    path: '/write-post',
     name: 'createPost',
     component: CreatePost,
     beforeEnter: AuthGuard

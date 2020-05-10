@@ -115,11 +115,32 @@
                 </v-container>
               </v-card-text>
               <v-card-actions class="pt-0">
+                <v-chip
+                  style="cursor: pointer"
+                  class="ml-5"
+                  @click="isAttachImage = !isAttachImage"
+                >
+                  <v-icon left color="primary">image</v-icon>Attach image
+                </v-chip>
                 <v-spacer></v-spacer>
                 <v-btn class="mr-5" color="primary" @click="togglePreviewContent" dark>Preview</v-btn>
                 <v-btn class="mr-5" color="green" dark @click="submit">Post</v-btn>
               </v-card-actions>
+              <v-dialog max-width="500" v-model="isAttachImage">
+                <attach-image-dialog
+                  :isLoading="isLoading"
+                  :attachImage="attachImage"
+                  @handleUploadImage="uploadImage"
+                  @handleOnChange="onChange"
+                ></attach-image-dialog>
+              </v-dialog>
             </v-container>
+            <coppy-clipboard
+              :imageURL="imageURL"
+              :isAttachImageSuccess="isAttachImageSuccess"
+              @handleOnCopy="onCopy"
+              @handleErrorCopy="onError"
+            ></coppy-clipboard>
           </v-col>
         </v-row>
       </v-card>
@@ -129,6 +150,7 @@
 
 <script>
 import { createPost } from "@/mixins/createPost";
+import axios from "axios";
 
 export default {
   mixins: [createPost],
@@ -144,49 +166,11 @@ export default {
         type: "blogs"
       },
       imgDataUrl: "",
-      isPreviewing: false,
-      isUploadBanner: false
+      isPreviewing: false
     };
   },
-  methods: {
-    async submit() {
-      if (this.data.banner === "") {
-        this.$notify({
-          type: "error",
-          title: "Let's upload the banner"
-        });
-        return;
-      }
-
-      const isValid = await this.$refs.observer.validate();
-      if (!isValid) return;
-      const res = await this.createPost(this.data);
-      if (res.status === 200) {
-        this.$notify({
-          type: "success",
-          title: "Success"
-        });
-      }
-      if (res.status === 400) {
-        this.$notify({
-          type: "error",
-          title: "Failed",
-          text: res.message
-        });
-      }
-
-      setTimeout(() => {
-        return this.$router.push({
-          path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
-            0,
-            this.data.type.length - 1
-          )}`
-        });
-      }, 1000);
-    }
-  },
-  computed: {},
-  watch: {}
+  methods: {},
+  computed: {}
 };
 </script>
 
@@ -195,5 +179,10 @@ export default {
 .signature {
   font-family: "Great Vibes", cursive;
   font-size: 28px;
+}
+
+.dialog-attach-image {
+  width: 1000px;
+  height: 600px;
 }
 </style>

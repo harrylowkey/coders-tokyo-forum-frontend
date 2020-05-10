@@ -78,7 +78,7 @@ export default {
       sideNav: false,
       dropdownMenus: [
         { title: "Profile", link: "/profile", icon: "person" },
-        { title: "Create post", link: "/post-create", icon: "create" }
+        { title: "Create post", link: "/write-post", icon: "create" }
       ],
     };
   },
@@ -100,7 +100,7 @@ export default {
             title: "Stream",
             link: "/stream"
           },
-          { title: "Create post", icon: "edit", link: "/post-create" }
+          { title: "Create post", icon: "edit", link: "/write-post" }
         ];
       }
       return menus;

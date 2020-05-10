@@ -8,7 +8,8 @@ import APlayer from '@moefe/vue-aplayer';
 import AudioVisual from 'vue-audio-visual'
 import VueFileAgent from 'vue-file-agent';
 import axios from 'axios'
-import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css';
+import PictureInput from 'vue-picture-input'
+import VueClipboard from 'vue-clipboard2'
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import Notifications from 'vue-notification';
 import _store from './store/user'
@@ -86,15 +87,18 @@ Vue.filter('readTime', ReadTimeFilter)
 
 Vue.component('app-alert', AlertCmp)
 Vue.component('app-banner', Banner)
+Vue.component('picture-input', PictureInput)
 
-Vue.use(Notifications);
 
 Vue.use(APlayer, {
   defaultCover: 'https://github.com/u3u.png',
   productionTip: true,
 })
-
+Vue.use(Notifications);
 Vue.use(AudioVisual)
+
+VueClipboard.config.autoSetContainer = true
+Vue.use(VueClipboard)
 
 Vue.use(VueFileAgent);
 

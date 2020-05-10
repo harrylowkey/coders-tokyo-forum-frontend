@@ -1,12 +1,17 @@
 import UserAvatar from "@/components/Shared/UserAvatar";
 import CreateTagBlog from "@/components/Shared/CreateTagBlog";
 import myUpload from "vue-image-crop-upload";
-import { uploadBanner } from "@/mixins/uploadBanner";
 import ToggleTag from "@/components/Shared/ToggleTag";
+import CreateTag from "@/components/Shared/CreateTag";
+import AttachImageDialog from '@/components/Shared/AttachImage'
+import CoppyClipboard  from '@/components/Shared/CoppyClipboard'
+
 import { extend, setInteractionMode } from "vee-validate";
 import { required, numeric } from "vee-validate/dist/rules";
 import { mapActions, mapState } from "vuex";
-import CreateTag from "@/components/Shared/CreateTag";
+
+import { uploadBanner } from "@/mixins/uploadBanner";
+import { attachImage } from '@/mixins/attachImage'
 
 setInteractionMode("eager");
 extend("required", {
@@ -27,9 +32,9 @@ extend("numeric", {
   message: "{_field_} must be a number"
 });
 export const createPost = {
-  mixins: [uploadBanner],
+  mixins: [uploadBanner, attachImage],
   methods: {
-    ...mapActions("post", ["createPost", 'uploadFiles', 'deleteFile']),
+    ...mapActions("post", ["createPost", 'uploadFiles', 'deleteFile', 'uploadPhoto']),
     handleAddTag(tag) {
       this.data.tags.push(tag);
     },
@@ -69,6 +74,8 @@ export const createPost = {
     CreateTagBlog,
     CreateTag,
     myUpload,
-    ToggleTag
+    ToggleTag,
+    AttachImageDialog,
+    CoppyClipboard
   },
 }
