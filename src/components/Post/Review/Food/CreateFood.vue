@@ -6,7 +6,7 @@
           <v-col cols="4" offset-sm="4" class="py-1">
             <div class="d-flex flex-column align-center">
               <user-avatar
-                :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
+                :src="user.avatar.secureURL"
                 :username="user.username"
                 style="height: 130px;"
               ></user-avatar>
@@ -188,7 +188,10 @@
                         ></v-text-field>
                       </ValidationProvider>
                     </v-col>
-                    <v-col cols="12" sm="12" md="5">
+                    <v-col cols="12" sm="6" md="7">
+                      <v-text-field v-model="data.food.location" label="Location"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="5">
                       <v-container class="d-flex pl-0 pr-0 mt-2">
                         <span
                           style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
@@ -307,8 +310,6 @@ export default {
         tags: [],
         food: {
           priceAverage: "",
-          priceUnit: "",
-          year: "",
           restaurant: "",
           quality: 8,
           price: 8,
@@ -316,9 +317,9 @@ export default {
           space: 8,
           openTime: "",
           stars: 5,
+          location: '',
           foodPhotos: []
         },
-        authors: [],
         topic: "",
         description: "",
         content: "",
@@ -422,6 +423,8 @@ export default {
         });
         return;
       }
+
+      console.log(this.data)
 
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
