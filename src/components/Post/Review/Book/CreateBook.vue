@@ -6,7 +6,7 @@
           <v-col cols="4" offset-sm="4" class="py-1">
             <div class="d-flex flex-column align-center">
               <user-avatar
-                :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
+                :src="user.avatar.secureURL"
                 :username="user.username"
                 style="height: 130px;"
               ></user-avatar>

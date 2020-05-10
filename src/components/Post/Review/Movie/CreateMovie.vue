@@ -6,7 +6,7 @@
           <v-col cols="4" offset-sm="4" class="py-1">
             <div class="d-flex flex-column align-center">
               <user-avatar
-                :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
+                :src="user.avatar.secureURL"
                 :username="user.username"
                 style="height: 130px;"
               ></user-avatar>
@@ -172,10 +172,10 @@
                         <v-text-field v-model="actor4" label="Actor/Actress"></v-text-field>
                       </div>
                     </v-col>
-                    <v-col cols="12" sm="6" md="5">
+                    <v-col cols="12" sm="6" md="7">
                       <v-text-field v-model="data.movie.releaseDate" label="Release Date"></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="12" md="7">
+                    <v-col cols="12" sm="6" md="5">
                       <v-container class="d-flex pl-0 pb-0 pr-0 mt-2">
                         <span
                           style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
