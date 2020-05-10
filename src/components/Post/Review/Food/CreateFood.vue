@@ -76,7 +76,7 @@
                         id="my-strictly-unique-vue-upload-multiple-image"
                         style="display: flex; justify-content: center;"
                       >
-                        <div >
+                        <div>
                           <vue-upload-multiple-image
                             @upload-success="uploadImageSuccess"
                             @before-remove="beforeRemove"
@@ -98,7 +98,7 @@
                           height="180"
                           width="200"
                           type="card"
-                        ></v-skeleton-loader> -->
+                        ></v-skeleton-loader>-->
                       </div>
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
@@ -256,11 +256,32 @@
                 </v-container>
               </v-card-text>
               <v-card-actions class="pt-0">
+                <v-chip
+                  style="cursor: pointer"
+                  class="ml-5"
+                  @click="isAttachImage = !isAttachImage"
+                >
+                  <v-icon left color="primary">image</v-icon>Attach image
+                </v-chip>
                 <v-spacer></v-spacer>
                 <v-btn class="mr-5" color="primary" @click="togglePreviewContent" dark>Preview</v-btn>
                 <v-btn class="mr-5" color="green" dark @click="submit">Post</v-btn>
               </v-card-actions>
             </v-container>
+            <v-dialog max-width="500" v-model="isAttachImage">
+              <attach-image-dialog
+                :isLoading="isLoading"
+                :attachImage="attachImage"
+                @handleUploadImage="uploadImage"
+                @handleOnChange="onChange"
+              ></attach-image-dialog>
+            </v-dialog>
+            <coppy-clipboard
+              :imageURL="imageURL"
+              :isAttachImageSuccess="isAttachImageSuccess"
+              @handleOnCopy="onCopy"
+              @handleErrorCopy="onError"
+            ></coppy-clipboard>
           </v-col>
         </v-row>
       </v-card>
@@ -331,10 +352,12 @@ export default {
       const response = await this.uploadFiles(formData);
       if (response.status === 200) {
         this.data.food.foodPhotos.push(response.data);
-        this.previewPhotos.push({ path: response.data.secureURL })
-        
+        this.previewPhotos.push({ path: response.data.secureURL });
+
         // library bug
-        this.previewPhotos = this.previewPhotos.filter(photo => photo.default !== 0)
+        this.previewPhotos = this.previewPhotos.filter(
+          photo => photo.default !== 0
+        );
         this.$notify({
           type: "success",
           title: "Upload success"

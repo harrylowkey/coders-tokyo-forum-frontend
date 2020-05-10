@@ -126,15 +126,15 @@
                 <v-btn class="mr-5" color="primary" @click="togglePreviewContent" dark>Preview</v-btn>
                 <v-btn class="mr-5" color="green" dark @click="submit">Post</v-btn>
               </v-card-actions>
-              <v-dialog max-width="500" v-model="isAttachImage">
-                <attach-image-dialog
-                  :isLoading="isLoading"
-                  :attachImage="attachImage"
-                  @handleUploadImage="uploadImage"
-                  @handleOnChange="onChange"
-                ></attach-image-dialog>
-              </v-dialog>
             </v-container>
+            <v-dialog max-width="500" v-model="isAttachImage">
+              <attach-image-dialog
+                :isLoading="isLoading"
+                :attachImage="attachImage"
+                @handleUploadImage="uploadImage"
+                @handleOnChange="onChange"
+              ></attach-image-dialog>
+            </v-dialog>
             <coppy-clipboard
               :imageURL="imageURL"
               :isAttachImageSuccess="isAttachImageSuccess"

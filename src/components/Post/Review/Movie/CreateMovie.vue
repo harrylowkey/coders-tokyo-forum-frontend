@@ -254,11 +254,32 @@
                 </v-container>
               </v-card-text>
               <v-card-actions class="pt-0">
+                <v-chip
+                  style="cursor: pointer"
+                  class="ml-5"
+                  @click="isAttachImage = !isAttachImage"
+                >
+                  <v-icon left color="primary">image</v-icon>Attach image
+                </v-chip>
                 <v-spacer></v-spacer>
                 <v-btn class="mr-5" color="primary" @click="togglePreviewContent" dark>Preview</v-btn>
                 <v-btn class="mr-5" color="green" dark @click="submit">Post</v-btn>
               </v-card-actions>
             </v-container>
+            <v-dialog max-width="500" v-model="isAttachImage">
+              <attach-image-dialog
+                :isLoading="isLoading"
+                :attachImage="attachImage"
+                @handleUploadImage="uploadImage"
+                @handleOnChange="onChange"
+              ></attach-image-dialog>
+            </v-dialog>
+            <coppy-clipboard
+              :imageURL="imageURL"
+              :isAttachImageSuccess="isAttachImageSuccess"
+              @handleOnCopy="onCopy"
+              @handleErrorCopy="onError"
+            ></coppy-clipboard>
           </v-col>
         </v-row>
       </v-card>
@@ -346,10 +367,9 @@ export default {
 
       setTimeout(() => {
         return this.$router.push({
-          path: `/${this.data.type}Reviews/${res.data._id}?type=${this.data.type.slice(
-            0,
-            this.data.type.length - 1
-          )}`
+          path: `/${this.data.type}Reviews/${
+            res.data._id
+          }?type=${this.data.type.slice(0, this.data.type.length - 1)}`
         });
       }, 1000);
     }
