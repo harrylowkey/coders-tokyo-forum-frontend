@@ -13,6 +13,7 @@ import VueClipboard from 'vue-clipboard2'
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import Notifications from 'vue-notification';
 import _store from './store/user'
+import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css';
 
 //TODO: change descripotion text-file to v-textareat with limit words
 axios.defaults.baseURL = 'http://localhost:3000/api/v1'

@@ -1,21 +1,12 @@
 <template>
   <ValidationObserver ref="observer">
-    <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
     <v-form>
-      <v-alert
-        v-if="alert"
-        id="alert"
-        type="warning"
-        border="left"
-        transition="slide-x-reverse-transition"
-        dismissible
-      >{{ alertMessage }}</v-alert>
       <v-card class="d-flex py-3 pt-0">
         <v-row>
           <v-col cols="4" offset-sm="4" class="py-1">
             <div class="d-flex flex-column align-center">
               <user-avatar
-                :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
+                :src="user.avatar.secureURL"
                 :username="user.username"
                 style="height: 130px;"
               ></user-avatar>
@@ -31,7 +22,7 @@
                         <v-btn @click="chooseFile()" dark small color="primary" class="mb-8 ml-2">
                           <v-icon left color="white" size="18">mdi-paperclip</v-icon>Choose audio file
                         </v-btn>
-                        <div :class="fileSelectClasses">
+                        <!-- <div :class="fileSelectClasses"> -->
                           <VueFileAgent
                             ref="vueFileAgent"
                             :theme="'list'"
@@ -41,16 +32,15 @@
                             :maxSize="'10MB'"
                             :helpText="'Drag audio file or choose here'"
                             :errorText="{
-                          type: 'Invalid audio type. Only audio extension allowed',
-                          size: 'Files should not exceed 10MB in size',
-                        }"
+                              type: 'Invalid audio type. Only audio extension allowed',
+                              size: 'Files should not exceed 10MB in size',
+                            }"
                             multiple="false"
                             @select="filesSelected($event)"
                             @delete="fileDeleted($event)"
                             v-model="fileRecords"
-                            :class="fileSelectClasses"
                           ></VueFileAgent>
-                        </div>
+                        <!-- </div> -->
                       </v-container>
                     </v-col>
                     <v-row class="mt-5">
@@ -58,23 +48,22 @@
                         <v-col cols="12" class="pa-0">
                           <my-upload
                             class="pt-0"
-                            field="img"
-                            @crop-success="cropSuccess"
-                            @crop-upload-success="cropUploadSuccess"
+                            field="banner"
+                            @crop-upload-success=cropUploadSuccess""
                             @crop-upload-fail="cropUploadFail"
                             v-model="uploadBanner"
                             :width="210"
                             :height="210"
-                            :params="params"
                             :headers="headers"
                             img-format="jpg"
                             langType="en"
+                            url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
                             noCircle
                           ></my-upload>
                         </v-col>
                         <div style="flex: 26%" class="d-flex flex-column align-center">
                           <div
-                            v-if="!data.coverImage"
+                            v-if="!data.banner.secureURL"
                             class="banner d-flex justify-center align-center pr-2"
                           >
                             <v-chip
@@ -88,21 +77,27 @@
                               <v-icon left>mdi-cloud-upload-outline</v-icon>Image
                             </v-chip>
                           </div>
-                          <v-container class="d-flex justify-center" v-if="data.coverImage">
-                            <v-img max-width="210" max-height="210" :src="data.coverImage"></v-img>
+                          <v-container class="d-flex justify-center" v-if="data.banner.secureURL">
+                            <v-img
+                              style="cursor: pointer"
+                              @click="uploadBanner = !uploadBanner"
+                              max-width="210"
+                              max-height="210"
+                              :src="data.banner.secureURL"
+                            ></v-img>
                           </v-container>
                           <div class="mt-10 d-flex justify-center align-center flex-column">
                             <toggle-tag
-                              v-for="(tag, i) in tags"
+                              v-for="(tag, i) in data.tags"
                               :key="i"
                               :tagName="tag"
                               @handleRemoveTag="handleRemoveTag(i)"
                             ></toggle-tag>
 
                             <create-tag
-                              v-if="tags.length < 3"
+                              v-if="data.tags.length < 3"
                               @handleAddTag="handleAddTag"
-                              :tags="tags"
+                              :tags="data.tags"
                             ></create-tag>
                           </div>
                         </div>
@@ -227,11 +222,7 @@
                         <div class="d-flex flex-wrap">
                           <v-col cols="12" sm="6" md="6">
                             <div class="d-flex align-end">
-                              <ValidationProvider
-                                name="Name"
-                                rules="required"
-                                v-slot="{ errors }"
-                              >
+                              <ValidationProvider name="Name" rules="required" v-slot="{ errors }">
                                 <v-text-field
                                   :error-messages="errors"
                                   required
@@ -257,11 +248,7 @@
                           </v-col>
                           <v-col cols="12" sm="6" md="6" v-if="addArtist2" class>
                             <div class="d-flex align-end">
-                              <ValidationProvider
-                                name="Name"
-                                rules="required"
-                                v-slot="{ errors }"
-                              >
+                              <ValidationProvider name="Name" rules="required" v-slot="{ errors }">
                                 <v-text-field
                                   :error-messages="errors"
                                   v-model="artist2"
@@ -286,11 +273,7 @@
                           </v-col>
                           <v-col cols="12" sm="6" md="6" v-if="addArtist3">
                             <div class="d-flex align-end">
-                              <ValidationProvider
-                                name="Name"
-                                rules="required"
-                                v-slot="{ errors }"
-                              >
+                              <ValidationProvider name="Name" rules="required" v-slot="{ errors }">
                                 <v-text-field
                                   :error-messages="errors"
                                   v-model="artist3"
@@ -315,11 +298,7 @@
                           </v-col>
                           <v-col cols="12" sm="6" md="6" v-if="addArtist4">
                             <div class="d-flex align-end">
-                              <ValidationProvider
-                                name="Name"
-                                rules="required"
-                                v-slot="{ errors }"
-                              >
+                              <ValidationProvider name="Name" rules="required" v-slot="{ errors }">
                                 <v-text-field
                                   :error-messages="errors"
                                   v-model="artist4"
@@ -357,21 +336,13 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/Shared/UserAvatar";
 import myUpload from "vue-image-crop-upload";
-import VueUploadMultipleImage from "vue-upload-multiple-image";
-import { uploadBanner } from "@/mixins/uploadBanner";
-import CreateTag from "@/components/Shared/CreateTag";
-import ToggleTag from "@/components/Shared/ToggleTag";
+import { createPost } from "@/mixins/createPost";
 export default {
-  mixins: [uploadBanner],
+  mixins: [createPost],
   props: ["type"],
   components: {
-    UserAvatar,
-    ToggleTag,
-    CreateTag,
-    myUpload,
-    VueUploadMultipleImage
+    myUpload
   },
   data() {
     return {
@@ -389,23 +360,10 @@ export default {
       addComposer2: false,
       addComposer3: false,
       addComposer4: false,
-      alert: false,
-      alertMessage: "",
       maxImages: 20,
       coAuthor: false,
       recommender2: false,
-      user: {
-        username: "hong_quang"
-      },
-      tags: [],
       uploadBanner: false,
-      params: {
-        token: "123456798",
-        name: "avatar"
-      },
-      headers: {
-        smail: "*_~"
-      },
       data: {
         tags: [],
         audio: "",
@@ -413,7 +371,8 @@ export default {
         topic: "",
         description: "",
         content: "",
-        type: ""
+        type: "",
+        banner: ""
       },
       imgDataUrl: "",
       fileRecords: [],
@@ -429,12 +388,6 @@ export default {
     this.data.type = this.type;
   },
   methods: {
-    handleAddTag(tag) {
-      this.tags.push(tag);
-    },
-    handleRemoveTag(tagIndex) {
-      this.tags.splice(tagIndex, 1);
-    },
     handleRemoveComposer(index) {
       this[`addComposer${index}`] = !this[`addComposer${index}`];
       this[`composer${index}`] = "";
@@ -484,23 +437,27 @@ export default {
       }
       this.fileSelectClasses = ["file-select", "wrapper-file-select"];
     },
-    submit() {
-      if (this.data.coverImage === "") {
-        this.alertMessage = "Hang on! Let's upload cover images for blog";
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 3000);
+    async submit() {
+      if (this.data.banner === "") {
+        this.$notify({
+          type: "error",
+          title: "Let's upload the banner"
+        });
         return;
       }
       if (!this.fileRecordsForUpload.length) {
-        this.alertMessage = "Hang on! Let's upload audio first";
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 3000);
-        return;
+        if (this.data.banner === "") {
+          this.$notify({
+            type: "error",
+            title: "Hang on! Let's upload audio"
+          });
+          return;
+        }
       }
+
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+
       this.data.authors = [
         { type: "composer", name: this.composer },
         { type: "composer", name: this.composer2 },
@@ -513,7 +470,6 @@ export default {
       ].filter(person => person.name !== "");
       this.data.audio = this.fileRecordsForUpload[0];
       if (this.data.content === "") this.data.content = "Update later";
-      this.$refs.observer.validate();
     }
   }
 };
@@ -524,14 +480,6 @@ export default {
 .signature {
   font-family: "Great Vibes", cursive;
   font-size: 28px;
-}
-
-#my-strictly-unique-vue-upload-multiple-image {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 
 .wrapper-file-select {
@@ -571,13 +519,6 @@ li {
 
 a {
   color: #42b983;
-}
-
-#alert {
-  position: fixed;
-  top: 65px;
-  right: 0;
-  z-index: 1;
 }
 
 .banner {

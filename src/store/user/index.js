@@ -1,4 +1,5 @@
 import axios from 'axios'
+import jwt from 'jsonwebtoken'
 import { SIGN_IN, SIGN_OUT, UPLOAD_AVATAR, UPDATE_PROFILE } from '../constants'
 export default {
   namespaced: true,
