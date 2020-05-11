@@ -118,5 +118,25 @@ export default {
 
       return response
     },
+    async uploadAudio({ commit }, formData) {
+      commit('utils/SET_LOADING', true, { root: true })
+      const response = await axios.post('/files/upload/audio?type=audio', formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true })
+          return err
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true })
+            commit('utils/SET_ERROR', '', { root: true })
+          }, 0)
+          return res
+        })
+
+      return response
+    },
   }
 }

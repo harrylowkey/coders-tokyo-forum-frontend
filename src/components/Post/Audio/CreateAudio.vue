@@ -22,11 +22,11 @@
                         <v-btn @click="chooseFile()" dark small color="primary" class="mb-8 ml-2">
                           <v-icon left color="white" size="18">mdi-paperclip</v-icon>Choose audio file
                         </v-btn>
-                        <!-- <div :class="fileSelectClasses"> -->
+                        <div :class="fileSelectClasses">
                           <VueFileAgent
                             ref="vueFileAgent"
-                            :theme="'list'"
-                            :deletable="true"
+                            theme="list"
+                            :deletable="!isLoading"
                             :meta="true"
                             :accept="'.mp3, .wma, .wav'"
                             :maxSize="'10MB'"
@@ -37,10 +37,9 @@
                             }"
                             multiple="false"
                             @select="filesSelected($event)"
-                            @delete="fileDeleted($event)"
-                            v-model="fileRecords"
+                            @beforedelete="onBeforeDelete($event)"
                           ></VueFileAgent>
-                        <!-- </div> -->
+                        </div>
                       </v-container>
                     </v-col>
                     <v-row class="mt-5">
@@ -49,7 +48,7 @@
                           <my-upload
                             class="pt-0"
                             field="banner"
-                            @crop-upload-success=cropUploadSuccess""
+                            @crop-upload-success="cropUploadSuccess"
                             @crop-upload-fail="cropUploadFail"
                             v-model="uploadBanner"
                             :width="210"
@@ -338,6 +337,7 @@
 <script>
 import myUpload from "vue-image-crop-upload";
 import { createPost } from "@/mixins/createPost";
+import { mapActions } from "vuex";
 export default {
   mixins: [createPost],
   props: ["type"],
@@ -366,7 +366,7 @@ export default {
       uploadBanner: false,
       data: {
         tags: [],
-        audio: "",
+        audio: {},
         authors: [],
         topic: "",
         description: "",
@@ -375,19 +375,25 @@ export default {
         banner: ""
       },
       imgDataUrl: "",
-      fileRecords: [],
-      uploadUrl: "https://www.mocky.io/v2/5d4fb20b3000005c111099e3",
-      uploadHeaders: { "X-Test-Header": "vue-file-agent" },
+      uploadAudioURL:
+        "http://localhost:3000/api/v1/files/upload/audio?type=audio",
       fileRecordsForUpload: [],
-      choseFile: false,
       fileSelectClasses: ["file-select", "wrapper-file-select"]
     };
   },
-  computed: {},
+  computed: {
+    headers() {
+      return {
+        Authorization: `Bearer ${this.accessToken}`
+      };
+    }
+  },
   created() {
     this.data.type = this.type;
   },
   methods: {
+    ...mapActions("post", ["uploadAudio"]),
+    ...mapActions("utils", ["setLoading"]),
     handleRemoveComposer(index) {
       this[`addComposer${index}`] = !this[`addComposer${index}`];
       this[`composer${index}`] = "";
@@ -399,43 +405,53 @@ export default {
     chooseFile() {
       this.$refs.vueFileAgent.$refs.fileInput.click();
     },
-    uploadFiles: function() {
-      // Using the default uploader. You may use another uploader instead.
-      this.$refs.vueFileAgent.upload(
-        this.uploadUrl,
-        this.uploadHeaders,
-        this.fileRecordsForUpload
-      );
+    async uploadFile() {
+      const res = (
+        await this.$refs.vueFileAgent.upload(
+          this.uploadAudioURL,
+          this.headers,
+          this.fileRecordsForUpload
+        )
+      )[0];
+
+      if (res.status === 200) {
+        this.$notify({
+          type: "success",
+          title: "Upload success"
+        });
+        this.data.audio = res.data.data;
+        this.setLoading(false);
+        console.log(this.data);
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Failed",
+          text: res.message
+        });
+      }
+
       this.fileRecordsForUpload = [];
     },
-    deleteUploadedFile: function(fileRecord) {
-      // Using the default uploader. You may use another uploader instead.
-      this.$refs.vueFileAgent.deleteUpload(
-        this.uploadUrl,
-        this.uploadHeaders,
-        fileRecord
-      );
+    async onBeforeDelete(fileRecord) {
+      const res = await this.deleteFile({ fileId: this.data.audio._id });
+      if (res.status === 200) {
+        this.data.audio = {};
+        this.fileSelectClasses = ["file-select", "wrapper-file-select"];
+      }
     },
-    filesSelected: function(fileRecordsNewlySelected) {
+    async filesSelected(fileRecordsNewlySelected) {
       var validFileRecords = fileRecordsNewlySelected.filter(
         fileRecord => !fileRecord.error
       );
       this.fileRecordsForUpload = this.fileRecordsForUpload.concat(
         validFileRecords
       );
-      this.choseFile = true;
       this.fileSelectClasses.push(
         ...["show-wrapper-file-select", "show-file-select"]
       );
-    },
-    fileDeleted: function(fileRecord) {
-      var i = this.fileRecordsForUpload.indexOf(fileRecord);
-      if (i !== -1) {
-        this.fileRecordsForUpload.splice(i, 1);
-      } else {
-        this.deleteUploadedFile(fileRecord);
-      }
-      this.fileSelectClasses = ["file-select", "wrapper-file-select"];
+      this.setLoading(true);
+      this.uploadFile();
     },
     async submit() {
       if (this.data.banner === "") {
@@ -468,8 +484,29 @@ export default {
         { type: "artist", name: this.artist3 },
         { type: "artist", name: this.artist4 }
       ].filter(person => person.name !== "");
-      this.data.audio = this.fileRecordsForUpload[0];
       if (this.data.content === "") this.data.content = "Update later";
+
+      const res = await this.createPost(this.data);
+      if (res.status === 200) {
+        this.$notify({
+          type: "success",
+          title: "Success"
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: "error",
+          title: "Failed",
+          text: res.message
+        });
+      }
+
+      let type = this.data.type.slice(0, this.data.type.length - 1);
+      setTimeout(() => {
+        return this.$router.push({
+          path: `/${type}/${res.data._id}?type=${type}`
+        });
+      }, 1000);
     }
   }
 };

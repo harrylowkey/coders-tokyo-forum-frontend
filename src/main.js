@@ -45,6 +45,7 @@ axios.interceptors.response.use(response => {
   return response
 }, function (error) {
   if (error.response.status === 401) {
+    _store.dispatch('signOut')
     router.push('/signin');
     return Promise.reject(error);
   }

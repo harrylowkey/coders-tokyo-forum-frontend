@@ -13,6 +13,11 @@ const utils = {
     [SET_ERROR](state, payload = '') {
       state.errorMes = payload
     }
+  },
+  actions: {
+    setLoading({ commit }, payload) {
+      commit('SET_LOADING', payload)
+    }
   }
 }
 
