@@ -16,7 +16,7 @@
         <v-card class="mx-auto mt-6" v-else id="blog-card" elevation="6">
           <v-container class="pa-0">
             <v-img
-              src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
+              :src="post.cover.secureURL"
               height="450px"
               style
               class="cover-blog"
@@ -116,9 +116,9 @@
       >
         <v-boilerplate
           class="author-follow"
-          style="width: 100%"
+          style="width: 100%; padding: 5px 10px; background: #fff"
           v-if="isLoading"
-          type="list-item-avatar-three-line, divider, list-item-two-line"
+          type="list-item-avatar-three-line, list-item-three-line"
         ></v-boilerplate>
         <author-follow-card
           v-if="!isLoading"

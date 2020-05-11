@@ -3,14 +3,18 @@
     <v-row id="post">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
-          :likes="post.metadata.likes"
-          :saves="post.metadata.saves"
+          v-if="!isLoading"
+          :likes="(post && post.metadata) ? post.metadata.likes : 0"
+          :saves="(post && post.metadata) ? post.metadata.saves : 0"
+          :flowers="0"
           :postId="post._id"
         ></post-reactions>
       </v-col>
 
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <v-card class="mx-auto mt-6" id="blog-card" elevation="6">
+        <v-skeleton-loader></v-skeleton-loader>
+        <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image, card-avatar, article"></v-boilerplate>
+        <v-card v-else class="mx-auto mt-6" id="blog-card" elevation="6">
           <v-container class="pa-0">
             <v-row style="margin-right: 0">
               <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
@@ -30,13 +34,13 @@
                 xl="4"
                 style="position: relative"
               >
-                <div class="d-md-none d-lg-flex">
+                <div v-if="!isLoading" class="d-md-none d-lg-flex">
                   <v-container class="ml-1 pl-3 book-detail">
                     <v-card-text class="pb-2 pt-2">
                       <p class="title text--primary mb-0 pt-1">{{ post.topic }}</p>
                       <v-container class="d-flex pl-1 pb-0 pt-2">
                         <p class="key mb-0 mr-3">Status:</p>
-                        <p class="value mb-0" :style="calBookStatusColor">{{ book.status }}</p>
+                        <p class="value mb-0" :style="calBookStatusColor">{{ post.book.status }}</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -51,27 +55,16 @@
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Nation:</p>
-                        <p class="value mb-0">{{ book.country }}</p>
-                      </v-container>
-
-                      <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Year:</p>
-                        <v-chip
-                          label
-                          text-color="black"
-                          outlined
-                          small
-                          :style="calBookYearColor"
-                        >{{ book.year }}</v-chip>
+                        <p class="value mb-0">{{ post.book.country }}</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Length:</p>
-                        <p class="value mb-0">{{ book.length }} pages</p>
+                        <p class="value mb-0">{{ post.book.length }} pages</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Genre:</p>
+                        <p class="key mb-0 mr-3">Genres:</p>
                         <span v-if="slicedGenres.length">
                           <v-chip
                             label
@@ -109,13 +102,13 @@
                     </v-card-text>
                   </v-container>
                 </div>
-                <div class="d-none d-md-flex d-lg-none">
+                <div v-if="!isLoading" class="d-none d-md-flex d-lg-none">
                   <v-container class="ml-1 book-detail pt-1 pb-0">
                     <v-card-text class="pb-6 pt-0 d-flex justify-space-around">
                       <div>
                         <v-container class="d-flex pl-1 pb-0 pt-2">
                           <p class="key mb-0 mr-3">Status:</p>
-                          <p class="value mb-0" :style="calBookStatusColor">{{ book.status }}</p>
+                          <p class="value mb-0" :style="calBookStatusColor">{{ post.book.status }}</p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -130,25 +123,14 @@
 
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Nation:</p>
-                          <p class="value mb-0">{{ book.country }}</p>
-                        </v-container>
-
-                        <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Year:</p>
-                          <v-chip
-                            label
-                            text-color="black"
-                            outlined
-                            small
-                            :style="calBookYearColor"
-                          >{{ book.year }}</v-chip>
+                          <p class="value mb-0">{{ post.book.country }}</p>
                         </v-container>
                       </div>
 
                       <div>
                         <v-container class="d-flex pl-1 pb-0 pt-2">
                           <p class="key mb-0 mr-3">Length:</p>
-                          <p class="value mb-0">{{ book.length }} pages</p>
+                          <p class="value mb-0">{{ post.book.length }} pages</p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -225,8 +207,10 @@
                   <read-time class="pl-0" :text="post.content"></read-time>
                   <read-time class="pl-0" :text="post.content"></read-time>
                   <edit-delete-btns
-                    @handleEditPost="handleEditPost"
+                    v-if="isAuthor"
                     @handleDeletePost="handleDeletePost"
+                    :postId="post._id"
+                    :postType="post.type"
                   ></edit-delete-btns>
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
@@ -244,11 +228,14 @@
           </v-container>
         </v-card>
         <v-container>
-          <v-divider></v-divider>
           <v-row id="comments">
-            <div class="mt-5">
+            <div style="width: 100%" id="comments" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
-              <div v-if="post.comments.length">
+
+              <v-boilerplate style="width: 100%" v-if="isLoading" type="image"></v-boilerplate>
+              <write-comment v-if="!isLoading"></write-comment>
+
+              <div v-if="post ? post.comments.length : false">
                 <comment
                   v-for="comment in post.comments"
                   :key="comment._id"
@@ -262,7 +249,11 @@
           <v-divider></v-divider>
           <v-row id="other-posts-of-author" v-if="otherBooksOfAuthor.length" class="mb-10">
             <h1 class="mt-8 mb-3">Other blogs of author</h1>
-            <other-posts-of-author postType='book' :posts="otherBooksOfAuthor"></other-posts-of-author>
+            <div style="width: 100%" class="d-flex" v-if="isLoading">
+              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
+              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
+            </div>
+            <other-posts-of-author v-else postType="book" :posts="otherBooksOfAuthor"></other-posts-of-author>
           </v-row>
         </v-container>
       </v-col>
@@ -275,10 +266,18 @@
         xl="3"
         class="wrapper-author-follow d-sm-none d-md-flex"
       >
-        <author-follow-card
+        <v-boilerplate
           class="author-follow"
-          :user="user"
-          :description="user.description"
+          style="width: 100%; padding: 5px 10px; background: #fff"
+          v-if="isLoading"
+          type="list-item-avatar-three-line, list-item-three-line"
+        ></v-boilerplate>
+        <author-follow-card
+          v-if="!isLoading"
+          class="author-follow"
+          :isAuthor="isAuthor"
+          :author="post.user"
+          :userId="user._id"
         ></author-follow-card>
       </v-col>
     </v-row>
@@ -286,312 +285,13 @@
 </template>
 
 <script>
-import marked from "marked";
-import LikeBtn from "@/components/Shared/LikeButton";
-import CommentBtn from "@/components/Shared/CommentButton";
-import FacebookBtn from "@/components/Shared/FacebookButton";
-import ViewsBtn from "@/components/Shared/ViewsButton";
-import Tag from "@/components/Shared/Tag";
-import UserAvatar from "@/components/Shared/UserAvatar";
-import UserSocialLinks from "@/components/Shared/UserSocialLinks";
-import AuthorProfile from "@/components/User/Profile";
-import AuthorFollowCard from "@/components/User/AuthorFollow";
-import Comment from "@/components/Comment/Comment";
-import PostReactions from "@/components/Shared/PostReactions";
-import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
+import { crudPost } from "@/mixins/crudPost";
 import { bookDescription } from "@/mixins/bookDescription";
-import { userSocialLinks } from "@/mixins/userSocialLinks";
-import ReadTime from "@/components/Shared/readTime";
-import EditDeleteBtns from '../Post/EditDeleteBtns'
 
 export default {
-  mixins: [bookDescription, userSocialLinks],
+  mixins: [crudPost, bookDescription],
   data() {
     return {
-      post: {
-        _id: "5e9c33a20ea604201558edfa",
-        tags: [
-          {
-            _id: "5e9c33a20ea604201558edfc",
-            tagName: "kientran"
-          },
-          {
-            _id: "5e9c33a20ea604201558edfd",
-            tagName: "laptrinhquydaocuocdoi"
-          }
-        ],
-        comments: [
-          {
-            _id: "5ea04ece861ec016ab4e7280",
-            childComments: [
-              {
-                _id: "5ea08f6d14328169d8422a42",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea04ece861ec016ab4e7280",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "nhat_anh"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:41.982Z"
-              },
-              {
-                _id: "5ea08f6073749769b53fd952",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea04ece861ec016ab4e7280",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "nhat_anh"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:28.963Z"
-              },
-              {
-                _id: "5ea08f0a467cac6969fe223f",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "thanh_ton",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f6073749769b53fd952",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:38:02.161Z"
-              },
-              {
-                _id: "5ea08efc467cac6969fe223e",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:37:48.322Z"
-              },
-              {
-                _id: "5ea08f6d14328169d8422a42",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "dev"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f0a467cac6969fe223f",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:41.982Z"
-              },
-              {
-                _id: "5ea08f6073749769b53fd952",
-                content: "reply thread",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08f0a467cac6969fe223f",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:39:28.963Z"
-              },
-              {
-                _id: "5ea08f0a467cac6969fe223f",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:38:02.161Z"
-              },
-              {
-                _id: "5ea08efc467cac6969fe223e",
-                content: "replycomment",
-                user: {
-                  _id: "5e8b577f1a2dde32298795f4",
-                  username: "hongquang",
-                  job: "developer"
-                },
-                parentId: "5ea08ee8467cac6969fe223d",
-                replyToComment: {
-                  _id: "5ea08ee8467cac6969fe223d",
-                  user: {
-                    _id: "5e8b577f1a2dde32298795f4",
-                    username: "hongquang"
-                  }
-                },
-                createdAt: "2020-04-22T18:37:48.322Z"
-              }
-            ],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content:
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse.",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "nhat_anh",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:58.083Z",
-            updatedAt: "2020-04-22T14:21:50.493Z"
-          },
-          {
-            _id: "5ea04eca861ec016ab4e727f",
-            childComments: [],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content: "comment2",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "thanh_ton",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:54.429Z",
-            updatedAt: "2020-04-22T14:03:54.429Z"
-          },
-          {
-            _id: "5ea04ec4861ec016ab4e727e",
-            childComments: [],
-            postId: "5e9ecbe865e89626b7a4fd27",
-            content: "comment1",
-            user: {
-              _id: "5e8b577f1a2dde32298795f4",
-              username: "thanh_ton",
-              job: "Developer"
-            },
-            parentId: null,
-            createdAt: "2020-04-22T14:03:48.372Z",
-            updatedAt: "2020-04-22T14:03:48.372Z"
-          }
-        ],
-        authors: [
-          {
-            _id: "5e9c33a20ea604201558edfe",
-            name: "Kiên Trần"
-          }
-        ],
-        user: {
-          _id: "5e8b577f1a2dde322987924",
-          username: "nhat_anh"
-        },
-        likes: [],
-        savedBy: [],
-        topic: "Lập trình qũy đạo cuộc đời",
-        description:
-          "Đây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành",
-        content:
-          "[Marked] lets you convert [Markdown] into HTML.  Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML.  This demo page will let you type anything you like and see how it gets converted.  Live.  No more waiting around.\n\nHow To Use The Demo\n-------------------\n\n1. Type in stuff on the left.\n2. See the live updates on the right.\n\nThat's it.  Pretty simple.  There's also a drop-down option in the upper right to switch between various views:\n\n- **Preview:**  A live display of the generated HTML as it would render in a browser.\n- **HTML Source:**  The generated HTML before your browser makes it pretty.\n- **Lexer Data:**  What [marked] uses internally, in case you like gory stuff like this.\n- **Quick Reference:**  A brief run-down of how to format things using markdown.\n\nWhy Markdown?\n-------------\n\nIt's easy.  It's not overly bloated, unlike HTML.  Also, as the creator of [markdown] says,\n\n> The overriding design goal for Markdown's\n> formatting syntax is to make it as readable\n> as possible. The idea is that a\n> Markdown-formatted document should be\n> publishable as-is, as plain text, without\n> looking like it's been marked up with tags\n> or formatting instructions.\n\nReady to start writing?  Either start changing stuff on the left or\n[clear everything](/demo/?text=) with a simple click.\n\n[Marked]: https://github.com/markedjs/marked/\n[Markdown]: http://daringfireball.net/projects/markdown/\n",
-        type: "book",
-        cover: {
-          _id: "5e9c33a20ea604201558edfb",
-          secureURL:
-            "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80",
-          publicId: "Coders-Tokyo-Forum/posts/a.jpg",
-          fileName: "a.jpg",
-          sizeBytes: 107648,
-          userId: {
-            _id: "5e8b577f1a2dde3229879524",
-            username: "nhat_anh"
-          },
-          postId: "5e9c33a20ea604201558edfa",
-          resourceType: "image",
-          createdAt: "2020-04-19T11:18:58.228Z",
-          updatedAt: "2020-04-19T11:18:58.228Z",
-          __v: 0
-        },
-        createdAt: "2020-04-19T11:18:58.251Z",
-        updatedAt: "2020-04-19T11:18:58.251Z",
-        metadata: {
-          _id: "5e9494fe935dfb5ed30435",
-          comments: 123,
-          likes: 69,
-          saves: 1
-        },
-        book: {
-          status: "Finished",
-          country: "Vietnam",
-          year: 2019,
-          length: 200,
-          genres: ["Literary", "Action"],
-          suggestedBy: ["Trần Tôn"],
-          stars: 5
-        }
-      },
-      user: {
-        _id: "5e8b577f1a2dde32298795f4",
-        hobbies: ["music, reading book"],
-        username: "hongquang",
-        password: "hell0aA@",
-        email: "quang.dang@homa.company",
-        socialLinks: [
-          {
-            _id: "5e8f536b0416274996f69e75",
-            type: "Github",
-            url: "https://github.com/hongquangraem"
-          },
-          {
-            _id: "5e8f536b0416274996f69e76",
-            type: "Facebook",
-            url: "https://facebook.com/spaceraem"
-          }
-        ],
-        createdAt: "2020-04-06T16:23:27.385Z",
-        updatedAt: "2020-04-13T14:43:32.772Z",
-        job: "Developer",
-        sex: "Male",
-        avatar: {
-          secureURL:
-            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-        },
-        description:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse. ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
-      },
       otherBooksOfAuthor: [
         {
           _id: "5e9ab00f0591fb40fc87faa2",
@@ -675,39 +375,13 @@ export default {
             saves: 1
           }
         }
-      ],
-      tagStyle: {
-        fontSize: "0.975em !important",
-        fontWeight: 300,
-        padding: "5px 5px",
-        height: "35px",
-        letterSpacing: "0.0111333333em !important",
-        marginLeft: "12px !important",
-        borderRadius: "4px"
-      },
-      book: {},
-      authors: []
+      ]
     };
   },
   computed: {},
   created() {},
   methods: {},
-  components: {
-    Tag,
-    ReadTime,
-    EditDeleteBtns,
-    UserSocialLinks,
-    LikeBtn,
-    CommentBtn,
-    UserAvatar,
-    FacebookBtn,
-    ViewsBtn,
-    Comment,
-    AuthorProfile,
-    AuthorFollowCard,
-    PostReactions,
-    OtherPostsOfAuthor
-  }
+  components: {}
 };
 </script>
 
@@ -793,5 +467,11 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   display: -webkit-box;
+}
+
+.other-post {
+  flex: 30%;
+  margin: 20px;
+  justify-content: center;
 }
 </style>

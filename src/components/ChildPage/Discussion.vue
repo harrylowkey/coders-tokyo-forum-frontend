@@ -98,9 +98,9 @@
       >
         <v-boilerplate
           class="author-follow"
-          style="width: 100%"
+          style="width: 100%; padding: 5px 10px; background: #fff"
           v-if="isLoading"
-          type="list-item-avatar-three-line, divider, list-item-two-line"
+          type="list-item-avatar-three-line, list-item-three-line"
         ></v-boilerplate>
         <author-follow-card
           v-if="!isLoading"
@@ -179,7 +179,7 @@ export default {
             saves: 1
           }
         }
-      ],
+      ]
     };
   },
   methods: {},

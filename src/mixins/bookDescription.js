@@ -4,7 +4,7 @@ export const bookDescription = {
       return (index + 1) < dataLength ? ', ' : ''
     },
     isStar(index) {
-      if (index <= this.book.stars) return "#FDD835";
+      if (index <= this.post.book.stars) return "#FDD835";
       else return "";
     }
   },
@@ -16,7 +16,7 @@ export const bookDescription = {
   },
   computed: {
     calBookStatusColor() {
-      if (this.book.status !== "Finished") return { color: "red" };
+      if (this.post.book.status !== "Finished") return { color: "red" };
       else return { color: "green" };
     },
     calBookYearColor() {
@@ -28,24 +28,20 @@ export const bookDescription = {
         border: "1px solid #90d2a3 !important",
         backgroundColor: "#C5E1A5 !important"
       };
-      if (this.book.year < new Date().getYear() + 1900) {
+      if (this.post.book.year < new Date().getYear() + 1900) {
         return oldYearCss;
       } else {
         return thisYearCss;
       }
     },
     slicedAuthors() {
-      return this.authors.slice(0, this.minSlice);
+      return this.post.authors.slice(0, this.minSlice);
     },
     slicedGenres() {
-      return this.book.genres.slice(0, this.maxSlice);
+      return this.post.book.genres.slice(0, this.maxSlice);
     },
     slicedSuggestedBy() {
-      return this.book.suggestedBy.slice(0, this.minSlice);
+      return this.post.book.suggestedBy.slice(0, this.minSlice);
     },
-  },
-  created() {
-    this.book = this.post ? this.post.book : this.book
-    this.authors = this.post ? this.post.authors.filter(person => person.type === 'author') : this.authors.filter(person => person.type === 'author')
   }
 }

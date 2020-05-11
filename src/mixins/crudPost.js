@@ -60,7 +60,9 @@ export const crudPost = {
       this.getPostById({
         id: this.$route.params.id,
         typeQuery: this.$route.query.type
-      }).then(data => (this.post = data));
+      }).then(data => {
+        this.post = data
+      });
     },
   },
   computed: {

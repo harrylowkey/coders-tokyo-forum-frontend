@@ -275,7 +275,6 @@ export default {
           name: "",
           status: "Finished",
           country: "",
-          year: "",
           length: 0,
           genres: [],
           suggestedBy: [],
