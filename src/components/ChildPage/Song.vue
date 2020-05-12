@@ -122,7 +122,7 @@
               </v-col>
               <v-col class="lyric" cols="9" sm="8" md="8" lg="9" xl="9">
                 <div>
-                  <div :class="lyricClasses">
+                  <div :class="lyricClasses" ref="lyricWrapper">
                     <p v-html="$options.filters.markdown(post.content)"></p>
                   </div>
                   <span
@@ -130,6 +130,7 @@
                     @click="toggleShowLyrics"
                     style="font-size: 13px; color: grey; cursor: pointer"
                     class="font-italic mb-0 show-more"
+                    ref="showMore"
                   >Show more</span>
                   <span
                     v-if="isShowMore"
@@ -519,11 +520,20 @@ export default {
   },
   components: {},
   mounted() {
-    //TODO: Cannot style canvas
+    // FIXME: Cannot style canvas
     // let waveBar = document.querySelector("canvas");
     // waveBar.style.cursor = "pointer";
     // let songTitle = document.querySelector(".v-card__title");
     // songTitle.style.cursor = "pointer";
+    //FIXME: Cannot access lyricWrapper ref
+    // let lyricWrapper = this.$refs.lyricWrapper;
+    // if (lyricWrapper.offsetHeight <= 270) {
+    //   lyricWrapper.style.height = 'auto'
+    //  let showMoreBtn = this.$refs.showMore
+    //  showMoreBtn.style.display = 'none'
+    // } else {
+    //   lyricWrapper.style.height = 270
+    // }
   }
 };
 </script>
@@ -560,7 +570,7 @@ export default {
     .play-pause-icon {
       color: #fff;
       transition: ease 0.3s;
-      color: 'green'
+      color: "green";
     }
 
     .playing-play-pause-icon {
