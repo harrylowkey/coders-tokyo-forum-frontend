@@ -179,7 +179,7 @@
       >
         <v-boilerplate
           class="author-follow"
-          style="width: 100%; padding: 5px 10px; background: #fff"
+          style="width: 100%; padding: 5px 10px; background: #fff; margin-top: 30px"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
         ></v-boilerplate>
@@ -560,6 +560,7 @@ export default {
     .play-pause-icon {
       color: #fff;
       transition: ease 0.3s;
+      color: 'green'
     }
 
     .playing-play-pause-icon {

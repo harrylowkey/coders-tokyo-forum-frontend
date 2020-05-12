@@ -3,21 +3,39 @@
     <v-row id="post">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
-          :likes="post.metadata.likes"
-          :saves="post.metadata.saves"
-          :flowers="123"
+          v-if="!isLoading"
+          :likes="(post && post.metadata) ? post.metadata.likes : 0"
+          :saves="(post && post.metadata) ? post.metadata.saves : 0"
+          :flowers="0"
           :postId="post._id"
         ></post-reactions>
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <v-card id="podcast" class="mx-auto pa-0 pa-8">
+        <v-skeleton-loader></v-skeleton-loader>
+        <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image"></v-boilerplate>
+        <v-boilerplate
+          max-width="200"
+          class="mx-auto mt-6"
+          v-if="isLoading"
+          style="margin: 20px !important; display: inline-block; width: 200px"
+          type="list-item-avatar-two-line"
+        ></v-boilerplate>
+        <v-boilerplate
+          v-if="isLoading"
+          style="display: inline-block; width: 600px"
+          height="500"
+          max-wdith="200"
+          class="mx-auto mt-6"
+          type="article"
+        ></v-boilerplate>
+        <v-card v-else id="podcast" class="mx-auto pa-0 pa-8">
           <v-row>
             <v-col cols="3" sm="3" md="4" lg="3" xl="3">
               <v-container class="d-flex pb-7 pt-0 pr-0 pl-4">
                 <v-img
                   :class="coverClasses"
                   class="cover"
-                  src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
+                  :src="post.cover.secureURL"
                   gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                   min-height="160px"
                   max-height="160px"
@@ -49,7 +67,7 @@
                   :playtime="true"
                   :radius="60"
                   playtime-font="18px Monaco"
-                  audio-src="https://cdn.moefe.org/music/mp3/thing.mp3"
+                  :audio-src="post.media.secureURL"
                 />
                 <span
                   style="font-size: 13px; color: grey"
@@ -79,14 +97,21 @@
 
             <v-col cols="9" sm="9" md="7" lg="9" xl="9">
               <v-card-text class="podcast-description pl-0 pt-0">
-                <v-card-title style="cursor: pointer" class="ml-5 headline pt-0">{{ post.podcast.name}}</v-card-title>
+                <v-card-title
+                  style="cursor: pointer"
+                  class="ml-5 headline pt-0"
+                >{{ post.media.fileName}}</v-card-title>
                 <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
                   <span
                     style="font-size: 13px"
                     v-for="(author, i) in post.authors"
                     :key="author._id"
                   >
-                   <a target="_blank" style="text-decoration: none; color: #000" :href="`/posts?artist=${author.name}&type=podcast`">{{ author.name }}</a>
+                    <a
+                      target="_blank"
+                      style="text-decoration: none; color: #000"
+                      :href="`/posts?artist=${author.name}&type=podcast`"
+                    >{{ author.name }}</a>
                     <span
                       style="font-size: 12px"
                       class="mx-1 font-italic"
@@ -113,31 +138,12 @@
           <v-container>
             <v-row>
               <v-col class="pr-0 user-profile" cols="3" sm="4" md="4" lg="3" xl="3">
-                <div class="d-flex flex-column justify-center">
-                  <v-container class="d-flex justify-center">
-                    <user-social-links
-                      :socialLinks="socialLinks"
-                      :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
-                      :username="'chau_chau'"
-                    ></user-social-links>
-                  </v-container>
-                  <v-container class="d-flex justify-center pt-1">
-                    <v-btn
-                      @click="isFollowing = !isFollowing"
-                      v-if="isFollowing"
-                      dark
-                      color="green"
-                      x-small
-                    >Follow</v-btn>
-                    <v-btn
-                      @click="isFollowing = !isFollowing"
-                      v-else
-                      dark
-                      color="red"
-                      x-small
-                    >Unfollow</v-btn>
-                  </v-container>
-                </div>
+                <user-social-links
+                  :socialLinks="socialLinks"
+                  :author="post.user"
+                  :user="user"
+                  :isAuthor="isAuthor"
+                ></user-social-links>
               </v-col>
 
               <v-col class="lyric" cols="9" sm="8" md="8" lg="9" xl="9">
@@ -158,8 +164,10 @@
                 >Show less</span>
                 <div class="ml-9 mt-5 d-flex justify-end">
                   <edit-delete-btns
-                    @handleEditPost="handleEditPost"
+                    v-if="isAuthor"
                     @handleDeletePost="handleDeletePost"
+                    :postId="post._id"
+                    :postType="post.type"
                   ></edit-delete-btns>
                 </div>
               </v-col>
@@ -170,9 +178,10 @@
           <v-divider></v-divider>
           <h1 class="mb-3 mt-8">Comments</h1>
 
-          <write-comment></write-comment>
+          <v-boilerplate style="width: 100%" v-if="isLoading" type="image"></v-boilerplate>
+          <write-comment v-if="!isLoading"></write-comment>
 
-          <div v-if="post.comments.length">
+          <div v-if="post ? post.comments.length : false">
             <comment
               v-for="comment in post.comments"
               :key="comment._id"
@@ -192,10 +201,22 @@
         xl="3"
         class="wrapper-author-follow d-sm-none d-md-flex flex-column"
       >
-        <author-follow-card class="author-follow" :user="user" :description="user.description"></author-follow-card>
+        <v-boilerplate
+          class="author-follow"
+          style="width: 100%; padding: 5px 10px; background: #fff; margin-top: 30px !important"
+          v-if="isLoading"
+          type="list-item-avatar-three-line, list-item-three-line"
+        ></v-boilerplate>
+        <author-follow-card
+          v-if="!isLoading"
+          class="author-follow"
+          :isAuthor="isAuthor"
+          :author="post.user"
+          :userId="user._id"
+        ></author-follow-card>
 
         <div
-          v-if="otherPodcastsOfAuthor.length"
+          v-if="!isLoading"
           class="d-flex flex-column justify-center align-center mt-2"
         >
           <v-hover
@@ -246,26 +267,10 @@
 </template>
 
 <script>
-import marked from "marked";
-import LikeBtn from "@/components/Shared/LikeButton";
-import CommentBtn from "@/components/Shared/CommentButton";
-import FacebookBtn from "@/components/Shared/FacebookButton";
-import ViewsBtn from "@/components/Shared/ViewsButton";
-import Tag from "@/components/Shared/Tag";
-import UserAvatar from "@/components/Shared/UserAvatar";
-import UserSocialLinks from "@/components/Shared/UserSocialLinks";
-import AuthorProfile from "@/components/User/Profile";
-import AuthorFollowCard from "@/components/User/AuthorFollow";
-import Comment from "@/components/Comment/Comment";
-import PostReactions from "@/components/Shared/PostReactions";
-import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
-import { userSocialLinks } from "@/mixins/userSocialLinks";
-import ReadTime from "@/components/Shared/readTime";
-import WriteComment from "@/components/Comment/WriteComment";
-import EditDeleteBtns from "../Post/EditDeleteBtns";
+import { crudPost } from "@/mixins/crudPost";
 
 export default {
-  mixins: [userSocialLinks],
+  mixins: [crudPost],
   data() {
     return {
       totalLengthClasses: ["total-length", "font-italic", "mb-0"],
@@ -282,117 +287,7 @@ export default {
       currentVolume: 100,
       maxVolume: 1.0,
       minVolume: 0.0,
-      totalLength: 0,
       isFollowing: false,
-      post: {
-        _id: "5e9920603c513c2611a9df88",
-        tags: [
-          {
-            _id: "5e8c5f27abf7df7d3be426db",
-            tagName: "aucoustic"
-          },
-          {
-            _id: "5e8c5f27abf7df7d3be426dc",
-            tagName: "tinh ca"
-          }
-        ],
-        comments: [],
-        authors: [
-          {
-            _id: "5e9920603c513c2611a9df89",
-            type: "artist",
-            name: "Chillies"
-          },
-          {
-            _id: "5e9920603c513c26119df89",
-            type: "artist",
-            name: "ChilliesB"
-          }
-        ],
-        likes: [],
-        savedBy: [],
-        userId: "5e8b577f1a2dde32298795f4",
-        topic: " Memories place",
-        description: "Rock Ballad",
-        content:
-          "\nLyrics :  \nAnh sẽ mang tên em vào trong mixtape  \nSau đêm nay chỉ mong em vui lên  \nI see you wanna be mah girl  \nVà nếu em là mãi mãi\n\nJust let me show you what love really do  \nHaving the best moment for me n you  \nSo what you say girl  \nWill you be my world ?  \nHold my hand and feel my love\n\nĐôi chân phiêu du anh đưa tay tới nơi phía chân trời  \nLặng nhìn bầu trời vàng trong hoàng hôn  \nCho nỗi nhớ em thêm đầy vơi  \nBaby tell me you feel the same  \nCause I wanna be your man  \nGive me one more chance  \nTo be with you again  \nI wanna see you on the night\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.\n\nTên của em nó nằm trong bảng chữ cái A B C  \nVà Mr Yanbi đã nhắc tên em ở trong một cái MP3  \nSẽ là một nơi em đến  \nBao nhiêu người xung quanh yêu mến  \nAnh thắp chút ánh nến hòa với đôi môi em ngọt như là bánh Cookie Cookie  \nChỉ cần có em bay theo điệu nhạc với một chiếc bút bi bút bi  \nAnh sẽ hát bài ca này trên Radio và TV  \nGhi dấu lại những dòng tâm tư và thu vào trong cái CD  \nLet me see you babe girl  \nEm đẹp xinh khiến anh ngẩn ngơ  \nMọi thứ cứ xảy ra như thế vì đâu ai ngờ  \nNgay bây giờ ngay từng nhịp điệu anh viết chắc em nghĩ anh là Florida  \nVì em đẹp hơn cả Nexttop Model  \nEm sẽ phải sống ra sao khi trong cơn say này xô bồ  \nKhi T-Akayz in da track  \nEm không yêu chỉ còn 1 cách  \nEm sẽ không thể quên được anh đâu  \nMây mưa trăng sao mình bên nhau  \nVà đêm từng đêm về  \nEm ơi không cần câu nệ  \nNow let me see ya overnight\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.",
-        type: "podcast",
-        media: {
-          _id: "5e99206e3c513c2611a9df8a",
-          secureURL:
-            "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614.mp3",
-          publicId:
-            "Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614",
-          fileName: "hongquang_podcast_Vung Ky Uc - Chillies",
-          sizeBytes: 4835851,
-          userId: "5e8b577f1a2dde32298795f4",
-          postId: "5e9920603c513c2611a9df88",
-          resourceType: "video",
-          media: {
-            type: "upload",
-            signature: "b1cd21b54d3ac48aab7b3097fe59957cb525e614",
-            width: 500,
-            height: 500,
-            format: "mp3",
-            resource_type: "video",
-            frame_rate: 90000,
-            bit_rate: 129717,
-            duration: 298.24
-          },
-          createdAt: "2020-04-17T03:20:14.881Z",
-          updatedAt: "2020-04-17T03:20:14.881Z",
-          __v: 0
-        },
-        podcast: {
-          name: "Memories place",
-          artist: "Chillies",
-          url: "https://cdn.moefe.org/music/mp3/thing.mp3",
-          cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
-          lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
-        },
-        createdAt: "2020-04-17T03:20:14.886Z",
-        updatedAt: "2020-04-17T03:20:14.886Z",
-        metadata: {
-          _id: "5e9494fe935dfb5ed30435",
-          comments: 123,
-          likes: 69,
-          saves: 1
-        }
-      },
-      user: {
-        _id: "5e8b577f1a2dde32298795f4",
-        hobbies: ["music, reading book"],
-        username: "hongquang",
-        password: "hell0aA@",
-        email: "quang.dang@homa.company",
-        socialLinks: [
-          {
-            _id: "5e8f536b0416274996f69e75",
-            type: "Github",
-            url: "https://github.com/hongquangraem"
-          },
-          {
-            _id: "5e8f536b0416274996f69e76",
-            type: "Facebook",
-            url: "https://facebook.com/spaceraem"
-          },
-          {
-            _id: "5e8f536b0416274996f69e76",
-            type: "Linkedin",
-            url: "https://facebook.com/spaceraem"
-          }
-        ],
-        createdAt: "2020-04-06T16:23:27.385Z",
-        updatedAt: "2020-04-13T14:43:32.772Z",
-        job: "Developer",
-        sex: "Male",
-        avatar: {
-          secureURL:
-            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-        },
-        description:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse. ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
-      },
       otherPodcastsOfAuthor: [
         {
           _id: "5e992603c513c2611a9df88",
@@ -545,7 +440,7 @@ export default {
       return tags.slice(0, this.maxTags);
     },
     hanldePlayAnotherpodcast(podcastId) {
-      console.log('here')
+      console.log("here");
       this.$router.push({ path: `/podcasts/${podcastId}` });
     },
     toggleShowLyrics() {
@@ -627,7 +522,16 @@ export default {
 
       return current_time;
     },
-    calTotalLength() {
+  },
+  watch: {
+    currentVolume(newValue, oldValue) {
+      if (newValue === 1) this.volumeIcon = "mdi-volume-off";
+      if (newValue !== 1) this.volumeIcon = "mdi-volume-high";
+      return (this.$refs.player.audio.volume = newValue / 100);
+    }
+  },
+  computed: {
+    totalLength() {
       let duration = this.post.media.media.duration / 60;
       let splitRes = duration.toString().split(".");
       let minutes = Number(splitRes[0]);
@@ -637,35 +541,7 @@ export default {
       return `${minutes}:${seconds}`;
     }
   },
-  watch: {
-    currentVolume(newValue, oldValue) {
-      console.log(this.$refs.player.audio.volume);
-      if (newValue === 1) this.volumeIcon = "mdi-volume-off";
-      if (newValue !== 1) this.volumeIcon = "mdi-volume-high";
-      return (this.$refs.player.audio.volume = newValue / 100);
-    }
-  },
-  created() {
-    this.totalLength = this.calTotalLength();
-  },
-  computed: {},
-  components: {
-    Tag,
-    EditDeleteBtns,
-    ReadTime,
-    UserSocialLinks,
-    LikeBtn,
-    CommentBtn,
-    UserAvatar,
-    FacebookBtn,
-    ViewsBtn,
-    Comment,
-    WriteComment,
-    AuthorProfile,
-    AuthorFollowCard,
-    PostReactions,
-    OtherPostsOfAuthor
-  }
+  components: {}
 };
 </script>
 
@@ -720,7 +596,7 @@ export default {
   display: flex;
   width: 20%;
   position: absolute;
-  top: 32%;
+  top: 30%;
   left: 9%;
   width: 15%;
   display: flex;
