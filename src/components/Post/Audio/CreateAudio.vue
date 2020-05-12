@@ -324,7 +324,7 @@
               </v-card-text>
               <v-card-actions class="pt-0">
                 <v-spacer></v-spacer>
-                <v-btn class="mr-5" color="green" dark @click="submit">Post</v-btn>
+                <v-btn class="mr-5" color="green white--text" @click="submit" :disabled="isLoading">Post</v-btn>
               </v-card-actions>
             </v-container>
           </v-col>

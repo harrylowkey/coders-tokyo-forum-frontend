@@ -263,7 +263,7 @@
                 </v-chip>
                 <v-spacer></v-spacer>
                 <v-btn class="mr-5" color="primary" @click="togglePreviewContent" dark>Preview</v-btn>
-                <v-btn class="mr-5" color="green" dark @click="submit">Post</v-btn>
+                <v-btn class="mr-5" color="green white--text" @click="submit" :disabled="isLoading">Post</v-btn>
               </v-card-actions>
             </v-container>
             <v-dialog max-width="500" v-model="isAttachImage">

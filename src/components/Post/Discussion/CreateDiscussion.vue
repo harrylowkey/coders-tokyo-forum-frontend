@@ -52,7 +52,7 @@
           </v-card-text>
           <v-card-actions class="pt-0">
             <v-spacer></v-spacer>
-            <v-btn @click="submit" class="mr-5" color="green" dark>Post</v-btn>
+            <v-btn  @click="submit" class="mr-5 white--text" color="green">Post</v-btn>
           </v-card-actions>
         </div>
       </v-card>

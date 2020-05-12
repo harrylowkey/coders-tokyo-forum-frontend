@@ -22,7 +22,7 @@
               class="cover-blog"
             ></v-img>
           </v-container>
-          <v-container style="padding: 15px 50px 20px 50px">
+          <v-container v-if="!isLoading" style="padding: 15px 50px 20px 50px">
             <v-list-item three-line style="padding: 10px 25px 25px 0px">
               <v-list-item-content class="pr-10 pt-lg-0">
                 <v-list-item-title class="blog-title mb-0">

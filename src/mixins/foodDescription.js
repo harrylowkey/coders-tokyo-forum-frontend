@@ -7,7 +7,7 @@ export const foodDescription = {
   },
   methods: {
     isStar(index) {
-      if (index <= this.food.stars) return "#FDD835";
+      if (index <= this.post.food.stars) return "#FDD835";
       else return "";
     },
     calPointColor(point) {
@@ -27,8 +27,5 @@ export const foodDescription = {
           backgroundColor: "#C5E1A5 !important"
         };
     }
-  },
-  created() {
-    this.food = this.post ? this.post.food : this.food
   }
 }

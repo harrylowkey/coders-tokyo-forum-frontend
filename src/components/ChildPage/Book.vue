@@ -19,7 +19,7 @@
             <v-row style="margin-right: 0">
               <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
                 <v-img
-                  src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
+                  :src="post.cover.secureURL"
                   height="360px"
                   style
                   class="cover-book"
@@ -176,7 +176,7 @@
               </v-col>
             </v-row>
           </v-container>
-          <v-container style="padding: 15px 50px 20px 50px">
+          <v-container v-if="!isLoading" style="padding: 15px 50px 20px 50px">
             <v-list-item three-line style="padding: 10px 25px 25px 0px">
               <v-list-item-content class="pr-10 pt-lg-0">
                 <v-list-item-title class="blog-title mb-0">

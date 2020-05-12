@@ -5,11 +5,7 @@
         <v-row style="height: 80px;">
           <v-col sm="4" md="3">
             <v-avatar size="60" style="cursor: pointer" dark>
-              <img
-                :src="author.avatar.secureURL"
-                alt="Avatar"
-                @click="onClickAvatar"
-              />
+              <img :src="author.avatar.secureURL" alt="Avatar" @click="onClickAvatar" />
             </v-avatar>
           </v-col>
           <v-col sm="12" md="8">
@@ -72,6 +68,9 @@ export default {
     },
     async onClickFollow() {
       const response = await this.follow(this.author._id);
+      if (!response) {
+        this.$router.push({ path: "/signin"});
+      }
       if (response.status === 200) {
         this.followers.push(this.userId);
         this.$notify({
@@ -85,6 +84,10 @@ export default {
           title: response.message
         });
       }
+
+      if (response.status === 401) {
+        this.$router.push({ path: "/signin" });
+      }
     },
     async onClickUnFollow() {
       const response = await this.unfollow(this.author._id);
@@ -96,7 +99,7 @@ export default {
           type: "success",
           title: response.data.message
         });
-        console.log(this.followers)
+        console.log(this.followers);
       }
       if (response.status === 400) {
         this.$notify({
