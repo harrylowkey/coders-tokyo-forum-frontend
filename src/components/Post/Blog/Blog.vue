@@ -55,7 +55,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <tag v-if="tags.length" :tagName="tags[0].tagName" :postType="'blog'"></tag>
+        <tag v-if="tags.length" :tagName="tags[0].tagName" :postType="type"></tag>
       </v-card-actions>
     </v-card>
   </v-hover>

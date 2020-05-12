@@ -229,7 +229,6 @@ export default {
     ...mapState("utils", ["errorMes", "isLoading"]),
     ...mapState("stream", ["newestBlogs"]),
     blogs() {
-      console.log(this.newestBlogs)
       return this.newestBlogs;
     }
   }

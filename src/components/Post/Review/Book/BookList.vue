@@ -3,6 +3,11 @@
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
         <h1 v-if="showTitlePage" class="mt-5">#Book Reviews</h1>
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
         <book
           v-for="item in books"
           :key="item._id"
@@ -12,13 +17,15 @@
           :content="item.content"
           :tags="item.tags"
           :cover="item.cover"
-          :userId="item.userId"
+          :user="item.user"
           :type="item.type"
           :createdAt="item.createdAt"
           :updatedAt="item.updatedAt"
           :metadata="item.metadata"
           :book="item.book"
           :authors="item.authors"
+          :comments="item.comments"
+          :likes="item.likes"
         ></book>
         <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
           <v-btn class="primary" to="/stream/books">View more</v-btn>
@@ -56,6 +63,8 @@
 <script>
 import Book from "./Book";
 import SideCard from "@/components/Shared/SideCard";
+
+import { mapState } from "vuex";
 export default {
   components: {
     Book,
@@ -65,289 +74,6 @@ export default {
     return {
       showTitlePage: false,
       showViewMoreBtn: true,
-      books: [
-        {
-          _id: "5e9c33a20ea604201558edfa",
-          tags: [
-            {
-              _id: "5e9c33a20ea604201558edfc",
-              tagName: "kientran"
-            },
-            {
-              _id: "5e9c33a20ea604201558edfd",
-              tagName: "laptrinhquydaocuocdoi"
-            }
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: "5e9c33a20ea604201558edfe",
-              name: "Kiên Trần"
-            }
-          ],
-          userId: {
-            _id: "5e8b577f1a2dde322987924",
-            username: "nhat_anh"
-          },
-          likes: [],
-          savedBy: [],
-          userId: {
-            _id: "5e8b577f1a2dde322987924",
-            username: "nhat_anh"
-          },
-          topic: "Lập trình qũy đạo cuộc đời",
-          description:
-            "Đây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành",
-          content:
-            "Đây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành\nĐây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành\nĐây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành",
-          type: "book",
-          cover: {
-            _id: "5e9c33a20ea604201558edfb",
-            secureURL:
-              "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80",
-            publicId: "Coders-Tokyo-Forum/posts/a.jpg",
-            fileName: "a.jpg",
-            sizeBytes: 107648,
-            userId: {
-              _id: "5e8b577f1a2dde3229879524",
-              username: "nhat_anh"
-            },
-            postId: "5e9c33a20ea604201558edfa",
-            resourceType: "image",
-            createdAt: "2020-04-19T11:18:58.228Z",
-            updatedAt: "2020-04-19T11:18:58.228Z",
-            __v: 0
-          },
-          createdAt: "2020-04-19T11:18:58.251Z",
-          updatedAt: "2020-04-19T11:18:58.251Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          },
-          book: {
-            name: 'Lập trình quỹ đạo cuộc đời',
-            status: "Finished",
-            country: "Vietnam",
-            year: 2019,
-            length: 200,
-            genres: ["Literary", "Action"],
-            suggestedBy: ["Trần Tôn", "Trần Tôn", "Trần Tôn"],
-            stars: 5
-          }
-        },
-        {
-          _id: "59c3a20ea604201558edfa",
-          tags: [
-            {
-              _id: "5e9c33a20ea604201558edfc",
-              tagName: "kientran"
-            },
-            {
-              _id: "5e9c33a20ea604201558edfd",
-              tagName: "laptrinhquydaocuocdoi"
-            }
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: "5e9c33a20ea604201558edfe",
-              name: "Kiên Trần"
-            }
-          ],
-          userId: {
-            _id: "5e8b577f1a2dde322987924",
-            username: "nhat_anh"
-          },
-          likes: [],
-          savedBy: [],
-          userId: {
-            _id: "5e8b577f1a2dde322987924",
-            username: "nhat_anh"
-          },
-          topic: "Lập trình qũy đạo cuộc đời",
-          description:
-            "Đây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành",
-          content:
-            "Đây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành\nĐây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành\nĐây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành",
-          type: "book",
-          cover: {
-            _id: "5e9c33a20ea604201558edfb",
-            secureURL:
-              "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80",
-            publicId: "Coders-Tokyo-Forum/posts/a.jpg",
-            fileName: "a.jpg",
-            sizeBytes: 107648,
-            userId: {
-              _id: "5e8b577f1a2dde3229879524",
-              username: "nhat_anh"
-            },
-            postId: "5e9c33a20ea604201558edfa",
-            resourceType: "image",
-            createdAt: "2020-04-19T11:18:58.228Z",
-            updatedAt: "2020-04-19T11:18:58.228Z",
-            __v: 0
-          },
-          createdAt: "2020-04-19T11:18:58.251Z",
-          updatedAt: "2020-04-19T11:18:58.251Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          },
-          book: {
-            status: "Finished",
-            country: "Vietnam",
-            year: 2019,
-            length: 200,
-            genres: ["Literary", "Action"],
-            suggestedBy: ["Trần Tôn", "Trần Tôn", "Trần Tôn"],
-            stars: 5
-          }
-        },
-        {
-          _id: "5e9c3a20ea604201558edfa",
-          tags: [
-            {
-              _id: "5e9c33a20ea604201558edfc",
-              tagName: "kientran"
-            },
-            {
-              _id: "5e9c33a20ea604201558edfd",
-              tagName: "laptrinhquydaocuocdoi"
-            }
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: "5e9c33a20ea604201558edfe",
-              name: "Kiên Trần"
-            }
-          ],
-          userId: {
-            _id: "5e8b577f1a2dde322987924",
-            username: "nhat_anh"
-          },
-          likes: [],
-          savedBy: [],
-          userId: {
-            _id: "5e8b577f1a2dde322987924",
-            username: "nhat_anh"
-          },
-          topic: "Lập trình qũy đạo cuộc đời",
-          description:
-            "Đây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành",
-          content:
-            "Đây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành\nĐây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành\nĐây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành",
-          type: "book",
-          cover: {
-            _id: "5e9c33a20ea604201558edfb",
-            secureURL:
-              "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80",
-            publicId: "Coders-Tokyo-Forum/posts/a.jpg",
-            fileName: "a.jpg",
-            sizeBytes: 107648,
-            userId: {
-              _id: "5e8b577f1a2dde3229879524",
-              username: "nhat_anh"
-            },
-            postId: "5e9c33a20ea604201558edfa",
-            resourceType: "image",
-            createdAt: "2020-04-19T11:18:58.228Z",
-            updatedAt: "2020-04-19T11:18:58.228Z",
-            __v: 0
-          },
-          createdAt: "2020-04-19T11:18:58.251Z",
-          updatedAt: "2020-04-19T11:18:58.251Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          },
-          book: {
-            status: "Finished",
-            country: "Vietnam",
-            year: 2019,
-            length: 200,
-            genres: ["Literary", "Action"],
-            suggestedBy: ["Trần Tôn", "Trần Tôn", "Trần Tôn"],
-            stars: 5
-          }
-        },
-        {
-          _id: "5e9c33a20ea604201558dfa",
-          tags: [
-            {
-              _id: "5e9c33a20ea604201558edfc",
-              tagName: "kientran"
-            },
-            {
-              _id: "5e9c33a20ea604201558edfd",
-              tagName: "laptrinhquydaocuocdoi"
-            }
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: "5e9c33a20ea604201558edfe",
-              name: "Kiên Trần"
-            }
-          ],
-          userId: {
-            _id: "5e8b577f1a2dde322987924",
-            username: "nhat_anh"
-          },
-          likes: [],
-          savedBy: [],
-          userId: {
-            _id: "5e8b577f1a2dde322987924",
-            username: "nhat_anh"
-          },
-          topic: "Lập trình qũy đạo cuộc đời",
-          description:
-            "Đây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành",
-          content:
-            "Đây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành\nĐây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành\nĐây không phải là sách phát triển bản thân. \nĐây Đây là sách giups bạn am am hiểu bản thân và lập trình nên Qũy Đạo Đạo Cuộc Đời Đời cho riêng bạn.\nBạn không thể phatstriener nếu bạn không am am hiểu cách bản thân bạn và xã hội vận hành",
-          type: "book",
-          cover: {
-            _id: "5e9c33a20ea604201558edfb",
-            secureURL:
-              "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80",
-            publicId: "Coders-Tokyo-Forum/posts/a.jpg",
-            fileName: "a.jpg",
-            sizeBytes: 107648,
-            userId: {
-              _id: "5e8b577f1a2dde3229879524",
-              username: "nhat_anh"
-            },
-            postId: "5e9c33a20ea604201558edfa",
-            resourceType: "image",
-            createdAt: "2020-04-19T11:18:58.228Z",
-            updatedAt: "2020-04-19T11:18:58.228Z",
-            __v: 0
-          },
-          createdAt: "2020-04-19T11:18:58.251Z",
-          updatedAt: "2020-04-19T11:18:58.251Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          },
-          book: {
-            status: "Finished",
-            country: "Vietnam",
-            year: 2019,
-            length: 200,
-            genres: ["Literary", "Action"],
-            suggestedBy: ["Trần Tôn", "Trần Tôn", "Trần Tôn"],
-            stars: 5
-          }
-        }
-      ],
       topBloggers: {
         title: "Top Bloggers",
         type: 1,
@@ -499,6 +225,14 @@ export default {
       this.mostViewBlogs.title = "Top 5 Discussions";
       let sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
+    }
+  },
+  computed: {
+    ...mapState("utils", ["errorMes", "isLoading"]),
+    ...mapState("stream", ["newestBookReviews"]),
+    books() {
+      console.log(this.newestBookReviews[0].book)
+      return this.newestBookReviews;
     }
   }
 };

@@ -4,14 +4,14 @@
       <v-row style="margin-right: 0">
         <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
           <v-img
-            src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
+            :src="cover.secureURL"
             height="360px"
             style="cursor: pointer"
             class="cover-book"
             @click="linkToBlog"
           ></v-img>
         </v-col>
-        <v-col class="pa-0" cols="12" sm="12" md="12" lg="5" xl="4" style="position: relative">
+        <v-col v-if="book" class="pa-0" cols="12" sm="12" md="12" lg="5" xl="4" style="position: relative">
           <div class="d-md-none d-lg-flex">
             <v-container class="ml-1 pl-3 book-detail">
               <v-card-text class="pb-2 pt-2">
@@ -36,17 +36,6 @@
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-3">Nation:</p>
                   <p class="value mb-0">{{ book.country }}</p>
-                </v-container>
-
-                <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Year:</p>
-                  <v-chip
-                    label
-                    text-color="black"
-                    outlined
-                    small
-                    :style="calBookYearColor"
-                  >{{ book.year }}</v-chip>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
@@ -117,16 +106,6 @@
                     <p class="value mb-0">{{ book.country }}</p>
                   </v-container>
 
-                  <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Year:</p>
-                    <v-chip
-                      label
-                      text-color="black"
-                      outlined
-                      small
-                      :style="calBookYearColor"
-                    >{{ book.year }}</v-chip>
-                  </v-container>
                 </div>
 
                 <div>
@@ -192,8 +171,8 @@
           </div>
         </v-list-item-content>
         <user-avatar
-          :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
-          :username="userId.username"
+          :src="user.avatar.secureURL"
+          :username="user.username"
           style="padding-bottom: 7px;"
         ></user-avatar>
       </v-list-item>
@@ -224,7 +203,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <tag :tagName="tags[0].tagName" :postType="'book'"></tag>
+        <tag v-if="tags.length" :tagName="tags[0].tagName" :postType="type"></tag>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -265,7 +244,7 @@ export default {
       type: Array,
       default: () => []
     },
-    userId: {
+    user: {
       type: Object,
       default: () => ({})
     },
@@ -300,6 +279,10 @@ export default {
     book: {
       type: Object,
       default: () => ({})
+    },
+    cover: {
+      type: Object,
+      required: true
     }
   },
   components: {
@@ -311,16 +294,13 @@ export default {
   },
   data() {
     return {
-      blogLink: ""
+      blogLink: `/bookReviews/${this._id}?type=${this.type}`
     };
   },
   methods: {
     linkToBlog() {
       this.$router.push({ path: this.blogLink });
     }
-  },
-  created() {
-    this.blogLink = `/bookReviews/${this._id}`;
   }
 };
 </script>

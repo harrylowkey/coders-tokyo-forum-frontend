@@ -4,7 +4,8 @@ export const bookDescription = {
       return (index + 1) < dataLength ? ', ' : ''
     },
     isStar(index) {
-      if (index <= this.post.book.stars) return "#FDD835";
+      let bookStars = this.post ? this.post.book.stars : this.book.stars
+      if (index <= bookStars) return "#FDD835";
       else return "";
     }
   },
@@ -16,7 +17,8 @@ export const bookDescription = {
   },
   computed: {
     calBookStatusColor() {
-      if (this.post.book.status !== "Finished") return { color: "red" };
+      let bookStatus = this.post ? this.post.book.status : this.book.status
+      if (bookStatus !== "Finished") return { color: "red" };
       else return { color: "green" };
     },
     calBookYearColor() {
@@ -28,6 +30,7 @@ export const bookDescription = {
         border: "1px solid #90d2a3 !important",
         backgroundColor: "#C5E1A5 !important"
       };
+
       if (this.post.book.year < new Date().getYear() + 1900) {
         return oldYearCss;
       } else {
@@ -35,13 +38,16 @@ export const bookDescription = {
       }
     },
     slicedAuthors() {
-      return this.post.authors.slice(0, this.minSlice);
+      let bookAuthors = this.post ? this.post.authors : this.authors
+      return bookAuthors.slice(0, this.minSlice);
     },
     slicedGenres() {
-      return this.post.book.genres.slice(0, this.maxSlice);
+      let bookGenres = this.post? this.post.book.genres : this.book.genres
+      return bookGenres.slice(0, this.maxSlice);
     },
     slicedSuggestedBy() {
-      return this.post.book.suggestedBy.slice(0, this.minSlice);
+      let bookSuggestedBy = this.post? this.post.book.suggestedBy : this.book.suggestedBy
+      return bookSuggestedBy.slice(0, this.minSlice);
     },
   }
 }
