@@ -69,7 +69,7 @@ export default {
     async onClickFollow() {
       const response = await this.follow(this.author._id);
       if (!response) {
-        this.$router.push({ path: "/signin"});
+        return this.$router.push({ path: "/signin"});
       }
       if (response.status === 200) {
         this.followers.push(this.userId);
@@ -91,6 +91,9 @@ export default {
     },
     async onClickUnFollow() {
       const response = await this.unfollow(this.author._id);
+      if (!response) {
+        return this.$router.push({ path: "/signin"});
+      }
       if (response.status === 200) {
         this.followers = this.followers.filter(
           followerId => followerId !== this.userId
@@ -99,7 +102,6 @@ export default {
           type: "success",
           title: response.data.message
         });
-        console.log(this.followers);
       }
       if (response.status === 400) {
         this.$notify({

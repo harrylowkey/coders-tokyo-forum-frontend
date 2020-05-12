@@ -421,7 +421,6 @@ export default {
         });
         this.data.audio = res.data.data;
         this.setLoading(false);
-        console.log(this.data);
       }
       if (res.status === 400) {
         this.$notify({
@@ -504,7 +503,7 @@ export default {
       let type = this.data.type.slice(0, this.data.type.length - 1);
       setTimeout(() => {
         return this.$router.push({
-          path: `/${type}/${res.data._id}?type=${type}`
+          path: `/${type}s/${res.data._id}?type=${type}`
         });
       }, 1000);
     }

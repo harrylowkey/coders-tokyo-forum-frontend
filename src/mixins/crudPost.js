@@ -61,6 +61,7 @@ export const crudPost = {
         id: this.$route.params.id,
         typeQuery: this.$route.query.type
       }).then(data => {
+        console.log(data)
         this.post = data
       });
     },
