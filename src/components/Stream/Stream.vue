@@ -84,7 +84,6 @@ export default {
   async created() {
     const response = await this.getStream()
     if (response.status === 200) {
-      console.log('render')
       this.activePage = 'Discussions'
     }
   }

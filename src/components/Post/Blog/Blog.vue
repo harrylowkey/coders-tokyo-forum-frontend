@@ -3,7 +3,7 @@
     <v-card class="mx-auto mt-6 blog-card" :elevation="hover ? 20 : 3">
       <v-img
         v-if="cover.secureURL"
-        src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
+        :src="cover.secureURL"
         height="350px"
         class="cover-blog"
         @click="linkToBlog"
@@ -23,7 +23,7 @@
           </div>
         </v-list-item-content>
         <user-avatar
-          :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
+          :src="user.avatar.secureURL"
           :username="user.username"
           style="padding-bottom: 7px;"
         ></user-avatar>
@@ -48,14 +48,14 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="200"></like-btn>
+              <like-btn :likes="likes.length"></like-btn>
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :comments="500"></comment-btn>
+              <comment-btn :comments="comments.length"></comment-btn>
             </v-col>
           </v-row>
         </v-container>
-        <tag :tagName="tags[0].tagName" :postType="'blog'"></tag>
+        <tag v-if="tags.length" :tagName="tags[0].tagName" :postType="'blog'"></tag>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -83,6 +83,10 @@ export default {
       default: () => []
     },
     likes: {
+      type: Array,
+      default: () => []
+    },
+    comments: {
       type: Array,
       default: () => []
     },
@@ -136,7 +140,7 @@ export default {
   },
   data() {
     return {
-      blogLink: ""
+      blogLink: `/blogs/${this._id}?type=${this.type}`
     };
   },
   methods: {
@@ -144,9 +148,7 @@ export default {
       this.$router.push({ path: this.blogLink });
     }
   },
-  created() {
-    this.blogLink = `/blogs/${this._id}`;
-  }
+  created() {}
 };
 </script>
 

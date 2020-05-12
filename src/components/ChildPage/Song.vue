@@ -88,7 +88,7 @@
                   >{{ totalLength }}</span>
                 </div>
               </div>
-              <div class="wrapper-volume pr-3 pt-0">
+            <div class="wrapper-volume pr-3 pt-0">
                 <v-card-actions class="d-flex ml-5 pt-0">
                   <tag :tagName="tag.tagName" v-for="tag in post.tags" :key="tag._id"></tag>
                 </v-card-actions>

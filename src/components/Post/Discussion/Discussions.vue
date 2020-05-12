@@ -229,7 +229,6 @@ export default {
     ...mapState("utils", ["errorMes", "isLoading"]),
     ...mapState("stream", ["newestDiscussions"]),
     discussions() {
-      console.log("discussions list", this.newestDiscussions);
       return this.newestDiscussions;
     }
   },
