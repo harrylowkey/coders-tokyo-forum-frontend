@@ -12,3 +12,6 @@ export const UPDATE_PROFILE = 'UPDATE_PROFILE'
 
 //post
 export const CREATE_DISCUSSION = 'CREATE_DISCUSSION'
+
+//stream
+export const SET_STREAM = 'SET_STREAM'

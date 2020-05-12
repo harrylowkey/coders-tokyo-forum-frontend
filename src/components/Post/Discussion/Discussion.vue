@@ -6,14 +6,11 @@
           <router-link class="title-link" :to="discussionLink">
             <v-list-item-title class="headline discuss-title mb-0 pt-3">{{ topic }}</v-list-item-title>
           </router-link>
-          <v-list-item-subtitle
-            style="line-height: 1.4;"
-            class="mt-lg-n9 pt-lg-10"
-          >{{ content }}</v-list-item-subtitle>
+          <v-list-item-subtitle style="line-height: 1.4;" class="mt-lg-n9 pt-lg-10">{{ content }}</v-list-item-subtitle>
         </v-list-item-content>
         <user-avatar
-          :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
-          :username="userId.username"
+          :src="user.avatar.secureURL"
+          :username="user.username"
         ></user-avatar>
       </v-list-item>
 
@@ -36,14 +33,14 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="200"></like-btn>
+              <like-btn :likes="likes.length"></like-btn>
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :comments="500"></comment-btn>
+              <comment-btn :comments="comments.length"></comment-btn>
             </v-col>
           </v-row>
         </v-container>
-        <tag :tagName="tags[0].tagName"  postType="discussion"></tag>
+        <tag v-if="tags.length" :tagName="tags[0].tagName" postType="discussion"></tag>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -73,11 +70,15 @@ export default {
       type: Array,
       default: () => []
     },
+    comments: {
+      type: Array,
+      default: () => []
+    },
     savedBy: {
       type: Array,
       default: () => []
     },
-    userId: {
+    user: {
       type: Object,
       default: () => ({})
     },
@@ -108,17 +109,10 @@ export default {
   },
   data() {
     return {
-      discussionLink: ""
+      discussionLink: `/discussions/${this._id}?type=${this.type}`
     };
   },
-  methods: {
-    linkToDiscussion() {
-      this.$router.push({ path: this.discussionLink });
-    }
-  },
-  created() {
-    this.discussionLink = `/discussions/${this._id}`;
-  },
+  methods: {},
   components: {
     Tag,
     LikeBtn,

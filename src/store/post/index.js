@@ -1,13 +1,11 @@
 import axios from 'axios'
-import { CREATE_DISCUSSION, SET_POST } from '../constants'
 
 export default {
   namespaced: true,
   state: {
     discussions: [],
   },
-  mutations: {
-  },
+  mutations: {},
   actions: {
     async createPost({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true })

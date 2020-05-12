@@ -3,7 +3,13 @@
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
         <h1 v-if="showTitlePage" class="mt-5">#Discussions</h1>
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
         <discussion
+          v-else
           v-for="item in discussions"
           :key="item._id"
           :_id="item._id"
@@ -11,7 +17,7 @@
           :comments="item.comments"
           :likes="item.likes"
           :savedBy="item.savedBy"
-          :userId="item.userId"
+          :user="item.user"
           :topic="item.topic"
           :content="item.content"
           :type="item.type"
@@ -55,6 +61,8 @@
 <script>
 import Discussion from "./Discussion";
 import SideCard from "@/components/Shared/SideCard";
+
+import { mapState } from "vuex";
 export default {
   components: {
     Discussion,
@@ -64,153 +72,6 @@ export default {
     return {
       showTitlePage: false,
       showViewMoreBtn: true,
-      discussions: [
-        {
-          _id: "5e9494fe935dfb5ed3043975",
-          tags: [
-            {
-              _id: "5e931565701c6a1f851074ec",
-              tagName: "javascript"
-            }
-          ],
-          comments: [],
-          likes: [],
-          savedBy: ["5e8b577f1a2dde32298795f4"],
-          userId: {
-            _id: "5e8b577f1a2dde32298795f4",
-            username: "kenviruss"
-          },
-          topic:
-            "How can I remove an image in a folder on cloudinary in Nodejs?",
-          content:
-            "I have tried this way but the result still the same, anyone help me with this problem? Here is my code. I have tried this way but the result still the same, anyone help me with this problem? Here is my code...I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
-          type: "discussion",
-          createdAt: "2020-04-13T16:36:14.767Z",
-          updatedAt: "2020-04-13T16:46:02.835Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed3043971",
-            comments: 256,
-            likes: 500,
-            saves: 1
-          }
-        },
-        {
-          _id: "5e9494fe935dfb5ed304975",
-          tags: [
-            {
-              _id: "5e931565701c6a1f851074ec",
-              tagName: "javascript"
-            }
-          ],
-          comments: [],
-          likes: [],
-          savedBy: ["5e8b577f1a2dde32298795f4"],
-          userId: {
-            _id: "5e8b577f1a2dde32298795f4",
-            username: "hongquang"
-          },
-          topic:
-            "How can I remove an image in a folder on cloudinary in Nodejs?",
-          content:
-            "I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
-          type: "discussion",
-          createdAt: "2020-04-13T16:36:14.767Z",
-          updatedAt: "2020-04-13T16:46:02.835Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          }
-        },
-        {
-          _id: "5e9494fe935dfb5ed04975",
-          tags: [
-            {
-              _id: "5e931565701c6a1f851074ec",
-              tagName: "javascript"
-            }
-          ],
-          comments: [],
-          likes: [],
-          savedBy: ["5e8b577f1a2dde32298795f4"],
-          userId: {
-            _id: "5e8b577f1a2dde32298795f4",
-            username: "hongquang"
-          },
-          topic:
-            "How can I remove an image in a folder on cloudinary in Nodejs?",
-          content:
-            "I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
-          type: "discussion",
-          createdAt: "2020-04-13T16:36:14.767Z",
-          updatedAt: "2020-04-13T16:46:02.835Z",
-          metadata: {
-            _id: "5e9494fe935fb5ed3043975",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          }
-        },
-        {
-          _id: "5e9494fe95dfb5ed3043975",
-          tags: [
-            {
-              _id: "5e931565701c6a1f851074ec",
-              tagName: "javascript"
-            }
-          ],
-          comments: [],
-          likes: [],
-          savedBy: ["5e8b577f1a2dde32298795f4"],
-          userId: {
-            _id: "5e8b577f1a2dde32298795f4",
-            username: "hongquang"
-          },
-          topic:
-            "How can I remove an image in a folder on cloudinary in Nodejs?",
-          content:
-            "I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
-          type: "discussion",
-          createdAt: "2020-04-13T16:36:14.767Z",
-          updatedAt: "2020-04-13T16:46:02.835Z",
-          metadata: {
-            _id: "5e9494fe935dfbed3043975",
-            comments: 20,
-            likes: 6,
-            saves: 1
-          }
-        },
-        {
-          _id: "5e9494fe95dfb5ed303975",
-          tags: [
-            {
-              _id: "5e931565701c6a1f851074ec",
-              tagName: "javascript"
-            }
-          ],
-          comments: [],
-          likes: [],
-          savedBy: ["5e8b577f1a2dde32298795f4"],
-          userId: {
-            _id: "5e8b577f1a2dde32298795f4",
-            username: "hongquang"
-          },
-          topic:
-            "How can I remove an image in a folder on cloudinary in Nodejs?",
-          content:
-            "I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
-          type: "discussion",
-          createdAt: "2020-04-13T16:36:14.767Z",
-          updatedAt: "2020-04-13T16:46:02.835Z",
-          metadata: {
-            _id: "5e9494fe935dfb5d3043975",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          }
-        }
-      ],
       topBloggers: {
         title: "Top Bloggers",
         type: 1,
@@ -353,7 +214,7 @@ export default {
   created() {
     if (this.$route.path === "/stream/discussions") {
       this.showTitlePage = true;
-      this.showViewMoreBtn = false
+      this.showViewMoreBtn = false;
       this.sideBarStyle.paddingTop = "78px";
       this.showTopBloggers = false;
     }
@@ -362,6 +223,23 @@ export default {
       this.mostViewBlogs.title = "Top 5 Discussions";
       let sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
+    }
+  },
+  computed: {
+    ...mapState("utils", ["errorMes", "isLoading"]),
+    ...mapState("stream", ["newestDiscussions"]),
+    discussions() {
+      console.log("discussions list", this.newestDiscussions);
+      return this.newestDiscussions;
+    }
+  },
+  errorMes(newVal) {
+    if (newVal.length) {
+      this.$notify({
+        type: "error",
+        title: "Update failed",
+        text: newVal
+      });
     }
   }
 };

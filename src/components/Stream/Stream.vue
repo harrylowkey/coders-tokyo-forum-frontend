@@ -37,6 +37,8 @@ import MoviePage from "../Post/Review/Movie/MovieList";
 import BookPage from "../Post/Review/Book/BookList";
 import FoodPage from "../Post/Review/Food/FoodList";
 
+import { mapActions, mapState } from 'vuex'
+
 export default {
   components: {
     AudioPlaylist,
@@ -55,11 +57,12 @@ export default {
   data() {
     return {
       changeLayout: false,
-      activePage: "Discussions",
+      activePage: "",
       isWelcomeLogin: false
     };
   },
   methods: {
+    ...mapActions('stream', ['getStream']),
     handleSetActivePage({ page }) {
       return (this.activePage = page);
     }
@@ -76,6 +79,13 @@ export default {
         type: "success",
         title: "Login success"
       });
+    }
+  },
+  async created() {
+    const response = await this.getStream()
+    if (response.status === 200) {
+      console.log('render')
+      this.activePage = 'Discussions'
     }
   }
 };
