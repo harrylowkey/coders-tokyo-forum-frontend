@@ -3,13 +3,17 @@
     <v-row id="post">
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
-          :likes="post.metadata.likes"
-          :saves="post.metadata.saves"
+          v-if="!isLoading"
+          :likes="(post && post.metadata) ? post.metadata.likes : 0"
+          :saves="(post && post.metadata) ? post.metadata.saves : 0"
+          :flowers="0"
           :postId="post._id"
         ></post-reactions>
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <v-card class="mx-auto mt-6" id="blog-card" elevation="6">
+        <v-skeleton-loader></v-skeleton-loader>
+        <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image, card-avatar, article"></v-boilerplate>
+        <v-card v-else class="mx-auto mt-6" id="blog-card" elevation="6">
           <v-container class="pa-0">
             <v-row style="margin-right: 0">
               <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
@@ -38,10 +42,10 @@
                         <span></span>
                         <p class="mb-0 mr-3">
                           <span
-                            v-for="(director, i) in directors"
+                            v-for="(director, i) in slicedDirectors"
                             :key="director._id"
                             class="value mb-0"
-                          >{{ director.name }}{{ isAddComma(i, directors.length) }}</span>
+                          >{{ director.name }}{{ isAddComma(i, slicedDirectors.length) }}</span>
                         </p>
                       </v-container>
 
@@ -50,10 +54,10 @@
                         <span></span>
                         <p class="mb-0 mr-3">
                           <span
-                            v-for="(actor, i) in actors"
+                            v-for="(actor, i) in slicedActors"
                             :key="actor._id"
                             class="value mb-0"
-                          >{{ actor.name }}{{ isAddComma(i, actors.length) }}</span>
+                          >{{ actor.name }}{{ isAddComma(i, slicedActors.length) }}</span>
                         </p>
                       </v-container>
 
@@ -65,7 +69,7 @@
                           outlined
                           small
                           style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
-                        >{{ movie.imdb }}</v-chip>
+                        >{{ post.movie.imdb }}</v-chip>
                       </v-container>
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Genres:</p>
@@ -85,18 +89,14 @@
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Nation:</p>
-                        <p class="value mb-0">{{ movie.country }}</p>
+                        <p class="value mb-0">{{ post.movie.country }}</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Link:</p>
-                        <v-chip
-                          label
-                          text-color="black"
-                          outlined
-                          small
-                          :style="calMovieYearColor"
-                        ><a target="_blank" :href="movie.link">{{ movie.link }}</a></v-chip>
+                        <v-chip label text-color="black" outlined small :style="calMovieYearColor">
+                          <a target="_blank" :href="post.movie.link">{{ post.movie.link }}</a>
+                        </v-chip>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -107,12 +107,12 @@
                           outlined
                           small
                           style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
-                        >{{ movie.releaseDate }}</v-chip>
+                        >{{ post.movie.releaseDate }}</v-chip>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Time:</p>
-                        <p class="value mb-0">{{ movie.time }} minutes</p>
+                        <p class="value mb-0">{{ post.movie.time }} minutes</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -134,7 +134,7 @@
                       <div>
                         <v-container class="d-flex pl-1 pb-0 pt-2">
                           <p class="key mb-0 mr-3">Status:</p>
-                          <p class="value mb-0" :style="calMovieStatusColor">{{ movie.status }}</p>
+                          <p class="value mb-0" :style="calMovieStatusColor">{{ post.movie.status }}</p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -142,10 +142,10 @@
                           <span></span>
                           <p class="mb-0 mr-3">
                             <span
-                              v-for="(director, i) in directors"
+                              v-for="(director, i) in slicedDirectors"
                               :key="director._id"
                               class="value mb-0"
-                            >{{ director.name }}{{ isAddComma(i, directors.length) }}</span>
+                            >{{ director.name }}{{ isAddComma(i, slicedDirectors.length) }}</span>
                           </p>
                         </v-container>
 
@@ -154,10 +154,10 @@
                           <span></span>
                           <p class="mb-0 mr-3">
                             <span
-                              v-for="(actor, i) in actors"
+                              v-for="(actor, i) in slicedActors"
                               :key="actor._id"
                               class="value mb-0"
-                            >{{ actor.name }}{{ isAddComma(i, actors.length) }}</span>
+                            >{{ actor.name }}{{ isAddComma(i, slicedActors.length) }}</span>
                           </p>
                         </v-container>
 
@@ -169,11 +169,11 @@
                             outlined
                             small
                             style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
-                          >{{ movie.imdb }}</v-chip>
+                          >{{ post.movie.imdb }}</v-chip>
                         </v-container>
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Nation:</p>
-                          <p class="value mb-0">{{ movie.country }}</p>
+                          <p class="value mb-0">{{ post.movie.country }}</p>
                         </v-container>
                       </div>
 
@@ -186,7 +186,7 @@
                             outlined
                             small
                             :style="calMovieYearColor"
-                          >{{ movie.year }}</v-chip>
+                          >{{ post.movie.year }}</v-chip>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -197,12 +197,12 @@
                             outlined
                             small
                             style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
-                          >{{ movie.releaseDate }}</v-chip>
+                          >{{ post.movie.releaseDate }}</v-chip>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Time:</p>
-                          <p class="value mb-0">{{ movie.time }} minutes</p>
+                          <p class="value mb-0">{{ post.movie.time }} minutes</p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -231,10 +231,7 @@
                 </v-list-item-title>
                 <v-card-actions class="pl-0">
                   <v-avatar size="40" style="cursor: pointer" dark>
-                    <img
-                      src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-                      alt="Avatar"
-                    />
+                    <img :src="post.user.avatar.secureURL" alt="Avatar" />
                   </v-avatar>
                   <v-card-subtitle style="font-size: 16px" class="ml-n1 pr-0">
                     <a style="text-decoration: none; color: #000" href>{{ post.user.username }}</a>
@@ -253,8 +250,10 @@
                   <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
                   <read-time class="pl-0" :text="post.content"></read-time>
                   <edit-delete-btns
-                    @handleEditPost="handleEditPost"
+                    v-if="isAuthor"
                     @handleDeletePost="handleDeletePost"
+                    :postId="post._id"
+                    :postType="post.type"
                   ></edit-delete-btns>
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
@@ -272,11 +271,14 @@
           </v-container>
         </v-card>
         <v-container>
-          <v-divider></v-divider>
           <v-row id="comments">
-            <div class="mt-5">
+            <div style="width: 100%" id="comments" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
-              <div v-if="post.comments.length">
+
+              <v-boilerplate style="width: 100%" v-if="isLoading" type="image"></v-boilerplate>
+              <write-comment v-if="!isLoading"></write-comment>
+
+              <div v-if="post ? post.comments.length : false">
                 <comment
                   v-for="comment in post.comments"
                   :key="comment._id"
@@ -292,7 +294,11 @@
           <v-divider></v-divider>
           <v-row id="other-posts-of-author" v-if="otherMovieReviewsOfAuthor.length" class="mb-10">
             <h1 class="mt-8 mb-3">Other movie reviews of author</h1>
-            <other-posts-of-author postType='movie' :posts="otherMovieReviewsOfAuthor"></other-posts-of-author>
+            <div v-if="isLoading" style="width: 100%" class="d-flex">
+              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
+              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
+            </div>
+            <other-posts-of-author v-else postType="movie" :posts="otherMovieReviewsOfAuthor"></other-posts-of-author>
           </v-row>
         </v-container>
       </v-col>
@@ -304,10 +310,18 @@
         xl="3"
         class="wrapper-author-follow d-sm-none d-md-flex"
       >
-        <author-follow-card
+        <v-boilerplate
           class="author-follow"
-          :user="user"
-          :description="user.description"
+          style="width: 100%; padding: 5px 10px; background: #fff"
+          v-if="isLoading"
+          type="list-item-avatar-three-line, list-item-three-line"
+        ></v-boilerplate>
+        <author-follow-card
+          v-if="!isLoading"
+          class="author-follow"
+          :isAuthor="isAuthor"
+          :author="post.user"
+          :userId="user._id"
         ></author-follow-card>
       </v-col>
     </v-row>
@@ -315,132 +329,13 @@
 </template>
 
 <script>
-import marked from "marked";
-import LikeBtn from "@/components/Shared/LikeButton";
-import CommentBtn from "@/components/Shared/CommentButton";
-import FacebookBtn from "@/components/Shared/FacebookButton";
-import ViewsBtn from "@/components/Shared/ViewsButton";
-import Tag from "@/components/Shared/Tag";
-import UserAvatar from "@/components/Shared/UserAvatar";
-import UserSocialLinks from "@/components/Shared/UserSocialLinks";
-import AuthorProfile from "@/components/User/Profile";
-import AuthorFollowCard from "@/components/User/AuthorFollow";
-import Comment from "@/components/Comment/Comment";
-import PostReactions from "@/components/Shared/PostReactions";
-import OtherPostsOfAuthor from "@/components/Shared/OtherPostsOfAuthor";
 import { movieDescription } from "@/mixins/movieDescription";
-import { userSocialLinks } from "@/mixins/userSocialLinks";
-import ReadTime from "@/components/Shared/readTime";
-import EditDeleteBtns from '../Post/EditDeleteBtns'
+import { crudPost } from "@/mixins/crudPost";
 
 export default {
-  mixins: [movieDescription, userSocialLinks],
+  mixins: [movieDescription, crudPost],
   data() {
     return {
-      post: {
-        _id: "5e9b04f5d1f1da5baece2ff5",
-        tags: [
-          {
-            _id: "5e8c563eeda853638189e854",
-            tagName: "action"
-          },
-          {
-            _id: "5e9b047ef82e7d563b8e2c5a",
-            tagName: "funny"
-          }
-        ],
-        comments: [],
-        user: {
-          _id: "5e8b577f1a2dde3229879524",
-          username: "nhat_anh"
-        },
-        authors: [
-          {
-            _id: "5e9b047ef82e7d563b8e2c5b",
-            type: "actor",
-            name: "Dave Bautista (JJ)"
-          },
-          {
-            _id: "5e9b047ef82e7d563b8e2c5d",
-            type: "actor",
-            name: "Ken Jeong (Kim)"
-          },
-          {
-            _id: "5e9b04f5d1f1da5baece2ff7",
-            type: "director",
-            name: "KristenSchall (Bobbi)"
-          }
-        ],
-        likes: [],
-        url: "http://www.phimmoi.net/phim/diep-vien-ti-hon-8928/",
-        savedBy: [],
-        topic: "My Spey (2019)",
-        description:
-          "Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta",
-        content:
-          "Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta",
-        type: "movie",
-        cover: {
-          _id: "5e9ab00f0591fb40fc87faa3",
-          secureURL:
-            "https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png",
-          publicId: "Coders-Tokyo-Forum/posts/javascript.png",
-          fileName: "javascript.png",
-          sizeBytes: 316358,
-          userId: "5e8b577f1a2dde32298795f4",
-          postId: "5e9ab00f0591fb40fc87faa2",
-          resourceType: "image",
-          createdAt: "2020-04-18T07:45:19.838Z",
-          updatedAt: "2020-04-18T07:45:19.838Z",
-          __v: 0
-        },
-        metadata: {
-          _id: "5e9494fe935dfb5ed30435",
-          comments: 123,
-          likes: 69,
-          saves: 1
-        },
-        movie: {
-          genres: ['Action'],
-          imdb: 5.2,
-          country: "England",
-          link: 'facebook.com',
-          releaseDate: "22/11/2019",
-          time: 91,
-          stars: 4
-        },
-        createdAt: "2020-04-18T13:47:33.708Z",
-        updatedAt: "2020-04-18T13:47:33.708Z"
-      },
-      user: {
-        _id: "5e8b577f1a2dde32298795f4",
-        hobbies: ["music, reading book"],
-        username: "hongquang",
-        password: "hell0aA@",
-        email: "quang.dang@homa.company",
-        socialLinks: [
-          {
-            _id: "5e8f536b0416274996f69e75",
-            type: "Github",
-            url: "https://github.com/hongquangraem"
-          },
-          {
-            _id: "5e8f536b0416274996f69e76",
-            type: "Facebook",
-            url: "https://facebook.com/spaceraem"
-          }
-        ],
-        createdAt: "2020-04-06T16:23:27.385Z",
-        updatedAt: "2020-04-13T14:43:32.772Z",
-        job: "Developer",
-        sex: "Male",
-        avatar: {
-          secureURL:
-            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-        },
-        description:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse. ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
-      },
       otherMovieReviewsOfAuthor: [
         {
           _id: "5e9b04f5d11da5baece2ff5",
@@ -592,39 +487,12 @@ export default {
           createdAt: "2020-04-18T13:47:33.708Z",
           updatedAt: "2020-04-18T13:47:33.708Z"
         }
-      ],
-      tagStyle: {
-        fontSize: "0.975em !important",
-        fontWeight: 300,
-        padding: "5px 5px",
-        height: "35px",
-        letterSpacing: "0.0111333333em !important",
-        marginLeft: "12px !important",
-        borderRadius: "4px"
-      },
-      movie: {},
-      directors: [],
-      actors: []
+      ]
     };
   },
   computed: {},
   methods: {},
-  components: {
-    Tag,
-    EditDeleteBtns,
-    ReadTime,
-    UserSocialLinks,
-    LikeBtn,
-    CommentBtn,
-    UserAvatar,
-    FacebookBtn,
-    ViewsBtn,
-    Comment,
-    AuthorProfile,
-    AuthorFollowCard,
-    PostReactions,
-    OtherPostsOfAuthor
-  }
+  components: {}
 };
 </script>
 
@@ -710,5 +578,11 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   display: -webkit-box;
+}
+
+.other-post {
+  flex: 30%;
+  margin: 20px;
+  justify-content: center;
 }
 </style>

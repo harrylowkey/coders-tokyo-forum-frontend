@@ -6,7 +6,7 @@
           <v-col sm="4" md="3">
             <v-avatar size="60" style="cursor: pointer" dark>
               <img
-                src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
+                :src="author.avatar.secureURL"
                 alt="Avatar"
                 @click="onClickAvatar"
               />

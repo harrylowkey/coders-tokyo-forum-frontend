@@ -34,7 +34,7 @@
                 xl="4"
                 style="position: relative"
               >
-                <div v-if="!isLoading" class="d-md-none d-lg-flex">
+                <div class="d-md-none d-lg-flex">
                   <v-container class="ml-1 pl-3 book-detail">
                     <v-card-text class="pb-2 pt-2">
                       <p class="title text--primary mb-0 pt-1">{{ post.topic }}</p>
@@ -102,7 +102,7 @@
                     </v-card-text>
                   </v-container>
                 </div>
-                <div v-if="!isLoading" class="d-none d-md-flex d-lg-none">
+                <div class="d-none d-md-flex d-lg-none">
                   <v-container class="ml-1 book-detail pt-1 pb-0">
                     <v-card-text class="pb-6 pt-0 d-flex justify-space-around">
                       <div>
@@ -185,7 +185,7 @@
                 <v-card-actions class="pl-0">
                   <v-avatar size="40" style="cursor: pointer" dark>
                     <img
-                      src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
+                      :src="post.user.avatar.secureURL"
                       alt="Avatar"
                     />
                   </v-avatar>

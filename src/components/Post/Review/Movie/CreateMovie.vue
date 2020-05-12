@@ -348,8 +348,19 @@ export default {
         });
         return;
       }
+
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
+
+      this.data.authors = [
+        { type: "actor", name: this.actor },
+        { type: "actor", name: this.actor2 },
+        { type: "actor", name: this.actor3 },
+        { type: "actor", name: this.actor4 },
+        { type: "director", name: this.director },
+        { type: "director", name: this.coDirector }
+      ].filter(person => person.name !== "");
+
       const res = await this.createPost(this.data);
       if (res.status === 200) {
         this.$notify({
@@ -365,11 +376,11 @@ export default {
         });
       }
 
+      let type = this.data.type.slice(0, this.data.type.length - 1);
+
       setTimeout(() => {
         return this.$router.push({
-          path: `/${this.data.type}Reviews/${
-            res.data._id
-          }?type=${this.data.type.slice(0, this.data.type.length - 1)}`
+          path: `/${type}Reviews/${res.data._id}?type=${type}`
         });
       }, 1000);
     }
