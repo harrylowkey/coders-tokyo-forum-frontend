@@ -1,7 +1,8 @@
 export const movieDescription = {
   methods: {
     isStar(index) {
-      if (index <= this.post.movie.stars) return "#FDD835";
+      let movieStars = this.post ? this.post.movie.stars : this.movie.stars
+      if (index <= movieStars) return "#FDD835";
       else return "";
     },
     isAddComma(index, dataLength) {
@@ -10,7 +11,8 @@ export const movieDescription = {
   },
   computed: {
     calMovieStatusColor() {
-      if (this.post.movie.status !== "Finished") return { color: 'red' }
+      let movieStatus = this.post ? this.post.movie.status : this.movie.status
+      if (movieStatus !== "Finished") return { color: 'red' }
       else return { color: 'green' }
     },
     calMovieYearColor() {
@@ -22,7 +24,9 @@ export const movieDescription = {
         border: "1px solid #90d2a3 !important",
         backgroundColor: "#C5E1A5 !important"
       };
-      if (this.post.movie.year < new Date().getYear() + 1900) {
+
+      let movieYear = this.post ? this.post.movie.year : this.movie.year
+      if (movieYear < new Date().getYear() + 1900) {
         return oldYearCss;
       } else {
         return thisYearCss;

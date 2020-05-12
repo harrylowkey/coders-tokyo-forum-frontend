@@ -4,10 +4,11 @@
       <v-row style="margin-right: 0">
         <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
           <v-img
-            src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
-            height="400px"
-            style
-            class="cover-movie"
+            :src="cover.secureURL"
+            height="360px"
+            style="cursor: pointer"
+            class="cover-book"
+            @click="linkToBlog"
           ></v-img>
         </v-col>
         <v-col class="pa-0" cols="12" sm="12" md="12" lg="5" xl="4" style="position: relative">
@@ -23,10 +24,10 @@
                   <span></span>
                   <p class="mb-0 mr-3">
                     <span
-                      v-for="(director, i) in directors"
+                      v-for="(director, i) in slicedDirectors"
                       :key="director._id"
                       class="value mb-0"
-                    >{{ director.name }}{{ isAddComma(i, directors.length) }}</span>
+                    >{{ director.name }}{{ isAddComma(i, slicedDirectors.length) }}</span>
                   </p>
                 </v-container>
 
@@ -35,10 +36,10 @@
                   <span></span>
                   <p class="mb-0 mr-3">
                     <span
-                      v-for="(actor, i) in actors"
+                      v-for="(actor, i) in slicedActors"
                       :key="actor._id"
                       class="value mb-0"
-                    >{{ actor.name }}{{ isAddComma(i, actors.length) }}</span>
+                    >{{ actor.name }}{{ isAddComma(i, slicedActors.length) }}</span>
                   </p>
                 </v-container>
 
@@ -108,10 +109,10 @@
                     <span></span>
                     <p class="mb-0 mr-3">
                       <span
-                        v-for="(director, i) in directors"
+                        v-for="(director, i) in slicedDirectors"
                         :key="director._id"
                         class="value mb-0"
-                      >{{ director.name }}{{ isAddComma(i, directors.length) }}</span>
+                      >{{ director.name }}{{ isAddComma(i, slicedDirectors.length) }}</span>
                     </p>
                   </v-container>
 
@@ -120,10 +121,10 @@
                     <span></span>
                     <p class="mb-0 mr-3">
                       <span
-                        v-for="(actor, i) in actors"
+                        v-for="(actor, i) in slicedActors"
                         :key="actor._id"
                         class="value mb-0"
-                      >{{ actor.name }}{{ isAddComma(i, actors.length) }}</span>
+                      >{{ actor.name }}{{ isAddComma(i, slicedActors.length) }}</span>
                     </p>
                   </v-container>
 
@@ -204,8 +205,8 @@
           </div>
         </v-list-item-content>
         <user-avatar
-          :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
-          :username="userId.username"
+          :src="user.avatar.secureURL"
+          :username="user.username"
           style="padding-bottom: 7px;"
         ></user-avatar>
       </v-list-item>
@@ -229,14 +230,14 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="200"></like-btn>
+              <like-btn :likes="likes.length"></like-btn>
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :comments="500"></comment-btn>
+              <comment-btn :comments="comments.length"></comment-btn>
             </v-col>
           </v-row>
         </v-container>
-        <tag :tagName="tags[0].tagName" :postType="'movie'"></tag>
+        <tag v-if="tags.length" :tagName="tags[0].tagName" :postType="'movie'"></tag>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -265,7 +266,7 @@ export default {
       type: Array,
       default: () => []
     },
-    commments: {
+    comments: {
       type: Array,
       default: () => []
     },
@@ -277,7 +278,7 @@ export default {
       type: Array,
       default: () => []
     },
-    userId: {
+    user: {
       type: Object,
       default: () => ({})
     },
@@ -303,7 +304,7 @@ export default {
     },
     url: {
       type: String,
-      required: true
+      default: ''
     },
     updatedAt: {
       type: String,
@@ -316,6 +317,10 @@ export default {
     movie: {
       type: Object,
       default: () => ({})
+    },
+    cover: {
+      type: Object,
+      required: true
     }
   },
   components: {
@@ -328,17 +333,13 @@ export default {
   data() {
     return {
       director: {},
-      actors: {},
-      blogLink: ""
+      blogLink: `/movieReviews/${this._id}?type=${this.type}`
     };
   },
   methods: {
     linkToBlog() {
       this.$router.push({ path: this.blogLink });
     }
-  },
-  created() {
-    this.blogLink = `/movieReviews/${this._id}`;
   }
 };
 </script>

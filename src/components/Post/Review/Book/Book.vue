@@ -196,10 +196,10 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="200"></like-btn>
+              <like-btn :likes="likes.length"></like-btn>
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :comments="500"></comment-btn>
+              <comment-btn :comments="comments.length"></comment-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -232,7 +232,7 @@ export default {
       type: Array,
       default: () => []
     },
-    commments: {
+    comments: {
       type: Array,
       default: () => []
     },

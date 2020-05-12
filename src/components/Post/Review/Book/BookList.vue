@@ -9,6 +9,7 @@
         <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
         <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
         <book
+          v-else
           v-for="item in books"
           :key="item._id"
           :_id="item._id"
@@ -231,7 +232,6 @@ export default {
     ...mapState("utils", ["errorMes", "isLoading"]),
     ...mapState("stream", ["newestBookReviews"]),
     books() {
-      console.log(this.newestBookReviews[0].book)
       return this.newestBookReviews;
     }
   }
