@@ -9,24 +9,24 @@
                 :src="user.avatar.secureURL"
                 :username="user.username"
                 style="height: 130px"
-              ></user-avatar>
+              />
             </div>
           </v-col>
           <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
             <div class="d-flex ml-7">
-              <div class="d-flex"></div>
+              <div class="d-flex" />
               <toggle-tag
                 v-for="(tag, i) in data.tags"
                 :key="i"
                 :tagName="tag"
                 @handleRemoveTag="handleRemoveTag(i)"
-              ></toggle-tag>
+              />
               <create-tag-blog
                 v-if="data.tags.length < 3"
                 @handleAddTag="handleAddTag"
                 :tags="data.tags"
-              ></create-tag-blog>
-              <v-spacer></v-spacer>
+              />
+              <v-spacer />
               <v-chip
                 @click="isUploadBanner = !isUploadBanner"
                 style="cursor: pointer"
@@ -35,7 +35,8 @@
                 color="green"
                 label
               >
-                <v-icon left>mdi-cloud-upload-outline</v-icon>Image
+                <v-icon left>mdi-cloud-upload-outline</v-icon>
+                Image
               </v-chip>
             </div>
           </v-col>
@@ -58,19 +59,30 @@
                         img-format="jpg"
                         langType="en"
                         noCircle
-                      ></my-upload>
-                      <v-container class="d-flex justify-center" v-if="data.banner.secureURL">
-                        <v-img max-width="650" max-height="250" :src="data.banner.secureURL"></v-img>
+                      />
+                      <v-container
+                        class="d-flex justify-center"
+                        v-if="data.banner.secureURL"
+                      >
+                        <v-img
+                          max-width="650"
+                          max-height="250"
+                          :src="data.banner.secureURL"
+                        />
                       </v-container>
                     </v-col>
                     <v-col cols="12">
-                      <ValidationProvider name="Topic" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Topic"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-text-field
                           v-model="data.topic"
                           :error-messages="errors"
                           label="Topic*"
                           required
-                        ></v-text-field>
+                        />
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12">
@@ -80,10 +92,14 @@
                         rows="2"
                         v-model="data.description"
                         hint="Write description to attract people at the first glance"
-                      ></v-text-field>
+                      />
                     </v-col>
                     <v-col cols="12">
-                      <ValidationProvider name="Content" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Content"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-textarea
                           label="Content*"
                           auto-grow
@@ -92,7 +108,7 @@
                           v-model="data.content"
                           placeholder="Markdown"
                           :error-messages="errors"
-                        ></v-textarea>
+                        />
                       </ValidationProvider>
 
                       <v-dialog v-model="isPreviewing" max-width="800">
@@ -102,9 +118,11 @@
                         >
                           <p
                             style="line-height: 1.5"
-                            v-html="$options.filters.markdown(data.content || '')"
-                          ></p>
-                          <v-spacer></v-spacer>
+                            v-html="
+                              $options.filters.markdown(data.content || '')
+                            "
+                          />
+                          <v-spacer />
                           <div class="d-flex justify-end">
                             <span class="signature">hong_quang</span>
                           </div>
@@ -120,11 +138,26 @@
                   class="ml-5"
                   @click="isAttachImage = !isAttachImage"
                 >
-                  <v-icon left color="primary">image</v-icon>Attach image
+                  <v-icon left color="primary">image</v-icon>
+                  Attach image
                 </v-chip>
-                <v-spacer></v-spacer>
-                <v-btn class="mr-5" color="primary" @click="togglePreviewContent" dark>Preview</v-btn>
-                <v-btn class="mr-5" color="green white--text" @click="submit" :disabled="isLoading">Post</v-btn>
+                <v-spacer />
+                <v-btn
+                  class="mr-5"
+                  color="primary"
+                  @click="togglePreviewContent"
+                  dark
+                >
+                  Preview
+                </v-btn>
+                <v-btn
+                  class="mr-5"
+                  color="green white--text"
+                  @click="submit"
+                  :disabled="isLoading"
+                >
+                  Post
+                </v-btn>
               </v-card-actions>
             </v-container>
             <v-dialog max-width="500" v-model="isAttachImage">
@@ -133,14 +166,14 @@
                 :attachImage="attachImage"
                 @handleUploadImage="uploadImage"
                 @handleOnChange="onChange"
-              ></attach-image-dialog>
+              />
             </v-dialog>
             <coppy-clipboard
               :imageURL="imageURL"
               :isAttachImageSuccess="isAttachImageSuccess"
               @handleOnCopy="onCopy"
               @handleErrorCopy="onError"
-            ></coppy-clipboard>
+            />
           </v-col>
         </v-row>
       </v-card>
@@ -149,8 +182,10 @@
 </template>
 
 <script>
-import { createPost } from "@/mixins/createPost";
-import axios from "axios";
+// eslint-disable-next-line no-unused-vars
+import axios from 'axios';
+
+import { createPost } from '@/mixins/createPost';
 
 export default {
   mixins: [createPost],
@@ -158,26 +193,26 @@ export default {
   data() {
     return {
       data: {
-        topic: "",
-        description: "",
-        content: "",
-        banner: "",
+        topic: '',
+        description: '',
+        content: '',
+        banner: '',
         tags: [],
-        type: "blogs"
+        type: 'blogs',
       },
-      imgDataUrl: "",
-      isPreviewing: false
+      imgDataUrl: '',
+      isPreviewing: false,
     };
   },
   methods: {},
-  computed: {}
+  computed: {},
 };
 </script>
 
 <style scoped lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 .signature {
-  font-family: "Great Vibes", cursive;
+  font-family: 'Great Vibes', cursive;
   font-size: 28px;
 }
 

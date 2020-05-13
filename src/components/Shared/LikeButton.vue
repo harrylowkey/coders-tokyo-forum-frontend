@@ -5,30 +5,30 @@
       src="https://res.cloudinary.com/hongquangraem/image/upload/v1587893696/planet_peappv.svg"
       class="react-icon like-icon"
       @click="toggleLike"
-    ></v-img>
+    />
     <span class="like-icon-content">{{ likes }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["likes"],
+  props: ['likes'],
   data() {
     return {
-      isUserLiked: false
-    }
+      isUserLiked: false,
+    };
   },
   methods: {
     toggleLike() {
       if (this.isUserLiked) {
         --this.likes;
-        this.isUserLiked = false
+        this.isUserLiked = false;
       } else {
         ++this.likes;
-        this.isUserLiked = true
+        this.isUserLiked = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

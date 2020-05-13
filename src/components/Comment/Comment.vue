@@ -4,7 +4,14 @@
       <v-card class="comment mb-5">
         <v-list-item-content class>
           <v-row>
-            <v-col class="pl-9 pr-0 pb-0 d-flex flex-column" cols="5" sm="3" md="4" lg="4" xl="4">
+            <v-col
+              class="pl-9 pr-0 pb-0 d-flex flex-column"
+              cols="5"
+              sm="3"
+              md="4"
+              lg="4"
+              xl="4"
+            >
               <div class="d-flex">
                 <v-avatar size="60" style="cursor: pointer" dark>
                   <img
@@ -15,26 +22,31 @@
                 </v-avatar>
                 <div class="pl-4">
                   <p class="title mb-1 mt-1">
-                    <a
-                      style="text-decoration: none; color: #000"
-                      :href="link"
-                    >{{ comment.user.username }}</a>
+                    <a style="text-decoration: none; color: #000" :href="link">
+                      {{ comment.user.username }}
+                    </a>
                   </p>
                   <p
                     style="font-size: 13px; color: grey"
                     class="font-italic mb-0"
-                  >{{ comment.user.job }}</p>
+                  >
+                    {{ comment.user.job }}
+                  </p>
                 </div>
               </div>
               <div class="d-flex flex-column pt-3">
-                <p style="font-size: 13px; color: grey" class="font-italic mb-2">
-                  <v-icon size="18">mdi-reply-outline</v-icon>
-                  <a style="text-decoration: none" :href="link">@{{ author.username}}</a>
-                </p>
                 <p
                   style="font-size: 13px; color: grey"
-                  class="font-italic"
-                >{{ comment.createdAt | dateTime }}</p>
+                  class="font-italic mb-2"
+                >
+                  <v-icon size="18">mdi-reply-outline</v-icon>
+                  <a style="text-decoration: none" :href="link">
+                    @{{ author.username }}
+                  </a>
+                </p>
+                <p style="font-size: 13px; color: grey" class="font-italic">
+                  {{ comment.createdAt | dateTime }}
+                </p>
               </div>
             </v-col>
             <v-col
@@ -46,18 +58,23 @@
               lg="7"
               xl="8"
             >
-              <p v-html="$options.filters.markdown(comment.content)" class="comment-content"></p>
+              <p
+                v-html="$options.filters.markdown(comment.content)"
+                class="comment-content"
+              />
             </v-col>
           </v-row>
           <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
-            <v-icon @click="isReplyComment = !isReplyComment" size="18">mdi-reply-outline</v-icon>
+            <v-icon @click="isReplyComment = !isReplyComment" size="18">
+              mdi-reply-outline
+            </v-icon>
             <span
               v-if="comment.childComments.length"
               style="font-size: 13px; color: green"
               class="font-italic mb-0"
             >
-              {{ comment.childComments.length}}
-              {{ comment.childComments.length > 1 ? 'replies' : 'reply'}}
+              {{ comment.childComments.length }}
+              {{ comment.childComments.length > 1 ? 'replies' : 'reply' }}
             </span>
           </v-container>
         </v-list-item-content>
@@ -66,15 +83,26 @@
         v-if="isReplyComment"
         :rows="3"
         :placeholder="`Reply ${comment.user.username}`"
-      ></write-reply-comment>
+      />
     </div>
 
-    <div v-if="comment.childComments.length" style="margin-left: 80px" class="mb-5">
+    <div
+      v-if="comment.childComments.length"
+      style="margin-left: 80px"
+      class="mb-5"
+    >
       <div v-for="childComment in showingChildComments" :key="childComment._id">
         <v-card class="comment mb-5">
           <v-list-item-content>
             <v-row>
-              <v-col class="pl-9 pr-0 pb-0 d-flex flex-column" cols="5" sm="4" md="4" lg="4" xl="3">
+              <v-col
+                class="pl-9 pr-0 pb-0 d-flex flex-column"
+                cols="5"
+                sm="4"
+                md="4"
+                lg="4"
+                xl="3"
+              >
                 <div class="d-flex">
                   <v-avatar size="60" style="cursor: pointer" dark>
                     <img
@@ -83,25 +111,33 @@
                     />
                   </v-avatar>
                   <div class="pl-4">
-                    <p class="title mb-1 mt-1">{{ childComment.user.username }}</p>
+                    <p class="title mb-1 mt-1">
+                      {{ childComment.user.username }}
+                    </p>
                     <p
                       style="font-size: 13px; color: grey"
                       class="font-italic mb-0"
-                    >{{ childComment.user.job }}</p>
+                    >
+                      {{ childComment.user.job }}
+                    </p>
                   </div>
                 </div>
                 <div class="d-flex flex-column pt-3">
-                  <p style="font-size: 13px; color: grey" class="font-italic mb-2">
+                  <p
+                    style="font-size: 13px; color: grey"
+                    class="font-italic mb-2"
+                  >
                     <v-icon size="18">mdi-reply-outline</v-icon>
                     <a
                       style="text-decoration: none"
                       :href="`/profile/${childComment.replyToComment.user._id}`"
-                    >@{{ childComment.replyToComment.user.username }}</a>
+                    >
+                      @{{ childComment.replyToComment.user.username }}
+                    </a>
                   </p>
-                  <p
-                    style="font-size: 13px; color: grey"
-                    class="font-italic"
-                  >{{ childComment.createdAt | dateTime }}</p>
+                  <p style="font-size: 13px; color: grey" class="font-italic">
+                    {{ childComment.createdAt | dateTime }}
+                  </p>
                 </div>
               </v-col>
               <v-col
@@ -113,19 +149,28 @@
                 lg="7"
                 xl="8"
               >
-                <p v-html="$options.filters.markdown(childComment.content)" class="comment-content"></p>
+                <p
+                  v-html="$options.filters.markdown(childComment.content)"
+                  class="comment-content"
+                />
               </v-col>
             </v-row>
             <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
               <v-icon
-                @click="isReplyChildComments[childComment._id] = !isReplyChildComments[childComment._id]"
+                @click="
+                  isReplyChildComments[
+                    childComment._id
+                  ] = !isReplyChildComments[childComment._id]
+                "
                 size="18"
-              >mdi-reply-outline</v-icon>
+              >
+                mdi-reply-outline
+              </v-icon>
               <span
                 v-if="comment.childComments.length"
                 style="font-size: 13px; color: green"
                 class="font-italic mb-0"
-              ></span>
+              />
             </v-container>
           </v-list-item-content>
         </v-card>
@@ -133,33 +178,36 @@
           v-if="isReplyChildComments[childComment._id]"
           :rows="3"
           :placeholder="`Reply ${childComment.user.username}`"
-        ></write-reply-comment>
+        />
       </div>
     </div>
     <div class="d-flex justify-center mb-3" v-if="leftLoadMores > 0">
       <span
         @click="handleClickLoadmoreChildComments"
         class="font-italic load-more"
-      >... Load more ... ({{ leftChildCommentsNotShow.length }})</span>
+      >
+        ... Load more ... ({{ leftChildCommentsNotShow.length }})
+      </span>
     </div>
   </div>
 </template>
 
 <script>
-import WriteReplyComment from "@/components/Comment/WriteComment";
+import WriteReplyComment from '@/components/Comment/WriteComment';
+
 export default {
   props: {
     comment: {
       type: Object,
-      required: true
+      required: true,
     },
     author: {
       type: Object,
-      required: true
+      required: true,
     },
     postId: {
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
@@ -172,7 +220,7 @@ export default {
       isPreviewing: false,
       isReplyComment: false,
       isReplyChildComments: {},
-      link: ""
+      link: '',
     };
   },
   created() {
@@ -181,17 +229,18 @@ export default {
       this.showingChildComments = this.comment.childComments.slice(0, 2);
       this.leftChildCommentsNotShow = this.comment.childComments.slice(
         2,
-        this.totalChildComments.length
+        this.totalChildComments.length,
       );
     }
     this.leftLoadMores = Math.ceil(
-      this.leftChildCommentsNotShow.length / this.childCommentPerLoad
+      this.leftChildCommentsNotShow.length / this.childCommentPerLoad,
     );
 
-    let childComments = this.comment.childComments;
+    const childComments = this.comment.childComments;
     if (!childComments.length) return {};
-    let initReplyChildComments = {};
+    const initReplyChildComments = {};
     childComments.map(childComment => {
+      // eslint-disable-next-line no-underscore-dangle
       initReplyChildComments[childComment._id] = false;
       return initReplyChildComments;
     });
@@ -206,24 +255,25 @@ export default {
       ++this.loadMoreCounter;
       this.showingChildComments = [
         ...this.showingChildComments,
-        ...this.leftChildCommentsNotShow.slice(0, this.childCommentPerLoad)
+        ...this.leftChildCommentsNotShow.slice(0, this.childCommentPerLoad),
       ];
       this.leftChildCommentsNotShow = this.leftChildCommentsNotShow.slice(
         this.childCommentPerLoad,
-        this.leftChildCommentsNotShow.length
+        this.leftChildCommentsNotShow.length,
       );
       this.leftLoadMores = Math.ceil(
-        this.leftChildCommentsNotShow.length / this.childCommentPerLoad
+        this.leftChildCommentsNotShow.length / this.childCommentPerLoad,
       );
-    }
+    },
   },
   components: {
-    WriteReplyComment
+    WriteReplyComment,
   },
   computed: {},
+  // eslint-disable-next-line no-dupe-keys
   created() {
     this.link = `/users/${this.author.username}`;
-  }
+  },
 };
 </script>
 

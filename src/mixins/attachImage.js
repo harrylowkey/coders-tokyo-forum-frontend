@@ -4,13 +4,13 @@ export const attachImage = {
       isUploadBanner: false,
       isAttachImage: false,
       isAttachImageSuccess: false,
-      imageURL: "",
-      attachImage: ""
-    }
+      imageURL: '',
+      attachImage: '',
+    };
   },
   methods: {
     b64toBlob(b64Data, contentType, sliceSize) {
-      contentType = contentType || "";
+      contentType = contentType || '';
       sliceSize = sliceSize || 512;
 
       var byteCharacters = atob(b64Data);
@@ -37,10 +37,10 @@ export const attachImage = {
       return blob;
     },
     async submit() {
-      if (this.data.banner === "") {
+      if (this.data.banner === '') {
         this.$notify({
-          type: "error",
-          title: "Let's upload the banner"
+          type: 'error',
+          title: "Let's upload the banner",
         });
         return;
       }
@@ -50,48 +50,51 @@ export const attachImage = {
       const res = await this.createPost(this.data);
       if (res.status === 200) {
         this.$notify({
-          type: "success",
-          title: "Success"
+          type: 'success',
+          title: 'Success',
         });
       }
       if (res.status === 400) {
         this.$notify({
-          type: "error",
-          title: "Failed",
-          text: res.message
+          type: 'error',
+          title: 'Failed',
+          text: res.message,
         });
       }
 
       setTimeout(() => {
         return this.$router.push({
+          // eslint-disable-next-line no-underscore-dangle
           path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
             0,
-            this.data.type.length - 1
-          )}`
+            this.data.type.length - 1,
+          )}`,
         });
       }, 1000);
     },
     onChange({ image }) {
       this.attachImage = image;
     },
-    onCopy: function (e) {
+    // eslint-disable-next-line no-unused-vars
+    onCopy: function(e) {
       this.isAttachImageSuccess = false;
-      this.attachImage = "";
+      this.attachImage = '';
     },
-    onError: function (e) {
+    // eslint-disable-next-line no-unused-vars
+    onError: function(e) {
       this.$notify({
-        type: "error",
-        title: "Copy failed"
+        type: 'error',
+        title: 'Copy failed',
       });
     },
     async uploadImage() {
-      let form = document.getElementById("form-upload-image");
-      let block = this.attachImage.split(";");
-      let contentType = block[0].split(":")[1]; // In this case "image/gif"
-      let realData = block[1].split(",")[1]; // In this case "R0lGODlhPQBEAPeoAJosM...."
-      let blob = this.b64toBlob(realData, contentType);
-      let formDataToUpload = new FormData(form);
-      formDataToUpload.append("photo", blob);
+      const form = document.getElementById('form-upload-image');
+      const block = this.attachImage.split(';');
+      const contentType = block[0].split(':')[1]; // In this case "image/gif"
+      const realData = block[1].split(',')[1]; // In this case "R0lGODlhPQBEAPeoAJosM...."
+      const blob = this.b64toBlob(realData, contentType);
+      const formDataToUpload = new FormData(form);
+      formDataToUpload.append('photo', blob);
       const response = await this.uploadPhoto(formDataToUpload);
       if (response.status === 200) {
         this.isAttachImageSuccess = true;
@@ -101,10 +104,10 @@ export const attachImage = {
 
       if (response.status === 400) {
         this.$notify({
-          type: "error",
-          title: "Upload failed"
+          type: 'error',
+          title: 'Upload failed',
         });
       }
-    }
-  }
-}
+    },
+  },
+};

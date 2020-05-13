@@ -1,5 +1,5 @@
 <template>
-  <v-card  class="mt-6">
+  <v-card class="mt-6">
     <v-card-text>
       Review
     </v-card-text>
@@ -7,11 +7,7 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

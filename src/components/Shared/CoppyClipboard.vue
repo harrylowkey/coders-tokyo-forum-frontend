@@ -1,5 +1,9 @@
 <template>
-  <v-dialog :persistent="!isCopied" v-model="isAttachImageSuccess" max-width="650">
+  <v-dialog
+    :persistent="!isCopied"
+    v-model="isAttachImageSuccess"
+    max-width="650"
+  >
     <v-card>
       <v-card-title class="headline">Paste this link to your blog</v-card-title>
       <v-row class="ma-0">
@@ -8,7 +12,7 @@
         </v-col>
         <v-col cols="10" sm="10" md="10" class="py-0 pl-0">
           <div class="container d-flex pt-0 pb-0">
-            <v-text-field class="pt-0" readonly :value="imageURL"></v-text-field>
+            <v-text-field class="pt-0" readonly :value="imageURL" />
             <v-btn
               class="mt-5 ml-5"
               x-small
@@ -17,7 +21,9 @@
               v-clipboard:copy="imageURL"
               v-clipboard:success="onCopy"
               v-clipboard:error="onError"
-            >Copy</v-btn>
+            >
+              Copy
+            </v-btn>
           </div>
         </v-col>
       </v-row>
@@ -29,21 +35,20 @@
 export default {
   data() {
     return {
-      isCopied: false
+      isCopied: false,
     };
   },
-  props: ["isAttachImageSuccess", "imageURL"],
+  props: ['isAttachImageSuccess', 'imageURL'],
   methods: {
     onCopy() {
       this.isCopied = !this.isCopied;
-      this.$emit("handleOnCopy");
+      this.$emit('handleOnCopy');
     },
     onError() {
-      this.$emit("handleErrorCopy");
-    }
-  }
+      this.$emit('handleErrorCopy');
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

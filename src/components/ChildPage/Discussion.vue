@@ -1,27 +1,40 @@
 <template>
   <div>
     <v-row id="post">
-      <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
+      <v-col
+        cols="12"
+        sm="12"
+        md="1"
+        lg="1"
+        xl="1"
+        class="pr-0 wrapper-icon d-sm-none d-md-flex"
+      >
         <post-reactions
           v-if="!isLoading"
-          :likes="(post && post.metadata) ? post.metadata.likes : 0"
-          :saves="(post && post.metadata) ? post.metadata.saves : 0"
+          :likes="post && post.metadata ? post.metadata.likes : 0"
+          :saves="post && post.metadata ? post.metadata.saves : 0"
           :flowers="0"
           :postId="post._id"
-        ></post-reactions>
+        />
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <v-skeleton-loader class="mx-auto mt-6" v-if="isLoading" type="article, actions"></v-skeleton-loader>
+        <v-skeleton-loader
+          class="mx-auto mt-6"
+          v-if="isLoading"
+          type="article, actions"
+        />
         <v-card class="mx-auto mt-6 pb-2" v-if="!isLoading">
           <v-list-item style="padding: 0px 25px 0 20px">
             <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-              <v-list-item-title class="headline discuss-title mb-0 py-3">{{ post.topic }}</v-list-item-title>
-              <v-divider></v-divider>
+              <v-list-item-title class="headline discuss-title mb-0 py-3">
+                {{ post.topic }}
+              </v-list-item-title>
+              <v-divider />
               <div
                 style="line-height: 1.4;"
                 class="mt-lg-n9 pt-12"
                 v-html="$options.filters.markdown(post.content)"
-              ></div>
+              />
             </v-list-item-content>
           </v-list-item>
 
@@ -33,14 +46,16 @@
               <v-card-text
                 class="font-italic font-weight-light pt-0 pb-0"
                 style="font-size: small"
-              >{{ post.createdAt | date }}</v-card-text>
+              >
+                {{ post.createdAt | date }}
+              </v-card-text>
               <div style="width: 200px">
                 <edit-delete-btns
                   v-if="isAuthor"
                   @handleDeletePost="handleDeletePost"
                   :postId="post._id"
                   :postType="post.type"
-                ></edit-delete-btns>
+                />
               </div>
             </div>
             <div>
@@ -51,7 +66,7 @@
                 :tagName="tag.tagName"
                 :style="tagStyle"
                 postType="blog"
-              ></tag>
+              />
             </div>
           </v-card-actions>
         </v-card>
@@ -59,8 +74,12 @@
           <v-row id="comments">
             <div style="width: 100%" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
-              <v-boilerplate style="width: 100%" v-if="isLoading" type="image"></v-boilerplate>
-              <write-comment v-if="!isLoading"></write-comment>
+              <v-boilerplate
+                style="width: 100%"
+                v-if="isLoading"
+                type="image"
+              />
+              <write-comment v-if="!isLoading" />
 
               <div v-if="post ? post.comments.length : false">
                 <comment
@@ -69,22 +88,34 @@
                   :comment="comment"
                   :author="post.user"
                   :postId="post._id"
-                ></comment>
+                />
               </div>
             </div>
           </v-row>
-          <v-divider></v-divider>
-          <v-row id="other-posts-of-author" v-if="otherDiscussionsOfAuthor.length" class="mb-10">
+          <v-divider />
+          <v-row
+            id="other-posts-of-author"
+            v-if="otherDiscussionsOfAuthor.length"
+            class="mb-10"
+          >
             <h1 style="width: 100%" class="mt-8 mb-3">Other discussions</h1>
             <div style="width: 100%" class="d-flex" v-if="isLoading">
-              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
-              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
+              <v-boilerplate
+                class="other-post"
+                style="width: 100%"
+                type="article"
+              />
+              <v-boilerplate
+                class="other-post"
+                style="width: 100%"
+                type="article"
+              />
             </div>
             <other-posts-of-author
               v-if="!isLoading"
               postType="discussions"
               :posts="otherDiscussionsOfAuthor"
-            ></other-posts-of-author>
+            />
           </v-row>
         </v-container>
       </v-col>
@@ -101,96 +132,97 @@
           style="width: 100%; padding: 5px 10px; background: #fff"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        ></v-boilerplate>
+        />
         <author-follow-card
           v-if="!isLoading"
           class="author-follow"
           :isAuthor="isAuthor"
           :author="post.user"
           :userId="user._id"
-        ></author-follow-card>
+        />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import { crudPost } from "@/mixins/crudPost";
+import { crudPost } from '@/mixins/crudPost';
+
 export default {
   mixins: [crudPost],
   data() {
     return {
       otherDiscussionsOfAuthor: [
         {
-          _id: "5e9494fe935dfb5ed04975",
+          _id: '5e9494fe935dfb5ed04975',
           tags: [
             {
-              _id: "5e931565701c6a1f851074ec",
-              tagName: "javascript"
-            }
+              _id: '5e931565701c6a1f851074ec',
+              tagName: 'javascript',
+            },
           ],
           comments: [],
           likes: [],
-          savedBy: ["5e8b577f1a2dde32298795f4"],
+          savedBy: ['5e8b577f1a2dde32298795f4'],
           userId: {
-            _id: "5e8b577f1a2dde32298795f4",
-            username: "hongquang"
+            _id: '5e8b577f1a2dde32298795f4',
+            username: 'hongquang',
           },
           topic:
-            "How can I remove an image in a folder on cloudinary in Nodejs?",
+            'How can I remove an image in a folder on cloudinary in Nodejs?',
           content:
-            "I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
-          type: "post",
-          createdAt: "2020-04-13T16:36:14.767Z",
-          updatedAt: "2020-04-13T16:46:02.835Z",
+            'I have tried this way but the result still the same, anyone help me with this problem? Here is my code...',
+          type: 'post',
+          createdAt: '2020-04-13T16:36:14.767Z',
+          updatedAt: '2020-04-13T16:46:02.835Z',
           metadata: {
-            _id: "5e9494fe935fb5ed3043975",
+            _id: '5e9494fe935fb5ed3043975',
             comments: 123,
             likes: 69,
-            saves: 1
-          }
+            saves: 1,
+          },
         },
         {
-          _id: "5e9494fe95dfb5ed3043975",
+          _id: '5e9494fe95dfb5ed3043975',
           tags: [
             {
-              _id: "5e931565701c6a1f851074ec",
-              tagName: "javascript"
-            }
+              _id: '5e931565701c6a1f851074ec',
+              tagName: 'javascript',
+            },
           ],
           comments: [],
           likes: [],
-          savedBy: ["5e8b577f1a2dde32298795f4"],
+          savedBy: ['5e8b577f1a2dde32298795f4'],
           userId: {
-            _id: "5e8b577f1a2dde32298795f4",
-            username: "hongquang"
+            _id: '5e8b577f1a2dde32298795f4',
+            username: 'hongquang',
           },
           topic:
-            "How can I remove an image in a folder on cloudinary in Nodejs?",
+            'How can I remove an image in a folder on cloudinary in Nodejs?',
           content:
-            "I have tried this way but the result still the same, anyone help me with this problem? Here is my code...",
-          type: "post",
-          createdAt: "2020-04-13T16:36:14.767Z",
-          updatedAt: "2020-04-13T16:46:02.835Z",
+            'I have tried this way but the result still the same, anyone help me with this problem? Here is my code...',
+          type: 'post',
+          createdAt: '2020-04-13T16:36:14.767Z',
+          updatedAt: '2020-04-13T16:46:02.835Z',
           metadata: {
-            _id: "5e9494fe935dfbed3043975",
+            _id: '5e9494fe935dfbed3043975',
             comments: 20,
             likes: 6,
-            saves: 1
-          }
-        }
-      ]
+            saves: 1,
+          },
+        },
+      ],
     };
   },
   methods: {},
   computed: {},
   created() {},
-  components: {}
+  components: {},
 };
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 #blog-card {
   border-top-left-radius: 4px;
@@ -198,7 +230,7 @@ export default {
 }
 
 .signature {
-  font-family: "Great Vibes", cursive;
+  font-family: 'Great Vibes', cursive;
   font-size: 28px;
 }
 

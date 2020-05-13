@@ -9,13 +9,26 @@
       :placeholder="placeholder || 'Add comment...'"
       class="mb-n3"
       v-model="comment"
-    ></v-textarea>
-    <v-card v-else class="preview px-10 pt-8 pb-5 mb-4" style="min-height: 130px">
-      <p style="line-height: 1.5" v-html="this.markdownComment"></p>
+    />
+    <v-card
+      v-else
+      class="preview px-10 pt-8 pb-5 mb-4"
+      style="min-height: 130px"
+    >
+      <p style="line-height: 1.5" v-html="this.markdownComment" />
     </v-card>
     <div class="d-flex justify-end">
-      <v-btn v-if="!isPreviewing" dark color="primary" @click="togglePreviewComment">Preview</v-btn>
-      <v-btn v-else dark color="primary" @click="togglePreviewComment">Continue writing comment</v-btn>
+      <v-btn
+        v-if="!isPreviewing"
+        dark
+        color="primary"
+        @click="togglePreviewComment"
+      >
+        Preview
+      </v-btn>
+      <v-btn v-else dark color="primary" @click="togglePreviewComment">
+        Continue writing comment
+      </v-btn>
 
       <v-btn dark color="green" class="ml-3">Submit</v-btn>
     </div>
@@ -28,8 +41,8 @@ export default {
   data() {
     return {
       isPreviewing: false,
-      comment: "",
-      markdownComment: ""
+      comment: '',
+      markdownComment: '',
     };
   },
   methods: {
@@ -41,9 +54,8 @@ export default {
         return (this.isPreviewing = true);
       }
     },
-  }
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -2,10 +2,19 @@
   <div>
     <div class="mb-3">
       <v-avatar size="30" style="cursor: pointer;" class="mr-2">
-        <img @click="showAvatar =! showAvatar" :src="user.avatar.secureURL" alt="Avatar" />
+        <img
+          @click="showAvatar = !showAvatar"
+          :src="user.avatar.secureURL"
+          alt="Avatar"
+        />
       </v-avatar>
       <span>{{ user.username }}</span>
-      <span style="font-size: 13px !important; color: grey" class="caption ml-1">posted a track</span>
+      <span
+        style="font-size: 13px !important; color: grey"
+        class="caption ml-1"
+      >
+        posted a track
+      </span>
     </div>
     <v-hover v-slot:default="{ hover }" style="transition: 0.3s; height: 205px">
       <v-card id="song" class="mx-auto pb-0 mb-0" :elevation="hover ? 10 : 3">
@@ -18,11 +27,11 @@
         >
           <v-card-actions class="pb-1 pl-0 pt-md-0 pt-sm-5">
             <v-container class="pt-0 pl-0 pr-0 d-flex justify-space-around">
-              <like-btn :likes="likes.length" class="mr-10"></like-btn>
-              <comment-btn :comments="comments.length"></comment-btn>
+              <like-btn :likes="likes.length" class="mr-10" />
+              <comment-btn :comments="comments.length" />
             </v-container>
           </v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-card-actions class="d-flex">
             <tag
               style="margin-top: 6px;"
@@ -30,7 +39,7 @@
               v-for="(tag, i) in slicedTags"
               :key="i"
               postType="song"
-            ></tag>
+            />
           </v-card-actions>
           <v-card-text
             class="font-italic font-weight-light pt-0 pl-0 pr-0"
@@ -45,128 +54,131 @@
 </template>
 
 <script>
-import Tag from "@/components/Shared/Tag";
-import LikeBtn from "@/components/Shared/LikeButton";
-import CommentBtn from "@/components/Shared/CommentButton";
-import UserAvatar from "@/components/Shared/UserAvatar";
-import { userSocialLinks } from "@/mixins/userSocialLinks";
+import Tag from '@/components/Shared/Tag';
+import LikeBtn from '@/components/Shared/LikeButton';
+import CommentBtn from '@/components/Shared/CommentButton';
+import UserAvatar from '@/components/Shared/UserAvatar';
+import { userSocialLinks } from '@/mixins/userSocialLinks';
 
 export default {
   mixins: [userSocialLinks],
   props: {
     _id: {
       type: String,
-      required: true
+      required: true,
     },
     audio: {
       type: Object,
-      required: true
+      required: true,
     },
     tags: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     comments: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     authors: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     likes: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     savedBy: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     topic: {
       type: String,
-      required: true
+      required: true,
     },
     content: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     media: {
       type: Object,
-      required: true
+      required: true,
     },
     createdAt: {
       type: String,
-      required: true
+      required: true,
     },
     updatedAt: {
       type: String,
-      required: true
+      required: true,
     },
     metadata: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     user: {
       type: Object,
-      required: true
+      required: true,
     },
     cover: {
       type: Object,
-      required: true
+      required: true,
     },
     type: {
       type: String,
-      default: "song"
-    }
+      default: 'song',
+    },
   },
   data() {
     return {
       maxTags: 3,
-      audioLink: `/songs/${this._id}?type=${this.type}`
+      // eslint-disable-next-line no-underscore-dangle
+      audioLink: `/songs/${this._id}?type=${this.type}`,
     };
   },
   created() {
-    this.audio.theme = "#4A148C";
+    this.audio.theme = '#4A148C';
 
-    let audio = this.audio;
-    let artists = this.authors.filter(person => person.type === "artist");
+    const audio = this.audio;
+    const artists = this.authors.filter(person => person.type === 'artist');
     this.audio = {
       name: audio.fileName,
       artist: artists.map(person => person.name).toString(),
       url: audio.secureURL,
-      cover: this.cover.secureURL
+      cover: this.cover.secureURL,
     };
   },
   computed: {
     slicedTags() {
       return this.tags.slice(0, this.maxTags);
-    }
+    },
   },
   methods: {
     linkToSong() {
       this.$router.push({ path: this.audioLink });
-    }
+    },
   },
   mounted() {
-    let songTitle = document.querySelector(".aplayer-title");
-    songTitle.addEventListener("click", () =>
-      window.open(`/songs/${this._id}?type=${this.type}`)
+    const songTitle = document.querySelector('.aplayer-title');
+    songTitle.addEventListener('click', () =>
+      // eslint-disable-next-line no-underscore-dangle
+      window.open(`/songs/${this._id}?type=${this.type}`),
     );
-    let songComposer = document.querySelector(".aplayer-author");
-    songComposer.addEventListener("click", () =>
-      window.open(`/posts?artist=${this.audio.artist}&type=${this.type}`)
+    const songComposer = document.querySelector('.aplayer-author');
+    songComposer.addEventListener('click', () =>
+      window.open(`/posts?artist=${this.audio.artist}&type=${this.type}`),
     );
   },
   components: {
     Tag,
     LikeBtn,
     CommentBtn,
-    UserAvatar
-  }
+    // eslint-disable-next-line vue/no-unused-components
+    UserAvatar,
+  },
 };
 </script>
 

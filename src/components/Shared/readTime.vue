@@ -1,7 +1,6 @@
 <template>
-  <v-card-subtitle 
-    :style="customize || ''"
-    >{{ text | readTime }} min read
+  <v-card-subtitle :style="customize || ''">
+    {{ text | readTime }} min read
   </v-card-subtitle>
 </template>
 
@@ -10,15 +9,13 @@ export default {
   props: {
     text: {
       type: String,
-      required: true
+      required: true,
     },
     customize: {
-      type: String
-    }
-  }
-}
+      type: String,
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

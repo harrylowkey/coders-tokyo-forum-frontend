@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-icon size="35" color="primary">mdi-facebook</v-icon>
-    <span class="like-icon-content" :style="calStyleCounter">{{ facebookShares }}</span>
+    <span class="like-icon-content" :style="calStyleCounter">
+      {{ facebookShares }}
+    </span>
   </div>
 </template>
 
@@ -10,24 +12,24 @@ export default {
   props: {
     customize: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
-    facebookShares: Number
+    facebookShares: Number,
   },
   data() {
     return {
       calStyleCounter: {
-        position: "absolute !important",
-        top: "25px",
-        left: "32px",
-        fontSize: "16px"
-      }
+        position: 'absolute !important',
+        top: '25px',
+        left: '32px',
+        fontSize: '16px',
+      },
     };
   },
   computed: {},
   created() {
     this.iconSize = this.customize.size || 20;
-  }
+  },
 };
 </script>
 

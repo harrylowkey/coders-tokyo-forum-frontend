@@ -5,12 +5,14 @@
     border="left"
     transition="slide-x-reverse-transition"
     dismissible
-  >{{ alertMessage }}</v-alert>
+  >
+    {{ alertMessage }}
+  </v-alert>
 </template>
 
 <script>
 export default {
-  props: ["alertMessage"],
+  props: ['alertMessage'],
 };
 </script>
 

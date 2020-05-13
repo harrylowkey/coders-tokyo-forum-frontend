@@ -9,9 +9,17 @@
             style="cursor: pointer"
             class="cover-movie"
             @click="linkToBlog"
-          ></v-img>
+          />
         </v-col>
-        <v-col class="pa-0" cols="12" sm="12" md="12" lg="5" xl="4" style="position: relative">
+        <v-col
+          class="pa-0"
+          cols="12"
+          sm="12"
+          md="12"
+          lg="5"
+          xl="4"
+          style="position: relative"
+        >
           <div class="d-md-none d-lg-flex">
             <v-container class="ml-1 movie-detail">
               <v-card-text class="pb-2 pt-2">
@@ -21,25 +29,30 @@
 
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-3">Director:</p>
-                  <span></span>
+                  <span />
                   <p class="mb-0 mr-3">
                     <span
                       v-for="(director, i) in slicedDirectors"
                       :key="director._id"
                       class="value mb-0"
-                    >{{ director.name }}{{ isAddComma(i, slicedDirectors.length) }}</span>
+                    >
+                      {{ director.name
+                      }}{{ isAddComma(i, slicedDirectors.length) }}
+                    </span>
                   </p>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-3">Actors:</p>
-                  <span></span>
+                  <span />
                   <p class="mb-0 mr-3">
                     <span
                       v-for="(actor, i) in slicedActors"
                       :key="actor._id"
                       class="value mb-0"
-                    >{{ actor.name }}{{ isAddComma(i, slicedActors.length) }}</span>
+                    >
+                      {{ actor.name }}{{ isAddComma(i, slicedActors.length) }}
+                    </span>
                   </p>
                 </v-container>
 
@@ -51,7 +64,9 @@
                     outlined
                     small
                     style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
-                  >{{ movie.imdb }}</v-chip>
+                  >
+                    {{ movie.imdb }}
+                  </v-chip>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
@@ -61,7 +76,13 @@
 
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-3">Link:</p>
-                  <v-chip label text-color="black" outlined small :style="calMovieYearColor">
+                  <v-chip
+                    label
+                    text-color="black"
+                    outlined
+                    small
+                    :style="calMovieYearColor"
+                  >
                     <a target="_blank" :href="movie.link">{{ movie.link }}</a>
                   </v-chip>
                 </v-container>
@@ -74,7 +95,9 @@
                     outlined
                     small
                     style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
-                  >{{ movie.releaseDate }}</v-chip>
+                  >
+                    {{ movie.releaseDate }}
+                  </v-chip>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
@@ -90,7 +113,9 @@
                     size="20"
                     :color="isStar(i + 1)"
                     style="width: 25px"
-                  >start</v-icon>
+                  >
+                    start
+                  </v-icon>
                 </v-container>
               </v-card-text>
             </v-container>
@@ -101,30 +126,37 @@
                 <div>
                   <v-container class="d-flex pl-1 pb-0 pt-2">
                     <p class="key mb-0 mr-3">Status:</p>
-                    <p class="value mb-0" :style="calMovieStatusColor">{{ movie.status }}</p>
+                    <p class="value mb-0" :style="calMovieStatusColor">
+                      {{ movie.status }}
+                    </p>
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-3">Director:</p>
-                    <span></span>
+                    <span />
                     <p class="mb-0 mr-3">
                       <span
                         v-for="(director, i) in slicedDirectors"
                         :key="director._id"
                         class="value mb-0"
-                      >{{ director.name }}{{ isAddComma(i, slicedDirectors.length) }}</span>
+                      >
+                        {{ director.name
+                        }}{{ isAddComma(i, slicedDirectors.length) }}
+                      </span>
                     </p>
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-3">Actors:</p>
-                    <span></span>
+                    <span />
                     <p class="mb-0 mr-3">
                       <span
                         v-for="(actor, i) in slicedActors"
                         :key="actor._id"
                         class="value mb-0"
-                      >{{ actor.name }}{{ isAddComma(i, slicedActors.length) }}</span>
+                      >
+                        {{ actor.name }}{{ isAddComma(i, slicedActors.length) }}
+                      </span>
                     </p>
                   </v-container>
 
@@ -136,7 +168,9 @@
                       outlined
                       small
                       style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
-                    >{{ movie.imdb }}</v-chip>
+                    >
+                      {{ movie.imdb }}
+                    </v-chip>
                   </v-container>
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-3">Nation:</p>
@@ -153,7 +187,9 @@
                       outlined
                       small
                       :style="calMovieYearColor"
-                    >{{ movie.year }}</v-chip>
+                    >
+                      {{ movie.year }}
+                    </v-chip>
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
@@ -164,7 +200,9 @@
                       outlined
                       small
                       style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
-                    >{{ movie.releaseDate }}</v-chip>
+                    >
+                      {{ movie.releaseDate }}
+                    </v-chip>
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
@@ -180,11 +218,13 @@
                       size="20"
                       :color="isStar(i + 1)"
                       style="width: 25px"
-                    >start</v-icon>
+                    >
+                      start
+                    </v-icon>
                   </v-container>
                 </div>
               </v-card-text>
-              <v-divider></v-divider>
+              <v-divider />
             </v-container>
           </div>
         </v-col>
@@ -193,30 +233,40 @@
       <v-list-item three-line style="padding: 0 25px 0 20px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <router-link class="title-link" :to="blogLink">
-            <v-list-item-title class="headline movie-title mb-0 mt-3">{{ topic }}</v-list-item-title>
+            <v-list-item-title class="headline movie-title mb-0 mt-3">
+              {{ topic }}
+            </v-list-item-title>
           </router-link>
           <p class="description mb-0 pt-2">{{ description || content }}</p>
-          <span style="font-size: 0.775rem;" class="pt-1"></span>
+          <span style="font-size: 0.775rem;" class="pt-1" />
           <div class="d-flex justify-space-between" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
-              <a style=" text-decoration: none" :href="blogLink">Read more...</a>
+              <a style=" text-decoration: none" :href="blogLink">
+                Read more...
+              </a>
             </span>
-            <read-time class="pt-0" :text="content" :customize="'font-size: 0.775rem'"></read-time>
+            <read-time
+              class="pt-0"
+              :text="content"
+              :customize="'font-size: 0.775rem'"
+            />
           </div>
         </v-list-item-content>
         <user-avatar
           :src="user.avatar.secureURL"
           :username="user.username"
           style="padding-bottom: 7px;"
-        ></user-avatar>
+        />
       </v-list-item>
 
       <v-card-actions style="padding: 2px 25px 0 6px;" class="pb-1 pb-lg-2">
         <v-card-text
           class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
-        >{{ createdAt | date }}</v-card-text>
-        <v-spacer></v-spacer>
+        >
+          {{ createdAt | date }}
+        </v-card-text>
+        <v-spacer />
         <v-container>
           <v-row>
             <v-col
@@ -230,117 +280,122 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="likes.length"></like-btn>
+              <like-btn :likes="likes.length" />
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :comments="comments.length"></comment-btn>
+              <comment-btn :comments="comments.length" />
             </v-col>
           </v-row>
         </v-container>
-        <tag v-if="tags.length" :tagName="tags[0].tagName" :postType="'movie'"></tag>
+        <tag
+          v-if="tags.length"
+          :tagName="tags[0].tagName"
+          :postType="'movie'"
+        />
       </v-card-actions>
     </v-card>
   </v-hover>
 </template>
 
 <script>
-import LikeBtn from "@/components/Shared/LikeButton";
-import CommentBtn from "@/components/Shared/CommentButton";
-import Tag from "@/components/Shared/Tag";
-import UserAvatar from "@/components/Shared/UserAvatar";
-import { movieDescription } from "@/mixins/movieDescription";
-import ReadTime from "@/components/Shared/readTime";
+import LikeBtn from '@/components/Shared/LikeButton';
+import CommentBtn from '@/components/Shared/CommentButton';
+import Tag from '@/components/Shared/Tag';
+import UserAvatar from '@/components/Shared/UserAvatar';
+import { movieDescription } from '@/mixins/movieDescription';
+import ReadTime from '@/components/Shared/readTime';
 
 export default {
   mixins: [movieDescription],
   props: {
     _id: {
       type: String,
-      required: true
+      required: true,
     },
     tags: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     authors: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     comments: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     likes: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     savedBy: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     user: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     topic: {
       type: String,
-      required: true
+      required: true,
     },
     content: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     type: {
       type: String,
-      required: true
+      required: true,
     },
     createdAt: {
       type: String,
-      required: true
+      required: true,
     },
     url: {
       type: String,
-      default: ''
+      default: '',
     },
     updatedAt: {
       type: String,
-      required: true
+      required: true,
     },
     metadata: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     movie: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     cover: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
     Tag,
     LikeBtn,
     ReadTime,
     CommentBtn,
-    UserAvatar
+    UserAvatar,
   },
   data() {
     return {
       director: {},
-      blogLink: `/movieReviews/${this._id}?type=${this.type}`
+      // eslint-disable-next-line no-underscore-dangle
+      blogLink: `/movieReviews/${this._id}?type=${this.type}`,
     };
   },
   methods: {
     linkToBlog() {
       this.$router.push({ path: this.blogLink });
-    }
-  }
+    },
+  },
 };
 </script>
 

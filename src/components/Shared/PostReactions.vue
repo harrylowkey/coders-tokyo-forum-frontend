@@ -1,15 +1,17 @@
 <template>
-  <div class="icon-container d-flex flex-column align-center justify-space-around">
+  <div
+    class="icon-container d-flex flex-column align-center justify-space-around"
+  >
     <div class="wrapper-icon">
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587892953/love_fhkw0q.svg"
         class="react-icon like-icon"
         @click="toggleLike"
-      ></v-img>
+      />
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587893696/planet_peappv.svg"
         :class="upHeartCLasses"
-      ></v-img>
+      />
       <span class="counter likes-counter">{{ likes }}</span>
     </div>
 
@@ -18,11 +20,11 @@
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587910069/flower_1_vg1nyk.svg"
         class="react-icon give-flower-icon"
         @click="handleGiveFlower"
-      ></v-img>
+      />
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587909641/sunflower_2_w5ndbg.svg"
         :class="upFlowerCLasses"
-      ></v-img>
+      />
       <span class="counter flowers-counter">{{ flowers }}</span>
     </div>
 
@@ -31,11 +33,11 @@
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587887572/save_al3idk.svg"
         class="react-icon save-icon"
         @click="toggleSave"
-      ></v-img>
+      />
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587914483/tick_1_k2ofpd.svg"
         :class="upSaveIconClasses"
-      ></v-img>
+      />
       <span class="counter saves-counter">{{ saves }}</span>
     </div>
 
@@ -44,33 +46,32 @@
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587888559/save_1_g5tpak.svg"
         class="react-icon donate-icon"
         @click="handleClickDonate"
-      ></v-img>
+      />
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587912245/coin_dkmx69.svg"
         :class="donateCoinClasses"
-      ></v-img>
+      />
     </div>
 
     <div class="wrapper-icon">
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587889292/blog_obzs2l.svg"
         class="react-icon write-comment-icon"
-      ></v-img>
+      />
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
-  props: ["likes", "saves", "flowers", "postId"],
+  props: ['likes', 'saves', 'flowers', 'postId'],
   data() {
     return {
-      upHeartCLasses: ["up-heart"],
-      upFlowerCLasses: ["up-flower"],
-      donateCoinClasses: ["up-coin"],
-      upSaveIconClasses: ["up-save"],
-      isDonating: false
+      upHeartCLasses: ['up-heart'],
+      upFlowerCLasses: ['up-flower'],
+      donateCoinClasses: ['up-coin'],
+      upSaveIconClasses: ['up-save'],
+      isDonating: false,
     };
   },
   methods: {
@@ -80,23 +81,23 @@ export default {
         return this.upHeartCLasses.pop();
       } else {
         ++this.likes;
-        return this.upHeartCLasses.push("show-up-heart");
+        return this.upHeartCLasses.push('show-up-heart');
       }
     },
     handleGiveFlower() {
       this.flowers++;
-      this.upFlowerCLasses.push("show-up-flower");
+      this.upFlowerCLasses.push('show-up-flower');
       setTimeout(() => {
         this.upFlowerCLasses = this.upFlowerCLasses.filter(
-          _class => _class !== "show-up-flower"
+          _class => _class !== 'show-up-flower',
         );
       }, 700);
     },
     handleClickDonate() {
-      this.donateCoinClasses.push("rotate-upcoin");
+      this.donateCoinClasses.push('rotate-upcoin');
       setTimeout(() => {
         this.donateCoinClasses = this.donateCoinClasses.filter(
-          _class => _class !== "rotate-upcoin"
+          _class => _class !== 'rotate-upcoin',
         );
       }, 1000);
     },
@@ -104,10 +105,10 @@ export default {
       if (this.upSaveIconClasses.length === 2) {
         return this.upSaveIconClasses.pop();
       } else {
-        return this.upSaveIconClasses.push("show-up-save");
+        return this.upSaveIconClasses.push('show-up-save');
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

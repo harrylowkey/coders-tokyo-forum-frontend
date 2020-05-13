@@ -9,7 +9,7 @@
                 :src="user.avatar.secureURL"
                 :username="user.username"
                 style="height: 130px;"
-              ></user-avatar>
+              />
             </div>
           </v-col>
           <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
@@ -20,14 +20,14 @@
                   :key="i"
                   :tagName="tag"
                   @handleRemoveTag="handleRemoveTag(i)"
-                ></toggle-tag>
+                />
               </div>
               <create-tag-blog
                 v-if="data.tags.length < 3"
                 @handleAddTag="handleAddTag"
                 :tags="data.tags"
-              ></create-tag-blog>
-              <v-spacer></v-spacer>
+              />
+              <v-spacer />
               <v-chip
                 @click="isUploadBanner = !isUploadBanner"
                 style="cursor: pointer"
@@ -36,7 +36,8 @@
                 color="green"
                 label
               >
-                <v-icon left>mdi-cloud-upload-outline</v-icon>Image
+                <v-icon left>mdi-cloud-upload-outline</v-icon>
+                Image
               </v-chip>
             </div>
           </v-col>
@@ -59,128 +60,170 @@
                         img-format="jpg"
                         langType="en"
                         noCircle
-                      ></my-upload>
-                      <v-container class="d-flex justify-center" v-if="data.banner.secureURL">
-                        <v-img max-width="650" max-height="250" :src="data.banner.secureURL"></v-img>
+                      />
+                      <v-container
+                        class="d-flex justify-center"
+                        v-if="data.banner.secureURL"
+                      >
+                        <v-img
+                          max-width="650"
+                          max-height="250"
+                          :src="data.banner.secureURL"
+                        />
                       </v-container>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
-                      <ValidationProvider name="Movie name" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Movie name"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-text-field
                           :error-messages="errors"
                           v-model="data.movie.name"
                           label="Movie name*"
                           required
-                        ></v-text-field>
+                        />
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
-                      <v-text-field v-model="data.movie.country" label="Nation"></v-text-field>
+                      <v-text-field
+                        v-model="data.movie.country"
+                        label="Nation"
+                      />
                     </v-col>
                     <v-col cols="12" sm="4" md="2">
-                      <v-text-field v-model="data.movie.imdb" label="IMDb"></v-text-field>
+                      <v-text-field v-model="data.movie.imdb" label="IMDb" />
                     </v-col>
                     <v-col cols="12" sm="4" md="2">
-                      <v-text-field v-model="data.movie.time" hint="Unit: minutes" label="Times"></v-text-field>
+                      <v-text-field
+                        v-model="data.movie.time"
+                        hint="Unit: minutes"
+                        label="Times"
+                      />
                     </v-col>
                     <v-col cols="12" sm="4" md="8">
-                      <v-text-field v-model="data.movie.link" label="Link"></v-text-field>
+                      <v-text-field v-model="data.movie.link" label="Link" />
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="director" label="Director"></v-text-field>
+                        <v-text-field v-model="director" label="Director" />
                         <span class="pb-4 pl-3" v-if="!addCoDirector">
                           <v-icon
                             @click="addCoDirector = !addCoDirector"
                             color="green"
                             style="cursor: pointer"
-                          >mdi-plus-circle-outline</v-icon>
+                          >
+                            mdi-plus-circle-outline
+                          </v-icon>
                         </span>
                         <span class="pb-4 pl-3" v-if="addCoDirector">
                           <v-icon
                             @click="handleRemoveCoDirector"
                             color="warning"
                             style="cursor: pointer"
-                          >mdi-close-circle-outline</v-icon>
+                          >
+                            mdi-close-circle-outline
+                          </v-icon>
                         </span>
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" v-if="addCoDirector">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="coDirector" label="Co - Director"></v-text-field>
+                        <v-text-field
+                          v-model="coDirector"
+                          label="Co - Director"
+                        />
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="actor" label="Actor/Actress"></v-text-field>
+                        <v-text-field v-model="actor" label="Actor/Actress" />
                         <span class="pb-4 pl-3" v-if="!addActor2">
                           <v-icon
                             @click="addActor2 = !addActor2"
                             color="green"
                             style="cursor: pointer"
-                          >mdi-plus-circle-outline</v-icon>
+                          >
+                            mdi-plus-circle-outline
+                          </v-icon>
                         </span>
                         <span class="pb-4 pl-3" v-if="addActor2">
                           <v-icon
                             @click="handleRemoveCoDirector(2)"
                             color="warning"
                             style="cursor: pointer"
-                          >mdi-close-circle-outline</v-icon>
+                          >
+                            mdi-close-circle-outline
+                          </v-icon>
                         </span>
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" v-if="addActor2">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="actor2" label="Actor/Actress"></v-text-field>
+                        <v-text-field v-model="actor2" label="Actor/Actress" />
                         <span class="pb-4 pl-3" v-if="!addActor3">
                           <v-icon
                             @click="addActor3 = !addActor3"
                             color="green"
                             style="cursor: pointer"
-                          >mdi-plus-circle-outline</v-icon>
+                          >
+                            mdi-plus-circle-outline
+                          </v-icon>
                         </span>
                         <span class="pb-4 pl-3" v-if="addActor3">
                           <v-icon
                             @click="handleRemoveActor(3)"
                             color="warning"
                             style="cursor: pointer"
-                          >mdi-close-circle-outline</v-icon>
+                          >
+                            mdi-close-circle-outline
+                          </v-icon>
                         </span>
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" v-if="addActor3">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="actor3" label="Actor/Actress"></v-text-field>
+                        <v-text-field v-model="actor3" label="Actor/Actress" />
                         <span class="pb-4 pl-3" v-if="!addActor4">
                           <v-icon
                             @click="addActor4 = !addActor4"
                             color="green"
                             style="cursor: pointer"
-                          >mdi-plus-circle-outline</v-icon>
+                          >
+                            mdi-plus-circle-outline
+                          </v-icon>
                         </span>
                         <span class="pb-4 pl-3" v-if="addActor4">
                           <v-icon
                             @click="handleRemoveActor(4)"
                             color="warning"
                             style="cursor: pointer"
-                          >mdi-close-circle-outline</v-icon>
+                          >
+                            mdi-close-circle-outline
+                          </v-icon>
                         </span>
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" v-if="addActor4">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="actor4" label="Actor/Actress"></v-text-field>
+                        <v-text-field v-model="actor4" label="Actor/Actress" />
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="7">
-                      <v-text-field v-model="data.movie.releaseDate" label="Release Date"></v-text-field>
+                      <v-text-field
+                        v-model="data.movie.releaseDate"
+                        label="Release Date"
+                      />
                     </v-col>
                     <v-col cols="12" sm="6" md="5">
                       <v-container class="d-flex pl-0 pb-0 pr-0 mt-2">
                         <span
                           style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                           class="mb-0 pt-1 pr-5"
-                        >Your stars:</span>
+                        >
+                          Your stars:
+                        </span>
                         <v-rating
                           v-model="data.movie.stars"
                           color="yellow darken-3"
@@ -189,7 +232,7 @@
                           half-increments
                           hover
                           small
-                        ></v-rating>
+                        />
                       </v-container>
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
@@ -198,10 +241,14 @@
                         label="Genres"
                         v-model="data.movie.genres"
                         multiple
-                      ></v-autocomplete>
+                      />
                     </v-col>
                     <v-col cols="12">
-                      <ValidationProvider name="Topic" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Topic"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-text-field
                           label="Topic*"
                           persistent-hint
@@ -210,7 +257,7 @@
                           required
                           :error-messages="errors"
                           hint="Write description to attract people at the first glance"
-                        ></v-text-field>
+                        />
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12">
@@ -220,10 +267,14 @@
                         persistent-hint
                         rows="2"
                         hint="Write description to attract people at the first glance"
-                      ></v-text-field>
+                      />
                     </v-col>
                     <v-col cols="12">
-                      <ValidationProvider name="Content" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Content"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-textarea
                           label="Content*"
                           auto-grow
@@ -232,7 +283,7 @@
                           :error-messages="errors"
                           v-model="data.content"
                           placeholder="Markdown"
-                        ></v-textarea>
+                        />
                       </ValidationProvider>
                       <v-dialog v-model="isPreviewing" max-width="800">
                         <v-card
@@ -241,9 +292,11 @@
                         >
                           <p
                             style="line-height: 1.5"
-                            v-html="$options.filters.markdown(data.content || '')"
-                          ></p>
-                          <v-spacer></v-spacer>
+                            v-html="
+                              $options.filters.markdown(data.content || '')
+                            "
+                          />
+                          <v-spacer />
                           <div class="d-flex justify-end">
                             <span class="signature">hong_quang</span>
                           </div>
@@ -259,11 +312,26 @@
                   class="ml-5"
                   @click="isAttachImage = !isAttachImage"
                 >
-                  <v-icon left color="primary">image</v-icon>Attach image
+                  <v-icon left color="primary">image</v-icon>
+                  Attach image
                 </v-chip>
-                <v-spacer></v-spacer>
-                <v-btn class="mr-5" color="primary" @click="togglePreviewContent" dark>Preview</v-btn>
-                <v-btn class="mr-5" color="green white--text" @click="submit" :disabled="isLoading">Post</v-btn>
+                <v-spacer />
+                <v-btn
+                  class="mr-5"
+                  color="primary"
+                  @click="togglePreviewContent"
+                  dark
+                >
+                  Preview
+                </v-btn>
+                <v-btn
+                  class="mr-5"
+                  color="green white--text"
+                  @click="submit"
+                  :disabled="isLoading"
+                >
+                  Post
+                </v-btn>
               </v-card-actions>
             </v-container>
             <v-dialog max-width="500" v-model="isAttachImage">
@@ -272,14 +340,14 @@
                 :attachImage="attachImage"
                 @handleUploadImage="uploadImage"
                 @handleOnChange="onChange"
-              ></attach-image-dialog>
+              />
             </v-dialog>
             <coppy-clipboard
               :imageURL="imageURL"
               :isAttachImageSuccess="isAttachImageSuccess"
               @handleOnCopy="onCopy"
               @handleErrorCopy="onError"
-            ></coppy-clipboard>
+            />
           </v-col>
         </v-row>
       </v-card>
@@ -288,63 +356,63 @@
 </template>
 
 <script>
-import { createPost } from "@/mixins/createPost";
+import { createPost } from '@/mixins/createPost';
 
 export default {
   mixins: [createPost],
   components: {},
   data() {
     return {
-      director: "",
-      coDirector: "",
-      actor: "",
-      actor2: "",
-      actor3: "",
-      actor4: "",
+      director: '',
+      coDirector: '',
+      actor: '',
+      actor2: '',
+      actor3: '',
+      actor4: '',
       addCoDirector: false,
-      addActor2: "",
-      addActor3: "",
-      addActor4: "",
+      addActor2: '',
+      addActor3: '',
+      addActor4: '',
       isUploadBanner: false,
       data: {
         tags: [],
         movie: {
-          name: "",
-          status: "Finished",
-          country: "",
-          year: "",
+          name: '',
+          status: 'Finished',
+          country: '',
+          year: '',
           length: 0,
           genres: [],
           suggestedBy: [],
-          stars: 5
+          stars: 5,
         },
         authors: [],
-        topic: "",
-        description: "",
-        content: "",
-        type: "movies",
-        banner: ""
+        topic: '',
+        description: '',
+        content: '',
+        type: 'movies',
+        banner: '',
       },
-      imgDataUrl: "",
+      imgDataUrl: '',
       isPreviewing: false,
-      genres: ["Action", "Funny", "Moving", "History"]
+      genres: ['Action', 'Funny', 'Moving', 'History'],
     };
   },
   computed: {},
   methods: {
     handleRemoveCoDirector() {
       this.addCoDirector = !this.addCoDirector;
-      this.coDirector = "";
+      this.coDirector = '';
     },
     handleRemoveActor(index) {
       this[`addActor${index}`] = !this[`addActor${index}`];
-      this[`actor${index}`] = "";
+      this[`actor${index}`] = '';
     },
     async submit() {
-      if (this.data.banner === "") {
+      if (this.data.banner === '') {
         this.$notify({
-          type: "error",
-          title: "Let's upload the banner"
+          type: 'error',
+          title: "Let's upload the banner",
         });
         return;
       }
@@ -353,45 +421,46 @@ export default {
       if (!isValid) return;
 
       this.data.authors = [
-        { type: "actor", name: this.actor },
-        { type: "actor", name: this.actor2 },
-        { type: "actor", name: this.actor3 },
-        { type: "actor", name: this.actor4 },
-        { type: "director", name: this.director },
-        { type: "director", name: this.coDirector }
-      ].filter(person => person.name !== "");
+        { type: 'actor', name: this.actor },
+        { type: 'actor', name: this.actor2 },
+        { type: 'actor', name: this.actor3 },
+        { type: 'actor', name: this.actor4 },
+        { type: 'director', name: this.director },
+        { type: 'director', name: this.coDirector },
+      ].filter(person => person.name !== '');
 
       const res = await this.createPost(this.data);
       if (res.status === 200) {
         this.$notify({
-          type: "success",
-          title: "Success"
+          type: 'success',
+          title: 'Success',
         });
       }
       if (res.status === 400) {
         this.$notify({
-          type: "error",
-          title: "Failed",
-          text: res.message
+          type: 'error',
+          title: 'Failed',
+          text: res.message,
         });
       }
 
-      let type = this.data.type.slice(0, this.data.type.length - 1);
+      const type = this.data.type.slice(0, this.data.type.length - 1);
 
       setTimeout(() => {
         return this.$router.push({
-          path: `/${type}Reviews/${res.data._id}?type=${type}`
+          // eslint-disable-next-line no-underscore-dangle
+          path: `/${type}Reviews/${res.data._id}?type=${type}`,
         });
       }, 1000);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 .signature {
-  font-family: "Great Vibes", cursive;
+  font-family: 'Great Vibes', cursive;
   font-size: 28px;
 }
 </style>

@@ -7,34 +7,44 @@
         height="350px"
         class="cover-blog"
         @click="linkToBlog"
-      ></v-img>
+      />
 
       <v-list-item three-line style="padding: 0 25px 0 20px">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <router-link class="title-link" :to="blogLink">
-            <v-list-item-title class="headline blog-title mb-0 mt-3">{{ topic }}</v-list-item-title>
+            <v-list-item-title class="headline blog-title mb-0 mt-3">
+              {{ topic }}
+            </v-list-item-title>
           </router-link>
           <p class="description mb-0 pt-2">{{ description || content }}</p>
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
-              <a style=" text-decoration: none" :href="blogLink">Read more...</a>
+              <a style=" text-decoration: none" :href="blogLink">
+                Read more...
+              </a>
             </span>
-            <read-time class="pt-0" :text="content" :customize="'font-size: 0.775rem'"></read-time>
+            <read-time
+              class="pt-0"
+              :text="content"
+              :customize="'font-size: 0.775rem'"
+            />
           </div>
         </v-list-item-content>
         <user-avatar
           :src="user.avatar.secureURL"
           :username="user.username"
           style="padding-bottom: 7px;"
-        ></user-avatar>
+        />
       </v-list-item>
 
       <v-card-actions style="padding: 2px 25px 0 6px" class="pb-1 pb-lg-2">
         <v-card-text
           class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
-        >{{ createdAt | date }}</v-card-text>
-        <v-spacer></v-spacer>
+        >
+          {{ createdAt | date }}
+        </v-card-text>
+        <v-spacer />
         <v-container>
           <v-row>
             <v-col
@@ -48,107 +58,108 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="likes.length"></like-btn>
+              <like-btn :likes="likes.length" />
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :comments="comments.length"></comment-btn>
+              <comment-btn :comments="comments.length" />
             </v-col>
           </v-row>
         </v-container>
-        <tag v-if="tags.length" :tagName="tags[0].tagName" :postType="type"></tag>
+        <tag v-if="tags.length" :tagName="tags[0].tagName" :postType="type" />
       </v-card-actions>
     </v-card>
   </v-hover>
 </template>
 
 <script>
-import LikeBtn from "@/components/Shared/LikeButton";
-import CommentBtn from "@/components/Shared/CommentButton";
-import Tag from "@/components/Shared/Tag";
-import UserAvatar from "@/components/Shared/UserAvatar";
-import ReadTime from "@/components/Shared/readTime";
+import LikeBtn from '@/components/Shared/LikeButton';
+import CommentBtn from '@/components/Shared/CommentButton';
+import Tag from '@/components/Shared/Tag';
+import UserAvatar from '@/components/Shared/UserAvatar';
+import ReadTime from '@/components/Shared/readTime';
 
 export default {
   props: {
     _id: {
       type: String,
-      required: true
+      required: true,
     },
     tags: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     commments: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     likes: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     comments: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     savedBy: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     user: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     topic: {
       type: String,
-      required: true
+      required: true,
     },
     content: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     type: {
       type: String,
-      required: true
+      required: true,
     },
     createdAt: {
       type: String,
-      required: true
+      required: true,
     },
     updatedAt: {
       type: String,
-      required: true
+      required: true,
     },
     cover: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     metadata: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   components: {
     Tag,
     LikeBtn,
     CommentBtn,
     UserAvatar,
-    ReadTime
+    ReadTime,
   },
   data() {
     return {
-      blogLink: `/blogs/${this._id}?type=${this.type}`
+      // eslint-disable-next-line no-underscore-dangle
+      blogLink: `/blogs/${this._id}?type=${this.type}`,
     };
   },
   methods: {
     linkToBlog() {
       this.$router.push({ path: this.blogLink });
-    }
+    },
   },
-  created() {}
+  created() {},
 };
 </script>
 
