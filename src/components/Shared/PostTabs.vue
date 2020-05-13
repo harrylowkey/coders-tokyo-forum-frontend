@@ -92,20 +92,19 @@ export default {
 
       this.$emit('setActivePage', { page });
 
-      if (this.type === "writePost") {
-        let currentPage = this.$route.path + this.$route.hash;
-        let targetPage = `/writePost#${page.slice(0, page.length - 1)}`;
+      if (this.type === 'writePost') {
+        const currentPage = this.$route.path + this.$route.hash;
+        const targetPage = `/writePost#${page.slice(0, page.length - 1)}`;
         if (currentPage === targetPage) return;
         this.$router.replace({ path: targetPage });
       }
-      if (this.type === "stream") {
-        let currentPage = this.$route.path + this.$route.hash;
-        let targetPage = `/stream#${page}`;
+      if (this.type === 'stream') {
+        const currentPage = this.$route.path + this.$route.hash;
+        const targetPage = `/stream#${page}`;
         if (currentPage === targetPage) return;
         this.$router.replace({ path: targetPage });
       }
-    }
-
+    },
   },
   computed: {
     ...mapState('utils', ['isLoading']),

@@ -2,7 +2,6 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-
         <h1 v-if="showTitlePage" class="mt-5">#Movie Reviews</h1>
         <v-skeleton-loader
           class="mt-5"
@@ -245,23 +244,22 @@ export default {
   },
 
   computed: {
-    ...mapState("utils", ["errorMes", "isLoading"]),
-    ...mapState("movieReviews", ["movieReviews"]),
+    ...mapState('utils', ['errorMes', 'isLoading']),
+    ...mapState('movieReviews', ['movieReviews']),
   },
   methods: {
-    ...mapActions("movieReviews", ["getMovieReviews"])
+    ...mapActions('movieReviews', ['getMovieReviews']),
   },
   async created() {
-    if (this.$route.path === "/stream" || this.$route.path === "/") {
-      this.mostViewBlogs.title = "Top 5 Discussions";
-      let sliceMostViews = this.mostViewBlogs.data.slice(5);
+    if (this.$route.path === '/stream' || this.$route.path === '/') {
+      this.mostViewBlogs.title = 'Top 5 Discussions';
+      const sliceMostViews = this.mostViewBlogs.data.slice(5);
 
       this.mostViewBlogs.data = sliceMostViews;
     }
 
     await this.getMovieReviews();
   },
-
 };
 </script>
 

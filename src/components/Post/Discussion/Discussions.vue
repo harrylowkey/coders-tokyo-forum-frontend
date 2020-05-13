@@ -30,7 +30,6 @@
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-          
         ></v-skeleton-loader>
         <div v-if="!isLoading">
           <discussion
@@ -90,12 +89,11 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 import SideCard from '@/components/Shared/SideCard';
 
 import Discussion from './Discussion';
-
-
-import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
@@ -245,20 +243,19 @@ export default {
     };
   },
   computed: {
-    ...mapState("utils", ["errorMes", "isLoading"]),
-    ...mapState("discussions", ["discussions"])
+    ...mapState('utils', ['errorMes', 'isLoading']),
+    ...mapState('discussions', ['discussions']),
   },
   methods: {
-    ...mapActions("discussions", ["getDiscussions"])
+    ...mapActions('discussions', ['getDiscussions']),
   },
   async created() {
-    if (this.$route.path === "/stream" || this.$route.path === "/") {
-      this.mostViewBlogs.title = "Top 5 Discussions";
-      let sliceMostViews = this.mostViewBlogs.data.slice(5);
+    if (this.$route.path === '/stream' || this.$route.path === '/') {
+      this.mostViewBlogs.title = 'Top 5 Discussions';
+      const sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
     }
     await this.getDiscussions();
-
   },
   errorMes(newVal) {
     if (newVal.length) {

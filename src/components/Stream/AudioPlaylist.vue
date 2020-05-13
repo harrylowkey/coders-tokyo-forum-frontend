@@ -26,12 +26,12 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
 
-import Audio from "./Audio.vue";
-import { mapActions, mapState } from "vuex";
+import Audio from './Audio.vue';
 
 export default {
-  props: ["audioList", "playAnotherSong"],
+  props: ['audioList', 'playAnotherSong'],
 
   data() {
     return {};
@@ -41,14 +41,12 @@ export default {
   },
   methods: {
     handlePlayPause({ isPlay, index }) {
-
-      this.$emit("handlePlayPause", { isPlay, index });
-    }
+      this.$emit('handlePlayPause', { isPlay, index });
+    },
   },
   computed: {
-    ...mapState("utils", ["isLoading"])
-  }
-
+    ...mapState('utils', ['isLoading']),
+  },
 };
 </script>
 

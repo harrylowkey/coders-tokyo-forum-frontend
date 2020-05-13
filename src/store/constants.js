@@ -13,11 +13,10 @@ export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 // post
 export const CREATE_DISCUSSION = 'CREATE_DISCUSSION';
 
-
-//stream
+// stream
 export const SET_STREAM = 'SET_STREAM';
 
-//post
+// post
 export const SET_DISCUSSIONS = 'SET_DISCUSSIONS';
 export const SET_BLOGS = 'SET_BLOGS';
 export const SET_BOOK_REVIEWS = 'SET_BOOK_REVIEWS';

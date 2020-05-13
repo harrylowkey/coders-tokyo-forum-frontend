@@ -2,7 +2,6 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-
         <h1 v-if="showTitlePage" class="mt-5">#Blogs</h1>
         <v-skeleton-loader
           class="mt-5"
@@ -86,9 +85,11 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 import SideCard from '@/components/Shared/SideCard';
+
 import Blog from './Blog';
-import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
@@ -239,15 +240,15 @@ export default {
   },
 
   computed: {
-    ...mapState("utils", ["errorMes", "isLoading"]),
-    ...mapState("blogs", ["blogs"])
+    ...mapState('utils', ['errorMes', 'isLoading']),
+    ...mapState('blogs', ['blogs']),
   },
   methods: {
-    ...mapActions("blogs", ["getBlogs"])
+    ...mapActions('blogs', ['getBlogs']),
   },
   async created() {
-    if (this.$route.path === "/stream") {
-      this.mostViewBlogs.title = "Top 5 Discussions";
+    if (this.$route.path === '/stream') {
+      this.mostViewBlogs.title = 'Top 5 Discussions';
 
       this.mostViewBlogs.data = sliceMostViews;
     }
@@ -257,13 +258,12 @@ export default {
   errorMes(newVal) {
     if (newVal.length) {
       this.$notify({
-        type: "error",
-        title: "Update failed",
-        text: newVal
+        type: 'error',
+        title: 'Update failed',
+        text: newVal,
       });
     }
-  }
-
+  },
 };
 </script>
 
