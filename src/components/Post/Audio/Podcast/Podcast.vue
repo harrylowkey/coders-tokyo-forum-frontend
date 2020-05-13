@@ -5,14 +5,14 @@
       @timeupdate="calProgressBar"
       ref="player"
       controls
-      :src="audio.url"
+      :src="audio.secureURL"
       preload="metadata"
     ></audio>
     <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
       <v-card :elevation="hover ? 10 : 3" :class="{ 'on-hover': hover }" id="audio-card">
         <v-img
           :class="coverClasses"
-          src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
+          :src="cover.secureURL"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
           height="200px"
         >
@@ -23,18 +23,18 @@
             <p class="mb-2">
               <span
                 style="font-size: 13px; cursor: pointer"
-                v-for="(artist, i) in singers"
+                v-for="(artist, i) in slicedArtists"
                 :key="i"
                 @click="searchPodcastBySinger(artist.name)"
               >
                 {{ artist.name }}
-                <span style="font-size: 12px">{{ isAddFt(i, singers.length) }}</span>
+                <span style="font-size: 12px">{{ isAddFt(i, slicedArtists.length) }}</span>
               </span>
             </p>
           </v-card-title>
 
           <div class="align-self-center d-flex justify-center">
-            <v-icon style="color: #fff" size="50"  @click="togglePlayPause">{{ togglePlayPauseIcon }}</v-icon>
+            <v-icon style="color: #fff" size="50" @click="togglePlayPause">{{ togglePlayPauseIcon }}</v-icon>
           </div>
 
           <div class="audio-btns" :class="{ 'show-btns': hover }">
@@ -68,11 +68,40 @@
         </v-img>
 
         <v-list-item three-line style="padding: 0 25px 0 15px">
-          <user-social-links
-            :socialLinks="socialLinks"
-            :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
-            :username="'chau_chau'"
-          ></user-social-links>
+          <div class="d-flex flex-column justify-center">
+            <v-container class="d-flex justify-center pr-0 pl-0">
+              <div class="user text-center d-flex">
+                <v-list-item-avatar tile size="60" style="margin: 16px 0 0 0">
+                  <v-img
+                    :src="user.avatar.secureURL"
+                    style="cursor: pointer; border-radius: 50%"
+                    @click="onClickAvatar"
+                  ></v-img>
+                </v-list-item-avatar>
+                <v-container class="pb-0 pr-0">
+                  <v-list-item-icon class="mb-0" style="width: 100%">
+                    <div v-if="socialLinks.length" class="d-flex">
+                      <v-icon
+                        v-for="link in socialLinks"
+                        :key="link.icon"
+                        :color="link.color"
+                        size="20"
+                        class="pr-1"
+                        style="cursor: pointer"
+                        @click="handleClickLink(link.url)"
+                      >{{ link.icon }}</v-icon>
+                    </div>
+                    <div v-else style="height: 17px"></div>
+                  </v-list-item-icon>
+                  <v-list-item-content class="pt-0 pb-0">
+                    <v-list-item-title class="caption text-start" style="padding-top: 0px">
+                      <a class="username-link ml-1" :href="`/users/${user.username}`">{{ user.username }}</a>
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-container>
+              </div>
+            </v-container>
+          </div>
           <v-card-actions style="padding: 0px 25px 0 0px; " class="d-flex flex-column">
             <v-spacer></v-spacer>
             <tag
@@ -94,8 +123,8 @@
           </v-card-text>
           <v-spacer></v-spacer>
           <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
-            <like-btn :likes="4"></like-btn>
-            <comment-btn :comments="9"></comment-btn>
+            <like-btn :likes="likes.length"></like-btn>
+            <comment-btn :comments="comments.length"></comment-btn>
           </v-container>
         </v-card-actions>
       </v-card>
@@ -124,7 +153,7 @@ export default {
       type: Array,
       default: () => []
     },
-    commments: {
+    comments: {
       type: Array,
       default: () => []
     },
@@ -152,10 +181,6 @@ export default {
       type: String,
       required: true
     },
-    media: {
-      type: Object,
-      required: true
-    },
     createdAt: {
       type: String,
       required: true
@@ -167,11 +192,23 @@ export default {
     metadata: {
       type: Object,
       default: () => ({})
+    },
+    user: {
+      type: Object,
+      required: true
+    },
+    cover: {
+      type: Object,
+      required: true
+    },
+    type: {
+      type: String,
+      default: "song"
     }
   },
   data() {
     return {
-      coverClasses: ['cover'],
+      coverClasses: ["cover"],
       maxTags: 3,
       togglePlayPauseIcon: "mdi-play-circle-outline",
       volumeIcon: "mdi-volume-high",
@@ -184,36 +221,8 @@ export default {
         value: 0,
         max: 1
       },
-      user: {
-        _id: "5e8b577f1a2dde32298795f4",
-        hobbies: ["music, reading book"],
-        username: "hongquang",
-        password: "hell0aA@",
-        email: "quang.dang@homa.company",
-        socialLinks: [
-          {
-            _id: "5e8f536b0416274996f69e75",
-            type: "Github",
-            url: "https://github.com/hongquangraem"
-          },
-          {
-            _id: "5e8f536b0416274996f69e76",
-            type: "Facebook",
-            url: "https://facebook.com/spaceraem"
-          }
-        ],
-        createdAt: "2020-04-06T16:23:27.385Z",
-        updatedAt: "2020-04-13T14:43:32.772Z",
-        job: "Developer",
-        sex: "Male",
-        avatar: {
-          secureURL:
-            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-        },
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed? Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
-      },
-      composers: []
+      composers: [],
+      podcastLink: `/podcasts/${this._id}?type=${this.type}`
     };
   },
   components: {
@@ -239,7 +248,7 @@ export default {
       return index + 1 < dataLength ? "ft" : "";
     },
     searchPodcastBySinger(artist) {
-      return window.open(`/posts?artist=${artist}&type=podcast`)
+      return window.open(`/posts?artist=${artist}&type=podcast`);
     },
     calProgressBar() {
       const player = this.$refs.player;
@@ -260,10 +269,10 @@ export default {
       //TODO: Cannot pause anoter audio if playing when playing audio
       if (this.togglePlayPauseIcon === "mdi-play-circle-outline") {
         this.togglePlayPauseIcon = "mdi-pause-circle-outline";
-        this.coverClasses.push('none-boder-cover-radius')
+        this.coverClasses.push("none-boder-cover-radius");
         return this.$refs.player.play();
       } else {
-        this.coverClasses.pop()
+        this.coverClasses.pop();
         this.togglePlayPauseIcon = "mdi-play-circle-outline";
         return this.$refs.player.pause();
       }
@@ -307,12 +316,15 @@ export default {
     },
     linkToPodcast() {
       this.$router.push({ path: this.podcastLink });
+    },
+    onClickAvatar() {
+      this.$router.push({ path: `/users/${this.user.username}` });
     }
   },
   created() {
-    this.podcastLink = `/podcasts/${this._id}`;
-    let singers = this.authors.filter(person => person.type === 'artist')
-    this.singers = singers.slice(0, 4)
+    let slicedArtists = this.authors.filter(person => person.type === "artist");
+    this.slicedArtists = slicedArtists.slice(0, 4);
+
   }
 };
 </script>
@@ -322,7 +334,7 @@ export default {
   max-width: 285px;
 }
 #audio-card {
-  height: 335px;
+  height: 345px;
   border-radius: 35px;
 }
 
@@ -449,5 +461,14 @@ export default {
   border-bottom-left-radius: 50%;
   border-bottom-right-radius: 50%;
   transition: border-radius 0.4s ease-in-out;
+}
+
+.username-link {
+  text-decoration: none;
+  color: #000 !important;
+}
+
+.author {
+  width: 150px;
 }
 </style>
