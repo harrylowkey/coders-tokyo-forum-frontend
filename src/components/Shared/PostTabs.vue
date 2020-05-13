@@ -52,7 +52,7 @@
 import { mapActions, mapState } from "vuex";
 
 export default {
-  props: ["selectedPage"],
+  props: ["selectedPage", "type"],
   data() {
     return {
       preSelectedPage: null,
@@ -88,10 +88,18 @@ export default {
 
       this.$emit("setActivePage", { page });
 
-      let currentPage = this.$route.path + this.$route.hash;
-      let targetPage = `/stream#${page}`;
-      if (currentPage === targetPage) return;
-      this.$router.push({ path: targetPage });
+      if (this.type === "writePost") {
+        let currentPage = this.$route.path + this.$route.hash;
+        let targetPage = `/writePost#${page.slice(0, page.length - 1)}`;
+        if (currentPage === targetPage) return;
+        this.$router.replace({ path: targetPage });
+      }
+      if (this.type === "stream") {
+        let currentPage = this.$route.path + this.$route.hash;
+        let targetPage = `/stream#${page}`;
+        if (currentPage === targetPage) return;
+        this.$router.replace({ path: targetPage });
+      }
     }
   },
   computed: {

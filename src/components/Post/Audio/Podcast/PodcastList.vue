@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <h1 v-if="showTitlePage" class="mt-5 ml-10">#podcasts</h1>
     <v-row>
       <v-col class="d-flex pt-0" id="podcast-wrapper">
         <div id="songs-wrapper-loaders" style="max-width: 782px;">
@@ -49,7 +48,7 @@
         </div>
         <podcast
           class="podcast"
-          v-for="item in podcastList"
+          v-for="item in podcasts"
           :key="item._id"
           :_id="item._id"
           :tags="item.tags"
@@ -106,7 +105,7 @@
 import SideCard from "@/components/Shared/SideCard";
 import Podcast from "./Podcast";
 
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   components: {
     Podcast,
@@ -114,7 +113,6 @@ export default {
   },
   data() {
     return {
-      showTitlePage: false,
       showViewMoreBtn: true,
       topBloggers: {
         title: "Top Bloggers",
@@ -255,29 +253,36 @@ export default {
       }
     };
   },
-  created() {
-    if (this.$route.path === "/stream/podcasts") {
-      this.showTitlePage = true;
-      this.showViewMoreBtn = false;
-      this.sideBarStyle.paddingTop = "5px";
-      this.showTopBloggers = false;
-    }
 
+  computed: {
+    ...mapState("utils", ["errorMes", "isLoading"]),
+    ...mapState("podcasts", ["podcasts"]),
+    podcastList() {
+      return this.newestPodcasts;
+    }
+  },
+  methods: {
+    ...mapActions("podcasts", ["getPodcasts"])
+  },
+  async created() {
     if (this.$route.path === "/stream" || this.$route.path === "/") {
       this.mostViewBlogs.title = "Top 5 Discussions";
       let sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
     }
-  },
-  computed: {
-    ...mapState("utils", ["errorMes", "isLoading"]),
-    ...mapState("stream", ["newestPodcasts"]),
-    podcastList() {
 
-      return this.newestPodcasts;
-    }
+    await this.getPodcasts();
   },
-  methods: {}
+  watch: {
+    isLoading(newVal) {
+      if (newVal === false) {
+        setTimeout(() => {
+          const aplayer = document.querySelector(".aplayer");
+          aplayer.style.display = "none";
+        }, 0);
+      }
+    }
+  }
 };
 </script>
 

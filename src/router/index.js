@@ -11,6 +11,7 @@ const Blogs = () => import('@/components/Post/Blog/BlogList')
 const Food = () => import('@/components/Post/Review/Food/FoodList')
 const Books = () => import('@/components/Post/Review/Book/BookList')
 const Movies = () => import('@/components/Post/Review/Movie/MovieList')
+
 const BlogDetails = () => import('@/components/ChildPage/Blog')
 const BookDetails = () => import('@/components/ChildPage/Book')
 const MovieDetails = () => import('@/components/ChildPage/Movie')
@@ -18,13 +19,23 @@ const FoodDetails = () => import('@/components/ChildPage/Food')
 const SongDetails = () => import('@/components/ChildPage/Song')
 const PodcastDetails = () => import('@/components/ChildPage/Podcast')
 const DiscussionDetails = () => import('@/components/ChildPage/Discussion')
+
 const CreatePost = () => import('@/components/Post/CreatePost')
+const CreateDiscussion = () => import('@/components/Post/Discussion/CreateDiscussion')
+const CreateBlog = () => import('@/components/Post/Blog/CreateBlog')
+const CreateBookReview = () => import('@/components/Post/Review/Book/CreateBook')
+const CreateFoodReview = () => import('@/components/Post/Review/Food/CreateFood')
+const CreateMovieReview = () => import('@/components/Post/Review/Movie/CreateMovie')
+const CreateAudio = () => import('@/components/Post/Audio/CreateAudio')
+
 const EditAudio = () => import('@/components/Post/Audio/EditAudio')
 const EditBlog = () => import('@/components/Post/Blog/EditBlog')
 const EditDiscussion = () => import('@/components/Post/Discussion/EditDiscussion')
 const EditBook = () => import('@/components/Post/Review/Book/EditBook')
 const EditMovie = () => import('@/components/Post/Review/Movie/EditMovie')
 const EditFood = () => import('@/components/Post/Review/Food/EditFood')
+
+
 const SignIn = () => import('@/components/Auth/Signin')
 const SignUp = () => import('@/components/Auth/Signup')
 
@@ -49,9 +60,43 @@ const routes = [
     component: Stream,
   },
   {
-    path: '/write-post',
-    name: 'createPost',
+    path: '/writePost',
     component: CreatePost,
+    beforeEnter: AuthGuard
+  },
+  {
+    path: '/writePost/discussion',
+    component: CreateDiscussion,
+    beforeEnter: AuthGuard
+  },
+  {
+    path: '/writePost/blog',
+    component: CreateBlog,
+    beforeEnter: AuthGuard
+  },
+  {
+    path: '/writePost/bookReview',
+    component: CreateBookReview,
+    beforeEnter: AuthGuard
+  },
+  {
+    path: '/writePost/movieReview',
+    component: CreateMovieReview,
+    beforeEnter: AuthGuard
+  },
+  {
+    path: '/writePost/foodReview',
+    component: CreateFoodReview,
+    beforeEnter: AuthGuard
+  },
+  {
+    path: '/writePost/song',
+    component: CreateAudio,
+    beforeEnter: AuthGuard
+  },
+  {
+    path: '/writePost/podcast',
+    component: CreateAudio,
     beforeEnter: AuthGuard
   },
   {

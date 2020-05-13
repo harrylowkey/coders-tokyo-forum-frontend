@@ -15,3 +15,12 @@ export const CREATE_DISCUSSION = 'CREATE_DISCUSSION'
 
 //stream
 export const SET_STREAM = 'SET_STREAM'
+
+//post
+export const SET_DISCUSSIONS = 'SET_DISCUSSIONS'
+export const SET_BLOGS = 'SET_BLOGS'
+export const SET_BOOK_REVIEWS = 'SET_BOOK_REVIEWS'
+export const SET_MOVIE_REVIEWS = 'SET_MOVIE_REVIEWS'
+export const SET_FOOD_REVIEWS = 'SET_FOOD_REVIEWS'
+export const SET_SONGS = 'SET_SONGS'
+export const SET_PODCASTS = 'SET_PODCASTS'

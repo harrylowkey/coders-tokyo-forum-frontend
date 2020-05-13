@@ -11,6 +11,56 @@
       class="d-none d-sm-flex"
       id="audio-playlist"
     ></audio-playlist>
+    <div class="d-flex justify-center">
+      <v-skeleton-loader
+        class="song mb-6"
+        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
+        max-width="160"
+        max-height="160"
+        v-if="isLoading"
+        type="image, date-picker-options"
+      ></v-skeleton-loader>
+      <v-skeleton-loader
+        class="song mb-6"
+        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
+        max-width="160"
+        max-height="160"
+        v-if="isLoading"
+        type="image, date-picker-options"
+      ></v-skeleton-loader>
+      <v-skeleton-loader
+        class="song mb-6"
+        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
+        max-width="160"
+        max-height="160"
+        v-if="isLoading"
+        type="image, date-picker-options"
+      ></v-skeleton-loader>
+      <v-skeleton-loader
+        class="song mb-6"
+        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
+        max-width="160"
+        max-height="160"
+        v-if="isLoading"
+        type="image, date-picker-options"
+      ></v-skeleton-loader>
+      <v-skeleton-loader
+        class="song mb-6"
+        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
+        max-width="160"
+        max-height="160"
+        v-if="isLoading"
+        type="image, date-picker-options"
+      ></v-skeleton-loader>
+      <v-skeleton-loader
+        class="song mb-6"
+        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
+        max-width="160"
+        max-height="160"
+        v-if="isLoading"
+        type="image, date-picker-options"
+      ></v-skeleton-loader>
+    </div>
     <aplayer
       @playing="handlePlaying"
       @pause="handlePause"
@@ -26,6 +76,7 @@
     <v-container color="dark">
       <v-row>
         <post-tabs
+          type="stream"
           v-if="!isLoading"
           :selectedPage="activePage"
           class="d-none d-sm-flex"
@@ -203,8 +254,7 @@ export default {
             _id: "5eba0fec9964403c2853d109",
             type: "artist",
             name: "Laydy Gaga"
-          },
-          
+          }
         ],
         likes: [],
         foodPhotos: [],
@@ -1506,11 +1556,11 @@ export default {
 
 <style scroped lang="scss">
 .aplayer .aplayer-pic {
-  min-width: 80px;
+  min-width: 130px;
 
   .aplayer-play {
-    bottom: 67%;
-    right: 62%;
+    bottom: 50%;
+    right: 50%;
   }
 }
 </style>

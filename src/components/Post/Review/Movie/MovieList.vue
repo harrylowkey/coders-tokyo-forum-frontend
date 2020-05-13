@@ -2,7 +2,6 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-        <h1 v-if="showTitlePage" class="mt-5">#Movie Reviews</h1>
         <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
         <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
         <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
@@ -10,7 +9,7 @@
         <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
         <movie
           v-else
-          v-for="item in movies"
+          v-for="item in movieReviews"
           :key="item._id"
           :_id="item._id"
           :topic="item.topic"
@@ -66,7 +65,7 @@
 import Movie from "./Movie";
 import SideCard from "@/components/Shared/SideCard";
 
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   components: {
     Movie,
@@ -74,7 +73,6 @@ export default {
   },
   data() {
     return {
-      showTitlePage: false,
       showViewMoreBtn: true,
       topBloggers: {
         title: "Top Bloggers",
@@ -215,27 +213,23 @@ export default {
       }
     };
   },
-  created() {
-    if (this.$route.path === "/stream/movies") {
-      this.showTitlePage = true;
-      this.showViewMoreBtn = false;
-      this.sideBarStyle.paddingTop = "78px";
-      this.showTopBloggers = false;
-    }
-
+  computed: {
+    ...mapState("utils", ["errorMes", "isLoading"]),
+    ...mapState("movieReviews", ["movieReviews"]),
+  },
+  methods: {
+    ...mapActions("movieReviews", ["getMovieReviews"])
+  },
+  async created() {
     if (this.$route.path === "/stream" || this.$route.path === "/") {
       this.mostViewBlogs.title = "Top 5 Discussions";
       let sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
     }
+
+    await this.getMovieReviews();
   },
-  computed: {
-    ...mapState("utils", ["errorMes", "isLoading"]),
-    ...mapState("stream", ["newestMovieReviews"]),
-    movies() {
-      return this.newestMovieReviews;
-    }
-  },
+  
 };
 </script>
 

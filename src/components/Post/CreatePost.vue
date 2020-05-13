@@ -5,16 +5,16 @@
     <br />
     <v-container color="dark">
       <v-row>
-        <post-tabs class="d-none d-sm-flex" @setActivePage="handleSetActivePage"></post-tabs>
+        <post-tabs type="writePost" class="d-none d-sm-flex" @setActivePage="handleSetActivePage"></post-tabs>
         <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
           <div class="pt-6">
-            <create-discussion v-if="activePage === 'Discussions'"></create-discussion>
-            <create-blog v-if="activePage === 'Blogs'"></create-blog>
-            <create-audio type="podcasts" v-if="activePage === 'Podcasts'"></create-audio>
-            <create-audio type="songs" v-if="activePage === 'Songs'"></create-audio>
-            <create-movie v-if="activePage === 'Movies'"></create-movie>
-            <create-book v-if="activePage === 'Books'"></create-book>
-            <create-food v-if="activePage === 'Food'"></create-food>
+            <create-discussion v-if="activePage === 'discussions'"></create-discussion>
+            <create-blog v-if="activePage === 'blogs'"></create-blog>
+            <create-audio type="podcasts" v-if="activePage === 'podcasts'"></create-audio>
+            <create-audio type="songs" v-if="activePage === 'songs'"></create-audio>
+            <create-movie v-if="activePage === 'movieReviews'"></create-movie>
+            <create-book v-if="activePage === 'bookReviews'"></create-book>
+            <create-food v-if="activePage === 'foodReviews'"></create-food>
           </div>
         </v-col>
         <v-col cols="12" sm="4" md="4" lg="4" xl="4">
@@ -148,6 +148,16 @@ export default {
   beforeOuteLeave(to, from, next) {
     if (to.path !== "/stream") this.changeLayout = true;
     next();
+  },
+  created() {
+    const selectPage = this.$route.hash.slice(1);
+    if (selectPage === "") {
+      this.activePage = "discussions";
+    }
+
+    if (selectPage !== "") {
+      this.activePage = `${selectPage}s`;
+    }
   }
 };
 </script>

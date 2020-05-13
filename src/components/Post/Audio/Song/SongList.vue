@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <h1 v-if="showTitlePage" class="mt-5 ml-10">#songs</h1>
     <v-row>
       <v-col class="pt-1">
         <div id="songs-wrapper-loaders" style="max-width: 782px;">
@@ -106,7 +105,7 @@
 import SideCard from "@/components/Shared/SideCard";
 import Audio from "./Song";
 
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   components: {
     song: Audio,
@@ -114,7 +113,6 @@ export default {
   },
   data() {
     return {
-      showTitlePage: false,
       showViewMoreBtn: true,
       topBloggers: {
         title: "Top Bloggers",
@@ -255,25 +253,30 @@ export default {
       }
     };
   },
-  created() {
-    if (this.$route.path === "/stream/songs") {
-      this.showTitlePage = true;
-      this.showViewMoreBtn = false;
-      this.sideBarStyle.paddingTop = "5px";
-      this.showTopBloggers = false;
-    }
-
+  methods: {
+    ...mapActions("songs", ["getSongs"])
+  },
+  async created() {
     if (this.$route.path === "/stream" || this.$route.path === "/") {
       this.mostViewBlogs.title = "Top 5 songs";
       let sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
     }
+
+    await this.getSongs()
   },
   computed: {
     ...mapState("utils", ["errorMes", "isLoading"]),
-    ...mapState("stream", ["newestSongs"]),
-    songs() {
-      return this.newestSongs;
+    ...mapState("songs", ["songs"]),
+  },
+  watch: {
+    isLoading(newVal) {
+      if (newVal === false) {
+        setTimeout(() => {
+          const aplayer = document.querySelector(".aplayer");
+          aplayer.style.display = "none";
+        }, 0);
+      }
     }
   }
 };

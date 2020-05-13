@@ -2,7 +2,6 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-        <h1 v-if="showTitlePage" class="mt-5">#Blogs</h1>
         <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
         <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
         <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line"></v-skeleton-loader>
@@ -62,7 +61,7 @@
 import Blog from "./Blog";
 import SideCard from "@/components/Shared/SideCard";
 
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   components: {
     Blog,
@@ -70,7 +69,6 @@ export default {
   },
   data() {
     return {
-      showTitlePage: false,
       showViewMoreBtn: true,
       topBloggers: {
         title: "Top Bloggers",
@@ -211,25 +209,29 @@ export default {
       }
     };
   },
-  created() {
-    if (this.$route.path === "/stream/blogs") {
-      this.showTitlePage = true;
-      this.showViewMoreBtn = false;
-      this.sideBarStyle.paddingTop = "78px";
-      this.showTopBloggers = false;
-    }
-
+  computed: {
+    ...mapState("utils", ["errorMes", "isLoading"]),
+    ...mapState("blogs", ["blogs"])
+  },
+  methods: {
+    ...mapActions("blogs", ["getBlogs"])
+  },
+  async created() {
     if (this.$route.path === "/stream") {
       this.mostViewBlogs.title = "Top 5 Discussions";
       let sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
     }
+
+    await this.getBlogs();
   },
-  computed: {
-    ...mapState("utils", ["errorMes", "isLoading"]),
-    ...mapState("stream", ["newestBlogs"]),
-    blogs() {
-      return this.newestBlogs;
+  errorMes(newVal) {
+    if (newVal.length) {
+      this.$notify({
+        type: "error",
+        title: "Update failed",
+        text: newVal
+      });
     }
   }
 };
