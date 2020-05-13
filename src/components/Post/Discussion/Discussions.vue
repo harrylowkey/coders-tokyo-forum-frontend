@@ -3,11 +3,11 @@
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
         <h1 v-if="showTitlePage" class="mt-5">#Discussions</h1>
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5 mb-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5 mb-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5 mb-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5 mb-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
+        <v-skeleton-loader class="mt-5 mb-5" v-if="isLoading" type="list-item-avatar-three-line, list-item-three-line"></v-skeleton-loader>
         <discussion
           v-else
           v-for="item in discussions"

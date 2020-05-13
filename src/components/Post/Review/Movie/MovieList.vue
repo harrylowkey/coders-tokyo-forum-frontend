@@ -233,7 +233,6 @@ export default {
     ...mapState("utils", ["errorMes", "isLoading"]),
     ...mapState("stream", ["newestMovieReviews"]),
     movies() {
-      console.log('list', this.newestMovieReviews)
       return this.newestMovieReviews;
     }
   },

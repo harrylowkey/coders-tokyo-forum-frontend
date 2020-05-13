@@ -1,7 +1,8 @@
 export const userSocialLinks = {
   computed: {
     socialLinks() {
-      const links = this.post.user.socialLinks.map(link => {
+      let userSocialLinks = this.post ? this.post.user.socialLinks : this.user.socialLinks
+      const links = userSocialLinks.map(link => {
         let obj = {
           _id: link._id,
           url: link.url,

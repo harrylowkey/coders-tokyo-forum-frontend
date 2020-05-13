@@ -16,16 +16,13 @@ export default {
   props: ["src", "username"],
   data() {
     return {
-      link: ""
+      link: `/users/${this.username}`
     };
   },
   methods: {
     onClickAvatar() {
       this.$router.push({ path: this.link });
     }
-  },
-  created() {
-    this.link = `/users/${this.username}`
   }
 };
 </script>

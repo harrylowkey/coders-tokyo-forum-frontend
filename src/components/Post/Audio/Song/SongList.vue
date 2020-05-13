@@ -2,18 +2,62 @@
   <v-container>
     <h1 v-if="showTitlePage" class="mt-5 ml-10">#songs</h1>
     <v-row>
-      <v-col class="pt-1" id="songs-wrapper">
+      <v-col class="pt-1">
+        <div id="songs-wrapper-loaders" style="max-width: 782px;">
+          <v-skeleton-loader
+            class="song mb-6"
+            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
+            max-width="300"
+            v-if="isLoading"
+            type="image, table-tfoot"
+          ></v-skeleton-loader>
+          <v-skeleton-loader
+            class="song mb-6"
+            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
+            max-width="300"
+            v-if="isLoading"
+            type="image, table-tfoot"
+          ></v-skeleton-loader>
+          <v-skeleton-loader
+            class="song mb-6"
+            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
+            max-width="300"
+            v-if="isLoading"
+            type="image, table-tfoot"
+          ></v-skeleton-loader>
+          <v-skeleton-loader
+            class="song mb-6"
+            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
+            max-width="300"
+            v-if="isLoading"
+            type="image, table-tfoot"
+          ></v-skeleton-loader>
+          <v-skeleton-loader
+            class="song mb-6"
+            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
+            max-width="300"
+            v-if="isLoading"
+            type="image, table-tfoot"
+          ></v-skeleton-loader>
+          <v-skeleton-loader
+            class="song mb-6"
+            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
+            max-width="300"
+            v-if="isLoading"
+            type="image, table-tfoot"
+          ></v-skeleton-loader>
+        </div>
         <song
-          class="song"
+          class="song mb-12"
           v-for="item in songs"
           :key="item._id"
           :_id="item._id"
           :tags="item.tags"
           :comments="item.comments"
-          :authors="item.authors"
           :likes="item.likes"
+          :authors="item.authors"
           :savedBy="item.savedBy"
-          :userId="item.userId"
+          :user="item.user"
           :topic="item.topic"
           :content="item.content"
           :description="item.description"
@@ -22,7 +66,8 @@
           :updatedAt="item.updatedAt"
           :media="item.media"
           :metadata="item.metadata"
-          :audio="item.audio"
+          :audio="item.media"
+          :cover="item.cover"
         ></song>
         <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
           <v-btn class="primary" to="/stream/songs">View more</v-btn>
@@ -60,6 +105,8 @@
 <script>
 import SideCard from "@/components/Shared/SideCard";
 import Audio from "./Song";
+
+import { mapState } from "vuex";
 export default {
   components: {
     song: Audio,
@@ -69,432 +116,6 @@ export default {
     return {
       showTitlePage: false,
       showViewMoreBtn: true,
-      songs: [
-        {
-          _id: "5e9920603c513c2611a9df88",
-          tags: [
-            {
-              _id: "5e8c5f27abf7df7d3be426dc",
-              tagName: "lovesong"
-            },
-            {
-              _id: "5e8c5f27abf7df7d3be426db",
-              tagName: "rockbalad"
-            },
-            {
-              _id: "5e8c5f27abf7df7d3be426dc",
-              tagName: "chillies"
-            }
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: "5e9920603c513c2611a9df89",
-              type: "artist",
-              name: "Chillies"
-            }
-          ],
-          likes: [],
-          savedBy: [],
-          userId: "5e8b577f1a2dde32298795f4",
-          topic: "Memories place",
-          description: "Rock Ballad",
-          content: "lyric",
-          type: "song",
-          media: {
-            _id: "5e99206e3c513c2611a9df8a",
-            secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            publicId:
-              "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
-            fileName: "hongquang_song_Vung Ky Uc - Chillies",
-            sizeBytes: 4835851,
-            userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e9920603c513c2611a9df88",
-            resourceType: "video",
-            media: {
-              type: "upload",
-              signature: "b1cd21b54d3ac48aab7b3097fe59957cb525e614",
-              width: 500,
-              height: 500,
-              format: "mp3",
-              resource_type: "video",
-              frame_rate: 90000,
-              bit_rate: 129717,
-              duration: 298.24
-            },
-            createdAt: "2020-04-17T03:20:14.881Z",
-            updatedAt: "2020-04-17T03:20:14.881Z",
-            __v: 0
-          },
-          audio: {
-            name: "Memories place",
-            artist: "Chillies",
-            url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
-            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
-          },
-          createdAt: "2020-04-17T03:20:14.886Z",
-          updatedAt: "2020-04-17T03:20:14.886Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          }
-        },
-        {
-          _id: "5e992603c513c2611a9df88",
-          tags: [
-            {
-              _id: "5e8c5f27abf7df7d3be426db",
-              tagName: "aucoustic"
-            },
-            {
-              _id: "5e8c5f27abf7df7d3be426dc",
-              tagName: "tinh ca"
-            }
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: "5e9920603c513c2611a9df89",
-              type: "artist",
-              name: "Chillies"
-            }
-          ],
-          likes: [],
-          savedBy: [],
-          userId: "5e8b577f1a2dde32298795f4",
-          topic: "Memories place",
-          description: "Rock Ballad",
-          content: "lyric",
-          type: "song",
-          media: {
-            _id: "5e99206e3c513c2611a9df8a",
-            secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            publicId:
-              "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
-            fileName: "hongquang_song_Vung Ky Uc - Chillies",
-            sizeBytes: 4835851,
-            userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e9920603c513c2611a9df88",
-            resourceType: "video",
-            media: {
-              type: "upload",
-              signature: "b1cd21b54d3ac48aab7b3097fe59957cb525e614",
-              width: 500,
-              height: 500,
-              format: "mp3",
-              resource_type: "video",
-              frame_rate: 90000,
-              bit_rate: 129717,
-              duration: 298.24
-            },
-            createdAt: "2020-04-17T03:20:14.881Z",
-            updatedAt: "2020-04-17T03:20:14.881Z",
-            __v: 0
-          },
-          audio: {
-            name: "Memories place",
-            artist: "Chillies",
-            url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
-            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
-          },
-          createdAt: "2020-04-17T03:20:14.886Z",
-          updatedAt: "2020-04-17T03:20:14.886Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          }
-        },
-        {
-          _id: "5e920603c513c2611a9df88",
-          tags: [
-            {
-              _id: "5e8c5f27abf7df7d3be426db",
-              tagName: "aucoustic"
-            },
-            {
-              _id: "5e8c5f27abf7df7d3be426dc",
-              tagName: "tinh ca"
-            }
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: "5e9920603c513c2611a9df89",
-              type: "artist",
-              name: "Chillies"
-            }
-          ],
-          likes: [],
-          savedBy: [],
-          userId: "5e8b577f1a2dde32298795f4",
-          topic: "Memories place",
-          description: "Rock Ballad",
-          content: "lyric",
-          type: "song",
-          media: {
-            _id: "5e99206e3c513c2611a9df8a",
-            secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            publicId:
-              "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
-            fileName: "hongquang_song_Vung Ky Uc - Chillies",
-            sizeBytes: 4835851,
-            userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e9920603c513c2611a9df88",
-            resourceType: "video",
-            media: {
-              type: "upload",
-              signature: "b1cd21b54d3ac48aab7b3097fe59957cb525e614",
-              width: 500,
-              height: 500,
-              format: "mp3",
-              resource_type: "video",
-              frame_rate: 90000,
-              bit_rate: 129717,
-              duration: 298.24
-            },
-            createdAt: "2020-04-17T03:20:14.881Z",
-            updatedAt: "2020-04-17T03:20:14.881Z",
-            __v: 0
-          },
-          audio: {
-            name: "Memories place",
-            artist: "Chillies",
-            url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
-            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
-          },
-          createdAt: "2020-04-17T03:20:14.886Z",
-          updatedAt: "2020-04-17T03:20:14.886Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          }
-        },
-        {
-          _id: "5e9920603c513c261a9df88",
-          tags: [
-            {
-              _id: "5e8c5f27abf7df7d3be426db",
-              tagName: "aucoustic"
-            },
-            {
-              _id: "5e8c5f27abf7df7d3be426dc",
-              tagName: "tinh ca"
-            }
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: "5e9920603c513c2611a9df89",
-              type: "artist",
-              name: "Chillies"
-            }
-          ],
-          likes: [],
-          savedBy: [],
-          userId: "5e8b577f1a2dde32298795f4",
-          topic: "Memories place",
-          description: "Rock Ballad",
-          content: "lyric",
-          type: "song",
-          media: {
-            _id: "5e99206e3c513c2611a9df8a",
-            secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            publicId:
-              "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
-            fileName: "hongquang_song_Vung Ky Uc - Chillies",
-            sizeBytes: 4835851,
-            userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e9920603c513c2611a9df88",
-            resourceType: "video",
-            media: {
-              type: "upload",
-              signature: "b1cd21b54d3ac48aab7b3097fe59957cb525e614",
-              width: 500,
-              height: 500,
-              format: "mp3",
-              resource_type: "video",
-              frame_rate: 90000,
-              bit_rate: 129717,
-              duration: 298.24
-            },
-            createdAt: "2020-04-17T03:20:14.881Z",
-            updatedAt: "2020-04-17T03:20:14.881Z",
-            __v: 0
-          },
-          audio: {
-            name: "Memories place",
-            artist: "Chillies",
-            url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
-            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
-          },
-          createdAt: "2020-04-17T03:20:14.886Z",
-          updatedAt: "2020-04-17T03:20:14.886Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          }
-        },
-        {
-          _id: "5e992060313c2611a9df88",
-          tags: [
-            {
-              _id: "5e8c5f27abf7df7d3be426db",
-              tagName: "aucoustic"
-            },
-            {
-              _id: "5e8c5f27abf7df7d3be426dc",
-              tagName: "tinh ca"
-            }
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: "5e9920603c513c2611a9df89",
-              type: "artist",
-              name: "Chillies"
-            }
-          ],
-          likes: [],
-          savedBy: [],
-          userId: "5e8b577f1a2dde32298795f4",
-          topic: "Memories place",
-          description: "Rock Ballad",
-          content: "lyric",
-          type: "song",
-          media: {
-            _id: "5e99206e3c513c2611a9df8a",
-            secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            publicId:
-              "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
-            fileName: "hongquang_song_Vung Ky Uc - Chillies",
-            sizeBytes: 4835851,
-            userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e9920603c513c2611a9df88",
-            resourceType: "video",
-            media: {
-              type: "upload",
-              signature: "b1cd21b54d3ac48aab7b3097fe59957cb525e614",
-              width: 500,
-              height: 500,
-              format: "mp3",
-              resource_type: "video",
-              frame_rate: 90000,
-              bit_rate: 129717,
-              duration: 298.24
-            },
-            createdAt: "2020-04-17T03:20:14.881Z",
-            updatedAt: "2020-04-17T03:20:14.881Z",
-            __v: 0
-          },
-          audio: {
-            name: "Memories place",
-            artist: "Chillies",
-            url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
-            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
-          },
-          createdAt: "2020-04-17T03:20:14.886Z",
-          updatedAt: "2020-04-17T03:20:14.886Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          }
-        },
-        {
-          _id: "5e903c513c2611a9df88",
-          tags: [
-            {
-              _id: "5e8c5f27abf7df7d3be426db",
-              tagName: "aucoustic"
-            },
-            {
-              _id: "5e8c5f27abf7df7d3be426dc",
-              tagName: "tinh ca"
-            }
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: "5e9920603c513c2611a9df89",
-              type: "artist",
-              name: "Chillies"
-            }
-          ],
-          likes: [],
-          savedBy: [],
-          userId: "5e8b577f1a2dde32298795f4",
-          topic: "Memories place",
-          description: "Rock Ballad",
-          content: "lyric",
-          type: "song",
-          media: {
-            _id: "5e99206e3c513c2611a9df8a",
-            secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            publicId:
-              "Coders-Tokyo-Forum/posts/media/hongquang_song_Vung Ky Uc - Chillies_1587093614",
-            fileName: "hongquang_song_Vung Ky Uc - Chillies",
-            sizeBytes: 4835851,
-            userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e9920603c513c2611a9df88",
-            resourceType: "video",
-            media: {
-              type: "upload",
-              signature: "b1cd21b54d3ac48aab7b3097fe59957cb525e614",
-              width: 500,
-              height: 500,
-              format: "mp3",
-              resource_type: "video",
-              frame_rate: 90000,
-              bit_rate: 129717,
-              duration: 298.24
-            },
-            createdAt: "2020-04-17T03:20:14.881Z",
-            updatedAt: "2020-04-17T03:20:14.881Z",
-            __v: 0
-          },
-          audio: {
-            name: "Memories place",
-            artist: "Chillies",
-            url:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung%20Ky%20Uc%20-%20Chillies_1587093614.mp3",
-            cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
-            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
-          },
-          createdAt: "2020-04-17T03:20:14.886Z",
-          updatedAt: "2020-04-17T03:20:14.886Z",
-          metadata: {
-            _id: "5e9494fe935dfb5ed30435",
-            comments: 123,
-            likes: 69,
-            saves: 1
-          }
-        }
-      ],
       topBloggers: {
         title: "Top Bloggers",
         type: 1,
@@ -647,12 +268,24 @@ export default {
       let sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
     }
+  },
+  computed: {
+    ...mapState("utils", ["errorMes", "isLoading"]),
+    ...mapState("stream", ["newestSongs"]),
+    songs() {
+      return this.newestSongs;
+    }
   }
 };
 </script>
 
 <style>
 #songs-wrapper {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#songs-wrapper-loaders {
   flex-wrap: wrap;
   justify-content: center;
 }

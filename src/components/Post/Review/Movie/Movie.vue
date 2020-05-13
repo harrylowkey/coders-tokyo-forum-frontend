@@ -7,7 +7,7 @@
             :src="cover.secureURL"
             height="360px"
             style="cursor: pointer"
-            class="cover-book"
+            class="cover-movie"
             @click="linkToBlog"
           ></v-img>
         </v-col>
@@ -175,7 +175,7 @@
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-4">Stars:</p>
                     <v-icon
-                      v-for="(start, i) in book.stars"
+                      v-for="(start, i) in movie.stars"
                       :key="i"
                       size="20"
                       :color="isStar(i + 1)"

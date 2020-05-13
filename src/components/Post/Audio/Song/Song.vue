@@ -1,50 +1,54 @@
 <template>
-  <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
-    <v-card id="song" class="mx-auto pb-4 mb-8" :elevation="hover ? 10 : 3">
-      <aplayer @click="linkToSong" loop="none" :audio="audio" :lrcType="0" />
+  <div>
+    <div class="mb-3">
+      <v-avatar size="30" style="cursor: pointer;" class="mr-2">
+        <img @click="showAvatar =! showAvatar" :src="user.avatar.secureURL" alt="Avatar" />
+      </v-avatar>
+      <span>{{ user.username }}</span>
+      <span style="font-size: 13px !important; color: grey" class="caption ml-1">posted a track</span>
+    </div>
+    <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
+      <v-card id="song" class="mx-auto pb-0 mb-0" :elevation="hover ? 10 : 3">
+        <aplayer @click="linkToSong" loop="none" :audio="audio" :lrcType="0" />
 
-      <v-list-item
-        three-line
-        style="padding: 0 15px 0 15px"
-        class="d-flex flex-wrap justify-center align-center"
-      >
-        <user-social-links
-          :socialLinks="socialLinks"
-          :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
-          :username="'chau_chau'"
-        ></user-social-links>
-        <v-card-actions class="pb-1 pl-0 pt-md-0 pt-sm-5">
+        <v-list-item
+          three-line
+          style="padding: 0 15px 0 15px"
+          class="d-flex flex-wrap align-center"
+        >
+          <v-card-actions class="pb-1 pl-0 pt-md-0 pt-sm-5">
+            <v-container class="pt-4 pl-0 pr-0 d-flex justify-space-around">
+              <like-btn :likes="likes.length" class="mr-10"></like-btn>
+              <comment-btn :comments="comments.length"></comment-btn>
+            </v-container>
+          </v-card-actions>
+          <v-spacer></v-spacer>
+          <v-card-actions class="d-flex">
+            <tag
+              style="margin-top: 6px;"
+              :tagName="tag.tagName"
+              v-for="(tag, i) in slicedTags"
+              :key="i"
+              postType="song"
+            ></tag>
+          </v-card-actions>
           <v-card-text
             class="font-italic font-weight-light pt-0 pl-0 pr-0"
-            style="font-size: 13px; width: 150px; height: 30px; margin-top: 16px !important; margin-right: 20px"
+            style="font-size: 13px; width: 85px; height: 30px; margin-top: 16px !important; margin-left: 20px"
           >
             <span class="mt-2">{{ createdAt | date }}</span>
           </v-card-text>
-          <v-container class="pt-4 pl-0 pr-0 d-flex justify-space-around">
-            <like-btn :likes="4"></like-btn>
-            <comment-btn :comments="9"></comment-btn>
-          </v-container>
-        </v-card-actions>
-        <v-card-actions class="d-flex">
-          <tag
-            style="margin-top: 6px;"
-            :tagName="tag.tagName"
-            v-for="(tag, i) in slicedTags"
-            :key="i"
-            postType="song"
-            
-          ></tag>
-        </v-card-actions>
-      </v-list-item>
-    </v-card>
-  </v-hover>
+        </v-list-item>
+      </v-card>
+    </v-hover>
+  </div>
 </template>
 
 <script>
 import Tag from "@/components/Shared/Tag";
 import LikeBtn from "@/components/Shared/LikeButton";
 import CommentBtn from "@/components/Shared/CommentButton";
-import UserSocialLinks from "@/components/Shared/UserSocialLinks";
+import UserAvatar from "@/components/Shared/UserAvatar";
 import { userSocialLinks } from "@/mixins/userSocialLinks";
 
 export default {
@@ -62,7 +66,7 @@ export default {
       type: Array,
       default: () => []
     },
-    commments: {
+    comments: {
       type: Array,
       default: () => []
     },
@@ -105,45 +109,37 @@ export default {
     metadata: {
       type: Object,
       default: () => ({})
+    },
+    user: {
+      type: Object,
+      required: true
+    },
+    cover: {
+      type: Object,
+      required: true
+    },
+    type: {
+      type: String,
+      default: "song"
     }
   },
   data() {
     return {
       maxTags: 3,
-      audioLink: "",
-      user: {
-        _id: "5e8b577f1a2dde32298795f4",
-        hobbies: ["music, reading book"],
-        username: "hongquang",
-        password: "hell0aA@",
-        email: "quang.dang@homa.company",
-        socialLinks: [
-          {
-            _id: "5e8f536b0416274996f69e75",
-            type: "Github",
-            url: "https://github.com/hongquangraem"
-          },
-          {
-            _id: "5e8f536b0416274996f69e76",
-            type: "Facebook",
-            url: "https://facebook.com/spaceraem"
-          }
-        ],
-        createdAt: "2020-04-06T16:23:27.385Z",
-        updatedAt: "2020-04-13T14:43:32.772Z",
-        job: "Developer",
-        sex: "Male",
-        avatar: {
-          secureURL:
-            "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-        },
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed? Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vel eveniet eligendi sapiente earum nam omnis praesentium quidem. Iusto laboriosam ducimus quis tenetur earum alias sint perferendis commodi fugit sed?"
-      }
+      audioLink: `/songs/${this._id}?type=${this.type}`
     };
   },
   created() {
     this.audio.theme = "#4A148C";
+
+    let audio = this.audio;
+    let artists = this.authors.filter(person => person.type === "artist");
+    this.audio = {
+      name: audio.fileName,
+      artist: artists.map(person => person.name).toString(),
+      url: audio.secureURL,
+      cover: this.cover.secureURL
+    };
   },
   computed: {
     slicedTags() {
@@ -155,21 +151,21 @@ export default {
       this.$router.push({ path: this.audioLink });
     }
   },
-  created() {
-    this.audioLink = `/songs/${this._id}`;
-  },
   mounted() {
     let songTitle = document.querySelector(".aplayer-title");
-    songTitle.addEventListener('click', () => window.open(`/songs/${this._id}`))
-
-   let songComposer = document.querySelector(".aplayer-author");
-    songComposer.addEventListener('click', () => window.open(`/posts?artist=${this.audio.artist}&type=song`))
+    songTitle.addEventListener("click", () =>
+      window.open(`/songs/${this._id}?type=${this.type}`)
+    );
+    let songComposer = document.querySelector(".aplayer-author");
+    songComposer.addEventListener("click", () =>
+      window.open(`/posts?artist=${this.audio.artist}&type=${this.type}`)
+    );
   },
   components: {
     Tag,
     LikeBtn,
     CommentBtn,
-    UserSocialLinks
+    UserAvatar
   }
 };
 </script>
@@ -190,7 +186,7 @@ export default {
   }
 
   .aplayer-pic {
-    min-height: 79px;
+    min-height: 115px;
     min-width: 136px;
   }
 
@@ -239,6 +235,6 @@ export default {
 }
 
 #song {
-  padding: 16px 15px 8px 15px;
+  padding: 16px 15px 0px 15px;
 }
 </style>
