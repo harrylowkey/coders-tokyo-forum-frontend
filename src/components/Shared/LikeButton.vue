@@ -2,7 +2,7 @@
   <div class="like-icon">
     <!-- <v-icon size="20px" color="#64B5F6" >mdi-thumb-up</v-icon> -->
     <v-img
-      src="https://res.cloudinary.com/hongquangraem/image/upload/v1587892953/love_fhkw0q.svg"
+      src="https://res.cloudinary.com/hongquangraem/image/upload/v1587893696/planet_peappv.svg"
       class="react-icon like-icon"
       @click="toggleLike"
     ></v-img>
@@ -39,7 +39,7 @@ export default {
 }
 
 .like-icon {
-  width: 20px;
+  width: 23px;
 }
 
 div {
@@ -48,8 +48,8 @@ div {
 
 span {
   position: absolute !important;
-  top: 10px;
-  left: 22px;
+  top: 13px;
+  left: 25px;
   font-size: 12px;
 }
 </style>

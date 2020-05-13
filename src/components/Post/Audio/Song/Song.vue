@@ -7,7 +7,7 @@
       <span>{{ user.username }}</span>
       <span style="font-size: 13px !important; color: grey" class="caption ml-1">posted a track</span>
     </div>
-    <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
+    <v-hover v-slot:default="{ hover }" style="transition: 0.3s; height: 205px">
       <v-card id="song" class="mx-auto pb-0 mb-0" :elevation="hover ? 10 : 3">
         <aplayer @click="linkToSong" loop="none" :audio="audio" :lrcType="0" />
 
@@ -17,7 +17,7 @@
           class="d-flex flex-wrap align-center"
         >
           <v-card-actions class="pb-1 pl-0 pt-md-0 pt-sm-5">
-            <v-container class="pt-4 pl-0 pr-0 d-flex justify-space-around">
+            <v-container class="pt-0 pl-0 pr-0 d-flex justify-space-around">
               <like-btn :likes="likes.length" class="mr-10"></like-btn>
               <comment-btn :comments="comments.length"></comment-btn>
             </v-container>
@@ -34,7 +34,7 @@
           </v-card-actions>
           <v-card-text
             class="font-italic font-weight-light pt-0 pl-0 pr-0"
-            style="font-size: 13px; width: 85px; height: 30px; margin-top: 16px !important; margin-left: 20px"
+            style="font-size: 13px; width: 85px; height: 30px; margin-top: 0px !important; margin-left: 20px"
           >
             <span class="mt-2">{{ createdAt | date }}</span>
           </v-card-text>

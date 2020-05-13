@@ -22,6 +22,7 @@ export default {
 
 .comment-icon {
   width: 20px;
+  margin-top: 1px;
 }
 div {
   position: relative;
@@ -29,7 +30,7 @@ div {
 
 span {
   position: absolute !important;
-  top: 10px;
+  top: 12px;
   left: 22px;
   font-size: 12px;
 }
