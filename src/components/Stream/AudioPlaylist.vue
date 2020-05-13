@@ -26,10 +26,13 @@
 </template>
 
 <script>
-import Audio from './Audio.vue';
+
+import Audio from "./Audio.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
-  props: ['audioList', 'playAnotherSong'],
+  props: ["audioList", "playAnotherSong"],
+
   data() {
     return {};
   },
@@ -38,9 +41,14 @@ export default {
   },
   methods: {
     handlePlayPause({ isPlay, index }) {
-      this.$emit('handlePlayPause', { isPlay, index });
-    },
+
+      this.$emit("handlePlayPause", { isPlay, index });
+    }
   },
+  computed: {
+    ...mapState("utils", ["isLoading"])
+  }
+
 };
 </script>
 
