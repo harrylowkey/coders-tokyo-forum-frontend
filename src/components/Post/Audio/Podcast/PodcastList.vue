@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <h1 v-if="showTitlePage" class="mt-5 ml-10">#podcasts</h1>
     <v-row>
       <v-col class="d-flex pt-0" id="podcast-wrapper">
         <div id="songs-wrapper-loaders" style="max-width: 782px;">
@@ -49,7 +48,7 @@
         </div>
         <podcast
           class="podcast"
-          v-for="item in podcastList"
+          v-for="item in podcasts"
           :key="item._id"
           :_id="item._id"
           :tags="item.tags"
@@ -121,7 +120,6 @@ export default {
   },
   data() {
     return {
-      showTitlePage: false,
       showViewMoreBtn: true,
       topBloggers: {
         title: 'Top Bloggers',

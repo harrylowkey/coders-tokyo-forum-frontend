@@ -2,49 +2,55 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-        <h1 v-if="showTitlePage" class="mt-5">#Discussions</h1>
         <v-skeleton-loader
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        />
+        ></v-skeleton-loader>
+
         <v-skeleton-loader
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        />
+        ></v-skeleton-loader>
+
         <v-skeleton-loader
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        />
+        ></v-skeleton-loader>
+
         <v-skeleton-loader
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        />
+        ></v-skeleton-loader>
+
         <v-skeleton-loader
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        />
-        <discussion
-          v-else
-          v-for="item in discussions"
-          :key="item._id"
-          :_id="item._id"
-          :tags="item.tags"
-          :comments="item.comments"
-          :likes="item.likes"
-          :savedBy="item.savedBy"
-          :user="item.user"
-          :topic="item.topic"
-          :content="item.content"
-          :type="item.type"
-          :createdAt="item.createdAt"
-          :updatedAt="item.updatedAt"
-          :metadata="item.metadata"
-        />
+          
+        ></v-skeleton-loader>
+        <div v-if="!isLoading">
+          <discussion
+            v-for="item in discussions"
+            :key="item._id"
+            :_id="item._id"
+            :tags="item.tags"
+            :comments="item.comments"
+            :likes="item.likes"
+            :savedBy="item.savedBy"
+            :user="item.user"
+            :topic="item.topic"
+            :content="item.content"
+            :type="item.type"
+            :createdAt="item.createdAt"
+            :updatedAt="item.updatedAt"
+            :metadata="item.metadata"
+          ></discussion>
+        </div>
+
         <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
           <v-btn class="primary" to="/stream/discussions">View more</v-btn>
         </v-container>
@@ -84,11 +90,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import SideCard from '@/components/Shared/SideCard';
 
 import Discussion from './Discussion';
+
+
+import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
@@ -97,7 +104,6 @@ export default {
   },
   data() {
     return {
-      showTitlePage: false,
       showViewMoreBtn: true,
       topBloggers: {
         title: 'Top Bloggers',
@@ -238,26 +244,21 @@ export default {
       },
     };
   },
-  created() {
-    if (this.$route.path === '/stream/discussions') {
-      this.showTitlePage = true;
-      this.showViewMoreBtn = false;
-      this.sideBarStyle.paddingTop = '78px';
-      this.showTopBloggers = false;
-    }
-
-    if (this.$route.path === '/stream' || this.$route.path === '/') {
-      this.mostViewBlogs.title = 'Top 5 Discussions';
-      const sliceMostViews = this.mostViewBlogs.data.slice(5);
+  computed: {
+    ...mapState("utils", ["errorMes", "isLoading"]),
+    ...mapState("discussions", ["discussions"])
+  },
+  methods: {
+    ...mapActions("discussions", ["getDiscussions"])
+  },
+  async created() {
+    if (this.$route.path === "/stream" || this.$route.path === "/") {
+      this.mostViewBlogs.title = "Top 5 Discussions";
+      let sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
     }
-  },
-  computed: {
-    ...mapState('utils', ['errorMes', 'isLoading']),
-    ...mapState('stream', ['newestDiscussions']),
-    discussions() {
-      return this.newestDiscussions;
-    },
+    await this.getDiscussions();
+
   },
   errorMes(newVal) {
     if (newVal.length) {
