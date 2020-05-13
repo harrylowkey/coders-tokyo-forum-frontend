@@ -5,25 +5,51 @@
         <v-row style="height: 80px;">
           <v-col sm="4" md="3">
             <v-avatar size="60" style="cursor: pointer" dark>
-              <img :src="author.avatar.secureURL" alt="Avatar" @click="onClickAvatar" />
+              <img
+                :src="author.avatar.secureURL"
+                alt="Avatar"
+                @click="onClickAvatar"
+              />
             </v-avatar>
           </v-col>
           <v-col sm="12" md="8">
             <p class="title mb-1 mt-1">
-              <a style="color: #000; text-decoration: none" :href="link">{{ author.username }}</a>
+              <a style="color: #000; text-decoration: none" :href="link">
+                {{ author.username }}
+              </a>
             </p>
-            <p style="font-size: 13px; color: grey" class="font-italic">{{ author.job }}</p>
+            <p style="font-size: 13px; color: grey" class="font-italic">
+              {{ author.job }}
+            </p>
           </v-col>
         </v-row>
       </v-list-item-content>
       <div v-if="!isAuthor && !isFollowing">
-        <v-btn class="mt-3" @click="onClickFollow" dark color="green" width="100%">Follow</v-btn>
+        <v-btn
+          class="mt-3"
+          @click="onClickFollow"
+          dark
+          color="green"
+          width="100%"
+        >
+          Follow
+        </v-btn>
       </div>
       <div v-if="!isAuthor && isFollowing">
-        <v-btn class="mt-3" @click="onClickUnFollow" dark color="red" width="100%">Unfollow</v-btn>
+        <v-btn
+          class="mt-3"
+          @click="onClickUnFollow"
+          dark
+          color="red"
+          width="100%"
+        >
+          Unfollow
+        </v-btn>
       </div>
 
-      <v-card-subtitle class="pa-0 pb-3 mt-6" v-if="author.description">{{ author.description }}</v-card-subtitle>
+      <v-card-subtitle class="pa-0 pb-3 mt-6" v-if="author.description">
+        {{ author.description }}
+      </v-card-subtitle>
       <p style="font-size: 13px;" class="pl-0 mb-1" v-if="author.sex">
         <span>Sex: {{ author.sex }}</span>
       </p>
@@ -35,88 +61,91 @@
 </template>
 
 <script>
-import UserSocialLinks from "@/components/Shared/UserSocialLinks";
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
+
+// import UserSocialLinks from '@/components/Shared/UserSocialLinks';
+
 export default {
   props: {
     author: {
-      type: Object
+      type: Object,
     },
     isAuthor: {
-      type: Boolean
+      type: Boolean,
     },
     userId: {
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
       link: `/users/${this.author.username}`,
-      followers: [...this.author.followers]
+      followers: [...this.author.followers],
     };
   },
 
   computed: {
     isFollowing() {
       return this.followers.includes(this.userId);
-    }
+    },
   },
   methods: {
-    ...mapActions("user", ["follow", "unfollow"]),
+    ...mapActions('user', ['follow', 'unfollow']),
     onClickAvatar() {
       this.$router.push({ path: this.link });
     },
     async onClickFollow() {
+      // eslint-disable-next-line no-underscore-dangle
       const response = await this.follow(this.author._id);
       if (!response) {
-        return this.$router.push({ path: "/signin"});
+        return this.$router.push({ path: '/signin' });
       }
       if (response.status === 200) {
         this.followers.push(this.userId);
         this.$notify({
-          type: "success",
-          title: response.data.message
+          type: 'success',
+          title: response.data.message,
         });
       }
       if (response.status === 400) {
         this.$notify({
-          type: "error",
-          title: response.message
+          type: 'error',
+          title: response.message,
         });
       }
 
       if (response.status === 401) {
-        this.$router.push({ path: "/signin" });
+        this.$router.push({ path: '/signin' });
       }
     },
     async onClickUnFollow() {
+      // eslint-disable-next-line no-underscore-dangle
       const response = await this.unfollow(this.author._id);
       if (!response) {
-        return this.$router.push({ path: "/signin"});
+        return this.$router.push({ path: '/signin' });
       }
       if (response.status === 200) {
         this.followers = this.followers.filter(
-          followerId => followerId !== this.userId
+          followerId => followerId !== this.userId,
         );
         this.$notify({
-          type: "success",
-          title: response.data.message
+          type: 'success',
+          title: response.data.message,
         });
       }
       if (response.status === 400) {
         this.$notify({
-          type: "error",
-          title: response.message
+          type: 'error',
+          title: response.message,
         });
       }
-    }
+    },
   },
   components: {
-    UserSocialLinks
+    // UserSocialLinks
   },
-  created() {}
+  created() {},
 };
 </script>
 
-<style>
-</style>
+<style></style>

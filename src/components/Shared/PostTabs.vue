@@ -3,7 +3,9 @@
     <v-card color="basil" style="width: 67%">
       <v-toolbar dense>
         <v-tabs grow v-model="preSelectedPage">
-          <v-tab key="discussions" @click="setActivePage('discussions')">Discussions</v-tab>
+          <v-tab key="discussions" @click="setActivePage('discussions')">
+            Discussions
+          </v-tab>
           <v-divider vertical inset></v-divider>
           <v-tab key="blogs" @click="setActivePage('blogs')">Blogs</v-tab>
           <v-divider vertical inset>A</v-divider>
@@ -18,7 +20,9 @@
                 @click="setActivePage(item.category)"
               >
                 <v-list-item-icon class="mr-2">
-                  <v-icon color="primary" size="20" left>{{ item.icon }}</v-icon>
+                  <v-icon color="primary" size="20" left>
+                    {{ item.icon }}
+                  </v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>{{ item.menu }}</v-list-item-title>
               </v-list-item>
@@ -49,44 +53,44 @@
   </v-container>
 </template>
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
-  props: ["selectedPage", "type"],
+  props: ['selectedPage', 'type'],
   data() {
     return {
       preSelectedPage: null,
-      pages: ["Discussions", "Blogs", "Reviews", "Audios"],
+      pages: ['Discussions', 'Blogs', 'Reviews', 'Audios'],
       text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       reviewMenus: [
-        { menu: "Book Reviews", category: "bookReviews", icon: "menu_book" },
+        { menu: 'Book Reviews', category: 'bookReviews', icon: 'menu_book' },
         {
-          menu: "Movie Reviews",
-          category: "movieReviews",
-          icon: "movie_filter"
+          menu: 'Movie Reviews',
+          category: 'movieReviews',
+          icon: 'movie_filter',
         },
-        { menu: "Food Reviews", category: "foodReviews", icon: "fastfood" }
+        { menu: 'Food Reviews', category: 'foodReviews', icon: 'fastfood' },
       ],
       audioMenus: [
-        { menu: "Songs", category: "songs", icon: "library_music" },
-        { menu: "Podcast", category: "podcasts", icon: "hearing" }
-      ]
+        { menu: 'Songs', category: 'songs', icon: 'library_music' },
+        { menu: 'Podcast', category: 'podcasts', icon: 'hearing' },
+      ],
     };
   },
   methods: {
     setActivePage(page) {
-      if (page === "songs" || page === "podcasts") {
+      if (page === 'songs' || page === 'podcasts') {
         this.$refs.audioPage.$refs.link.click();
       } else if (
-        page === "bookReviews" ||
-        page === "movieReviews" ||
-        page === "foodReviews"
+        page === 'bookReviews' ||
+        page === 'movieReviews' ||
+        page === 'foodReviews'
       ) {
         this.$refs.reviewPage.$refs.link.click();
       }
 
-      this.$emit("setActivePage", { page });
+      this.$emit('setActivePage', { page });
 
       if (this.type === "writePost") {
         let currentPage = this.$route.path + this.$route.hash;
@@ -101,25 +105,26 @@ export default {
         this.$router.replace({ path: targetPage });
       }
     }
+
   },
   computed: {
-    ...mapState("utils", ["isLoading"])
+    ...mapState('utils', ['isLoading']),
   },
   mounted() {
     let selectedPage = this.selectedPage;
-    if (selectedPage === "songs" || selectedPage === "podcasts") {
-      selectedPage = "audios";
+    if (selectedPage === 'songs' || selectedPage === 'podcasts') {
+      selectedPage = 'audios';
     }
     if (
-      selectedPage === "bookReviews" ||
-      selectedPage === "movieReviews" ||
-      selectedPage === "foodReviews"
+      selectedPage === 'bookReviews' ||
+      selectedPage === 'movieReviews' ||
+      selectedPage === 'foodReviews'
     ) {
-      selectedPage = "reviews";
+      selectedPage = 'reviews';
     }
 
     this.preSelectedPage = selectedPage;
-  }
+  },
 };
 </script>
 

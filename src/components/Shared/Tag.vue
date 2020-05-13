@@ -10,24 +10,24 @@ export default {
     tagName: String,
     customize: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
-    postType: String
+    postType: String,
   },
   data() {
     return {
-      link: ""
+      link: '',
     };
   },
   created() {
     if (this.customize) {
       this.tagStyle = {
         ...this.tagStyle,
-        ...this.customize
+        ...this.customize,
       };
     }
     this.link = `/posts?tag=${this.tagName}&type=${this.postType}`;
-  }
+  },
 };
 </script>
 

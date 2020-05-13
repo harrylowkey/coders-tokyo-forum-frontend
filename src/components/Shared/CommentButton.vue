@@ -3,14 +3,14 @@
     <v-img
       src="https://res.cloudinary.com/hongquangraem/image/upload/v1587889292/blog_obzs2l.svg"
       class="react-icon comment-icon"
-    ></v-img>
+    />
     <span class="comment-icon-content">{{ comments }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["comments"]
+  props: ['comments'],
 };
 </script>
 

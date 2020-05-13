@@ -15,20 +15,21 @@
           size="10"
           buttonClass="btn"
           :customStrings="{
-              upload: '<h1>Bummer!</h1>',
-              drag: 'Drag a photo to here or choose '
-            }"
-        ></picture-input>
+            upload: '<h1>Bummer!</h1>',
+            drag: 'Drag a photo to here or choose ',
+          }"
+        />
         <div v-show="attachImage">
-          <v-text-field color="success" v-if="isLoading" loading disabled></v-text-field>
+          <v-text-field color="success" v-if="isLoading" loading disabled />
           <div class="d-flex justify-center mb-0">
             <v-btn
               text
               color="green"
-              
               @click="onClickUploadImage"
               v-if="attachImage && !isLoading"
-            >Upload</v-btn>
+            >
+              Upload
+            </v-btn>
           </div>
         </div>
       </form>
@@ -38,17 +39,16 @@
 
 <script>
 export default {
-  props: ["isLoading", "attachImage"],
+  props: ['isLoading', 'attachImage'],
   methods: {
     onClickUploadImage() {
-      this.$emit("handleUploadImage");
+      this.$emit('handleUploadImage');
     },
     onChange(image) {
-      this.$emit("handleOnChange", { image });
-    }
-  }
+      this.$emit('handleOnChange', { image });
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

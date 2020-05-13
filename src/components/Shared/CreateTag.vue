@@ -10,10 +10,12 @@
       text-color="white"
     >
       <span v-if="!addTag">
-        <v-icon left>mdi-plus-circle-outline</v-icon>Tags
+        <v-icon left>mdi-plus-circle-outline</v-icon>
+        Tags
       </span>
       <span v-else>
-        <v-icon left>mdi-close-circle-outline</v-icon>Tags
+        <v-icon left>mdi-close-circle-outline</v-icon>
+        Tags
       </span>
     </v-chip>
     <v-card v-if="!!addTag" elevation="5" class="add-tag-dialog">
@@ -25,33 +27,33 @@
         :rules="tagRules"
         lazy-validation
         :value="tag"
-      ></v-text-field>
+      />
     </v-card>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["tags"],
+  props: ['tags'],
   data() {
     return {
       valid: true,
       addTag: false,
-      tag: "#",
+      tag: '#',
       tagRules: [
-        t => t[0] === "#" || "Hash tag at a first character is required",
-        t => t.length <= 20 || "Tag muse be less than 20 characters"
-      ]
+        t => t[0] === '#' || 'Hash tag at a first character is required',
+        t => t.length <= 20 || 'Tag muse be less than 20 characters',
+      ],
     };
   },
   methods: {
     handleAddTag(tag) {
-      if (tag[0] !== "#" || tag.length > 20 || tag.trim() === "#") return;
+      if (tag[0] !== '#' || tag.length > 20 || tag.trim() === '#') return;
       this.addTag = !this.addTag;
-      this.tag = "#";
-      return this.$emit("handleAddTag", tag);
-    }
-  }
+      this.tag = '#';
+      return this.$emit('handleAddTag', tag);
+    },
+  },
 };
 </script>
 

@@ -1,18 +1,29 @@
 <template>
   <div>
     <v-row id="post">
-      <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
+      <v-col
+        cols="12"
+        sm="12"
+        md="1"
+        lg="1"
+        xl="1"
+        class="pr-0 wrapper-icon d-sm-none d-md-flex"
+      >
         <post-reactions
           v-if="!isLoading"
-          :likes="(post && post.metadata) ? post.metadata.likes : 0"
-          :saves="(post && post.metadata) ? post.metadata.saves : 0"
+          :likes="post && post.metadata ? post.metadata.likes : 0"
+          :saves="post && post.metadata ? post.metadata.saves : 0"
           :flowers="0"
           :postId="post._id"
-        ></post-reactions>
+        />
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <v-skeleton-loader></v-skeleton-loader>
-        <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image, card-avatar, article"></v-boilerplate>
+        <v-skeleton-loader />
+        <v-boilerplate
+          class="mx-auto mt-6"
+          v-if="isLoading"
+          type="image, card-avatar, article"
+        />
         <v-card v-else class="mx-auto mt-6" id="blog-card" elevation="6">
           <v-container class="pa-0">
             <v-row style="margin-right: 0">
@@ -22,7 +33,7 @@
                   height="400px"
                   style
                   class="cover-movie"
-                ></v-img>
+                />
               </v-col>
               <v-col
                 class="pa-0"
@@ -36,28 +47,36 @@
                 <div class="d-md-none d-lg-flex">
                   <v-container class="ml-1 pl-3 movie-detail">
                     <v-card-text class="pb-2 pt-2">
-                      <p class="title text--primary mb-0 pt-1">{{ post.topic }}</p>
+                      <p class="title text--primary mb-0 pt-1">
+                        {{ post.topic }}
+                      </p>
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Director:</p>
-                        <span></span>
+                        <span />
                         <p class="mb-0 mr-3">
                           <span
                             v-for="(director, i) in slicedDirectors"
                             :key="director._id"
                             class="value mb-0"
-                          >{{ director.name }}{{ isAddComma(i, slicedDirectors.length) }}</span>
+                          >
+                            {{ director.name
+                            }}{{ isAddComma(i, slicedDirectors.length) }}
+                          </span>
                         </p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Actors:</p>
-                        <span></span>
+                        <span />
                         <p class="mb-0 mr-3">
                           <span
                             v-for="(actor, i) in slicedActors"
                             :key="actor._id"
                             class="value mb-0"
-                          >{{ actor.name }}{{ isAddComma(i, slicedActors.length) }}</span>
+                          >
+                            {{ actor.name
+                            }}{{ isAddComma(i, slicedActors.length) }}
+                          </span>
                         </p>
                       </v-container>
 
@@ -69,7 +88,9 @@
                           outlined
                           small
                           style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
-                        >{{ post.movie.imdb }}</v-chip>
+                        >
+                          {{ post.movie.imdb }}
+                        </v-chip>
                       </v-container>
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Genres:</p>
@@ -83,7 +104,9 @@
                             v-for="genre in post.movie.genres"
                             :key="genre._id"
                             class="mr-1"
-                          >{{ genre }}</v-chip>
+                          >
+                            {{ genre }}
+                          </v-chip>
                         </span>
                       </v-container>
 
@@ -94,8 +117,16 @@
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Link:</p>
-                        <v-chip label text-color="black" outlined small :style="calMovieYearColor">
-                          <a target="_blank" :href="post.movie.link">{{ post.movie.link }}</a>
+                        <v-chip
+                          label
+                          text-color="black"
+                          outlined
+                          small
+                          :style="calMovieYearColor"
+                        >
+                          <a target="_blank" :href="post.movie.link">
+                            {{ post.movie.link }}
+                          </a>
                         </v-chip>
                       </v-container>
 
@@ -107,7 +138,9 @@
                           outlined
                           small
                           style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
-                        >{{ post.movie.releaseDate }}</v-chip>
+                        >
+                          {{ post.movie.releaseDate }}
+                        </v-chip>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -123,7 +156,9 @@
                           size="20"
                           :color="isStar(i + 1)"
                           style="width: 25px"
-                        >start</v-icon>
+                        >
+                          start
+                        </v-icon>
                       </v-container>
                     </v-card-text>
                   </v-container>
@@ -134,30 +169,38 @@
                       <div>
                         <v-container class="d-flex pl-1 pb-0 pt-2">
                           <p class="key mb-0 mr-3">Status:</p>
-                          <p class="value mb-0" :style="calMovieStatusColor">{{ post.movie.status }}</p>
+                          <p class="value mb-0" :style="calMovieStatusColor">
+                            {{ post.movie.status }}
+                          </p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Director:</p>
-                          <span></span>
+                          <span />
                           <p class="mb-0 mr-3">
                             <span
                               v-for="(director, i) in slicedDirectors"
                               :key="director._id"
                               class="value mb-0"
-                            >{{ director.name }}{{ isAddComma(i, slicedDirectors.length) }}</span>
+                            >
+                              {{ director.name
+                              }}{{ isAddComma(i, slicedDirectors.length) }}
+                            </span>
                           </p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Actors:</p>
-                          <span></span>
+                          <span />
                           <p class="mb-0 mr-3">
                             <span
                               v-for="(actor, i) in slicedActors"
                               :key="actor._id"
                               class="value mb-0"
-                            >{{ actor.name }}{{ isAddComma(i, slicedActors.length) }}</span>
+                            >
+                              {{ actor.name
+                              }}{{ isAddComma(i, slicedActors.length) }}
+                            </span>
                           </p>
                         </v-container>
 
@@ -169,7 +212,9 @@
                             outlined
                             small
                             style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
-                          >{{ post.movie.imdb }}</v-chip>
+                          >
+                            {{ post.movie.imdb }}
+                          </v-chip>
                         </v-container>
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Nation:</p>
@@ -186,7 +231,9 @@
                             outlined
                             small
                             :style="calMovieYearColor"
-                          >{{ post.movie.year }}</v-chip>
+                          >
+                            {{ post.movie.year }}
+                          </v-chip>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -197,12 +244,16 @@
                             outlined
                             small
                             style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
-                          >{{ post.movie.releaseDate }}</v-chip>
+                          >
+                            {{ post.movie.releaseDate }}
+                          </v-chip>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Time:</p>
-                          <p class="value mb-0">{{ post.movie.time }} minutes</p>
+                          <p class="value mb-0">
+                            {{ post.movie.time }} minutes
+                          </p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -213,11 +264,13 @@
                             size="20"
                             :color="isStar(i + 1)"
                             style="width: 25px"
-                          >start</v-icon>
+                          >
+                            start
+                          </v-icon>
                         </v-container>
                       </div>
                     </v-card-text>
-                    <v-divider></v-divider>
+                    <v-divider />
                   </v-container>
                 </div>
               </v-col>
@@ -234,7 +287,9 @@
                     <img :src="post.user.avatar.secureURL" alt="Avatar" />
                   </v-avatar>
                   <v-card-subtitle style="font-size: 16px" class="ml-n1 pr-0">
-                    <a style="text-decoration: none; color: #000" href>{{ post.user.username }}</a>
+                    <a style="text-decoration: none; color: #000" href>
+                      {{ post.user.username }}
+                    </a>
                   </v-card-subtitle>
                   <v-list-item-icon class="mb-0 ml-3">
                     <v-icon
@@ -245,16 +300,20 @@
                       class="pr-1"
                       style="cursor: pointer"
                       @click="handleClickLink(link.url)"
-                    >{{ link.icon }}</v-icon>
+                    >
+                      {{ link.icon }}
+                    </v-icon>
                   </v-list-item-icon>
-                  <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
-                  <read-time class="pl-0" :text="post.content"></read-time>
+                  <v-card-subtitle class="pl-1">
+                    {{ post.createdAt | date }}
+                  </v-card-subtitle>
+                  <read-time class="pl-0" :text="post.content" />
                   <edit-delete-btns
                     v-if="isAuthor"
                     @handleDeletePost="handleDeletePost"
                     :postId="post._id"
                     :postType="post.type"
-                  ></edit-delete-btns>
+                  />
                 </v-card-actions>
                 <v-card-text style="margin-left: -25px" class="pt-3">
                   <tag
@@ -263,11 +322,11 @@
                     class="ml-2"
                     :tagName="tag.tagName"
                     :style="tagStyle"
-                  ></tag>
+                  />
                 </v-card-text>
               </v-list-item-content>
             </v-list-item>
-            <div v-html="$options.filters.markdown(post.content)"></div>
+            <div v-html="$options.filters.markdown(post.content)" />
           </v-container>
         </v-card>
         <v-container>
@@ -275,8 +334,12 @@
             <div style="width: 100%" id="comments" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
 
-              <v-boilerplate style="width: 100%" v-if="isLoading" type="image"></v-boilerplate>
-              <write-comment v-if="!isLoading"></write-comment>
+              <v-boilerplate
+                style="width: 100%"
+                v-if="isLoading"
+                type="image"
+              />
+              <write-comment v-if="!isLoading" />
 
               <div v-if="post ? post.comments.length : false">
                 <comment
@@ -285,20 +348,36 @@
                   :comment="comment"
                   :author="post.user"
                   :postId="post._id"
-                ></comment>
+                />
               </div>
             </div>
           </v-row>
         </v-container>
         <v-container>
-          <v-divider></v-divider>
-          <v-row id="other-posts-of-author" v-if="otherMovieReviewsOfAuthor.length" class="mb-10">
+          <v-divider />
+          <v-row
+            id="other-posts-of-author"
+            v-if="otherMovieReviewsOfAuthor.length"
+            class="mb-10"
+          >
             <h1 class="mt-8 mb-3">Other movie reviews of author</h1>
             <div v-if="isLoading" style="width: 100%" class="d-flex">
-              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
-              <v-boilerplate class="other-post" style="width: 100%" type="article"></v-boilerplate>
+              <v-boilerplate
+                class="other-post"
+                style="width: 100%"
+                type="article"
+              />
+              <v-boilerplate
+                class="other-post"
+                style="width: 100%"
+                type="article"
+              />
             </div>
-            <other-posts-of-author v-else postType="movie" :posts="otherMovieReviewsOfAuthor"></other-posts-of-author>
+            <other-posts-of-author
+              v-else
+              postType="movie"
+              :posts="otherMovieReviewsOfAuthor"
+            />
           </v-row>
         </v-container>
       </v-col>
@@ -315,22 +394,22 @@
           style="width: 100%; padding: 5px 10px; background: #fff"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        ></v-boilerplate>
+        />
         <author-follow-card
           v-if="!isLoading"
           class="author-follow"
           :isAuthor="isAuthor"
           :author="post.user"
           :userId="user._id"
-        ></author-follow-card>
+        />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import { movieDescription } from "@/mixins/movieDescription";
-import { crudPost } from "@/mixins/crudPost";
+import { movieDescription } from '@/mixins/movieDescription';
+import { crudPost } from '@/mixins/crudPost';
 
 export default {
   mixins: [movieDescription, crudPost],
@@ -338,161 +417,161 @@ export default {
     return {
       otherMovieReviewsOfAuthor: [
         {
-          _id: "5e9b04f5d11da5baece2ff5",
+          _id: '5e9b04f5d11da5baece2ff5',
           tags: [
             {
-              _id: "5e8c563eeda853638189e854",
-              tagName: "action"
+              _id: '5e8c563eeda853638189e854',
+              tagName: 'action',
             },
             {
-              _id: "5e9b047ef82e7d563b8e2c5a",
-              tagName: "funny"
-            }
+              _id: '5e9b047ef82e7d563b8e2c5a',
+              tagName: 'funny',
+            },
           ],
           comments: [],
           userId: {
-            _id: "5e8b577f1a2dde322987924",
-            username: "nhat_anh"
+            _id: '5e8b577f1a2dde322987924',
+            username: 'nhat_anh',
           },
           authors: [
             {
-              _id: "5e9b047ef82e7d563b8e2c5b",
-              type: "actor",
-              name: "Dave Bautista (JJ)"
+              _id: '5e9b047ef82e7d563b8e2c5b',
+              type: 'actor',
+              name: 'Dave Bautista (JJ)',
             },
             {
-              _id: "5e9b047ef82e7d563b8e2c5d",
-              type: "actor",
-              name: "Ken Jeong (Kim)"
+              _id: '5e9b047ef82e7d563b8e2c5d',
+              type: 'actor',
+              name: 'Ken Jeong (Kim)',
             },
             {
-              _id: "5e9b04f5d1f1da5baece2ff7",
-              type: "director",
-              name: "KristenSchall (Bobbi)"
-            }
+              _id: '5e9b04f5d1f1da5baece2ff7',
+              type: 'director',
+              name: 'KristenSchall (Bobbi)',
+            },
           ],
           likes: [],
-          url: "http://www.phimmoi.net/phim/diep-vien-ti-hon-8928/",
+          url: 'http://www.phimmoi.net/phim/diep-vien-ti-hon-8928/',
           savedBy: [],
-          topic: "My Spey (2019)",
+          topic: 'My Spey (2019)',
           description:
-            "Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta",
+            'Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta',
           content:
-            "Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta",
-          type: "movie",
+            'Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta',
+          type: 'movie',
           cover: {
-            _id: "5e9ab00f0591fb40fc87faa3",
+            _id: '5e9ab00f0591fb40fc87faa3',
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png",
-            publicId: "Coders-Tokyo-Forum/posts/javascript.png",
-            fileName: "javascript.png",
+              'https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png',
+            publicId: 'Coders-Tokyo-Forum/posts/javascript.png',
+            fileName: 'javascript.png',
             sizeBytes: 316358,
-            userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e9ab00f0591fb40fc87faa2",
-            resourceType: "image",
-            createdAt: "2020-04-18T07:45:19.838Z",
-            updatedAt: "2020-04-18T07:45:19.838Z",
-            __v: 0
+            userId: '5e8b577f1a2dde32298795f4',
+            postId: '5e9ab00f0591fb40fc87faa2',
+            resourceType: 'image',
+            createdAt: '2020-04-18T07:45:19.838Z',
+            updatedAt: '2020-04-18T07:45:19.838Z',
+            __v: 0,
           },
           metadata: {
-            _id: "5e9494fe935dfb5ed30435",
+            _id: '5e9494fe935dfb5ed30435',
             comments: 123,
             likes: 69,
-            saves: 1
+            saves: 1,
           },
           movie: {
-            status: "Finished",
+            status: 'Finished',
             imdb: 5.2,
-            country: "England",
+            country: 'England',
             year: 2019,
-            releaseDate: "22/11/2019",
+            releaseDate: '22/11/2019',
             time: 91,
-            stars: 4
+            stars: 4,
           },
-          createdAt: "2020-04-18T13:47:33.708Z",
-          updatedAt: "2020-04-18T13:47:33.708Z"
+          createdAt: '2020-04-18T13:47:33.708Z',
+          updatedAt: '2020-04-18T13:47:33.708Z',
         },
         {
-          _id: "5e9b04f5d1f1dabaece2ff5",
+          _id: '5e9b04f5d1f1dabaece2ff5',
           tags: [
             {
-              _id: "5e8c563eeda853638189e854",
-              tagName: "action"
+              _id: '5e8c563eeda853638189e854',
+              tagName: 'action',
             },
             {
-              _id: "5e9b047ef82e7d563b8e2c5a",
-              tagName: "funny"
-            }
+              _id: '5e9b047ef82e7d563b8e2c5a',
+              tagName: 'funny',
+            },
           ],
           comments: [],
           userId: {
-            _id: "5e8b577f1a2dde3229879524",
-            username: "nhat_anh"
+            _id: '5e8b577f1a2dde3229879524',
+            username: 'nhat_anh',
           },
           authors: [
             {
-              _id: "5e9b047ef82e7d563b8e2c5b",
-              type: "actor",
-              name: "Dave Bautista (JJ)"
+              _id: '5e9b047ef82e7d563b8e2c5b',
+              type: 'actor',
+              name: 'Dave Bautista (JJ)',
             },
             {
-              _id: "5e9b047ef82e7d563b8e2c5d",
-              type: "actor",
-              name: "Ken Jeong (Kim)"
+              _id: '5e9b047ef82e7d563b8e2c5d',
+              type: 'actor',
+              name: 'Ken Jeong (Kim)',
             },
             {
-              _id: "5e9b04f5d1f1da5baece2ff7",
-              type: "director",
-              name: "KristenSchall (Bobbi)"
-            }
+              _id: '5e9b04f5d1f1da5baece2ff7',
+              type: 'director',
+              name: 'KristenSchall (Bobbi)',
+            },
           ],
           likes: [],
-          url: "http://www.phimmoi.net/phim/diep-vien-ti-hon-8928/",
+          url: 'http://www.phimmoi.net/phim/diep-vien-ti-hon-8928/',
           savedBy: [],
-          topic: "My Spey (2019)",
+          topic: 'My Spey (2019)',
           description:
-            "Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta",
+            'Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta',
           content:
-            "Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta",
-          type: "movie",
+            'Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta',
+          type: 'movie',
           cover: {
-            _id: "5e9ab00f0591fb40fc87faa3",
+            _id: '5e9ab00f0591fb40fc87faa3',
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png",
-            publicId: "Coders-Tokyo-Forum/posts/javascript.png",
-            fileName: "javascript.png",
+              'https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png',
+            publicId: 'Coders-Tokyo-Forum/posts/javascript.png',
+            fileName: 'javascript.png',
             sizeBytes: 316358,
-            userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e9ab00f0591fb40fc87faa2",
-            resourceType: "image",
-            createdAt: "2020-04-18T07:45:19.838Z",
-            updatedAt: "2020-04-18T07:45:19.838Z",
-            __v: 0
+            userId: '5e8b577f1a2dde32298795f4',
+            postId: '5e9ab00f0591fb40fc87faa2',
+            resourceType: 'image',
+            createdAt: '2020-04-18T07:45:19.838Z',
+            updatedAt: '2020-04-18T07:45:19.838Z',
+            __v: 0,
           },
           metadata: {
-            _id: "5e9494fe935dfb5ed30435",
+            _id: '5e9494fe935dfb5ed30435',
             comments: 123,
             likes: 69,
-            saves: 1
+            saves: 1,
           },
           movie: {
-            status: "Finished",
+            status: 'Finished',
             imdb: 5.2,
-            country: "England",
+            country: 'England',
             year: 2019,
-            releaseDate: "22/11/2019",
+            releaseDate: '22/11/2019',
             time: 91,
-            stars: 4
+            stars: 4,
           },
-          createdAt: "2020-04-18T13:47:33.708Z",
-          updatedAt: "2020-04-18T13:47:33.708Z"
-        }
-      ]
+          createdAt: '2020-04-18T13:47:33.708Z',
+          updatedAt: '2020-04-18T13:47:33.708Z',
+        },
+      ],
     };
   },
   computed: {},
   methods: {},
-  components: {}
+  components: {},
 };
 </script>
 
