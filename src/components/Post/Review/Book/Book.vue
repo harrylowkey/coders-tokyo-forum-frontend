@@ -72,7 +72,7 @@
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-4">Stars:</p>
                   <v-icon
-                    v-for="(start, i) in 5"
+                    v-for="(start, i) in book.stars"
                     :key="i"
                     size="20"
                     :color="isStar(i + 1)"
@@ -142,7 +142,7 @@
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-4">Stars:</p>
                     <v-icon
-                      v-for="(start, i) in 5"
+                      v-for="(start, i) in book.stars"
                       :key="i"
                       size="20"
                       :color="isStar(i + 1)"

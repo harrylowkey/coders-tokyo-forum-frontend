@@ -3,7 +3,13 @@
     <v-card class="mx-auto mt-6 food-card" :elevation="hover ? 20 : 3">
       <v-row style="margin-right: 0">
         <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
-          <v-img @click="linkToBlog" :src="cover.secureURL" height="378px" style="cursor: pointer" class="cover-food"></v-img>
+          <v-img
+            @click="linkToBlog"
+            :src="cover.secureURL"
+            height="378px"
+            style="cursor: pointer"
+            class="cover-food"
+          ></v-img>
         </v-col>
         <v-col class="pa-0" cols="12" sm="12" md="12" lg="5" xl="4" style="position: relative">
           <div class="d-md-none d-lg-flex">
@@ -69,14 +75,14 @@
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-3">Location:</p>
                   <p class="value mb-0">
-                    <a href="#">{{ food.address }}</a>
+                    <a :href="food.location">{{ food.location }}</a>
                   </p>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-4">Stars:</p>
                   <v-icon
-                    v-for="(start, i) in 5"
+                    v-for="(start, i) in food.stars"
                     :key="i"
                     size="20"
                     :color="isStar(i + 1)"
@@ -87,7 +93,7 @@
             </v-container>
           </div>
           <div class="d-none d-md-flex d-lg-none">
-            <v-container class="ml-1 book-detail pt-1 pb-0">
+            <v-container class="ml-1 food-detail pt-1 pb-0">
               <v-card-text class="pb-6 pt-0 d-flex justify-space-around flex-wrap">
                 <div>
                   <p class="title text--primary mb-0 pt-1">{{ food.restaurant }}</p>
@@ -105,7 +111,7 @@
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-4">Stars:</p>
                     <v-icon
-                      v-for="(start, i) in 5"
+                      v-for="(start, i) in food.stars"
                       :key="i"
                       size="20"
                       :color="isStar(i + 1)"
@@ -163,7 +169,7 @@
                   <v-container class="d-flex pl-1 pb-0 flex-wrap">
                     <p class="key mb-0 mr-3">Location:</p>
                     <p class="value mb-0">
-                      <a href="#">{{ food.address }}</a>
+                      <a :href="food.location">{{ food.location }}</a>
                     </p>
                   </v-container>
                 </div>
@@ -188,8 +194,8 @@
           </div>
         </v-list-item-content>
         <user-avatar
-          :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
-          :username="userId.username"
+          :src="user.avatar.secureURL"
+          :username="user.username"
           style="padding-bottom: 7px;"
         ></user-avatar>
       </v-list-item>
@@ -213,14 +219,14 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="200"></like-btn>
+              <like-btn :likes="likes.length"></like-btn>
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :comments="500"></comment-btn>
+              <comment-btn :comments="comments.length"></comment-btn>
             </v-col>
           </v-row>
         </v-container>
-        <tag :tagName="tags[0].tagName" :postType="'food'"></tag>
+        <tag v-if="tags.length" :tagName="tags[0].tagName" :postType="type"></tag>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -233,7 +239,9 @@ import Tag from "@/components/Shared/Tag";
 import UserAvatar from "@/components/Shared/UserAvatar";
 import ReadTime from "@/components/Shared/readTime";
 
+import { foodDescription } from '@/mixins/foodDescription'
 export default {
+  mixins: [foodDescription],
   props: {
     _id: {
       type: String,
@@ -247,7 +255,7 @@ export default {
       type: Array,
       default: () => []
     },
-    commments: {
+    comments: {
       type: Array,
       default: () => []
     },
@@ -259,7 +267,7 @@ export default {
       type: Array,
       default: () => []
     },
-    userId: {
+    user: {
       type: Object,
       default: () => ({})
     },
@@ -269,7 +277,7 @@ export default {
     },
     url: {
       type: String,
-      required: true
+      default: ''
     },
     content: {
       type: String,
@@ -315,37 +323,13 @@ export default {
     return {
       maxSlice1: 1,
       maxSlice: 2,
-      blogLink: ""
+      blogLink: `/foodReviews/${this._id}?type=${this.type}`
     };
   },
   methods: {
-    isStar(index) {
-      if (index <= this.food.stars) return "#FDD835";
-      else return "";
-    },
-    calPointColor(point) {
-      if (point < 5)
-        return {
-          border: "1px solid #D50000 !important",
-          backgroundColor: "#EF9A9A !important"
-        };
-      if (point < 8)
-        return {
-          border: "1px solid #FBC02D !important",
-          backgroundColor: "#fdd835 !important"
-        };
-      if (point >= 8)
-        return {
-          border: "1px solid #90d2a3 !important",
-          backgroundColor: "#C5E1A5 !important"
-        };
-    },
     linkToBlog() {
       this.$router.push({ path: this.blogLink });
     }
-  },
-  created() {
-    this.blogLink = `/foodReviews/${this._id}`;
   }
 };
 </script>

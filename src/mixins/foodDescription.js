@@ -7,7 +7,8 @@ export const foodDescription = {
   },
   methods: {
     isStar(index) {
-      if (index <= this.post.food.stars) return "#FDD835";
+      let foodStars = this.post ? this.post.food.stars : this.food.stars
+      if (index <= foodStars) return "#FDD835";
       else return "";
     },
     calPointColor(point) {
