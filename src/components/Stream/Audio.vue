@@ -59,7 +59,7 @@ export default {
     },
     playAnotherSong: {
       type: Object,
-      default: false,
+      default: () => {},
     },
   },
   data() {
