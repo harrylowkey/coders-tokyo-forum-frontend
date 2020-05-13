@@ -44,25 +44,14 @@
 </template>
 
 <script>
-import AudioPlaylist from "./AudioPlaylist";
-import SideCard from "../Shared/SideCard";
-import PostTabs from "../Shared/PostTabs";
-import BlogPage from "../Post/Blog/BlogList";
-import DiscussionPage from "../Post/Discussion/Discussions";
-import ReviewPage from "../Post/Review/Review";
-import VideoPage from "../Post/Video/Video";
-import PodcastPage from "../Post/Audio/Podcast/PodcastList";
-import SongPage from "../Post/Audio/Song/SongList";
-import MoviePage from "../Post/Review/Movie/MovieList";
-import BookPage from "../Post/Review/Book/BookList";
-import FoodPage from "../Post/Review/Food/FoodList";
+import { mapActions } from 'vuex';
 
 import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
     AudioPlaylist,
-    SideCard,
+    // SideCard,
     PostTabs,
     BlogPage,
     DiscussionPage,
@@ -72,7 +61,7 @@ export default {
     SongPage,
     MoviePage,
     BookPage,
-    FoodPage
+    FoodPage,
   },
   data() {
     return {
@@ -168,8 +157,8 @@ export default {
   mounted() {
     if (this.isWelcomeLogin) {
       this.$notify({
-        type: "success",
-        title: "Login success"
+        type: 'success',
+        title: 'Login success',
       });
     }
   },
@@ -204,7 +193,7 @@ export default {
             type: "artist",
             name: "Laydy Gaga"
           },
-          
+
         ],
         likes: [],
         foodPhotos: [],
@@ -1500,7 +1489,7 @@ export default {
     togglePlayAnotherSong(newValue) {
       this.togglePlayAnotherSong = newValue;
     }
-  }
+  },
 };
 </script>
 

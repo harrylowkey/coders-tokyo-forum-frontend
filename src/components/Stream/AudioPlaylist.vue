@@ -1,5 +1,10 @@
 <template>
-  <div class="mx-auto wrapper" elevation="8" max-width="1520px" max-height="200px">
+  <div
+    class="mx-auto wrapper"
+    elevation="8"
+    max-width="1520px"
+    max-height="200px"
+  >
     <v-slide-group class="px-4" show-arrows center-active>
       <v-slide-item v-for="(item, i) in audioList" :key="i">
         <v-row class="mr-10">
@@ -21,24 +26,25 @@
 </template>
 
 <script>
-import Audio from "./Audio.vue";
+import Audio from './Audio.vue';
+
 export default {
-  props: ["audioList", 'playAnotherSong'],
+  props: ['audioList', 'playAnotherSong'],
   data() {
     return {};
   },
   components: {
-    Audio
+    Audio,
   },
   methods: {
     handlePlayPause({ isPlay, index }) {
-      this.$emit('handlePlayPause', { isPlay, index })
-    }
-  }
+      this.$emit('handlePlayPause', { isPlay, index });
+    },
+  },
 };
 </script>
 
-<style scoped >
+<style scoped>
 .wrapper {
   background-color: #fff;
 }

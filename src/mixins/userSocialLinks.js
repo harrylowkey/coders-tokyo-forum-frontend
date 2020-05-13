@@ -1,33 +1,36 @@
 export const userSocialLinks = {
   computed: {
     socialLinks() {
-      let userSocialLinks = this.post ? this.post.user.socialLinks : this.user.socialLinks
+      const userSocialLinks = this.post
+        ? this.post.user.socialLinks
+        : this.user.socialLinks;
       const links = userSocialLinks.map(link => {
-        let obj = {
+        const obj = {
+          // eslint-disable-next-line no-underscore-dangle
           _id: link._id,
           url: link.url,
-          type: link.type
-        }
+          type: link.type,
+        };
         if (link.type === 'Github') {
-          obj.color = 'black'
-          obj.icon = 'mdi-github'
+          obj.color = 'black';
+          obj.icon = 'mdi-github';
         }
         if (link.type === 'Facebook') {
-          obj.color = 'primary'
-          obj.icon = 'mdi-facebook'
+          obj.color = 'primary';
+          obj.icon = 'mdi-facebook';
         }
         if (link.type === 'Linkedin') {
-          obj.color = "#006699"
-          obj.icon = 'mdi-linkedin'
+          obj.color = '#006699';
+          obj.icon = 'mdi-linkedin';
         }
-        return obj
-      })
-      return links
+        return obj;
+      });
+      return links;
     },
   },
   methods: {
     handleClickLink(url) {
-      return window.open(url, "_blank");
-    }
-  }
-}
+      return window.open(url, '_blank');
+    },
+  },
+};

@@ -8,7 +8,7 @@
               <v-card class="elevation-12">
                 <v-toolbar color="primary" dark flat>
                   <v-toolbar-title>Sign up</v-toolbar-title>
-                  <v-spacer></v-spacer>
+                  <v-spacer />
                 </v-toolbar>
                 <v-card-text class="pb-0">
                   <v-form>
@@ -17,12 +17,22 @@
                       name="username"
                       prepend-icon="person"
                       type="text"
-                    ></v-text-field>
+                    />
                     <v-row>
                       <v-col cols="9" sm="9" md="9">
-                        <v-text-field label="Email" name="email" prepend-icon="person" type="text"></v-text-field>
+                        <v-text-field
+                          label="Email"
+                          name="email"
+                          prepend-icon="person"
+                          type="text"
+                        />
                       </v-col>
-                      <v-col cols="3" sm="3" md="3" class="d-flex justify-center align-center pt-4">
+                      <v-col
+                        cols="3"
+                        sm="3"
+                        md="3"
+                        class="d-flex justify-center align-center pt-4"
+                      >
                         <v-btn small class="success">Get code</v-btn>
                       </v-col>
                     </v-row>
@@ -33,17 +43,17 @@
                       name="password"
                       prepend-icon="lock"
                       type="password"
-                    ></v-text-field>
+                    />
                     <v-text-field
                       id="code"
                       label="Code"
                       name="code"
                       prepend-icon="lock"
-                    ></v-text-field>
+                    />
                   </v-form>
                 </v-card-text>
                 <v-card-actions class="pa-4">
-                  <v-spacer></v-spacer>
+                  <v-spacer />
                   <v-btn color="primary">Register</v-btn>
                 </v-card-actions>
               </v-card>
@@ -62,11 +72,10 @@ export default {
       email: '',
       password: '',
       username: '',
-      code: ''
+      code: '',
     };
-  }
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

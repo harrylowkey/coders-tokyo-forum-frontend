@@ -1,7 +1,7 @@
 <template>
   <v-container fluid style="padding: 0 !important">
-    <app-banner></app-banner>
-    <v-divider></v-divider>
+    <app-banner />
+    <v-divider />
     <br />
     <v-container color="dark">
       <v-row>
@@ -18,7 +18,7 @@
           class="pt-0"
         >
           <div class="pt-6">
-            <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
+            <app-alert v-if="alert" :alertMessage="alertMessage" />
             <ValidationObserver ref="observer">
               <v-form>
                 <v-alert
@@ -28,32 +28,40 @@
                   border="left"
                   transition="slide-x-reverse-transition"
                   dismissible
-                >{{ alertMessage }}</v-alert>
+                >
+                  {{ alertMessage }}
+                </v-alert>
                 <v-card class="d-flex py-3 pt-0">
                   <v-row>
                     <v-col cols="4" offset-sm="4" class="py-1">
                       <div class="d-flex flex-column align-center">
                         <user-avatar
-                          :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
+                          :src="
+                            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'
+                          "
                           :username="user.username"
                           style="height: 130px;"
-                        ></user-avatar>
+                        />
                       </div>
                     </v-col>
-                    <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
+                    <v-col
+                      cols="12"
+                      class="pb-0 pt-0 px-6"
+                      style="height: 60px;"
+                    >
                       <div class="d-flex ml-7">
-                        <div class="d-flex"></div>
+                        <div class="d-flex" />
                         <toggle-tag
                           v-for="(tag, i) in tags"
                           :key="i"
                           :tagName="tag"
                           @handleRemoveTag="handleRemoveTag(i)"
-                        ></toggle-tag>
+                        />
                         <create-tag-blog
                           v-if="tags.length < 3"
                           @handleAddTag="handleAddTag"
                           :tags="tags"
-                        ></create-tag-blog>
+                        />
                       </div>
                     </v-col>
                     <v-col cols="12" class="pt-0">
@@ -76,7 +84,7 @@
                                   img-format="jpg"
                                   langType="en"
                                   noCircle
-                                ></my-upload>
+                                />
                                 <v-container
                                   class="d-flex justify-center"
                                   v-if="post.cover.secureURL"
@@ -86,7 +94,7 @@
                                     max-width="650"
                                     max-height="250"
                                     :src="post.cover.secureURL"
-                                  ></v-img>
+                                  />
                                   <v-chip
                                     @click="uploadBanner = !uploadBanner"
                                     style="cursor: pointer"
@@ -95,14 +103,21 @@
                                     color="green"
                                     label
                                   >
-                                    <v-icon left>mdi-cloud-upload-outline</v-icon>Update Image
+                                    <v-icon left>
+                                      mdi-cloud-upload-outline
+                                    </v-icon>
+                                    Update Image
                                   </v-chip>
                                 </v-container>
                               </v-col>
                               <v-col cols="12">
                                 <v-container class="ml-n2 headline">
-                                  <v-icon color="primary" size="18" left>mdi-paperclip</v-icon>
-                                  <span style="font-size: 17px">Attach photos</span>
+                                  <v-icon color="primary" size="18" left>
+                                    mdi-paperclip
+                                  </v-icon>
+                                  <span style="font-size: 17px">
+                                    Attach photos
+                                  </span>
                                 </v-container>
                                 <div
                                   id="my-strictly-unique-vue-upload-multiple-image"
@@ -119,11 +134,13 @@
                                     :primaryText="''"
                                     :showPrimary="false"
                                     :markIsPrimaryText="''"
-                                    :accept="'image/gif,image/jpeg,image/png,image/bmp,image/jpg'"
+                                    :accept="
+                                      'image/gif,image/jpeg,image/png,image/bmp,image/jpg'
+                                    "
                                     :dragText="'Drag photos to here'"
                                     :browseText="'or choose'"
                                     @limit-exceeded="handleLimitExceed"
-                                  ></vue-upload-multiple-image>
+                                  />
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="12" md="12">
@@ -137,7 +154,7 @@
                                     v-model="post.food.restaurant"
                                     label="Restaurant name*"
                                     required
-                                  ></v-text-field>
+                                  />
                                 </ValidationProvider>
                               </v-col>
 
@@ -147,7 +164,7 @@
                                     hint="E.g: 200.000 - 400.000 VND"
                                     v-model="post.food.priceAverage"
                                     label="Average price"
-                                  ></v-text-field>
+                                  />
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="4" md="4">
@@ -155,7 +172,7 @@
                                   v-model="post.food.openTime"
                                   label="Open time"
                                   hint="E.g: 08:00 / 20:00"
-                                ></v-text-field>
+                                />
                               </v-col>
                               <v-col cols="12" sm="6" md="3">
                                 <ValidationProvider
@@ -168,7 +185,7 @@
                                     v-model="post.food.quality"
                                     hint="1 - 10 points"
                                     label="Quality*"
-                                  ></v-text-field>
+                                  />
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12" sm="6" md="3">
@@ -182,7 +199,7 @@
                                     :error-messages="errors"
                                     hint="1 - 10 points"
                                     label="Price*"
-                                  ></v-text-field>
+                                  />
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12" sm="6" md="3">
@@ -196,7 +213,7 @@
                                     :error-messages="errors"
                                     hint="1 - 10 points"
                                     label="Service*"
-                                  ></v-text-field>
+                                  />
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12" sm="6" md="3">
@@ -210,7 +227,7 @@
                                     :error-messages="errors"
                                     hint="1 - 10 points"
                                     label="Space*"
-                                  ></v-text-field>
+                                  />
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12" sm="12" md="5">
@@ -218,7 +235,9 @@
                                   <span
                                     style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                                     class="mb-0 pt-1 pr-5"
-                                  >Your stars:</span>
+                                  >
+                                    Your stars:
+                                  </span>
                                   <v-rating
                                     v-model="post.food.stars"
                                     color="yellow darken-3"
@@ -227,7 +246,7 @@
                                     half-increments
                                     hover
                                     small
-                                  ></v-rating>
+                                  />
                                 </v-container>
                               </v-col>
                               <v-col cols="12" sm="12" md="12">
@@ -242,18 +261,20 @@
                                     @change="dataUpdate.topic = post.topic"
                                     label="Title*"
                                     required
-                                  ></v-text-field>
+                                  />
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12">
                                 <v-text-field
                                   label="Description"
                                   v-model="post.description"
-                                  @change="dataUpdate.desciption = post.description"
+                                  @change="
+                                    dataUpdate.desciption = post.description
+                                  "
                                   persistent-hint
                                   rows="2"
                                   hint="Write description to attract people at the first glance"
-                                ></v-text-field>
+                                />
                               </v-col>
                               <v-col cols="12">
                                 <ValidationProvider
@@ -272,18 +293,25 @@
                                     v-model="post.content"
                                     @change="dataUpdate.content = post.content"
                                     placeholder="Markdown"
-                                  ></v-textarea>
+                                  />
                                 </ValidationProvider>
-                                <v-dialog v-model="isPreviewing" max-width="800">
+                                <v-dialog
+                                  v-model="isPreviewing"
+                                  max-width="800"
+                                >
                                   <v-card
                                     class="preview px-8 pt-8 pb-5 d-flex flex-column"
                                     style="min-height: 330px;"
                                   >
                                     <p
                                       style="line-height: 1.5"
-                                      v-html="$options.filters.markdown(post.content || '')"
-                                    ></p>
-                                    <v-spacer></v-spacer>
+                                      v-html="
+                                        $options.filters.markdown(
+                                          post.content || '',
+                                        )
+                                      "
+                                    />
+                                    <v-spacer />
                                     <div class="d-flex justify-end">
                                       <span class="signature">hong_quang</span>
                                     </div>
@@ -294,14 +322,23 @@
                           </v-container>
                         </v-card-text>
                         <v-card-actions class="pt-0">
-                          <v-spacer></v-spacer>
+                          <v-spacer />
                           <v-btn
                             class="mr-5"
                             color="primary"
                             @click="togglePreviewContent"
                             dark
-                          >Preview</v-btn>
-                          <v-btn class="mr-5" color="warning" dark @click="submit">Update</v-btn>
+                          >
+                            Preview
+                          </v-btn>
+                          <v-btn
+                            class="mr-5"
+                            color="warning"
+                            dark
+                            @click="submit"
+                          >
+                            Update
+                          </v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
@@ -317,38 +354,41 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/Shared/UserAvatar";
-import myUpload from "vue-image-crop-upload";
-import VueUploadMultipleImage from "vue-upload-multiple-image";
-import { updateBanner } from "@/mixins/updateBanner";
-import CreateTag from "@/components/Shared/CreateTag";
-import { extend, setInteractionMode } from "vee-validate";
-import { required, minmax, numeric } from "vee-validate/dist/rules";
-import ToggleTag from "@/components/Shared/ToggleTag";
-import CreateTagBlog from "@/components/Shared/CreateTagBlog";
-setInteractionMode("eager");
-extend("minmax", {
+import myUpload from 'vue-image-crop-upload';
+import VueUploadMultipleImage from 'vue-upload-multiple-image';
+import { extend, setInteractionMode } from 'vee-validate';
+// eslint-disable-next-line no-unused-vars
+import { required, minmax, numeric } from 'vee-validate/dist/rules';
+
+import { updateBanner } from '@/mixins/updateBanner';
+import CreateTag from '@/components/Shared/CreateTag';
+import UserAvatar from '@/components/Shared/UserAvatar';
+import ToggleTag from '@/components/Shared/ToggleTag';
+import CreateTagBlog from '@/components/Shared/CreateTagBlog';
+
+setInteractionMode('eager');
+extend('minmax', {
   validate(value, { min, max }) {
     return value >= Number(min) && value <= Number(max);
   },
-  message: "Valid range: 1 - 10",
-  params: ["min", "max"]
+  message: 'Valid range: 1 - 10',
+  params: ['min', 'max'],
 });
 
-extend("required", {
+extend('required', {
   validate(value) {
     return {
       required: true,
-      valid: ["", null, undefined].indexOf(value) === -1
+      valid: ['', null, undefined].indexOf(value) === -1,
     };
   },
   computesRequired: true,
-  message: "{_field_} is required"
+  message: '{_field_} is required',
 });
 
-extend("numeric", {
+extend('numeric', {
   ...numeric,
-  message: "{_field_} must be a number"
+  message: '{_field_} must be a number',
 });
 
 export default {
@@ -356,169 +396,173 @@ export default {
   components: {
     CreateTagBlog,
     UserAvatar,
+    // eslint-disable-next-line vue/no-unused-components
     CreateTag,
     myUpload,
     ToggleTag,
-    VueUploadMultipleImage
+    VueUploadMultipleImage,
   },
   data() {
     return {
       alert: false,
-      alertMessage: "",
+      alertMessage: '',
       user: {
-        username: "hong_quang"
+        username: 'hong_quang',
       },
       params: {
-        token: "123456798",
-        name: "avatar"
+        token: '123456798',
+        name: 'avatar',
       },
       headers: {
-        smail: "*_~"
+        smail: '*_~',
       },
-      uploadUrl: "https://www.mocky.io/v2/5d4fb20b3000005c111099e3",
-      uploadHeaders: { "X-Test-Header": "vue-file-agent" },
+      uploadUrl: 'https://www.mocky.io/v2/5d4fb20b3000005c111099e3',
+      uploadHeaders: { 'X-Test-Header': 'vue-file-agent' },
       post: {
-        _id: "5e9c6ce7830bd646939c7624",
+        _id: '5e9c6ce7830bd646939c7624',
         tags: [
           {
-            _id: "5e8de2fcad60773238e94f1c",
-            tagName: "seafood"
+            _id: '5e8de2fcad60773238e94f1c',
+            tagName: 'seafood',
           },
           {
-            _id: "5e8de2fcad60773238e94f1d",
-            tagName: "street"
-          }
+            _id: '5e8de2fcad60773238e94f1d',
+            tagName: 'street',
+          },
         ],
         comments: [],
         likes: [],
-        url: "facebook.com",
+        url: 'facebook.com',
         savedBy: [],
         foodPhotos: [
           {
             secureURL:
-              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
             publicId:
-              "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
-            fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
-            sizeBytes: 112398
+              'Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg',
+            fileName: '91427262_222687395745934_4371644556861505536_n.jpg',
+            sizeBytes: 112398,
           },
           {
             secureURL:
-              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
             publicId:
-              "Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png",
-            fileName: "89025324_2760328297369108_3874548065679441920_n.png",
-            sizeBytes: 184898
+              'Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png',
+            fileName: '89025324_2760328297369108_3874548065679441920_n.png',
+            sizeBytes: 184898,
           },
           {
             secureURL:
-              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
             publicId:
-              "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
-            fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
-            sizeBytes: 112398
+              'Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg',
+            fileName: '91427262_222687395745934_4371644556861505536_n.jpg',
+            sizeBytes: 112398,
           },
           {
             secureURL:
-              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
             publicId:
-              "Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png",
-            fileName: "89025324_2760328297369108_3874548065679441920_n.png",
-            sizeBytes: 184898
+              'Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png',
+            fileName: '89025324_2760328297369108_3874548065679441920_n.png',
+            sizeBytes: 184898,
           },
           {
             secureURL:
-              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
             publicId:
-              "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
-            fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
-            sizeBytes: 112398
+              'Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg',
+            fileName: '91427262_222687395745934_4371644556861505536_n.jpg',
+            sizeBytes: 112398,
           },
           {
             secureURL:
-              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
             publicId:
-              "Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png",
-            fileName: "89025324_2760328297369108_3874548065679441920_n.png",
-            sizeBytes: 184898
+              'Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png',
+            fileName: '89025324_2760328297369108_3874548065679441920_n.png',
+            sizeBytes: 184898,
           },
           {
             secureURL:
-              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
             publicId:
-              "Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png",
-            fileName: "89025324_2760328297369108_3874548065679441920_n.png",
-            sizeBytes: 184898
+              'Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png',
+            fileName: '89025324_2760328297369108_3874548065679441920_n.png',
+            sizeBytes: 184898,
           },
           {
             secureURL:
-              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
             publicId:
-              "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
-            fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
-            sizeBytes: 112398
+              'Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg',
+            fileName: '91427262_222687395745934_4371644556861505536_n.jpg',
+            sizeBytes: 112398,
           },
           {
             secureURL:
-              "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
             publicId:
-              "Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png",
-            fileName: "89025324_2760328297369108_3874548065679441920_n.png",
-            sizeBytes: 184898
-          }
+              'Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png',
+            fileName: '89025324_2760328297369108_3874548065679441920_n.png',
+            sizeBytes: 184898,
+          },
         ],
         food: {
-          foodName: "sushi",
-          priceAverage: "200000 - 250000 VND",
-          address: "Let’s Sushi 13B Quốc Tử Giám",
+          foodName: 'sushi',
+          priceAverage: '200000 - 250000 VND',
+          address: 'Let’s Sushi 13B Quốc Tử Giám',
           stars: 5,
           restaurant: "Let's sushi",
           quality: 7.8,
           price: 8,
           service: 10,
           space: 8,
-          openTime: "10:00 - 22:00"
+          openTime: '10:00 - 22:00',
         },
-        topic: "Sushi",
+        topic: 'Sushi',
         description:
           'Originally, sushi was fermented fish with rice preserved in salt, and this was a staple dish in Japan for a thousand years until the Edo Period (1603 to 1868) when contemporary sushi was developed. The word "sushi" means "it\'s sour," which reflects back to sushi\'s origins of being preserved in salt',
         content:
           'Originally, sushi was fermented fish with rice preserved in salt, and this was a staple dish in Japan for a thousand years until the Edo Period (1603 to 1868) when contemporary sushi was developed. The word "sushi" means "it\'s sour," which reflects back to sushi\'s origins of being preserved in salt',
-        type: "food",
+        type: 'food',
         cover: {
           secureURL:
-            "https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg",
+            'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
           publicId:
-            "Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg",
-          fileName: "91427262_222687395745934_4371644556861505536_n.jpg",
-          sizeBytes: 112398
+            'Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg',
+          fileName: '91427262_222687395745934_4371644556861505536_n.jpg',
+          sizeBytes: 112398,
         },
-        createdAt: "2020-04-19T15:23:19.975Z",
-        updatedAt: "2020-04-19T15:23:19.975Z",
+        createdAt: '2020-04-19T15:23:19.975Z',
+        updatedAt: '2020-04-19T15:23:19.975Z',
         user: {
-          _id: "5e8b577f1a2dde322987924",
-          username: "nhat_anh"
+          _id: '5e8b577f1a2dde322987924',
+          username: 'nhat_anh',
         },
         metadata: {
-          _id: "5e9494fe935dfb5ed30435",
+          _id: '5e9494fe935dfb5ed30435',
           comments: 123,
           likes: 69,
-          saves: 1
-        }
+          saves: 1,
+        },
       },
       uploadBanner: false,
       foodPhotosConvert: [],
       tags: [],
       maxImages: 20,
       dataUpdate: {},
-      isPreviewing: false
+      isPreviewing: false,
     };
   },
   computed: {},
   created() {
     this.tags = this.post.tags.map(tag => tag.tagName);
-    this.foodPhotosConvert = this.post.foodPhotos.map(photo => ({ path: photo.secureURL }))
-    console.log(this.foodPhotosConvert)
+    this.foodPhotosConvert = this.post.foodPhotos.map(photo => ({
+      path: photo.secureURL,
+    }));
+    // eslint-disable-next-line no-console
+    console.log(this.foodPhotosConvert);
   },
   methods: {
     handleAddTag(tag) {
@@ -531,18 +575,21 @@ export default {
       if (this.isPreviewing) {
         return (this.isPreviewing = false);
       }
-      if (!this.isPreviewing && this.post.content.trim() !== "") {
+      if (!this.isPreviewing && this.post.content.trim() !== '') {
         return (this.isPreviewing = true);
       }
     },
+    // eslint-disable-next-line no-unused-vars
     beforeRemove(index, done, fileList) {
       done();
     },
     editImage(formData, index, fileList) {
-      console.log("edit data", formData, index, fileList);
+      // eslint-disable-next-line no-console
+      console.log('edit data', formData, index, fileList);
     },
+    // eslint-disable-next-line no-unused-vars
     handleLimitExceed(amount) {
-      this.alertMessage = "Please choose less than 20 photos";
+      this.alertMessage = 'Please choose less than 20 photos';
       this.alert = true;
       setTimeout(() => {
         this.alert = false;
@@ -551,20 +598,20 @@ export default {
     submit() {
       this.dataUpdate.tags = this.tags;
       this.$refs.observer.validate();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 .signature {
-  font-family: "Great Vibes", cursive;
+  font-family: 'Great Vibes', cursive;
   font-size: 28px;
 }
 
 #my-strictly-unique-vue-upload-multiple-image {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

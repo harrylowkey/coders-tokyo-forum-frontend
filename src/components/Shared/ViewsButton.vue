@@ -10,20 +10,20 @@ export default {
   props: {
     customize: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
-    views: Number
+    views: Number,
   },
   data() {
     return {
       calStyleCounter: {
-        position: "absolute !important",
-        top: "25px",
-        left: "32px",
-        fontSize: "16px"
-      }
+        position: 'absolute !important',
+        top: '25px',
+        left: '32px',
+        fontSize: '16px',
+      },
     };
-  }
+  },
 };
 </script>
 

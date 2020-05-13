@@ -1,7 +1,7 @@
 <template>
   <v-container fluid style="padding: 0 !important">
-    <app-banner></app-banner>
-    <v-divider></v-divider>
+    <app-banner />
+    <v-divider />
     <br />
     <v-container color="dark">
       <v-row>
@@ -18,7 +18,7 @@
           class="pt-0"
         >
           <div class="pt-6">
-            <app-alert v-if="alert" :alertMessage="alertMessage"></app-alert>
+            <app-alert v-if="alert" :alertMessage="alertMessage" />
             <ValidationObserver ref="observer">
               <v-form>
                 <v-alert
@@ -28,19 +28,27 @@
                   border="left"
                   transition="slide-x-reverse-transition"
                   dismissible
-                >{{ alertMessage }}</v-alert>
+                >
+                  {{ alertMessage }}
+                </v-alert>
                 <v-card class="d-flex py-3 pt-0">
                   <v-row>
                     <v-col cols="4" offset-sm="4" class="py-1">
                       <div class="d-flex flex-column align-center">
                         <user-avatar
-                          :src="'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'"
+                          :src="
+                            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'
+                          "
                           :username="user.username"
                           style="height: 130px;"
-                        ></user-avatar>
+                        />
                       </div>
                     </v-col>
-                    <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
+                    <v-col
+                      cols="12"
+                      class="pb-0 pt-0 px-6"
+                      style="height: 60px;"
+                    >
                       <div class="d-flex ml-7">
                         <div class="d-flex">
                           <toggle-tag
@@ -48,13 +56,13 @@
                             :key="i"
                             :tagName="tag"
                             @handleRemoveTag="handleRemoveTag(i)"
-                          ></toggle-tag>
+                          />
                         </div>
                         <create-tag-blog
                           v-if="tags.length < 3"
                           @handleAddTag="handleAddTag"
                           :tags="tags"
-                        ></create-tag-blog>
+                        />
                       </div>
                     </v-col>
                     <v-col cols="12" class="pt-0">
@@ -77,7 +85,7 @@
                                   img-format="jpg"
                                   langType="en"
                                   noCircle
-                                ></my-upload>
+                                />
                                 <v-container
                                   class="d-flex justify-center"
                                   v-if="post.cover.secureURL"
@@ -87,7 +95,7 @@
                                     max-width="650"
                                     max-height="250"
                                     :src="post.cover.secureURL"
-                                  ></v-img>
+                                  />
                                   <v-chip
                                     @click="uploadBanner = !uploadBanner"
                                     style="cursor: pointer"
@@ -96,7 +104,10 @@
                                     color="green"
                                     label
                                   >
-                                    <v-icon left>mdi-cloud-upload-outline</v-icon>Update Image
+                                    <v-icon left>
+                                      mdi-cloud-upload-outline
+                                    </v-icon>
+                                    Update Image
                                   </v-chip>
                                 </v-container>
                               </v-col>
@@ -111,120 +122,173 @@
                                     v-model="post.movie.name"
                                     label="Movie name*"
                                     required
-                                  ></v-text-field>
+                                  />
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12" sm="6" md="6">
-                                <v-text-field v-model="post.movie.country" label="Nation"></v-text-field>
+                                <v-text-field
+                                  v-model="post.movie.country"
+                                  label="Nation"
+                                />
                               </v-col>
                               <v-col cols="12" sm="4" md="2">
-                                <v-text-field v-model="post.movie.imdb" label="IMDb"></v-text-field>
+                                <v-text-field
+                                  v-model="post.movie.imdb"
+                                  label="IMDb"
+                                />
                               </v-col>
                               <v-col cols="12" sm="4" md="2">
                                 <v-text-field
                                   v-model="post.movie.time"
                                   hint="Unit: minutes"
                                   label="Times"
-                                ></v-text-field>
+                                />
                               </v-col>
                               <v-col cols="12" sm="4" md="8">
-                                <v-text-field v-model="post.movie.link" label="Link"></v-text-field>
+                                <v-text-field
+                                  v-model="post.movie.link"
+                                  label="Link"
+                                />
                               </v-col>
                               <v-col cols="12" sm="6" md="4">
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="director" label="Director"></v-text-field>
+                                  <v-text-field
+                                    v-model="director"
+                                    label="Director"
+                                  />
                                   <span class="pb-4 pl-3" v-if="!addCoDirector">
                                     <v-icon
                                       @click="addCoDirector = !addCoDirector"
                                       color="green"
                                       style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
+                                    >
+                                      mdi-plus-circle-outline
+                                    </v-icon>
                                   </span>
                                   <span class="pb-4 pl-3" v-if="addCoDirector">
                                     <v-icon
                                       @click="handleRemoveCoDirector"
                                       color="warning"
                                       style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
+                                    >
+                                      mdi-close-circle-outline
+                                    </v-icon>
                                   </span>
                                 </div>
                               </v-col>
-                              <v-col cols="12" sm="6" md="4" v-if="addCoDirector">
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                                v-if="addCoDirector"
+                              >
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="coDirector" label="Co - Director"></v-text-field>
+                                  <v-text-field
+                                    v-model="coDirector"
+                                    label="Co - Director"
+                                  />
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="4">
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="actor" label="Actor/Actress"></v-text-field>
+                                  <v-text-field
+                                    v-model="actor"
+                                    label="Actor/Actress"
+                                  />
                                   <span class="pb-4 pl-3" v-if="!addActor2">
                                     <v-icon
                                       @click="addActor2 = !addActor2"
                                       color="green"
                                       style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
+                                    >
+                                      mdi-plus-circle-outline
+                                    </v-icon>
                                   </span>
                                   <span class="pb-4 pl-3" v-if="addActor2">
                                     <v-icon
                                       @click="handleRemoveCoDirector(2)"
                                       color="warning"
                                       style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
+                                    >
+                                      mdi-close-circle-outline
+                                    </v-icon>
                                   </span>
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="4" v-if="addActor2">
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="actor2" label="Actor/Actress"></v-text-field>
+                                  <v-text-field
+                                    v-model="actor2"
+                                    label="Actor/Actress"
+                                  />
                                   <span class="pb-4 pl-3" v-if="!addActor3">
                                     <v-icon
                                       @click="addActor3 = !addActor3"
                                       color="green"
                                       style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
+                                    >
+                                      mdi-plus-circle-outline
+                                    </v-icon>
                                   </span>
                                   <span class="pb-4 pl-3" v-if="addActor3">
                                     <v-icon
                                       @click="handleRemoveActor(3)"
                                       color="warning"
                                       style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
+                                    >
+                                      mdi-close-circle-outline
+                                    </v-icon>
                                   </span>
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="4" v-if="addActor3">
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="actor3" label="Actor/Actress"></v-text-field>
+                                  <v-text-field
+                                    v-model="actor3"
+                                    label="Actor/Actress"
+                                  />
                                   <span class="pb-4 pl-3" v-if="!addActor4">
                                     <v-icon
                                       @click="addActor4 = !addActor4"
                                       color="green"
                                       style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
+                                    >
+                                      mdi-plus-circle-outline
+                                    </v-icon>
                                   </span>
                                   <span class="pb-4 pl-3" v-if="addActor4">
                                     <v-icon
                                       @click="handleRemoveActor(4)"
                                       color="warning"
                                       style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
+                                    >
+                                      mdi-close-circle-outline
+                                    </v-icon>
                                   </span>
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="4" v-if="addActor4">
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="actor4" label="Actor/Actress"></v-text-field>
+                                  <v-text-field
+                                    v-model="actor4"
+                                    label="Actor/Actress"
+                                  />
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="5">
-                                <v-text-field v-model="post.movie.releaseDate" label="Release Date"></v-text-field>
+                                <v-text-field
+                                  v-model="post.movie.releaseDate"
+                                  label="Release Date"
+                                />
                               </v-col>
                               <v-col cols="12" sm="12" md="7">
                                 <v-container class="d-flex pl-0 pb-0 pr-0 mt-2">
                                   <span
                                     style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                                     class="mb-0 pt-1 pr-5"
-                                  >Your stars:</span>
+                                  >
+                                    Your stars:
+                                  </span>
                                   <v-rating
                                     v-model="post.movie.stars"
                                     color="yellow darken-3"
@@ -233,7 +297,7 @@
                                     half-increments
                                     hover
                                     small
-                                  ></v-rating>
+                                  />
                                 </v-container>
                               </v-col>
                               <v-col cols="12" sm="12" md="12">
@@ -242,7 +306,7 @@
                                   label="Genres"
                                   v-model="post.movie.genres"
                                   multiple
-                                ></v-autocomplete>
+                                />
                               </v-col>
                               <v-col cols="12">
                                 <ValidationProvider
@@ -259,18 +323,20 @@
                                     required
                                     :error-messages="errors"
                                     hint="Write description to attract people at the first glance"
-                                  ></v-text-field>
+                                  />
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12">
                                 <v-text-field
                                   label="Description"
                                   v-model="post.description"
-                                  @change="dataUpdate.description = post.description"
+                                  @change="
+                                    dataUpdate.description = post.description
+                                  "
                                   persistent-hint
                                   rows="2"
                                   hint="Write description to attract people at the first glance"
-                                ></v-text-field>
+                                />
                               </v-col>
                               <v-col cols="12">
                                 <ValidationProvider
@@ -281,24 +347,33 @@
                                   <v-textarea
                                     label="Content*"
                                     v-model="post.content"
-                                    @change="dataUpdate.description = post.description"
+                                    @change="
+                                      dataUpdate.description = post.description
+                                    "
                                     auto-grow
                                     rows="15"
                                     required
                                     :error-messages="errors"
                                     placeholder="Markdown"
-                                  ></v-textarea>
+                                  />
                                 </ValidationProvider>
-                                <v-dialog v-model="isPreviewing" max-width="800">
+                                <v-dialog
+                                  v-model="isPreviewing"
+                                  max-width="800"
+                                >
                                   <v-card
                                     class="preview px-8 pt-8 pb-5 d-flex flex-column"
                                     style="min-height: 330px;"
                                   >
                                     <p
                                       style="line-height: 1.5"
-                                      v-html="$options.filters.markdown(post.content || '')"
-                                    ></p>
-                                    <v-spacer></v-spacer>
+                                      v-html="
+                                        $options.filters.markdown(
+                                          post.content || '',
+                                        )
+                                      "
+                                    />
+                                    <v-spacer />
                                     <div class="d-flex justify-end">
                                       <span class="signature">hong_quang</span>
                                     </div>
@@ -309,14 +384,23 @@
                           </v-container>
                         </v-card-text>
                         <v-card-actions class="pt-0">
-                          <v-spacer></v-spacer>
+                          <v-spacer />
                           <v-btn
                             class="mr-5"
                             color="primary"
                             @click="togglePreviewContent"
                             dark
-                          >Preview</v-btn>
-                          <v-btn class="mr-5" color="warning" dark @click="submit">Update</v-btn>
+                          >
+                            Preview
+                          </v-btn>
+                          <v-btn
+                            class="mr-5"
+                            color="warning"
+                            dark
+                            @click="submit"
+                          >
+                            Update
+                          </v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
@@ -332,161 +416,161 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/Shared/UserAvatar";
-import myUpload from "vue-image-crop-upload";
-import VueUploadMultipleImage from "vue-upload-multiple-image";
-import { updateBanner } from "@/mixins/updateBanner";
-import CreateTag from "@/components/Shared/CreateTag";
-import { extend, setInteractionMode } from "vee-validate";
-import { required } from "vee-validate/dist/rules";
-import ToggleTag from "@/components/Shared/ToggleTag";
-import CreateTagBlog from "@/components/Shared/CreateTagBlog";
+import myUpload from 'vue-image-crop-upload';
+// import VueUploadMultipleImage from "vue-upload-multiple-image";
+// import CreateTag from "@/components/Shared/CreateTag";
+import { extend, setInteractionMode } from 'vee-validate';
+import { required } from 'vee-validate/dist/rules';
 
-setInteractionMode("eager");
-extend("required", {
+import { updateBanner } from '@/mixins/updateBanner';
+import UserAvatar from '@/components/Shared/UserAvatar';
+import ToggleTag from '@/components/Shared/ToggleTag';
+import CreateTagBlog from '@/components/Shared/CreateTagBlog';
+
+setInteractionMode('eager');
+extend('required', {
   ...required,
-  message: "{_field_} is required"
+  message: '{_field_} is required',
 });
 
 export default {
   mixins: [updateBanner],
   components: {
     UserAvatar,
-    CreateTag,
+    // CreateTag,
     myUpload,
     ToggleTag,
     CreateTagBlog,
-    VueUploadMultipleImage
+    // VueUploadMultipleImage
   },
   data() {
     return {
       alert: false,
-      alertMessage: "",
+      alertMessage: '',
       user: {
-        username: "hong_quang"
+        username: 'hong_quang',
       },
       tags: [],
       uploadBanner: false,
       params: {
-        token: "123456798",
-        name: "avatar"
+        token: '123456798',
+        name: 'avatar',
       },
       headers: {
-        smail: "*_~"
+        smail: '*_~',
       },
-      uploadUrl: "https://www.mocky.io/v2/5d4fb20b3000005c111099e3",
-      uploadHeaders: { "X-Test-Header": "vue-file-agent" },
+      uploadUrl: 'https://www.mocky.io/v2/5d4fb20b3000005c111099e3',
+      uploadHeaders: { 'X-Test-Header': 'vue-file-agent' },
       post: {
-        _id: "5e9b04f5d1f1da5baece2ff5",
+        _id: '5e9b04f5d1f1da5baece2ff5',
         tags: [
           {
-            _id: "5e8c563eeda853638189e854",
-            tagName: "#action"
+            _id: '5e8c563eeda853638189e854',
+            tagName: '#action',
           },
           {
-            _id: "5e9b047ef82e7d563b8e2c5a",
-            tagName: "#funny"
-          }
+            _id: '5e9b047ef82e7d563b8e2c5a',
+            tagName: '#funny',
+          },
         ],
         comments: [],
         user: {
-          _id: "5e8b577f1a2dde3229879524",
-          username: "nhat_anh"
+          _id: '5e8b577f1a2dde3229879524',
+          username: 'nhat_anh',
         },
         authors: [
           {
-            _id: "5e9b047ef82e7d563b8e2c5b",
-            type: "actor",
-            name: "Dave Bautista (JJ)"
+            _id: '5e9b047ef82e7d563b8e2c5b',
+            type: 'actor',
+            name: 'Dave Bautista (JJ)',
           },
           {
-            _id: "5e9b047ef82e7d563b8e2c5d",
-            type: "actor",
-            name: "Ken Jeong (Kim)"
+            _id: '5e9b047ef82e7d563b8e2c5d',
+            type: 'actor',
+            name: 'Ken Jeong (Kim)',
           },
           {
-            _id: "5e9b04f5d1f1da5baece2ff7",
-            type: "director",
-            name: "KristenSchall (Bobbi)"
-          }
+            _id: '5e9b04f5d1f1da5baece2ff7',
+            type: 'director',
+            name: 'KristenSchall (Bobbi)',
+          },
         ],
         likes: [],
-        url: "http://www.phimmoi.net/phim/diep-vien-ti-hon-8928/",
+        url: 'http://www.phimmoi.net/phim/diep-vien-ti-hon-8928/',
         savedBy: [],
-        topic: "My Spey (2019)",
+        topic: 'My Spey (2019)',
         description:
-          "Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta",
+          'Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta',
         content:
-          "Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta",
-        type: "movie",
+          'Điệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta\nĐiệp Viên Tí Hon kể về công việc làm gia sư dở khóc dở cười của JJ - một điệp viên CIA chuyên nghiệp. Trong một lần hoạt động ngầm, anh bị Sophie - một cô bé 9 tuổi phát hiện ra thân phận của mình. JJ miễn cưỡng phải nhận dạy Sophie cách làm điệp viên, nếu không cô bé lém lỉnh nhiều trò này sẽ thổi tung vỏ bọc của anh ta',
+        type: 'movie',
         cover: {
-          _id: "5e9ab00f0591fb40fc87faa3",
+          _id: '5e9ab00f0591fb40fc87faa3',
           secureURL:
-            "https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png",
-          publicId: "Coders-Tokyo-Forum/posts/javascript.png",
-          fileName: "javascript.png",
+            'https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png',
+          publicId: 'Coders-Tokyo-Forum/posts/javascript.png',
+          fileName: 'javascript.png',
           sizeBytes: 316358,
-          userId: "5e8b577f1a2dde32298795f4",
-          postId: "5e9ab00f0591fb40fc87faa2",
-          resourceType: "image",
-          createdAt: "2020-04-18T07:45:19.838Z",
-          updatedAt: "2020-04-18T07:45:19.838Z",
-          __v: 0
+          userId: '5e8b577f1a2dde32298795f4',
+          postId: '5e9ab00f0591fb40fc87faa2',
+          resourceType: 'image',
+          createdAt: '2020-04-18T07:45:19.838Z',
+          updatedAt: '2020-04-18T07:45:19.838Z',
+          __v: 0,
         },
         metadata: {
-          _id: "5e9494fe935dfb5ed30435",
+          _id: '5e9494fe935dfb5ed30435',
           comments: 123,
           likes: 69,
-          saves: 1
+          saves: 1,
         },
         movie: {
-          name: "Spy",
-          genres: ["Action"],
+          name: 'Spy',
+          genres: ['Action'],
           imdb: 5.2,
-          country: "England",
-          link: "facebook.com",
-          releaseDate: "22/11/2019",
+          country: 'England',
+          link: 'facebook.com',
+          releaseDate: '22/11/2019',
           time: 91,
-          stars: 4
+          stars: 4,
         },
-        createdAt: "2020-04-18T13:47:33.708Z",
-        updatedAt: "2020-04-18T13:47:33.708Z"
+        createdAt: '2020-04-18T13:47:33.708Z',
+        updatedAt: '2020-04-18T13:47:33.708Z',
       },
-      director: "",
-      coDirector: "",
-      actor: "",
-      actor2: "",
-      actor3: "",
-      actor4: "",
+      director: '',
+      coDirector: '',
+      actor: '',
+      actor2: '',
+      actor3: '',
+      actor4: '',
       addCoDirector: false,
-      addActor2: "",
-      addActor3: "",
-      addActor4: "",
-      tags: [],
+      addActor2: '',
+      addActor3: '',
+      addActor4: '',
       dataUpdate: {},
-      imgDataUrl: "",
+      imgDataUrl: '',
       isPreviewing: false,
-      genres: ["Action", "Funny", "Moving", "History"]
+      genres: ['Action', 'Funny', 'Moving', 'History'],
     };
   },
   computed: {},
   created() {
     this.tags = this.post.tags.map(tag => tag.tagName);
     this.bannerImage = this.post.cover.secureURL;
-    let actors = this.post.authors.filter(person => person.type === "actor");
-    this.actor = actors[0] ? actors[0].name : "";
-    this.actor2 = actors[1] ? actors[1].name : "";
-    this.actor3 = actors[2] ? actors[2].name : "";
-    this.actor4 = actors[3] ? actors[3].name : "";
-    this.addActor2 = this.actor2 ? true : false;
-    this.addActor3 = this.actor3 ? true : false;
-    this.addActor24 = this.actor4 ? true : false;
+    const actors = this.post.authors.filter(person => person.type === 'actor');
+    this.actor = actors[0] ? actors[0].name : '';
+    this.actor2 = actors[1] ? actors[1].name : '';
+    this.actor3 = actors[2] ? actors[2].name : '';
+    this.actor4 = actors[3] ? actors[3].name : '';
+    this.addActor2 = !!this.actor2;
+    this.addActor3 = !!this.actor3;
+    this.addActor24 = !!this.actor4;
 
-    let directors = this.post.authors.filter(
-      person => person.type === "director"
+    const directors = this.post.authors.filter(
+      person => person.type === 'director',
     );
-    this.director = directors[0] ? directors[0].name : "";
-    this.coDirector = directors[1] ? directors[1].name : "";
+    this.director = directors[0] ? directors[0].name : '';
+    this.coDirector = directors[1] ? directors[1].name : '';
   },
   methods: {
     handleAddTag(tag) {
@@ -497,51 +581,51 @@ export default {
     },
     handleRemoveCoDirector() {
       this.addCoDirector = !this.addCoDirector;
-      this.coDirector = "";
+      this.coDirector = '';
     },
     handleRemoveActor(index) {
       this[`addActor${index}`] = !this[`addActor${index}`];
-      this[`actor${index}`] = "";
+      this[`actor${index}`] = '';
     },
     togglePreviewContent() {
       if (this.isPreviewing) {
         return (this.isPreviewing = false);
       }
-      if (!this.isPreviewing && this.post.content.trim() !== "") {
+      if (!this.isPreviewing && this.post.content.trim() !== '') {
         return (this.isPreviewing = true);
       }
     },
     submit() {
       this.dataUpdate.authors = [
-        { type: "actor", name: this.actor },
-        { type: "actor", name: this.actor2 },
-        { type: "actor", name: this.actor3 },
-        { type: "actor", name: this.actor4 },
-        { type: "director", name: this.director },
-        { type: "director", name: this.coDirector }
-      ].filter(person => person.name !== "");
+        { type: 'actor', name: this.actor },
+        { type: 'actor', name: this.actor2 },
+        { type: 'actor', name: this.actor3 },
+        { type: 'actor', name: this.actor4 },
+        { type: 'director', name: this.director },
+        { type: 'director', name: this.coDirector },
+      ].filter(person => person.name !== '');
 
       this.dataUpdate.book.suggestedBy = [
         this.recommender,
-        this.recommender2
-      ].filter(recommender => recommender !== "");
+        this.recommender2,
+      ].filter(recommender => recommender !== '');
       this.dataUpdate.tags = this.tags;
       this.dataUpdate.book = this.post.book;
       this.$refs.observer.validate();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 .signature {
-  font-family: "Great Vibes", cursive;
+  font-family: 'Great Vibes', cursive;
   font-size: 28px;
 }
 
 #my-strictly-unique-vue-upload-multiple-image {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

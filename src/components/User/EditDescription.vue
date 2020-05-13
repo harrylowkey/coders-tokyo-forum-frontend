@@ -7,12 +7,14 @@
           auto-grow
           class="pt-0"
           v-model="editDescription"
-        ></v-textarea>
+        />
       </v-col>
       <v-card-actions class="pt-0" style="width: 100%;">
         <v-row>
           <v-col class="d-flex justify-center">
-            <v-btn @click="handleUpdateDescription" small color="success">Update</v-btn>
+            <v-btn @click="handleUpdateDescription" small color="success">
+              Update
+            </v-btn>
           </v-col>
           <v-col class="d-flex justify-center">
             <v-btn @click="onCancel" dark small color="red">Cancel</v-btn>
@@ -24,27 +26,29 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions } from 'vuex';
+
 export default {
-  props: ["description"],
+  props: ['description'],
   data() {
     return {
       isEdit: false,
-      editDescription: this.description
+      editDescription: this.description,
     };
   },
   methods: {
-    ...mapActions("user", ["updateProfile"]),
+    ...mapActions('user', ['updateProfile']),
     onCancel() {
-      this.$emit("handleCancelEditDescription");
+      this.$emit('handleCancelEditDescription');
     },
     async handleUpdateDescription() {
-      let res = await this.updateProfile({ description: this.editDescription });
-      this.$emit("handleUpdateDescription", res);
-    }
-  }
+      const res = await this.updateProfile({
+        description: this.editDescription,
+      });
+      this.$emit('handleUpdateDescription', res);
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

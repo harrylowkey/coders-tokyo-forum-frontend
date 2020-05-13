@@ -7,14 +7,18 @@
             :src="user.avatar.secureURL"
             :username="user.username"
             style="height: 150px;"
-          ></user-avatar>
+          />
           <toggle-tag
             v-for="(tag, i) in data.tags"
             :key="i"
             :tagName="tag"
             @handleRemoveTag="handleRemoveTag(i)"
-          ></toggle-tag>
-          <create-tag v-if="data.tags.length < 3" @handleAddTag="handleAddTag" :tags="data.tags"></create-tag>
+          />
+          <create-tag
+            v-if="data.tags.length < 3"
+            @handleAddTag="handleAddTag"
+            :tags="data.tags"
+          />
         </div>
         <div style="flex:80%">
           <v-card-title class="pb-0">
@@ -24,18 +28,26 @@
             <v-container class="py-0">
               <v-row>
                 <v-col cols="12">
-                  <ValidationProvider name="Topic" rules="required" v-slot="{ errors }">
+                  <ValidationProvider
+                    name="Topic"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
                     <v-text-field
                       @keyup.enter="submit"
                       label="Topic*"
                       v-model="data.topic"
                       :error-messages="errors"
                       required
-                    ></v-text-field>
+                    />
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12">
-                  <ValidationProvider name="Content" rules="required" v-slot="{ errors }">
+                  <ValidationProvider
+                    name="Content"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
                     <v-textarea
                       @keyup.enter="submit"
                       :error-messages="errors"
@@ -44,15 +56,17 @@
                       auto-grow
                       rows="4"
                       required
-                    ></v-textarea>
+                    />
                   </ValidationProvider>
                 </v-col>
               </v-row>
             </v-container>
           </v-card-text>
           <v-card-actions class="pt-0">
-            <v-spacer></v-spacer>
-            <v-btn  @click="submit" class="mr-5 white--text" color="green">Post</v-btn>
+            <v-spacer />
+            <v-btn @click="submit" class="mr-5 white--text" color="green">
+              Post
+            </v-btn>
           </v-card-actions>
         </div>
       </v-card>
@@ -61,7 +75,7 @@
 </template>
 
 <script>
-import { createPost } from "@/mixins/createPost";
+import { createPost } from '@/mixins/createPost';
 
 export default {
   mixins: [createPost],
@@ -69,11 +83,11 @@ export default {
   data() {
     return {
       data: {
-        topic: "",
-        content: "",
+        topic: '',
+        content: '',
         tags: [],
-        type: "discussions"
-      }
+        type: 'discussions',
+      },
     };
   },
   methods: {
@@ -83,32 +97,32 @@ export default {
       const res = await this.createPost(this.data);
       if (res.status === 200) {
         this.$notify({
-          type: "success",
-          title: "Success"
+          type: 'success',
+          title: 'Success',
         });
       }
       if (res.status === 400) {
         this.$notify({
-          type: "error",
-          title: "Failed",
-          text: res.message
+          type: 'error',
+          title: 'Failed',
+          text: res.message,
         });
       }
 
       setTimeout(() => {
         return this.$router.push({
+          // eslint-disable-next-line no-underscore-dangle
           path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
             0,
-            this.data.type.length - 1
-          )}`
+            this.data.type.length - 1,
+          )}`,
         });
       }, 1000);
-    }
+    },
   },
   computed: {},
-  watch: {}
+  watch: {},
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

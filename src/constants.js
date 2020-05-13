@@ -1,1 +1,1 @@
-exports.DOMAIN = 'localhost:3000/api/v1'
+exports.DOMAIN = 'localhost:3000/api/v1';

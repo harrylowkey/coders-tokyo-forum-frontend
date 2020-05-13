@@ -1,25 +1,32 @@
 <template>
   <div>
     <v-row id="post">
-      <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
+      <v-col
+        cols="12"
+        sm="12"
+        md="1"
+        lg="1"
+        xl="1"
+        class="pr-0 wrapper-icon d-sm-none d-md-flex"
+      >
         <post-reactions
           v-if="!isLoading"
-          :likes="(post && post.metadata) ? post.metadata.likes : 0"
-          :saves="(post && post.metadata) ? post.metadata.saves : 0"
+          :likes="post && post.metadata ? post.metadata.likes : 0"
+          :saves="post && post.metadata ? post.metadata.saves : 0"
           :flowers="0"
           :postId="post._id"
-        ></post-reactions>
+        />
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
-        <v-skeleton-loader></v-skeleton-loader>
-        <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image"></v-boilerplate>
+        <v-skeleton-loader />
+        <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image" />
         <v-boilerplate
           max-width="200"
           class="mx-auto mt-6"
           v-if="isLoading"
           style="margin: 20px !important; display: inline-block; width: 200px"
           type="list-item-avatar-two-line"
-        ></v-boilerplate>
+        />
         <v-boilerplate
           v-if="isLoading"
           style="display: inline-block; width: 600px"
@@ -27,7 +34,7 @@
           max-wdith="200"
           class="mx-auto mt-6"
           type="article"
-        ></v-boilerplate>
+        />
         <v-card v-else id="song" class="mx-auto pa-0 pa-8">
           <v-container class="d-flex">
             <v-img
@@ -42,23 +49,32 @@
               @click="togglePlayPause"
             >
               <div :class="wrapperPlayPauseIconClasses">
-                <v-icon :class="playPauseIconClasses" size="50">{{ togglePlayPauseIcon }}</v-icon>
+                <v-icon :class="playPauseIconClasses" size="50">
+                  {{ togglePlayPauseIcon }}
+                </v-icon>
               </div>
             </v-img>
 
             <v-card-text class="song-description pl-0 pt-0">
-              <v-card-title class="ml-5 headline pt-0">{{ post.media.fileName}}</v-card-title>
+              <v-card-title class="ml-5 headline pt-0">
+                {{ post.media.fileName }}
+              </v-card-title>
               <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
-                <span style="font-size: 13px" v-for="(author, i) in post.authors" :key="author._id">
+                <span
+                  style="font-size: 13px"
+                  v-for="(author, i) in post.authors"
+                  :key="author._id"
+                >
                   <a
                     target="_blank"
                     style="text-decoration: none; color: #000"
                     :href="`/posts?artist=${author.name}&type=podcast`"
-                  >{{ author.name }}</a>
-                  <span
-                    style="font-size: 12px"
-                    class="mx-1 font-italic"
-                  >{{ isAddFt(i, post.authors.length) }}</span>
+                  >
+                    {{ author.name }}
+                  </a>
+                  <span style="font-size: 12px" class="mx-1 font-italic">
+                    {{ isAddFt(i, post.authors.length) }}
+                  </span>
                 </span>
               </v-card-subtitle>
 
@@ -85,16 +101,24 @@
                   <span
                     style="font-size: 13px; color: grey"
                     class="font-italic mb-0"
-                  >{{ totalLength }}</span>
+                  >
+                    {{ totalLength }}
+                  </span>
                 </div>
               </div>
               <div class="wrapper-volume pr-3 pt-0">
                 <v-card-actions class="d-flex ml-5 pt-0">
-                  <tag :tagName="tag.tagName" v-for="tag in post.tags" :key="tag._id"></tag>
+                  <tag
+                    :tagName="tag.tagName"
+                    v-for="tag in post.tags"
+                    :key="tag._id"
+                  />
                 </v-card-actions>
-                <v-spacer></v-spacer>
+                <v-spacer />
                 <div class="volume">
-                  <v-icon @click="toggleMutedVolume" class="volume-icon">{{ volumeIcon }}</v-icon>
+                  <v-icon @click="toggleMutedVolume" class="volume-icon">
+                    {{ volumeIcon }}
+                  </v-icon>
                   <v-slider
                     :color="'#4CAF50'"
                     class="volume-bar"
@@ -102,28 +126,35 @@
                     max="100"
                     min="1"
                     track-color="grey"
-                  ></v-slider>
+                  />
                 </div>
               </div>
             </v-card-text>
           </v-container>
-          <v-divider></v-divider>
+          <v-divider />
 
-          <div class="d-flex"></div>
+          <div class="d-flex" />
           <v-container v-if="!isLoading">
             <v-row>
-              <v-col class="pr-0 user-profile" cols="3" sm="4" md="4" lg="3" xl="3">
+              <v-col
+                class="pr-0 user-profile"
+                cols="3"
+                sm="4"
+                md="4"
+                lg="3"
+                xl="3"
+              >
                 <user-social-links
                   :socialLinks="socialLinks"
                   :author="post.user"
                   :user="user"
                   :isAuthor="isAuthor"
-                ></user-social-links>
+                />
               </v-col>
               <v-col class="lyric" cols="9" sm="8" md="8" lg="9" xl="9">
                 <div>
                   <div :class="lyricClasses" ref="lyricWrapper">
-                    <p v-html="$options.filters.markdown(post.content)"></p>
+                    <p v-html="$options.filters.markdown(post.content)" />
                   </div>
                   <span
                     v-if="!isShowMore"
@@ -131,20 +162,24 @@
                     style="font-size: 13px; color: grey; cursor: pointer"
                     class="font-italic mb-0 show-more"
                     ref="showMore"
-                  >Show more</span>
+                  >
+                    Show more
+                  </span>
                   <span
                     v-if="isShowMore"
                     @click="toggleShowLyrics"
                     style="font-size: 13px; color: grey; cursor: pointer"
                     class="font-italic mb-0 show-more"
-                  >Show less</span>
+                  >
+                    Show less
+                  </span>
                   <div class="ml-9 mt-5 d-flex justify-end">
                     <edit-delete-btns
                       v-if="isAuthor"
                       @handleDeletePost="handleDeletePost"
                       :postId="post._id"
                       :postType="post.type"
-                    ></edit-delete-btns>
+                    />
                   </div>
                 </div>
               </v-col>
@@ -152,11 +187,11 @@
           </v-container>
         </v-card>
         <div class="mt-5">
-          <v-divider></v-divider>
+          <v-divider />
           <h1 class="mb-3 mt-8">Comments</h1>
 
-          <v-boilerplate style="width: 100%" v-if="isLoading" type="image"></v-boilerplate>
-          <write-comment v-if="!isLoading"></write-comment>
+          <v-boilerplate style="width: 100%" v-if="isLoading" type="image" />
+          <write-comment v-if="!isLoading" />
 
           <div v-if="post ? post.comments.length : false">
             <comment
@@ -165,7 +200,7 @@
               :comment="comment"
               :author="post.user"
               :postId="post._id"
-            ></comment>
+            />
           </div>
         </div>
       </v-col>
@@ -183,23 +218,30 @@
           style="width: 100%; padding: 5px 10px; background: #fff; margin-top: 30px"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        ></v-boilerplate>
+        />
         <author-follow-card
           v-if="!isLoading"
           class="author-follow"
           :isAuthor="isAuthor"
           :author="post.user"
           :userId="user._id"
-        ></author-follow-card>
+        />
 
-        <div v-if="!isLoading" class="d-flex flex-column justify-center align-center mt-2">
+        <div
+          v-if="!isLoading"
+          class="d-flex flex-column justify-center align-center mt-2"
+        >
           <v-hover
             v-slot:default="{ hover }"
             style="transition: 0.3s"
             v-for="song in otherSongsOfAuthor"
             :key="song._id"
           >
-            <v-card :elevation="hover ? 10 : 3" :class="{ 'on-hover': hover }" id="audio-card">
+            <v-card
+              :elevation="hover ? 10 : 3"
+              :class="{ 'on-hover': hover }"
+              id="audio-card"
+            >
               <v-img
                 class="cover"
                 src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
@@ -208,34 +250,45 @@
                 style="cursor: pointer"
                 @click="playAnotherSong(song._id)"
               >
-                <v-card-title class="title white--text d-flex flex-column align-start pb-0 pt-2">
-                  <p class="mt-0 mb-0 font-italic subheading text-left">{{ song.topic }}</p>
-                  <p
-                    class="caption font-weight-medium font-italic text-left"
-                  >{{ post.authors[0].name }}</p>
+                <v-card-title
+                  class="title white--text d-flex flex-column align-start pb-0 pt-2"
+                >
+                  <p class="mt-0 mb-0 font-italic subheading text-left">
+                    {{ song.topic }}
+                  </p>
+                  <p class="caption font-weight-medium font-italic text-left">
+                    {{ post.authors[0].name }}
+                  </p>
                 </v-card-title>
 
-                <div class="align-self-center d-flex justify-center mb-2 wrapper-icon">
+                <div
+                  class="align-self-center d-flex justify-center mb-2 wrapper-icon"
+                >
                   <v-icon
                     class="play-icon"
                     style="color: #fff"
                     @click="hanldePlayAnotherSong"
                     size="50"
-                  >mdi-music-circle-outline</v-icon>
+                  >
+                    mdi-music-circle-outline
+                  </v-icon>
                 </div>
               </v-img>
 
-              <v-card-actions style="padding: 25px 25px 0 15px; height: 30px" class="pb-1">
+              <v-card-actions
+                style="padding: 25px 25px 0 15px; height: 30px"
+                class="pb-1"
+              >
                 <v-card-text
                   class="font-italic font-weight-light pt-0"
                   style="font-size: 13px; height: 30px; margin-top: 16px !important"
                 >
                   <span class="mt-2">{{ song.createdAt | date }}</span>
                 </v-card-text>
-                <v-spacer></v-spacer>
+                <v-spacer />
                 <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
-                  <like-btn :likes="4"></like-btn>
-                  <comment-btn :comments="9"></comment-btn>
+                  <like-btn :likes="4" />
+                  <comment-btn :comments="9" />
                 </v-container>
               </v-card-actions>
             </v-card>
@@ -247,171 +300,171 @@
 </template>
 
 <script>
-import { crudPost } from "@/mixins/crudPost";
+import { crudPost } from '@/mixins/crudPost';
 
 export default {
   mixins: [crudPost],
   data() {
     return {
-      lyricClasses: ["lyric-wrapper"],
-      playPauseIconClasses: ["play-pause-icon"],
+      lyricClasses: ['lyric-wrapper'],
+      playPauseIconClasses: ['play-pause-icon'],
       wrapperPlayPauseIconClasses: [
-        "align-self-center",
-        "d-flex",
-        "justify-center",
-        "wrapper-play-pause-icon"
+        'align-self-center',
+        'd-flex',
+        'justify-center',
+        'wrapper-play-pause-icon',
       ],
       isShowMore: false,
-      togglePlayPauseIcon: "mdi-play-circle-outline",
-      volumeIcon: "mdi-volume-high",
+      togglePlayPauseIcon: 'mdi-play-circle-outline',
+      volumeIcon: 'mdi-volume-high',
       currentVolume: 100,
       maxVolume: 1.0,
       minVolume: 0.0,
       otherSongsOfAuthor: [
         {
-          _id: "5e9920603c513c2611a9df88",
+          _id: '5e9920603c513c2611a9df88',
           tags: [
             {
-              _id: "5e8c5f27abf7df7d3be426db",
-              tagName: "aucoustic"
+              _id: '5e8c5f27abf7df7d3be426db',
+              tagName: 'aucoustic',
             },
             {
-              _id: "5e8c5f27abf7df7d3be426dc",
-              tagName: "tinh ca"
-            }
+              _id: '5e8c5f27abf7df7d3be426dc',
+              tagName: 'tinh ca',
+            },
           ],
           comments: [],
           authors: [
             {
-              _id: "5e9920603c513c2611a9df89",
-              type: "artist",
-              name: "Chillies"
-            }
+              _id: '5e9920603c513c2611a9df89',
+              type: 'artist',
+              name: 'Chillies',
+            },
           ],
           likes: [],
           savedBy: [],
-          userId: "5e8b577f1a2dde32298795f4",
-          topic: " Memories place",
-          description: "Rock Ballad",
-          content: "lyric",
-          type: "song",
+          userId: '5e8b577f1a2dde32298795f4',
+          topic: ' Memories place',
+          description: 'Rock Ballad',
+          content: 'lyric',
+          type: 'song',
           media: {
-            _id: "5e99206e3c513c2611a9df8a",
+            _id: '5e99206e3c513c2611a9df8a',
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614.mp3",
+              'https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614.mp3',
             publicId:
-              "Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614",
-            fileName: "hongquang_podcast_Vung Ky Uc - Chillies",
+              'Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614',
+            fileName: 'hongquang_podcast_Vung Ky Uc - Chillies',
             sizeBytes: 4835851,
-            userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e9920603c513c2611a9df88",
-            resourceType: "video",
+            userId: '5e8b577f1a2dde32298795f4',
+            postId: '5e9920603c513c2611a9df88',
+            resourceType: 'video',
             media: {
-              type: "upload",
-              signature: "b1cd21b54d3ac48aab7b3097fe59957cb525e614",
+              type: 'upload',
+              signature: 'b1cd21b54d3ac48aab7b3097fe59957cb525e614',
               width: 500,
               height: 500,
-              format: "mp3",
-              resource_type: "video",
+              format: 'mp3',
+              resource_type: 'video',
               frame_rate: 90000,
               bit_rate: 129717,
-              duration: 298.24
+              duration: 298.24,
             },
-            createdAt: "2020-04-17T03:20:14.881Z",
-            updatedAt: "2020-04-17T03:20:14.881Z",
-            __v: 0
+            createdAt: '2020-04-17T03:20:14.881Z',
+            updatedAt: '2020-04-17T03:20:14.881Z',
+            __v: 0,
           },
           audio: {
-            name: "东西（Cover：林俊呈）",
-            artist: "纳豆",
-            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            name: '东西（Cover：林俊呈）',
+            artist: '纳豆',
+            url: 'https://cdn.moefe.org/music/mp3/thing.mp3',
             cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
-            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
+            lrc: 'https://cdn.moefe.org/music/lrc/thing.lrc',
           },
-          createdAt: "2020-04-17T03:20:14.886Z",
-          updatedAt: "2020-04-17T03:20:14.886Z",
+          createdAt: '2020-04-17T03:20:14.886Z',
+          updatedAt: '2020-04-17T03:20:14.886Z',
           metadata: {
-            _id: "5e9494fe935dfb5ed30435",
+            _id: '5e9494fe935dfb5ed30435',
             comments: 123,
             likes: 69,
-            saves: 1
-          }
+            saves: 1,
+          },
         },
         {
-          _id: "5e99202c3c513c2611a9df86",
+          _id: '5e99202c3c513c2611a9df86',
           tags: [
             {
-              _id: "5e8c5f27abf7df7d3be426db",
-              tagName: "rock"
+              _id: '5e8c5f27abf7df7d3be426db',
+              tagName: 'rock',
             },
             {
-              _id: "5e8c5f27abfdf7d3be426dc",
-              tagName: "rockballad"
-            }
+              _id: '5e8c5f27abfdf7d3be426dc',
+              tagName: 'rockballad',
+            },
           ],
           comments: [],
           authors: [
             {
-              _id: "5e8c5f27abf7df7d3be426dd",
-              type: "artist",
-              name: "Sweettie"
+              _id: '5e8c5f27abf7df7d3be426dd',
+              type: 'artist',
+              name: 'Sweettie',
             },
             {
-              _id: "5e8c5f27abf7df7d3be426de",
-              type: "composer",
-              name: "Sweettie"
-            }
+              _id: '5e8c5f27abf7df7d3be426de',
+              type: 'composer',
+              name: 'Sweettie',
+            },
           ],
           likes: [],
           savedBy: [],
-          userId: "5e8b577f1a2dde32298795f4",
-          topic: "The last time",
-          description: "A good song",
-          content: "lyric",
-          type: "song",
+          userId: '5e8b577f1a2dde32298795f4',
+          topic: 'The last time',
+          description: 'A good song',
+          content: 'lyric',
+          type: 'song',
           media: {
-            _id: "5e9920363c513c2611a9df87",
+            _id: '5e9920363c513c2611a9df87',
             secureURL:
-              "https://res.cloudinary.com/hongquangraem/video/upload/v1587093557/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093558.mp3",
+              'https://res.cloudinary.com/hongquangraem/video/upload/v1587093557/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093558.mp3',
             publicId:
-              "Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093558",
-            fileName: "hongquang_podcast_Vung Ky Uc - Chillies",
+              'Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093558',
+            fileName: 'hongquang_podcast_Vung Ky Uc - Chillies',
             sizeBytes: 4835851,
-            userId: "5e8b577f1a2dde32298795f4",
-            postId: "5e99202c3c513c2611a9df86",
-            resourceType: "video",
+            userId: '5e8b577f1a2dde32298795f4',
+            postId: '5e99202c3c513c2611a9df86',
+            resourceType: 'video',
             media: {
-              type: "upload",
-              signature: "1f824197f0826b949e90ed5a78544ba7c268d52a",
+              type: 'upload',
+              signature: '1f824197f0826b949e90ed5a78544ba7c268d52a',
               width: 500,
               height: 500,
-              format: "mp3",
-              resource_type: "video",
+              format: 'mp3',
+              resource_type: 'video',
               frame_rate: 90000,
               bit_rate: 129717,
-              duration: 298.24
+              duration: 298.24,
             },
-            createdAt: "2020-04-17T03:19:18.857Z",
-            updatedAt: "2020-04-17T03:19:18.857Z",
-            __v: 0
+            createdAt: '2020-04-17T03:19:18.857Z',
+            updatedAt: '2020-04-17T03:19:18.857Z',
+            __v: 0,
           },
           audio: {
-            name: "东西（Cover：林俊呈）",
-            artist: "纳豆",
-            url: "https://cdn.moefe.org/music/mp3/thing.mp3",
+            name: '东西（Cover：林俊呈）',
+            artist: '纳豆',
+            url: 'https://cdn.moefe.org/music/mp3/thing.mp3',
             cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
-            lrc: "https://cdn.moefe.org/music/lrc/thing.lrc"
+            lrc: 'https://cdn.moefe.org/music/lrc/thing.lrc',
           },
-          createdAt: "2020-04-17T03:19:18.881Z",
-          updatedAt: "2020-04-17T03:19:18.881Z",
+          createdAt: '2020-04-17T03:19:18.881Z',
+          updatedAt: '2020-04-17T03:19:18.881Z',
           metadata: {
-            _id: "5e9494fe935dfb5ed30435",
+            _id: '5e9494fe935dfb5ed30435',
             comments: 123,
             likes: 69,
-            saves: 1
-          }
-        }
-      ]
+            saves: 1,
+          },
+        },
+      ],
     };
   },
   methods: {
@@ -422,41 +475,42 @@ export default {
       return tags.slice(0, this.maxTags);
     },
     hanldePlayAnotherSong() {
-      console.log("Play another song");
+      // eslint-disable-next-line no-console
+      console.log('Play another song');
     },
     toggleShowLyrics() {
       if (this.isShowMore) {
         this.lyricClasses.pop();
       } else {
-        this.lyricClasses.push("show-lyric-wrapper");
+        this.lyricClasses.push('show-lyric-wrapper');
       }
       this.isShowMore = !this.isShowMore;
     },
     togglePlayPause() {
-      if (this.togglePlayPauseIcon === "mdi-play-circle-outline") {
-        this.togglePlayPauseIcon = "mdi-pause-circle-outline";
+      if (this.togglePlayPauseIcon === 'mdi-play-circle-outline') {
+        this.togglePlayPauseIcon = 'mdi-pause-circle-outline';
         this.wrapperPlayPauseIconClasses.push(
-          "playing-wrapper-play-pause-icon"
+          'playing-wrapper-play-pause-icon',
         );
-        this.playPauseIconClasses.push("playing-play-pause-icon");
+        this.playPauseIconClasses.push('playing-play-pause-icon');
         return this.$refs.player.audio.play();
       } else {
-        this.togglePlayPauseIcon = "mdi-play-circle-outline";
+        this.togglePlayPauseIcon = 'mdi-play-circle-outline';
         this.wrapperPlayPauseIconClasses.pop();
         this.playPauseIconClasses.pop();
         return this.$refs.player.audio.pause();
       }
     },
     isAddFt(index, dataLength) {
-      return index + 1 < dataLength ? "ft" : "";
+      return index + 1 < dataLength ? 'ft' : '';
     },
     toggleMutedVolume() {
-      if (this.volumeIcon === "mdi-volume-high") {
-        this.volumeIcon = "mdi-volume-off";
+      if (this.volumeIcon === 'mdi-volume-high') {
+        this.volumeIcon = 'mdi-volume-off';
         this.currentVolume = 0;
         return (this.$refs.player.audio.volume = this.minVolume);
       } else {
-        this.volumeIcon = "mdi-volume-high";
+        this.volumeIcon = 'mdi-volume-high';
         this.currentVolume = 50;
         return (this.$refs.player.audio.volume = this.maxVolume / 2);
       }
@@ -472,51 +526,51 @@ export default {
 
       this.progressBar.value = player.currentTime / player.duration;
 
-      if (player.currentTime == player.duration) {
-        this.togglePlayPauseIcon = "mdi-play-circle-outline";
+      if (player.currentTime === player.duration) {
+        this.togglePlayPauseIcon = 'mdi-play-circle-outline';
       }
     },
     calculateTotalValue(length) {
-      let minutes = Math.floor(length / 60),
-        seconds_int = length - minutes * 60,
-        seconds_str = seconds_int.toString(),
-        seconds = seconds_str.substr(0, 2),
-        time = minutes + ":" + seconds;
+      const minutes = Math.floor(length / 60);
+      const seconds_int = length - minutes * 60;
+      const seconds_str = seconds_int.toString();
+      const seconds = seconds_str.substr(0, 2);
+      const time = `${minutes}:${seconds}`;
 
       return time;
     },
     calculateCurrentValue(currentTime) {
-      let current_hour = parseInt(currentTime / 3600) % 24,
-        current_minute = parseInt(currentTime / 60) % 60,
-        current_seconds_long = currentTime % 60,
-        current_seconds = current_seconds_long.toFixed(),
-        current_time =
-          (current_minute < 10 ? "0" + current_minute : current_minute) +
-          ":" +
-          (current_seconds < 10 ? "0" + current_seconds : current_seconds);
+      // eslint-disable-next-line no-unused-vars
+      const current_hour = parseInt(currentTime / 3600) % 24;
+      const current_minute = parseInt(currentTime / 60) % 60;
+      const current_seconds_long = currentTime % 60;
+      const current_seconds = current_seconds_long.toFixed();
+      const current_time = `${
+        current_minute < 10 ? `0${current_minute}` : current_minute
+      }:${current_seconds < 10 ? `0${current_seconds}` : current_seconds}`;
 
       return current_time;
     },
-    calTotalLength() {}
+    calTotalLength() {},
   },
   watch: {
-    currentVolume(newValue, oldValue) {
-      if (newValue === 1) this.volumeIcon = "mdi-volume-off";
-      if (newValue !== 1) this.volumeIcon = "mdi-volume-high";
+    currentVolume(newValue) {
+      if (newValue === 1) this.volumeIcon = 'mdi-volume-off';
+      if (newValue !== 1) this.volumeIcon = 'mdi-volume-high';
       return (this.$refs.player.audio.volume = newValue / 100);
-    }
+    },
   },
   created() {},
   computed: {
     totalLength() {
-      let duration = this.post.media.media.duration / 60;
-      let splitRes = duration.toString().split(".");
-      let minutes = Number(splitRes[0]);
+      const duration = this.post.media.media.duration / 60;
+      const splitRes = duration.toString().split('.');
+      const minutes = Number(splitRes[0]);
       let seconds = Math.round(Number(splitRes[1]) * 0.6).toFixed(0);
-      seconds = seconds.toString().split(".");
+      seconds = seconds.toString().split('.');
       seconds = seconds[0].slice(0, 2);
       return `${minutes}:${seconds}`;
-    }
+    },
   },
   components: {},
   mounted() {
@@ -524,6 +578,7 @@ export default {
     // waveBar.style.cursor = "pointer";
     // let songTitle = document.querySelector(".v-card__title");
     // songTitle.style.cursor = "pointer";
+    // FIXME: Cannot access lyricWrapper ref
     // let lyricWrapper = this.$refs.lyricWrapper;
     // if (lyricWrapper.offsetHeight <= 270) {
     //   lyricWrapper.style.height = 'auto'
@@ -532,7 +587,7 @@ export default {
     // } else {
     //   lyricWrapper.style.height = 270
     // }
-  }
+  },
 };
 </script>
 
@@ -568,7 +623,7 @@ export default {
     .play-pause-icon {
       color: #fff;
       transition: ease 0.3s;
-      color: "green";
+      color: 'green';
     }
 
     .playing-play-pause-icon {
