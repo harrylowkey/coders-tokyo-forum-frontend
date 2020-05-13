@@ -16,6 +16,10 @@ import _store from './store/user'
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css';
 
 //TODO: change descripotion text-file to v-textareat with limit words
+//FIXME: Cannot set preselected tab when navigate URL
+// FIXME: Cannot style canvas
+//FIXME: Cannot access lyricWrapper ref
+//FIXME: Play song from dashboard not sync to audioplaylist
 axios.defaults.baseURL = 'http://localhost:3000/api/v1'
 axios.defaults.headers.get['Accepts'] = 'application/json'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

@@ -1,20 +1,20 @@
 <template>
-  <v-container style="padding: 0 !important">
+  <v-container v-if="!isLoading" style="padding: 0 !important">
     <v-card color="basil" style="width: 67%">
       <v-toolbar dense>
-        <v-tabs grow>
-          <v-tab @click="setActivePage('Discussions')">Discussions</v-tab>
+        <v-tabs grow v-model="preSelectedPage">
+          <v-tab key="discussions" @click="setActivePage('discussions')">Discussions</v-tab>
           <v-divider vertical inset></v-divider>
-          <v-tab @click="setActivePage('Blogs')">Blogs</v-tab>
+          <v-tab key="blogs" @click="setActivePage('blogs')">Blogs</v-tab>
           <v-divider vertical inset>A</v-divider>
-          <v-menu offset-y open-on-hover>
+          <v-menu key="reviews" offset-y open-on-hover>
             <template v-slot:activator="{ on }">
               <v-tab ref="reviewPage" v-on="on">Reviews</v-tab>
             </template>
             <v-list>
               <v-list-item
-                v-for="(item, index) in reviewMenus"
-                :key="index"
+                v-for="item in reviewMenus"
+                :key="item.category"
                 @click="setActivePage(item.category)"
               >
                 <v-list-item-icon class="mr-2">
@@ -25,14 +25,14 @@
             </v-list>
           </v-menu>
           <v-divider vertical inset>A</v-divider>
-          <v-menu offset-y open-on-hover>
+          <v-menu key="audios" offset-y open-on-hover>
             <template v-slot:activator="{ on }">
               <v-tab ref="audioPage" v-on="on">Audios</v-tab>
             </template>
             <v-list>
               <v-list-item
-                v-for="(item, index) in audioMenus"
-                :key="index"
+                v-for="item in audioMenus"
+                :key="item.category"
                 @click="setActivePage(item.category)"
               >
                 <v-list-item-icon class="mr-2">
@@ -49,33 +49,68 @@
   </v-container>
 </template>
 <script>
+import { mapActions, mapState } from "vuex";
+
 export default {
+  props: ["selectedPage"],
   data() {
     return {
+      preSelectedPage: null,
       pages: ["Discussions", "Blogs", "Reviews", "Audios"],
       text:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       reviewMenus: [
-        { menu: "Book Reviews", category: "Books", icon: "menu_book" },
-        { menu: "Movie Reviews", category: "Movies", icon: "movie_filter" },
-        { menu: "Food Reviews", category: "Food", icon: "fastfood" }
+        { menu: "Book Reviews", category: "bookReviews", icon: "menu_book" },
+        {
+          menu: "Movie Reviews",
+          category: "movieReviews",
+          icon: "movie_filter"
+        },
+        { menu: "Food Reviews", category: "foodReviews", icon: "fastfood" }
       ],
       audioMenus: [
-        { menu: "Songs", category: "Songs", icon: "library_music" },
-        { menu: "Podcast", category: "Podcasts", icon: "hearing" }
+        { menu: "Songs", category: "songs", icon: "library_music" },
+        { menu: "Podcast", category: "podcasts", icon: "hearing" }
       ]
     };
   },
   methods: {
     setActivePage(page) {
-      if (page === "Songs" || page === "Podcasts") {
+      if (page === "songs" || page === "podcasts") {
         this.$refs.audioPage.$refs.link.click();
-      }
-      if (page === "Books" || page === "Movies" || page === "Food") {
+      } else if (
+        page === "bookReviews" ||
+        page === "movieReviews" ||
+        page === "foodReviews"
+      ) {
         this.$refs.reviewPage.$refs.link.click();
       }
-      return this.$emit("setActivePage", { page });
+
+      this.$emit("setActivePage", { page });
+
+      let currentPage = this.$route.path + this.$route.hash;
+      let targetPage = `/stream#${page}`;
+      if (currentPage === targetPage) return;
+      this.$router.push({ path: targetPage });
     }
+  },
+  computed: {
+    ...mapState("utils", ["isLoading"])
+  },
+  mounted() {
+    let selectedPage = this.selectedPage;
+    if (selectedPage === "songs" || selectedPage === "podcasts") {
+      selectedPage = "audios";
+    }
+    if (
+      selectedPage === "bookReviews" ||
+      selectedPage === "movieReviews" ||
+      selectedPage === "foodReviews"
+    ) {
+      selectedPage = "reviews";
+    }
+
+    this.preSelectedPage = selectedPage;
   }
 };
 </script>

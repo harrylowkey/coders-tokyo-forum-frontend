@@ -55,39 +55,32 @@ const routes = [
     beforeEnter: AuthGuard
   },
   {
-    path: '/stream/discussions',
-    name: 'discussion',
-    component: Discussions,
+    path: '/stream#discussions',
+    component: Stream,
   },
   {
-    path: '/stream/songs',
-    name: 'song',
-    component: Songs,
+    path: '/stream#songs',
+    component: Stream,
   },
   {
-    path: '/stream/podcasts',
-    name: 'podcast',
-    component: Podcasts,
+    path: '/stream#podcasts',
+    component: Stream,
   },
   {
-    path: '/stream/food',
-    name: 'food',
-    component: Food,
+    path: '/stream#foodReviews',
+    component: Stream,
   },
   {
-    path: '/stream/movies',
-    name: 'movie',
-    component: Movies,
+    path: '/stream#movieReviews',
+    component: Stream,
   },
   {
-    path: '/stream/books',
-    name: 'book',
-    component: Books,
+    path: '/stream#bookReviews',
+    component: Stream,
   },
   {
-    path: '/stream/blogs',
-    name: 'blog',
-    component: Blogs,
+    path: '/stream#blogs',
+    component: Stream,
   },
   {
     path: '/profile',
