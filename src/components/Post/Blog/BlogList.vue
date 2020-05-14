@@ -238,15 +238,6 @@ export default {
 
     await this.getBlogs();
   },
-  errorMes(newVal) {
-    if (newVal.length) {
-      this.$notify({
-        type: "error",
-        title: "Update failed",
-        text: newVal
-      });
-    }
-  }
 };
 </script>
 
