@@ -252,7 +252,6 @@ export default {
       }
 
       await this.loadMoreDiscussions({ page: this.metadata.page + 1 });
-      
     }
   },
   async created() {
