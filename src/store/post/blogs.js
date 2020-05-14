@@ -6,7 +6,7 @@ export default {
   namespaced: true,
   state: {
     blogs: [],
-    metadata: {}
+    metadata: {},
   },
   mutations: {
     [SET_BLOGS](state, payload) {
@@ -16,7 +16,7 @@ export default {
     [LOAD_MORE_BLOGS](state, payload) {
       state.blogs.push(...payload.data);
       state.metadata = payload.metadata;
-    }
+    },
   },
   actions: {
     async getBlogs({ commit }, options = { limit: 5, page: 1 }) {
@@ -44,9 +44,7 @@ export default {
     async loadMoreBlogs({ commit }, options = { limit: 10, page: 1 }) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
-        .get(
-          `/posts?type=blog&limit=${options.limit}&page=${options.page}`
-        )
+        .get(`/posts?type=blog&limit=${options.limit}&page=${options.page}`)
         .then(res => {
           commit('LOAD_MORE_BLOGS', { data: res.data, metadata: res.metadata });
           return res;
@@ -63,6 +61,6 @@ export default {
           return res;
         });
       return res;
-    }
-  }
+    },
+  },
 };

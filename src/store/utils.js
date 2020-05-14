@@ -16,7 +16,7 @@ const utils = {
     },
     [SET_LOADMORE](state, payload = false) {
       state.isLoadmore = payload;
-    }
+    },
   },
   actions: {
     setLoading({ commit }, payload) {
