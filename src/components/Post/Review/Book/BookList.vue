@@ -2,11 +2,31 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
 
         <book
           v-else
@@ -28,13 +48,9 @@
           :comments="item.comments"
           :likes="item.likes"
         />
-
-        <div
-          v-infinite-scroll="loadMore"
-          infinite-scroll-disabled="isLoadmore"
-          infinite-scroll-distance="10"
-        ></div>
-        <v-text-field color="primary" v-if="isLoadmore" loading disabled />
+        <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
+          <v-btn class="primary" to="/stream/books">View more</v-btn>
+        </v-container>
       </v-col>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4" :style="sideBarStyle">
         <side-card
@@ -52,7 +68,12 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
+        <side-card
+          class="fix-sidebar"
+          :title="tags.title"
+          :type="tags.type"
+          :data="tags.data"
+        />
 
         <side-card
           class="fix-sidebar member-online"
@@ -221,18 +242,11 @@ export default {
   },
 
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
-    ...mapState('bookReviews', ['bookReviews', 'metadata']),
+    ...mapState('utils', ['errorMes', 'isLoading']),
+    ...mapState('bookReviews', ['bookReviews']),
   },
   methods: {
-    ...mapActions('bookReviews', ['getBookReviews', 'loadMoreBookReviews']),
-    async loadMore() {
-      if (this.metadata.page >= this.metadata.totalPage) {
-        return;
-      }
-
-      await this.loadMoreBlogs({ page: this.metadata.page + 1 });
-    },
+    ...mapActions('bookReviews', ['getBookReviews']),
   },
   async created() {
     if (this.$route.path === '/stream' || this.$route.path === '/') {
