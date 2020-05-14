@@ -7,6 +7,7 @@ import PictureInput from 'vue-picture-input';
 import VueClipboard from 'vue-clipboard2';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import Notifications from 'vue-notification';
+import infiniteScroll from 'vue-infinite-scroll';
 
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
@@ -116,6 +117,7 @@ VueClipboard.config.autoSetContainer = true;
 Vue.use(VueClipboard);
 
 Vue.use(VueFileAgent);
+Vue.use(infiniteScroll);
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
