@@ -5,7 +5,7 @@ const utils = {
   state: {
     isLoading: false,
     errorMes: '',
-    isLoadmore: false
+    isLoadmore: false,
   },
   mutations: {
     [SET_LOADING](state, payload = false) {
@@ -15,13 +15,13 @@ const utils = {
       state.errorMes = payload;
     },
     [SET_LOADMORE](state, payload = false) {
-      state.isLoadmore = payload
+      state.isLoadmore = payload;
     }
   },
   actions: {
     setLoading({ commit }, payload) {
       commit('SET_LOADING', payload);
-    },
+    }
   },
 };
 
