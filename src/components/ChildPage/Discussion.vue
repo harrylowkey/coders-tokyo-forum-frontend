@@ -34,7 +34,7 @@
                 style="line-height: 1.4;"
                 class="mt-lg-n9 pt-12"
                 v-html="$options.filters.markdown(post.content)"
-              />
+              ></div>
             </v-list-item-content>
           </v-list-item>
 

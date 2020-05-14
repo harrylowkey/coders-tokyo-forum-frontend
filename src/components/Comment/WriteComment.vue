@@ -15,7 +15,7 @@
       class="preview px-10 pt-8 pb-5 mb-4"
       style="min-height: 130px"
     >
-      <p style="line-height: 1.5" v-html="this.markdownComment" />
+      <p style="line-height: 1.5" v-html="this.markdownComment"></p>
     </v-card>
     <div class="d-flex justify-end">
       <v-btn

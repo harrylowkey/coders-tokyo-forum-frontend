@@ -273,7 +273,7 @@
                             v-html="
                               $options.filters.markdown(data.content || '')
                             "
-                          />
+                          ></p>
                           <v-spacer />
                           <div class="d-flex justify-end">
                             <span class="signature">hong_quang</span>

@@ -14,7 +14,7 @@
           </v-col>
           <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
             <div class="d-flex ml-7">
-              <div class="d-flex" />
+              <div class="d-flex"></div>
               <toggle-tag
                 v-for="(tag, i) in data.tags"
                 :key="i"
@@ -121,7 +121,7 @@
                             v-html="
                               $options.filters.markdown(data.content || '')
                             "
-                          />
+                          ></p>
                           <v-spacer />
                           <div class="d-flex justify-end">
                             <span class="signature">hong_quang</span>

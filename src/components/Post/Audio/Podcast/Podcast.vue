@@ -7,7 +7,7 @@
       controls
       :src="audio.secureURL"
       preload="metadata"
-    />
+    ></audio>
     <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
       <v-card
         :elevation="hover ? 10 : 3"
@@ -60,7 +60,7 @@
                   id="progressbar"
                   :value="progressBar.value"
                   :max="progressBar.max"
-                />
+                ></progress>
               </span>
               <br />
               <small v-if="currentTime !== 0" class="start-time">
@@ -118,7 +118,7 @@
                         {{ link.icon }}
                       </v-icon>
                     </div>
-                    <div v-else style="height: 17px" />
+                    <div v-else style="height: 17px"></div>
                   </v-list-item-icon>
                   <v-list-item-content class="pt-0 pb-0">
                     <v-list-item-title

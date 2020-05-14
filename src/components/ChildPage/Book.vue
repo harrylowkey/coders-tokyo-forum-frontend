@@ -264,7 +264,7 @@
                 </v-card-text>
               </v-list-item-content>
             </v-list-item>
-            <div v-html="$options.filters.markdown(post.content)" />
+            <div v-html="$options.filters.markdown(post.content)"></div>
           </v-container>
         </v-card>
         <v-container>

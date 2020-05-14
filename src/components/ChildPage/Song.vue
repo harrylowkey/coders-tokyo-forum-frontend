@@ -133,7 +133,7 @@
           </v-container>
           <v-divider />
 
-          <div class="d-flex" />
+          <div class="d-flex"></div>
           <v-container v-if="!isLoading">
             <v-row>
               <v-col
@@ -154,7 +154,7 @@
               <v-col class="lyric" cols="9" sm="8" md="8" lg="9" xl="9">
                 <div>
                   <div :class="lyricClasses" ref="lyricWrapper">
-                    <p v-html="$options.filters.markdown(post.content)" />
+                    <p v-html="$options.filters.markdown(post.content)"></p>
                   </div>
                   <span
                     v-if="!isShowMore"

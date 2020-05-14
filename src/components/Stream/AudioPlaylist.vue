@@ -17,7 +17,7 @@
               :index="i"
               :playAnotherSong="playAnotherSong"
               @handlePlayPause="handlePlayPause"
-            ></Audio>
+            />
           </v-col>
         </v-row>
       </v-slide-item>
@@ -37,16 +37,16 @@ export default {
     return {};
   },
   components: {
-    Audio
+    Audio,
   },
   methods: {
     handlePlayPause({ isPlay, index }) {
       this.$emit('handlePlayPause', { isPlay, index });
-    }
+    },
   },
   computed: {
-    ...mapState('utils', ['isLoading'])
-  }
+    ...mapState('utils', ['isLoading']),
+  },
 };
 </script>
 

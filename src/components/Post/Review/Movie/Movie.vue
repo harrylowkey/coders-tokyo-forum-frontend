@@ -29,7 +29,7 @@
 
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-3">Director:</p>
-                  <span />
+                  <span></span>
                   <p class="mb-0 mr-3">
                     <span
                       v-for="(director, i) in slicedDirectors"
@@ -44,7 +44,7 @@
 
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-3">Actors:</p>
-                  <span />
+                  <span></span>
                   <p class="mb-0 mr-3">
                     <span
                       v-for="(actor, i) in slicedActors"
@@ -133,7 +133,7 @@
 
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-3">Director:</p>
-                    <span />
+                    <span></span>
                     <p class="mb-0 mr-3">
                       <span
                         v-for="(director, i) in slicedDirectors"
@@ -148,7 +148,7 @@
 
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-3">Actors:</p>
-                    <span />
+                    <span></span>
                     <p class="mb-0 mr-3">
                       <span
                         v-for="(actor, i) in slicedActors"
@@ -238,7 +238,7 @@
             </v-list-item-title>
           </router-link>
           <p class="description mb-0 pt-2">{{ description || content }}</p>
-          <span style="font-size: 0.775rem;" class="pt-1" />
+          <span style="font-size: 0.775rem;" class="pt-1"></span>
           <div class="d-flex justify-space-between" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
               <a style=" text-decoration: none" :href="blogLink">

@@ -61,7 +61,7 @@
               <p
                 v-html="$options.filters.markdown(comment.content)"
                 class="comment-content"
-              />
+              ></p>
             </v-col>
           </v-row>
           <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
@@ -152,7 +152,7 @@
                 <p
                   v-html="$options.filters.markdown(childComment.content)"
                   class="comment-content"
-                />
+                ></p>
               </v-col>
             </v-row>
             <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
@@ -170,7 +170,7 @@
                 v-if="comment.childComments.length"
                 style="font-size: 13px; color: green"
                 class="font-italic mb-0"
-              />
+              ></span>
             </v-container>
           </v-list-item-content>
         </v-card>

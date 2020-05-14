@@ -52,7 +52,7 @@
                       </p>
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Director:</p>
-                        <span />
+                        <span></span>
                         <p class="mb-0 mr-3">
                           <span
                             v-for="(director, i) in slicedDirectors"
@@ -67,7 +67,7 @@
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Actors:</p>
-                        <span />
+                        <span></span>
                         <p class="mb-0 mr-3">
                           <span
                             v-for="(actor, i) in slicedActors"
@@ -176,7 +176,7 @@
 
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Director:</p>
-                          <span />
+                          <span></span>
                           <p class="mb-0 mr-3">
                             <span
                               v-for="(director, i) in slicedDirectors"
@@ -191,7 +191,7 @@
 
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Actors:</p>
-                          <span />
+                          <span></span>
                           <p class="mb-0 mr-3">
                             <span
                               v-for="(actor, i) in slicedActors"
@@ -326,7 +326,7 @@
                 </v-card-text>
               </v-list-item-content>
             </v-list-item>
-            <div v-html="$options.filters.markdown(post.content)" />
+            <div v-html="$options.filters.markdown(post.content)"></div>
           </v-container>
         </v-card>
         <v-container>

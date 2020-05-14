@@ -9,24 +9,16 @@
           type="writePost"
           class="d-none d-sm-flex"
           @setActivePage="handleSetActivePage"
-        ></post-tabs>
+        />
         <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
           <div class="pt-6">
-            <create-discussion
-              v-if="activePage === 'discussions'"
-            ></create-discussion>
-            <create-blog v-if="activePage === 'blogs'"></create-blog>
-            <create-audio
-              type="podcasts"
-              v-if="activePage === 'podcasts'"
-            ></create-audio>
-            <create-audio
-              type="songs"
-              v-if="activePage === 'songs'"
-            ></create-audio>
-            <create-movie v-if="activePage === 'movieReviews'"></create-movie>
-            <create-book v-if="activePage === 'bookReviews'"></create-book>
-            <create-food v-if="activePage === 'foodReviews'"></create-food>
+            <create-discussion v-if="activePage === 'discussions'" />
+            <create-blog v-if="activePage === 'blogs'" />
+            <create-audio type="podcasts" v-if="activePage === 'podcasts'" />
+            <create-audio type="songs" v-if="activePage === 'songs'" />
+            <create-movie v-if="activePage === 'movieReviews'" />
+            <create-book v-if="activePage === 'bookReviews'" />
+            <create-food v-if="activePage === 'foodReviews'" />
           </div>
         </v-col>
         <v-col cols="12" sm="4" md="4" lg="4" xl="4">

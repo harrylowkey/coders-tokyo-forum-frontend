@@ -50,7 +50,7 @@
                       style="height: 60px;"
                     >
                       <div class="d-flex ml-7">
-                        <div class="d-flex" />
+                        <div class="d-flex"></div>
                         <toggle-tag
                           v-for="(tag, i) in tags"
                           :key="i"
@@ -170,7 +170,7 @@
                                           post.content || '',
                                         )
                                       "
-                                    />
+                                    ></p>
                                     <v-spacer />
                                     <div class="d-flex justify-end">
                                       <span class="signature">hong_quang</span>

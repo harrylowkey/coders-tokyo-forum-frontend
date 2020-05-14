@@ -28,7 +28,7 @@
                 {{ link.icon }}
               </v-icon>
             </div>
-            <div v-else style="height: 17px" />
+            <div v-else style="height: 17px"></div>
           </v-list-item-icon>
           <v-list-item-content class="pt-0 pb-0">
             <v-list-item-title

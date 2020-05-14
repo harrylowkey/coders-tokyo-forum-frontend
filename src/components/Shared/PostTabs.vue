@@ -6,7 +6,7 @@
           <v-tab key="discussions" @click="setActivePage('discussions')">
             Discussions
           </v-tab>
-          <v-divider vertical inset></v-divider>
+          <v-divider vertical inset />
           <v-tab key="blogs" @click="setActivePage('blogs')">Blogs</v-tab>
           <v-divider vertical inset>A</v-divider>
           <v-menu key="reviews" offset-y open-on-hover>
