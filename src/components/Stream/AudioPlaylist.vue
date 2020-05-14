@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapState } from 'vuex';
 
 import Audio from './Audio.vue';
 
@@ -37,16 +37,16 @@ export default {
     return {};
   },
   components: {
-    Audio,
+    Audio
   },
   methods: {
     handlePlayPause({ isPlay, index }) {
       this.$emit('handlePlayPause', { isPlay, index });
-    },
+    }
   },
   computed: {
-    ...mapState('utils', ['isLoading']),
-  },
+    ...mapState('utils', ['isLoading'])
+  }
 };
 </script>
 
