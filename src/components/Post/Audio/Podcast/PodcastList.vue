@@ -261,12 +261,6 @@ export default {
     };
   },
   created() {
-    if (this.$route.path === '/stream/podcasts') {
-      this.showTitlePage = true;
-      this.showViewMoreBtn = false;
-      this.sideBarStyle.paddingTop = '5px';
-      this.showTopBloggers = false;
-    }
 
     if (this.$route.path === '/stream' || this.$route.path === '/') {
       this.mostViewBlogs.title = 'Top 5 Discussions';

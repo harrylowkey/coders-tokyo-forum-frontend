@@ -2,7 +2,6 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-        <h1 v-if="showTitlePage" class="mt-5">#Blogs</h1>
         <v-skeleton-loader
           class="mt-5"
           v-if="isLoading"
@@ -249,8 +248,6 @@ export default {
   async created() {
     if (this.$route.path === '/stream') {
       this.mostViewBlogs.title = 'Top 5 Discussions';
-
-      this.mostViewBlogs.data = sliceMostViews;
     }
 
     await this.getBlogs();

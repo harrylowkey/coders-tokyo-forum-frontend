@@ -2,7 +2,6 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-        <h1 v-if="showTitlePage" class="mt-5">#Food Reviews</h1>
         <v-skeleton-loader
           class="mt-5"
           v-if="isLoading"
@@ -100,7 +99,6 @@ export default {
   },
   data() {
     return {
-      showTitlePage: false,
       showViewMoreBtn: true,
       topBloggers: {
         title: 'Top Bloggers',
@@ -242,13 +240,6 @@ export default {
     };
   },
   created() {
-    if (this.$route.path === '/stream/food') {
-      this.showTitlePage = true;
-      this.showViewMoreBtn = false;
-      this.sideBarStyle.paddingTop = '78px';
-      this.showTopBloggers = false;
-    }
-
     if (this.$route.path === '/stream' || this.$route.path === '/') {
       this.mostViewBlogs.title = 'Top 5 Discussions';
       const sliceMostViews = this.mostViewBlogs.data.slice(5);
