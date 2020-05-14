@@ -68,9 +68,13 @@
           :cover="item.cover"
           :customize="{}"
         />
-        <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
-          <v-btn class="primary" to="/stream/podcasts">View more</v-btn>
-        </v-container>
+       
+       <div
+          v-infinite-scroll="loadMore"
+          infinite-scroll-disabled="isLoadmore"
+          infinite-scroll-distance="10"
+        ></div>
+        <v-text-field color="primary" v-if="isLoadmore" loading disabled />
       </v-col>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4" :style="sideBarStyle">
         <side-card
@@ -107,7 +111,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import SideCard from '@/components/Shared/SideCard';
 
@@ -260,22 +264,29 @@ export default {
       },
     };
   },
-  created() {
+  computed: {
+    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
+    ...mapState('podcasts', ['podcasts', 'metadata']),
+  },
+  methods: {
+    ...mapActions('podcasts', ['getPodcasts', 'loadMorePodcasts']),
+    async loadMore() {
+      if (this.metadata.page >= this.metadata.totalPage) {
+        return;
+      }
 
+      await this.loadMorePodcasts({ page: this.metadata.page + 1 });
+    },
+  },
+  async created() {
     if (this.$route.path === '/stream' || this.$route.path === '/') {
       this.mostViewBlogs.title = 'Top 5 Discussions';
       const sliceMostViews = this.mostViewBlogs.data.slice(5);
       this.mostViewBlogs.data = sliceMostViews;
     }
+
+    await this.getPodcasts();
   },
-  computed: {
-    ...mapState('utils', ['errorMes', 'isLoading']),
-    ...mapState('stream', ['newestPodcasts']),
-    podcastList() {
-      return this.newestPodcasts;
-    },
-  },
-  methods: {},
 };
 </script>
 
@@ -283,6 +294,7 @@ export default {
 #podcast-wrapper {
   flex-wrap: wrap;
   justify-content: center;
+  align-content: flex-start;
 }
 
 .podcast {

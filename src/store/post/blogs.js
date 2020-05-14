@@ -41,7 +41,7 @@ export default {
       return res;
     },
 
-    async loadMoreBlogs({ commit }, options = { limit: 10, page: 1 }) {
+    async loadMoreBlogs({ commit }, options = { limit: 5, page: 1 }) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
         .get(`/posts?type=blog&limit=${options.limit}&page=${options.page}`)

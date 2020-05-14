@@ -378,9 +378,10 @@ export default {
 <style scoped lang="scss">
 #audio {
   max-width: 285px;
+  height: 350px;
 }
 #audio-card {
-  height: 345px;
+  height: 100%;
   border-radius: 35px;
 }
 
