@@ -21,7 +21,7 @@ const utils = {
   actions: {
     setLoading({ commit }, payload) {
       commit('SET_LOADING', payload);
-    }
+    },
   },
 };
 
