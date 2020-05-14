@@ -2,31 +2,11 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-        <v-skeleton-loader
-          class="mt-5"
-          v-if="isLoading"
-          type="card-avatar, list-item-three-line"
-        />
-        <v-skeleton-loader
-          class="mt-5"
-          v-if="isLoading"
-          type="card-avatar, list-item-three-line"
-        />
-        <v-skeleton-loader
-          class="mt-5"
-          v-if="isLoading"
-          type="card-avatar, list-item-three-line"
-        />
-        <v-skeleton-loader
-          class="mt-5"
-          v-if="isLoading"
-          type="card-avatar, list-item-three-line"
-        />
-        <v-skeleton-loader
-          class="mt-5"
-          v-if="isLoading"
-          type="card-avatar, list-item-three-line"
-        />
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
+        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
 
         <blog
           v-for="item in blogs"
@@ -45,9 +25,13 @@
           :comments="item.comments"
           :likes="item.likes"
         />
-        <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
-          <v-btn class="primary" to="/stream/blogs">View more</v-btn>
-        </v-container>
+
+        <div
+          v-infinite-scroll="loadMore"
+          infinite-scroll-disabled="isLoadmore"
+          infinite-scroll-distance="10"
+        ></div>
+        <v-text-field color="primary" v-if="isLoadmore" loading disabled />
       </v-col>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4" :style="sideBarStyle">
         <side-card
@@ -65,12 +49,7 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card
-          class="fix-sidebar"
-          :title="tags.title"
-          :type="tags.type"
-          :data="tags.data"
-        />
+        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
 
         <side-card
           class="fix-sidebar member-online"
@@ -84,170 +63,177 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from "vuex";
 
-import SideCard from '@/components/Shared/SideCard';
+import SideCard from "@/components/Shared/SideCard";
 
-import Blog from './Blog';
+import Blog from "./Blog";
 
 export default {
   components: {
     Blog,
-    SideCard,
+    SideCard
   },
   data() {
     return {
       showViewMoreBtn: true,
       topBloggers: {
-        title: 'Top Bloggers',
+        title: "Top Bloggers",
         type: 1,
         data: [
           {
-            _id: '1',
+            _id: "1",
             icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030274/Draw-io-trophies/--02-128_kotkpp.png',
-            text: 'chau_chau',
+              "https://res.cloudinary.com/hongquangraem/image/upload/v1587030274/Draw-io-trophies/--02-128_kotkpp.png",
+            text: "chau_chau"
           },
           {
-            _id: '2',
+            _id: "2",
             icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030285/Draw-io-trophies/advantage_quality-128_hxdkdz.png',
-            text: 'nhat_anh',
+              "https://res.cloudinary.com/hongquangraem/image/upload/v1587030285/Draw-io-trophies/advantage_quality-128_hxdkdz.png",
+            text: "nhat_anh"
           },
           {
-            _id: '3',
+            _id: "3",
             icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030256/Draw-io-trophies/movie-10-128_yf3ng3.png',
-            text: 'thanh_ton',
-          },
-        ],
+              "https://res.cloudinary.com/hongquangraem/image/upload/v1587030256/Draw-io-trophies/movie-10-128_yf3ng3.png",
+            text: "thanh_ton"
+          }
+        ]
       },
       tags: {
-        title: 'Tags',
+        title: "Tags",
         type: 2,
         data: [
           {
-            _id: '1',
-            text: 'javascript',
-            counter: 153,
+            _id: "1",
+            text: "javascript",
+            counter: 153
           },
           {
-            _id: '2',
-            text: 'discussion',
-            counter: 153,
+            _id: "2",
+            text: "discussion",
+            counter: 153
           },
           {
-            _id: '3',
-            text: 'nodejs',
-            counter: 153,
+            _id: "3",
+            text: "nodejs",
+            counter: 153
           },
           {
-            _id: '4',
-            text: 'html',
-            counter: 153,
-          },
-        ],
+            _id: "4",
+            text: "html",
+            counter: 153
+          }
+        ]
       },
       mostViewBlogs: {
-        title: 'Most Views',
+        title: "Most Views",
         type: 2,
         data: [
           {
-            _id: '1',
-            text: 'Javascript the best parts',
-            counter: 153,
+            _id: "1",
+            text: "Javascript the best parts",
+            counter: 153
           },
           {
-            _id: '2',
-            text: 'Top 5 nodejs frameworks',
-            counter: 100,
+            _id: "2",
+            text: "Top 5 nodejs frameworks",
+            counter: 100
           },
           {
-            _id: '3',
-            text: 'HTML for dummies',
-            counter: 99,
+            _id: "3",
+            text: "HTML for dummies",
+            counter: 99
           },
           {
-            _id: '4',
-            text: 'Testing issues',
-            counter: 80,
+            _id: "4",
+            text: "Testing issues",
+            counter: 80
           },
           {
-            _id: '5',
-            text: 'Setting Mongo local',
-            counter: 79,
+            _id: "5",
+            text: "Setting Mongo local",
+            counter: 79
           },
           {
-            _id: '6',
-            text: 'Javascript the best parts',
-            counter: 153,
+            _id: "6",
+            text: "Javascript the best parts",
+            counter: 153
           },
           {
-            _id: '7',
-            text: 'Top 5 nodejs frameworks',
-            counter: 100,
+            _id: "7",
+            text: "Top 5 nodejs frameworks",
+            counter: 100
           },
           {
-            _id: '8',
-            text: 'HTML for dummies',
-            counter: 99,
+            _id: "8",
+            text: "HTML for dummies",
+            counter: 99
           },
           {
-            _id: '9',
-            text: 'Testing issues',
-            counter: 80,
+            _id: "9",
+            text: "Testing issues",
+            counter: 80
           },
           {
-            _id: '10',
-            text: 'Setting Mongo local',
-            counter: 79,
-          },
-        ],
+            _id: "10",
+            text: "Setting Mongo local",
+            counter: 79
+          }
+        ]
       },
       membersOnline: {
-        title: 'Members Online',
+        title: "Members Online",
         type: 1,
         data: [
           {
-            _id: '1',
+            _id: "1",
             icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1586965772/Draw-io-avatars/12_avatar-128_hvhfyk.png',
-            text: 'ngo_minh',
+              "https://res.cloudinary.com/hongquangraem/image/upload/v1586965772/Draw-io-avatars/12_avatar-128_hvhfyk.png",
+            text: "ngo_minh"
           },
           {
-            _id: '2',
+            _id: "2",
             icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1586965680/Draw-io-avatars/4_avatar-128_rk2yxz.png',
-            text: 'nhat_anh',
+              "https://res.cloudinary.com/hongquangraem/image/upload/v1586965680/Draw-io-avatars/4_avatar-128_rk2yxz.png",
+            text: "nhat_anh"
           },
           {
-            _id: '3',
+            _id: "3",
             icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1586965594/Draw-io-avatars/avatar-128_s94fqh.png',
-            text: 'thanh_ton',
-          },
-        ],
+              "https://res.cloudinary.com/hongquangraem/image/upload/v1586965594/Draw-io-avatars/avatar-128_s94fqh.png",
+            text: "thanh_ton"
+          }
+        ]
       },
       showTopBloggers: true,
       showTags: true,
       showMostViewBlogs: true,
       showMembersOnline: true,
       sideBarStyle: {
-        paddingTop: '12px',
-      },
+        paddingTop: "12px"
+      }
     };
   },
 
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading']),
-    ...mapState('blogs', ['blogs']),
+    ...mapState("utils", ["errorMes", "isLoading", "isLoadmore"]),
+    ...mapState("blogs", ["blogs", 'metadata'])
   },
   methods: {
-    ...mapActions('blogs', ['getBlogs']),
+    ...mapActions("blogs", ["getBlogs", 'loadMoreBlogs']),
+    async loadMore() {
+      if (this.metadata.page >= this.metadata.totalPage) {
+        return;
+      }
+
+      await this.loadMoreBlogs({ page: this.metadata.page + 1 });
+    }
   },
   async created() {
-    if (this.$route.path === '/stream') {
-      this.mostViewBlogs.title = 'Top 5 Discussions';
+    if (this.$route.path === "/stream") {
+      this.mostViewBlogs.title = "Top 5 Discussions";
     }
 
     await this.getBlogs();
@@ -255,12 +241,12 @@ export default {
   errorMes(newVal) {
     if (newVal.length) {
       this.$notify({
-        type: 'error',
-        title: 'Update failed',
-        text: newVal,
+        type: "error",
+        title: "Update failed",
+        text: newVal
       });
     }
-  },
+  }
 };
 </script>
 
