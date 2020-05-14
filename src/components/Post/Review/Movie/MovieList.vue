@@ -49,9 +49,13 @@
           :comments="item.comments"
           :likes="item.likes"
         />
-        <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
-          <v-btn class="primary" to="/stream/movies">View more</v-btn>
-        </v-container>
+        
+         <div
+          v-infinite-scroll="loadMore"
+          infinite-scroll-disabled="isLoadmore"
+          infinite-scroll-distance="10"
+        ></div>
+        <v-text-field color="primary" v-if="isLoadmore" loading disabled />
       </v-col>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4" :style="sideBarStyle">
         <side-card
@@ -243,11 +247,18 @@ export default {
   },
 
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading']),
-    ...mapState('movieReviews', ['movieReviews']),
+    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
+    ...mapState('movieReviews', ['movieReviews', 'metadata']),
   },
   methods: {
-    ...mapActions('movieReviews', ['getMovieReviews']),
+    ...mapActions('movieReviews', ['getMovieReviews', 'loadMoreMovieReviews']),
+    async loadMore() {
+      if (this.metadata.page >= this.metadata.totalPage) {
+        return;
+      }
+
+      await this.loadMoreMovieReviews({ page: this.metadata.page + 1 });
+    },
   },
   async created() {
     if (this.$route.path === '/stream' || this.$route.path === '/') {
