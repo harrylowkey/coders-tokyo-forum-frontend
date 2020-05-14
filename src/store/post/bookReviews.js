@@ -16,7 +16,7 @@ export default {
     [LOAD_MORE_BOOK_REVIEWS](state, payload) {
       state.bookReviews.push(...payload.data);
       state.metadata = payload.metadata;
-    }
+    },
   },
   actions: {
     async getBookReviews({ commit }, options = { limit: 5, page: 1 }) {
@@ -47,11 +47,12 @@ export default {
   async loadMoreBookReviews({ commit }, options = { limit: 10, page: 1 }) {
     commit('utils/SET_LOADMORE', true, { root: true });
     const res = await axios
-      .get(
-        `/posts?type=blog&limit=${options.limit}&page=${options.page}`
-      )
+      .get(`/posts?type=blog&limit=${options.limit}&page=${options.page}`)
       .then(res => {
-        commit('LOAD_MORE_BOOK_REVIEWS', { data: res.data, metadata: res.metadata });
+        commit('LOAD_MORE_BOOK_REVIEWS', {
+          data: res.data,
+          metadata: res.metadata,
+        });
         return res;
       })
       .catch(err => {
@@ -66,5 +67,5 @@ export default {
         return res;
       });
     return res;
-  }
+  },
 };
