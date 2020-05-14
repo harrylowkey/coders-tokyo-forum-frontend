@@ -2,11 +2,31 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
 
         <book
           v-else
@@ -52,7 +72,12 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
+        <side-card
+          class="fix-sidebar"
+          :title="tags.title"
+          :type="tags.type"
+          :data="tags.data"
+        />
 
         <side-card
           class="fix-sidebar member-online"
