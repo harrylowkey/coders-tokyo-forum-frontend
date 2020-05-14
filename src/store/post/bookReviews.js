@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { SET_BOOK_REVIEWS } from '../constants';
+import { SET_BOOK_REVIEWS, LOAD_MORE_BOOK_REVIEWS } from '../constants';
 
 export default {
   namespaced: true,
@@ -13,6 +13,10 @@ export default {
       state.bookReviews = payload.data;
       state.metadata = payload.metadata;
     },
+    [LOAD_MORE_BOOK_REVIEWS](state, payload) {
+      state.bookReviews.push(...payload.data);
+      state.metadata = payload.metadata;
+    }
   },
   actions: {
     async getBookReviews({ commit }, options = { limit: 5, page: 1 }) {
@@ -40,4 +44,27 @@ export default {
       return res;
     },
   },
+  async loadMoreBookReviews({ commit }, options = { limit: 10, page: 1 }) {
+    commit('utils/SET_LOADMORE', true, { root: true });
+    const res = await axios
+      .get(
+        `/posts?type=blog&limit=${options.limit}&page=${options.page}`
+      )
+      .then(res => {
+        commit('LOAD_MORE_BOOK_REVIEWS', { data: res.data, metadata: res.metadata });
+        return res;
+      })
+      .catch(err => {
+        commit('utils/SET_ERROR', err, { root: true });
+        return err;
+      })
+      .then(res => {
+        setTimeout(() => {
+          commit('utils/SET_LOADMORE', false, { root: true });
+          commit('utils/SET_ERROR', '', { root: true });
+        }, 0);
+        return res;
+      });
+    return res;
+  }
 };
