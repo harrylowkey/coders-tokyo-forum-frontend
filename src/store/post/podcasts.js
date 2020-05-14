@@ -12,7 +12,6 @@ export default {
     [SET_PODCASTS](state, payload) {
       state.podcasts = payload.data;
       state.metadata = payload.metadata;
-      console.log(payload.data)
     },
     [LOAD_MORE_PODCASTS](state, payload) {
       state.podcasts.push(...payload.data);
@@ -47,7 +46,10 @@ export default {
       const res = await axios
         .get(`/posts?type=podcast&limit=${options.limit}&page=${options.page}`)
         .then(res => {
-          commit('LOAD_MORE_PODCASTS', { data: res.data, metadata: res.metadata });
+          commit('LOAD_MORE_PODCASTS', {
+            data: res.data,
+            metadata: res.metadata,
+          });
           return res;
         })
         .catch(err => {
