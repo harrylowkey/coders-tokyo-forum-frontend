@@ -3,48 +3,126 @@
     <v-row>
       <v-col class="pt-1">
         <div id="songs-wrapper-loaders" style="max-width: 782px;">
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
-          />
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
-          />
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
-          />
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
-          />
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
-          />
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
-          />
+          <div class="d-flex" v-if="isLoading">
+            <v-skeleton-loader
+              class="song mb-6 mr-0"
+              style="margin-top: 30px; display: inline-block; width: 300px"
+              max-width="150"
+              max-height="140"
+              v-if="isLoading"
+              type="image"
+            />
+          
+            <div style="width: 100%">
+              <v-skeleton-loader
+              class="song mb-0 ml-0 mb-0"
+              style="margin-top: 30px;"
+              v-if="isLoading"
+              type="list-item-two-line"
+            />
+            <v-skeleton-loader
+              class="song mb-6 ml-0 mt-0"
+              v-if="isLoading"
+              type="actions"
+            />
+            </div>
+          </div>
+          <div class="d-flex" v-if="isLoading">
+            <v-skeleton-loader
+              class="song mb-6 mr-0"
+              style="margin-top: 30px; display: inline-block; width: 300px"
+              max-width="150"
+              max-height="140"
+              v-if="isLoading"
+              type="image"
+            />
+          
+            <div style="width: 100%">
+              <v-skeleton-loader
+              class="song mb-0 ml-0 mb-0"
+              style="margin-top: 30px;"
+              v-if="isLoading"
+              type="list-item-two-line"
+            />
+            <v-skeleton-loader
+              class="song mb-6 ml-0 mt-0"
+              v-if="isLoading"
+              type="actions"
+            />
+            </div>
+          </div>
+          <div class="d-flex" v-if="isLoading">
+            <v-skeleton-loader
+              class="song mb-6 mr-0"
+              style="margin-top: 30px; display: inline-block; width: 300px"
+              max-width="150"
+              max-height="140"
+              v-if="isLoading"
+              type="image"
+            />
+          
+            <div style="width: 100%">
+              <v-skeleton-loader
+              class="song mb-0 ml-0 mb-0"
+              style="margin-top: 30px;"
+              v-if="isLoading"
+              type="list-item-two-line"
+            />
+            <v-skeleton-loader
+              class="song mb-6 ml-0 mt-0"
+              v-if="isLoading"
+              type="actions"
+            />
+            </div>
+          </div>
+          <div class="d-flex" v-if="isLoading">
+            <v-skeleton-loader
+              class="song mb-6 mr-0"
+              style="margin-top: 30px; display: inline-block; width: 300px"
+              max-width="150"
+              max-height="140"
+              v-if="isLoading"
+              type="image"
+            />
+          
+            <div style="width: 100%">
+              <v-skeleton-loader
+              class="song mb-0 ml-0 mb-0"
+              style="margin-top: 30px;"
+              v-if="isLoading"
+              type="list-item-two-line"
+            />
+            <v-skeleton-loader
+              class="song mb-6 ml-0 mt-0"
+              v-if="isLoading"
+              type="actions"
+            />
+            </div>
+          </div>
+          <div class="d-flex" v-if="isLoading">
+            <v-skeleton-loader
+              class="song mb-6 mr-0"
+              style="margin-top: 30px; display: inline-block; width: 300px"
+              max-width="150"
+              max-height="140"
+              v-if="isLoading"
+              type="image"
+            />
+          
+            <div style="width: 100%">
+              <v-skeleton-loader
+              class="song mb-0 ml-0 mb-0"
+              style="margin-top: 30px;"
+              v-if="isLoading"
+              type="list-item-two-line"
+            />
+            <v-skeleton-loader
+              class="song mb-6 ml-0 mt-0"
+              v-if="isLoading"
+              type="actions"
+            />
+            </div>
+          </div>
         </div>
         <song
           class="song mb-12"
@@ -68,9 +146,13 @@
           :audio="item.media"
           :cover="item.cover"
         />
-        <v-container class="mt-5 d-flex justify-center" v-if="showViewMoreBtn">
-          <v-btn class="primary" to="/stream/songs">View more</v-btn>
-        </v-container>
+        
+        <div
+          v-infinite-scroll="loadMore"
+          infinite-scroll-disabled="isLoadmore"
+          infinite-scroll-distance="10"
+        ></div>
+        <v-text-field color="primary" v-if="isLoadmore" loading disabled />
       </v-col>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4" :style="sideBarStyle">
         <side-card
@@ -260,8 +342,19 @@ export default {
       },
     };
   },
+    computed: {
+    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
+    ...mapState('songs', ['songs', 'metadata']),
+  },
   methods: {
-    ...mapActions('songs', ['getSongs']),
+    ...mapActions('songs', ['getSongs', 'loadMoreSongs']),
+    async loadMore() {
+      if (this.metadata.page >= this.metadata.totalPage) {
+        return;
+      }
+
+      await this.loadMoreSongs({ page: this.metadata.page + 1 });
+    },
   },
   async created() {
     if (this.$route.path === '/stream' || this.$route.path === '/') {
@@ -272,13 +365,6 @@ export default {
     }
 
     await this.getSongs();
-  },
-  computed: {
-    ...mapState('utils', ['errorMes', 'isLoading']),
-    ...mapState('stream', ['newestSongs']),
-    songs() {
-      return this.newestSongs;
-    },
   },
   watch: {
     isLoading(newVal) {

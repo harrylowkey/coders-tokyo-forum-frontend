@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { SET_SONGS } from '../constants';
+import { SET_SONGS, LOAD_MORE_SONGS } from '../constants';
 
 export default {
   namespaced: true,
@@ -11,6 +11,10 @@ export default {
   mutations: {
     [SET_SONGS](state, payload) {
       state.songs = payload.data;
+      state.metadata = payload.metadata;
+    },
+    [LOAD_MORE_SONGS](state, payload) {
+      state.songs.push(...payload.data);
       state.metadata = payload.metadata;
     },
   },
@@ -30,6 +34,28 @@ export default {
         .then(res => {
           setTimeout(() => {
             commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return res;
+    },
+
+    async loadMoreSongs({ commit }, options = { limit: 6, page: 1 }) {
+      commit('utils/SET_LOADMORE', true, { root: true });
+      const res = await axios
+        .get(`/posts?type=song&limit=${options.limit}&page=${options.page}`)
+        .then(res => {
+          commit('LOAD_MORE_SONGS', { data: res.data, metadata: res.metadata });
+          return res;
+        })
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true });
+          return err;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADMORE', false, { root: true });
             commit('utils/SET_ERROR', '', { root: true });
           }, 0);
           return res;
