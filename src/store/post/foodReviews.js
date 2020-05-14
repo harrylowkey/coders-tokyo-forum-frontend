@@ -49,7 +49,10 @@ export default {
       const res = await axios
         .get(`/posts?type=movie&limit=${options.limit}&page=${options.page}`)
         .then(res => {
-          commit('LOAD_MORE_FOOD_REVIEWS', { data: res.data, metadata: res.metadata });
+          commit('LOAD_MORE_FOOD_REVIEWS', {
+            data: res.data,
+            metadata: res.metadata,
+          });
           return res;
         })
         .catch(err => {
