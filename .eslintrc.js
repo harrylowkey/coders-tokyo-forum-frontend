@@ -15,7 +15,6 @@ module.exports = {
       1,
       {
         printWidth: 80,
-        trailingComma: 'all',
         singleQuote: true,
         semi: true,
         arrowParens: 'avoid',
