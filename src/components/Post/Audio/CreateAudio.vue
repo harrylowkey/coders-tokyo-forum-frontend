@@ -522,9 +522,7 @@ export default {
 
       this.fileRecordsForUpload = [];
     },
-    // eslint-disable-next-line no-unused-vars
-    async onBeforeDelete(fileRecord) {
-      // eslint-disable-next-line no-underscore-dangle
+    async onBeforeDelete() {
       const res = await this.deleteFile({ fileId: this.data.audio._id });
       if (res.status === 200) {
         this.data.audio = {};
@@ -595,7 +593,6 @@ export default {
       const type = this.data.type.slice(0, this.data.type.length - 1);
       setTimeout(() => {
         return this.$router.push({
-          // eslint-disable-next-line no-underscore-dangle
           path: `/${type}s/${res.data._id}?type=${type}`,
         });
       }, 1000);

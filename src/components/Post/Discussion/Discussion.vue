@@ -115,7 +115,6 @@ export default {
   },
   data() {
     return {
-      // eslint-disable-next-line no-underscore-dangle
       discussionLink: `/discussions/${this._id}?type=${this.type}`,
     };
   },

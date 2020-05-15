@@ -150,7 +150,6 @@ export default {
   },
   data() {
     return {
-      // eslint-disable-next-line no-underscore-dangle
       blogLink: `/blogs/${this._id}?type=${this.type}`,
     };
   },

@@ -37,7 +37,6 @@ export const crudPost = {
     ...mapActions('post', ['getPostById', 'deletePostById']),
     async handleDeletePost() {
       const response = await this.deletePostById({
-        // eslint-disable-next-line no-underscore-dangle
         id: this.post._id,
         typeQuery: this.post.type,
       });
@@ -70,7 +69,6 @@ export const crudPost = {
     ...mapState('user', ['user']),
     ...mapState('utils', ['isLoading', 'errorMes']),
     isAuthor() {
-      // eslint-disable-next-line no-underscore-dangle
       return this.post ? this.user._id === this.post.user._id : false;
     },
   },

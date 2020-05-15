@@ -182,9 +182,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import axios from 'axios';
-
 import { createPost } from '@/mixins/createPost';
 
 export default {

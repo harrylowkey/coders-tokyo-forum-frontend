@@ -376,10 +376,8 @@ export default {
   },
   computed: {},
   methods: {
-    // eslint-disable-next-line no-unused-vars
-    async beforeRemove(index, done, fileList) {
+    async beforeRemove(index, done) {
       const photoToDelete = this.data.food.foodPhotos[index];
-      // eslint-disable-next-line no-underscore-dangle
       const response = await this.deleteFile({ fileId: photoToDelete._id });
       if (response.status === 200) {
         this.data.food.foodPhotos.splice(index, 1);
@@ -396,8 +394,7 @@ export default {
       }
       done();
     },
-    // eslint-disable-next-line no-unused-vars
-    async uploadImageSuccess(formData, index, fileList) {
+    async uploadImageSuccess(formData) {
       const response = await this.uploadFiles(formData);
       if (response.status === 200) {
         this.data.food.foodPhotos.push(response.data);
@@ -420,10 +417,8 @@ export default {
         });
       }
     },
-    // eslint-disable-next-line no-unused-vars
-    async editImage(formData, index, fileList) {
+    async editImage(formData, index) {
       const photoToDelete = this.data.food.foodPhotos[index];
-      // eslint-disable-next-line no-underscore-dangle
       const response = await this.deleteFile({ fileId: photoToDelete._id });
       if (response.status === 200) {
         this.data.food.foodPhotos.splice(index, 1);
@@ -451,8 +446,7 @@ export default {
         });
       }
     },
-    // eslint-disable-next-line no-unused-vars
-    handleLimitExceed(amount) {
+    handleLimitExceed() {
       this.$notify({
         type: 'error',
         title: 'Please upload less than 20 photos',
@@ -494,7 +488,6 @@ export default {
 
       setTimeout(() => {
         return this.$router.push({
-          // eslint-disable-next-line no-underscore-dangle
           path: `/${this.data.type}Reviews/${res.data._id}?type=${this.data.type}`,
         });
       }, 1000);

@@ -448,7 +448,6 @@ export default {
 
       setTimeout(() => {
         return this.$router.push({
-          // eslint-disable-next-line no-underscore-dangle
           path: `/${type}Reviews/${res.data._id}?type=${type}`,
         });
       }, 1000);

@@ -387,7 +387,6 @@ export default {
   data() {
     return {
       director: {},
-      // eslint-disable-next-line no-underscore-dangle
       blogLink: `/movieReviews/${this._id}?type=${this.type}`,
     };
   },
