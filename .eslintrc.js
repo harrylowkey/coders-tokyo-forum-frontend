@@ -39,6 +39,18 @@ module.exports = {
     'vue/attributes-order': 0,
     'vue/attribute-hyphenation': 0,
     'vue/html-closing-bracket-spacing': 2,
+    'vue/html-self-closing': [
+      'error',
+      {
+        html: {
+          void: 'any',
+          normal: 'always',
+          component: 'always',
+        },
+        svg: 'always',
+        math: 'always',
+      },
+    ],
 
     // import
     'import/prefer-default-export': 0,

@@ -18,7 +18,7 @@
               :_id="item._id"
               @handlePlayPause="handlePlayPause"
               @handleSwitchAudio="handleSwitchAudio"
-            ></Audio>
+            />
           </v-col>
         </v-row>
       </v-slide-item>
