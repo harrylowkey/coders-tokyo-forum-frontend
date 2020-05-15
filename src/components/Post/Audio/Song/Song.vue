@@ -18,7 +18,12 @@
     </div>
     <v-hover v-slot:default="{ hover }" style="transition: 0.3s; height: 205px">
       <v-card id="song" class="mx-auto pb-0 mb-0" :elevation="hover ? 10 : 3">
-        <aplayer  @click="linkToSong" loop="none" :audio="audioFormat" :lrcType="0" />
+        <aplayer
+          @click="linkToSong"
+          loop="none"
+          :audio="audioFormat"
+          :lrcType="0"
+        />
 
         <v-list-item
           three-line
@@ -137,7 +142,7 @@ export default {
       maxTags: 3,
       // eslint-disable-next-line no-underscore-dangle
       audioLink: `/songs/${this._id}?type=${this.type}`,
-      audioFormat: {}
+      audioFormat: {},
     };
   },
   created() {

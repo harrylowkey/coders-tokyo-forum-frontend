@@ -49,8 +49,8 @@
           :comments="item.comments"
           :likes="item.likes"
         />
-        
-         <div
+
+        <div
           v-infinite-scroll="loadMore"
           infinite-scroll-disabled="isLoadmore"
           infinite-scroll-distance="10"

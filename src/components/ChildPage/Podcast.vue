@@ -483,7 +483,6 @@ export default {
     },
     hanldePlayAnotherpodcast(podcastId) {
       // eslint-disable-next-line no-console
-      console.log('here');
       this.$router.push({ path: `/podcasts/${podcastId}` });
     },
     toggleShowLyrics() {
