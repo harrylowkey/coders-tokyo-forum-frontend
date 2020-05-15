@@ -90,7 +90,7 @@
           </v-list>
         </v-menu>
       </v-toolbar>
-      <aplayer></aplayer>
+      <aplayer />
       <main class="mt-12">
         <router-view />
       </main>

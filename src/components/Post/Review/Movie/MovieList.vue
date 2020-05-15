@@ -54,7 +54,7 @@
           v-infinite-scroll="loadMore"
           infinite-scroll-disabled="isLoadmore"
           infinite-scroll-distance="10"
-        ></div>
+        />
         <v-text-field color="primary" v-if="isLoadmore" loading disabled />
       </v-col>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4" :style="sideBarStyle">
@@ -272,5 +272,3 @@ export default {
   },
 };
 </script>
-
-<style></style>
