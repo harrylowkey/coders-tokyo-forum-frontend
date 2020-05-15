@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="!isLoading" style="padding: 0 !important">
+  <v-container style="padding: 0 !important">
     <v-card
       color="basil"
       :style="type === 'writePost' ? 'width: 100%' : 'width: 67%'"
@@ -58,6 +58,8 @@
 <script>
 import { mapState } from 'vuex';
 
+import { ROUTES } from '@/mixins/routes';
+
 export default {
   props: {
     type: {
@@ -105,16 +107,18 @@ export default {
       this.$emit('setActivePage', { page });
 
       if (this.type === 'writePost') {
-        const currentPage = this.$route.path + this.$route.hash;
-        const targetPage = `/writePost#${page.slice(0, page.length - 1)}`;
-        if (currentPage === targetPage) return;
-        this.$router.replace({ path: targetPage });
+        const currentPath = this.$route.path + this.$route.hash;
+        const targetPath = ROUTES.WRITE_POST(
+          `#${page.slice(0, page.length - 1)}`,
+        );
+        if (currentPath === targetPath) return;
+        this.$router.replace({ path: targetPath });
       }
       if (this.type === 'stream') {
-        const currentPage = this.$route.path + this.$route.hash;
-        const targetPage = `/stream#${page}`;
-        if (currentPage === targetPage) return;
-        this.$router.replace({ path: targetPage });
+        const currentPath = this.$route.path + this.$route.hash;
+        const targetPath = ROUTES.STREAM(`#${page}`);
+        if (currentPath === targetPath) return;
+        this.$router.replace({ path: targetPath });
       }
     },
   },

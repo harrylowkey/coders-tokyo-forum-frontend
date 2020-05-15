@@ -151,7 +151,6 @@ export default {
       aplayerList.style.height = '190px';
 
       if (newValue === true) {
-        // await this.$refs.aplayer.play();
         const playPromise = this.$refs.aplayer.play();
 
         if (playPromise !== undefined) {

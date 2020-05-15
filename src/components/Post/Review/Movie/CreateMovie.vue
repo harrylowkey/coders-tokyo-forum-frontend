@@ -53,7 +53,7 @@
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
                         v-model="isUploadBanner"
-                        url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
+                        :url="APIS.UPLOAD_BANNER"
                         :width="800"
                         :height="400"
                         :headers="headers"
@@ -357,6 +357,8 @@
 
 <script>
 import { createPost } from '@/mixins/createPost';
+import { APIS } from '@/mixins/api-endpoints';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [createPost],
@@ -444,14 +446,15 @@ export default {
         });
       }
 
-      const type = this.data.type.slice(0, this.data.type.length - 1);
-
       setTimeout(() => {
         return this.$router.push({
-          path: `/${type}Reviews/${res.data._id}?type=${type}`,
+          path: ROUTES.MOVIE_REVIEWS(res.data._id),
         });
       }, 1000);
     },
+  },
+  created() {
+    this.APIS = APIS;
   },
 };
 </script>

@@ -17,7 +17,6 @@
   </v-card>
 </template>
 <script>
-// import Discussions from "@/components/Post/Discussion/Discussions";
 import UserPosts from './UserPosts';
 import SavedPosts from './SavedPosts';
 

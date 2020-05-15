@@ -66,7 +66,7 @@
                             :headers="headers"
                             img-format="jpg"
                             langType="en"
-                            url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
+                            :url="APIS.UPLOAD_BANNER"
                             noCircle
                           />
                         </v-col>
@@ -426,6 +426,8 @@
 import myUpload from 'vue-image-crop-upload';
 import { mapActions } from 'vuex';
 
+import { APIS } from '@/mixins/api-endpoints';
+import { ROUTES } from '@/mixins/routes';
 import { createPost } from '@/mixins/createPost';
 
 export default {
@@ -470,8 +472,7 @@ export default {
         banner: '',
       },
       imgDataUrl: '',
-      uploadAudioURL:
-        'http://localhost:3000/api/v1/files/upload/audio?type=audio',
+      uploadAudioURL: APIS.UPLOAD_AUDIO,
       fileRecordsForUpload: [],
       fileSelectClasses: ['file-select', 'wrapper-file-select'],
     };
@@ -485,6 +486,7 @@ export default {
   },
   created() {
     this.data.type = this.type;
+    this.APIS = APIS;
   },
   methods: {
     ...mapActions('post', ['uploadAudio']),
@@ -597,9 +599,17 @@ export default {
 
       const type = this.data.type.slice(0, this.data.type.length - 1);
       setTimeout(() => {
-        return this.$router.push({
-          path: `/${type}s/${res.data._id}?type=${type}`,
-        });
+        if (type === 'podcast') {
+          return this.$router.push({
+            path: ROUTES.PODCAST_DETAILS(res.data._id),
+          });
+        }
+
+        if (type === 'song') {
+          return this.$router.push({
+            path: ROUTES.SONG(res.data._id),
+          });
+        }
       }, 1000);
     },
   },

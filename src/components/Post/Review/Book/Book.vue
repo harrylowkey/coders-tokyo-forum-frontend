@@ -191,7 +191,7 @@
           <p class="description mb-0 pt-2">{{ description || content }}</p>
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
-              <a style=" text-decoration: none" :href="linkToBlog">
+              <a style=" text-decoration: none" :href="blogLink">
                 Read more...
               </a>
             </span>
@@ -254,6 +254,7 @@ import Tag from '@/components/Shared/Tag';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import { bookDescription } from '@/mixins/bookDescription';
 import ReadTime from '@/components/Shared/readTime';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [bookDescription],
@@ -332,7 +333,7 @@ export default {
   },
   data() {
     return {
-      blogLink: `/bookReviews/${this._id}?type=${this.type}`,
+      blogLink: ROUTES.BOOK_REVIEWS(this._id),
     };
   },
   methods: {
