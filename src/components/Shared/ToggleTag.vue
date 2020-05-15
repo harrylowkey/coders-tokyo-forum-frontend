@@ -14,7 +14,12 @@
 
 <script>
 export default {
-  props: ['tagName'],
+  props: {
+    tagName: {
+      type: String,
+      required: true,
+    },
+  },
   methods: {
     onClickRemove() {
       this.$emit('handleRemoveTag');

@@ -430,7 +430,12 @@ import { createPost } from '@/mixins/createPost';
 
 export default {
   mixins: [createPost],
-  props: ['type'],
+  props: {
+    type: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     myUpload,
   },

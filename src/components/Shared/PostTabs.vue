@@ -59,7 +59,16 @@
 import { mapState } from 'vuex';
 
 export default {
-  props: ['selectedPage', 'type'],
+  props: {
+    type: {
+      type: String,
+      required: true,
+    },
+    selectedPage: {
+      type: String,
+      default: 'discussions',
+    },
+  },
   data() {
     return {
       preSelectedPage: null,

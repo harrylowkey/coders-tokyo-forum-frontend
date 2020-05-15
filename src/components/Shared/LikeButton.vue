@@ -12,7 +12,12 @@
 
 <script>
 export default {
-  props: ['likes'],
+  props: {
+    likes: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
       isUserLiked: false,

@@ -65,7 +65,24 @@
 
 <script>
 export default {
-  props: ['likes', 'saves', 'flowers', 'postId'],
+  props: {
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    saves: {
+      type: Number,
+      default: 0,
+    },
+    flowers: {
+      type: Number,
+      default: 0,
+    },
+    postId: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       upHeartCLasses: ['up-heart'],

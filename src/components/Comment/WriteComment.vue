@@ -4,9 +4,9 @@
       v-if="!isPreviewing"
       name="input-7-1"
       auto-grow
-      :rows="rows"
       solo
-      :placeholder="placeholder || 'Add comment...'"
+      :rows="rows"
+      :placeholder="placeholder"
       class="mb-n3"
       v-model="comment"
     />
@@ -37,7 +37,16 @@
 
 <script>
 export default {
-  props: ['rows', 'placeholder'],
+  props: {
+    rows: {
+      type: Number,
+      default: 5,
+    },
+    placeholder: {
+      typee: String,
+      default: 'Add comment...',
+    },
+  },
   data() {
     return {
       isPreviewing: false,
