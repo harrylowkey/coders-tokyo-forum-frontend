@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { APIS } from '@/mixins/api-endpoints';
+
 import { SET_DISCUSSIONS, LOAD_MORE_DISCUSSIONS } from '../constants';
 
 export default {
@@ -23,7 +25,11 @@ export default {
       commit('utils/SET_LOADING', true, { root: true });
       const res = await axios
         .get(
-          `/posts?type=discussion&limit=${options.limit}&page=${options.page}`,
+          APIS.GET_POSTS({
+            type: 'discussion',
+            limit: options.limit,
+            page: options.page,
+          }),
         )
         .then(res => {
           commit('SET_DISCUSSIONS', { data: res.data, metadata: res.metadata });
@@ -47,7 +53,11 @@ export default {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
         .get(
-          `/posts?type=discussion&limit=${options.limit}&page=${options.page}`,
+          APIS.GET_POSTS({
+            type: 'discussion',
+            limit: options.limit,
+            page: options.page,
+          }),
         )
         .then(res => {
           commit('LOAD_MORE_DISCUSSIONS', {

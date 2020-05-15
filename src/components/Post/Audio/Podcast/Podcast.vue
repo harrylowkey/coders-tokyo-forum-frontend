@@ -36,7 +36,7 @@
                 style="font-size: 13px; cursor: pointer"
                 v-for="(artist, i) in slicedArtists"
                 :key="i"
-                @click="searchPodcastBySinger(artist)"
+                @click="searchPodcastByArtist(artist)"
               >
                 {{ artist }}
                 <span style="font-size: 12px">
@@ -174,6 +174,7 @@ import Tag from '@/components/Shared/Tag';
 import LikeBtn from '@/components/Shared/LikeButton';
 import CommentBtn from '@/components/Shared/CommentButton';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [userSocialLinks],
@@ -259,13 +260,16 @@ export default {
         max: 1,
       },
       composers: [],
-      podcastLink: `/podcasts/${this._id}?type=${this.type}`,
+      podcastLink: ROUTES.PODCAST(this._id),
     };
   },
   components: {
     Tag,
     LikeBtn,
     CommentBtn,
+  },
+  created() {
+    this.ROUTES = ROUTES;
   },
   watch: {
     currentVolume(newValue) {
@@ -307,8 +311,10 @@ export default {
     isAddFt(index, dataLength) {
       return index + 1 < dataLength ? 'ft' : '';
     },
-    searchPodcastBySinger(artist) {
-      return window.open(`/posts?artist=${artist}&type=podcast`);
+    searchPodcastByArtist(artist) {
+      return window.open(
+        ROUTES.SEARCH_ARTIST({ name: artist, type: 'podcast' }),
+      );
     },
     calProgressBar() {
       const player = this.$refs.player;
@@ -420,7 +426,7 @@ export default {
       this.$router.push({ path: this.podcastLink });
     },
     onClickAvatar() {
-      this.$router.push({ path: `/users/${this.user.username}` });
+      this.$router.push(ROUTES.USER_PROFILE({ username: this.user.username }));
     },
   },
 };
