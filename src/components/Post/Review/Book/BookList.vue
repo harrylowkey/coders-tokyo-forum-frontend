@@ -256,7 +256,7 @@ export default {
         return;
       }
 
-      await this.loadMoreBlogs({ page: this.metadata.page + 1 });
+      await this.loadMoreBookReviews({ page: this.metadata.page + 1 });
     },
   },
   async created() {

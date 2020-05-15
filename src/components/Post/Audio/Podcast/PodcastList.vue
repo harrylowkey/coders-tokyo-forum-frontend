@@ -67,6 +67,8 @@
           :audio="item.media"
           :cover="item.cover"
           :customize="{}"
+          @handlePlayPause="handlePlayPause"
+          @handleSwitchAudio="handleSwitchAudio"
         />
 
         <div
@@ -92,12 +94,7 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card
-          class="fix-sidebar"
-          :title="tags.title"
-          :type="tags.type"
-          :data="tags.data"
-        />
+        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
 
         <side-card
           class="fix-sidebar member-online"
@@ -270,12 +267,33 @@ export default {
   },
   methods: {
     ...mapActions('podcasts', ['getPodcasts', 'loadMorePodcasts']),
+    ...mapActions('player', [
+      'updatePlaying',
+      'toggleShowPlayer',
+      'switchAudio',
+    ]),
     async loadMore() {
       if (this.metadata.page >= this.metadata.totalPage) {
         return;
       }
 
       await this.loadMorePodcasts({ page: this.metadata.page + 1 });
+    },
+    handlePlayPause({ isPlay, audio }) {
+      if (isPlay) {
+        this.updatePlaying({ status: true, audio });
+        this.toggleShowPlayer(true);
+      }
+
+      if (!isPlay) {
+        this.updatePlaying({ status: false, audio });
+      }
+    },
+    handleSwitchAudio({ status, audio }) {
+      if (status === true) {
+        console.log(audio)
+        this.switchAudio({ status, audio });
+      }
     },
   },
   async created() {

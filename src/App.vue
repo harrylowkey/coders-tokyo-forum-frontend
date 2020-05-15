@@ -90,6 +90,7 @@
           </v-list>
         </v-menu>
       </v-toolbar>
+      <aplayer></aplayer>
       <main class="mt-12">
         <router-view />
       </main>
@@ -100,9 +101,13 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
+import Aplayer from './components/Player/aplayer';
+
 export default {
   name: 'App',
-  components: {},
+  components: {
+    Aplayer,
+  },
   data() {
     return {
       isSearching: false,
