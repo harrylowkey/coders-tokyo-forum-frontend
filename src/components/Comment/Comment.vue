@@ -194,6 +194,7 @@
 
 <script>
 import WriteReplyComment from '@/components/Comment/WriteComment';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   props: {
@@ -220,7 +221,7 @@ export default {
       isPreviewing: false,
       isReplyComment: false,
       isReplyChildComments: {},
-      link: `/users/${this.author.username}`,
+      link: ROUTES.USER_PROFILE({ username: this.author.username }),
     };
   },
   created() {

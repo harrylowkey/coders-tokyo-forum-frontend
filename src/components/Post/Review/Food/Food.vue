@@ -295,6 +295,7 @@ import Tag from '@/components/Shared/Tag';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import ReadTime from '@/components/Shared/readTime';
 import { foodDescription } from '@/mixins/foodDescription';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [foodDescription],
@@ -379,7 +380,7 @@ export default {
     return {
       maxSlice1: 1,
       maxSlice: 2,
-      blogLink: `/foodReviews/${this._id}?type=${this.type}`,
+      blogLink: ROUTES.FOOD_REVIEWS(this._id),
     };
   },
   methods: {

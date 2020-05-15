@@ -50,10 +50,7 @@
                 </v-list-item-title>
                 <v-card-actions class="pl-0">
                   <v-avatar size="40" style="cursor: pointer" dark>
-                    <img
-                      src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-                      alt="Avatar"
-                    />
+                    <img :src="post.user.avatar.secureURL" alt="Avatar" />
                   </v-avatar>
                   <v-card-subtitle style="font-size: 16px" class="ml-n1 pr-0">
                     <a style="text-decoration: none; color: #000" href>

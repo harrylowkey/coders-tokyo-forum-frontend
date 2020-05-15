@@ -73,6 +73,8 @@
 <script>
 import { mapActions } from 'vuex';
 
+import { ROUTES } from '@/mixins/routes';
+
 export default {
   props: {
     customize: {
@@ -101,7 +103,7 @@ export default {
       usernameWrapper: {
         paddingTop: this.customize ? '4px !important' : 0,
       },
-      userProfileLink: `/users/${this.author.username}`,
+      userProfileLink: ROUTES.USER_PROFILE({ username: this.author.username }),
     };
   },
   methods: {
@@ -115,7 +117,7 @@ export default {
     async onClickFollow() {
       const response = await this.follow(this.author._id);
       if (!response) {
-        return this.$router.push({ path: '/signin' });
+        return this.$router.push({ path: ROUTES.LOGIN });
       }
       if (response.status === 200) {
         this.followers.push(this.userId);
@@ -132,13 +134,13 @@ export default {
       }
 
       if (response.status === 401) {
-        this.$router.push({ path: '/signin' });
+        this.$router.push({ path: ROUTES.LOGIN });
       }
     },
     async onClickUnFollow() {
       const response = await this.unfollow(this.author._id);
       if (!response) {
-        this.$router.push({ path: '/signin' });
+        this.$router.push({ path: ROUTES.LOGIN });
       }
       if (response.status === 200) {
         this.followers = this.followers.filter(

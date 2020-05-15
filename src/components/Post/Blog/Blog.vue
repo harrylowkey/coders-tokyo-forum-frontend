@@ -81,6 +81,7 @@ import CommentBtn from '@/components/Shared/CommentButton';
 import Tag from '@/components/Shared/Tag';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import ReadTime from '@/components/Shared/readTime';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   props: {
@@ -154,7 +155,7 @@ export default {
   },
   data() {
     return {
-      blogLink: `/blogs/${this._id}?type=${this.type}`,
+      blogLink: ROUTES.BLOG(this._id),
     };
   },
   methods: {
@@ -162,7 +163,6 @@ export default {
       this.$router.push({ path: this.blogLink });
     },
   },
-  created() {},
 };
 </script>
 

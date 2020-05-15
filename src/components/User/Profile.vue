@@ -44,7 +44,7 @@
                 :height="400"
                 :headers="headers"
                 method="POST"
-                url="http://localhost:3000/api/v1/files/upload/avatar?type=avatar"
+                :url="APIS.UPLOAD_AVATAR"
                 img-format="jpg"
                 langType="en"
               />
@@ -343,6 +343,8 @@
 import myUpload from 'vue-image-crop-upload';
 import { mapActions, mapState } from 'vuex';
 
+import { APIS } from '@/mixins/api-endpoints';
+
 import ProfileTabs from './ProfileTabs';
 import EditProfile from './EditProfile';
 import EditDescription from './EditDescription';
@@ -380,6 +382,7 @@ export default {
     };
   },
   created() {
+    this.APIS = APIS;
     this.user = this.$store.getters.user;
     this.userGithub =
       this.user.socialLinks.find(link => link.type === 'Github') ||

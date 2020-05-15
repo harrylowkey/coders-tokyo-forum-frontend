@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { APIS } from '@/mixins/api-endpoints';
+
 import { SET_FOOD_REVIEWS, LOAD_MORE_FOOD_REVIEWS } from '../constants';
 
 export default {
@@ -22,7 +24,13 @@ export default {
     async getFoodReviews({ commit }, options = { limit: 10, page: 1 }) {
       commit('utils/SET_LOADING', true, { root: true });
       const res = await axios
-        .get(`/posts?type=food&limit=${options.limit}&page=${options.page}`)
+        .get(
+          APIS.GET_POSTS({
+            type: 'food',
+            limit: options.limit,
+            page: options.page,
+          }),
+        )
         .then(res => {
           commit('SET_FOOD_REVIEWS', {
             data: res.data,
@@ -47,7 +55,13 @@ export default {
     async loadMoreFoodReviews({ commit }, options = { limit: 5, page: 1 }) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
-        .get(`/posts?type=movie&limit=${options.limit}&page=${options.page}`)
+        .get(
+          APIS.GET_POSTS({
+            type: 'food',
+            limit: options.limit,
+            page: options.page,
+          }),
+        )
         .then(res => {
           commit('LOAD_MORE_FOOD_REVIEWS', {
             data: res.data,

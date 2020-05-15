@@ -34,7 +34,7 @@
                   <a
                     style="text-decoration: none; font-size: 14px"
                     class="font-italic"
-                    href="/signup"
+                    :href="ROUTES.REGISTER"
                   >
                     Don't have an account yet?
                   </a>
@@ -59,6 +59,8 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
+import { ROUTES } from '@/mixins/routes';
+
 export default {
   data() {
     return {
@@ -66,7 +68,7 @@ export default {
       alertMessage: '',
       email: '',
       password: '',
-      redirect: '/stream',
+      redirect: ROUTES.STREAM,
     };
   },
   computed: {
@@ -95,6 +97,9 @@ export default {
   },
   methods: {
     ...mapActions('user', ['signIn']),
+  },
+  created() {
+    this.ROUTES = ROUTES;
   },
 };
 </script>

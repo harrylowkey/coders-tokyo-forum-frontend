@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { APIS } from '@/mixins/api-endpoints';
+
 export default {
   namespaced: true,
   state: {
@@ -10,7 +12,7 @@ export default {
     async createPost({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true });
       const post = await axios
-        .post(`/posts/${data.type}`, data)
+        .post(APIS.WRITE_POST(data.type), data)
         .catch(err => {
           commit('utils/SET_ERROR', err, { root: true });
           return err;
@@ -27,7 +29,7 @@ export default {
     async getPostById({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true });
       const post = await axios
-        .get(`/posts/${data.id}?type=${data.typeQuery}`)
+        .get(APIS.GET_POST({ id: data.id, queries: { type: data.typeQuery } }))
         .then(res => {
           const { data, metadata } = res;
           data.metadata = metadata;
@@ -49,7 +51,9 @@ export default {
     async deletePostById({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true });
       const response = await axios
-        .delete(`/posts/${data.id}?type=${data.typeQuery}`)
+        .delete(
+          APIS.GET_POST({ id: data.id, queries: { type: data.typeQuery } }),
+        )
         .catch(err => {
           commit('utils/SET_ERROR', err, { root: true });
           return err;
@@ -66,7 +70,7 @@ export default {
     async uploadFiles({ commit }, formData) {
       commit('utils/SET_LOADING', true, { root: true });
       const response = await axios
-        .post('/files/upload/foodPhotos', formData, {
+        .post(APIS.UPLOAD_FOOD_PHOTOS, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .catch(err => {
@@ -86,7 +90,7 @@ export default {
     async deleteFile({ commit }, { fileId }) {
       commit('utils/SET_LOADING', true, { root: true });
       const response = await axios
-        .delete(`/files/${fileId}`)
+        .delete(APIS.GET_FILE({ id: fileId }))
         .catch(err => {
           commit('utils/SET_ERROR', err, { root: true });
           return err;
@@ -103,7 +107,7 @@ export default {
     async uploadPhoto({ commit }, formData) {
       commit('utils/SET_LOADING', true, { root: true });
       const response = await axios
-        .post('/files/upload/photo?type=photo', formData, {
+        .post(APIS.UPLOAD_FILE('photo'), formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .catch(err => {
@@ -123,7 +127,7 @@ export default {
     async uploadAudio({ commit }, formData) {
       commit('utils/SET_LOADING', true, { root: true });
       const response = await axios
-        .post('/files/upload/audio?type=audio', formData, {
+        .post(APIS.UPLOAD_FILE('audio'), formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .catch(err => {
