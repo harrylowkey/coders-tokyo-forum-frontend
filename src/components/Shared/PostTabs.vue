@@ -1,6 +1,9 @@
 <template>
   <v-container v-if="!isLoading" style="padding: 0 !important">
-    <v-card color="basil" style="width: 67%">
+    <v-card 
+      color="basil" 
+      :style="type === 'writePost' ? 'width: 100%' : 'width: 67%'"
+    >
       <v-toolbar dense>
         <v-tabs grow v-model="preSelectedPage">
           <v-tab key="discussions" @click="setActivePage('discussions')">

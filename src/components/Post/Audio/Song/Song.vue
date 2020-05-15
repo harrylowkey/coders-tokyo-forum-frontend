@@ -2,13 +2,14 @@
   <div>
     <div class="mb-3">
       <v-avatar size="30" style="cursor: pointer;" class="mr-2">
-        <img
-          @click="showAvatar = !showAvatar"
-          :src="user.avatar.secureURL"
-          alt="Avatar"
-        />
+        <img @click="onClickAvatar" :src="user.avatar.secureURL" alt="Avatar" />
       </v-avatar>
-      <span>{{ user.username }}</span>
+      <a
+        style="text-decoration: none; color: #000"
+        :href="`/posts?artist=${user.username}&type=${type}`"
+      >
+        <span>{{ user.username }}</span>
+      </a>
       <span
         style="font-size: 13px !important; color: grey"
         class="caption ml-1"
@@ -149,7 +150,7 @@ export default {
     const audio = this.audio;
     const artists = this.authors.filter(person => person.type === 'artist');
     this.audioFormat = {
-      name: audio.fileName,
+      name: this.topic,
       artist: artists.map(person => person.name).toString(),
       url: audio.secureURL,
       cover: this.cover.secureURL,
@@ -163,6 +164,9 @@ export default {
   methods: {
     linkToSong() {
       this.$router.push({ path: this.audioLink });
+    },
+    onClickAvatar() {
+      window.open(`/users/${this.user.username}`);
     },
   },
   mounted() {
