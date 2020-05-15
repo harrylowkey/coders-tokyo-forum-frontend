@@ -155,7 +155,11 @@
           <v-spacer />
           <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
             <like-btn :likes="likes.length" />
-            <comment-btn :comments="comments.length" />
+            <comment-btn
+              :type="type"
+              :postId="_id"
+              :comments="comments.length"
+            />
           </v-container>
         </v-card-actions>
       </v-card>

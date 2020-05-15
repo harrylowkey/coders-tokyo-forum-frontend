@@ -57,6 +57,7 @@
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587889292/blog_obzs2l.svg"
         class="react-icon write-comment-icon"
+        @click="onClickComment"
       />
     </div>
   </div>
@@ -107,6 +108,9 @@ export default {
       } else {
         return this.upSaveIconClasses.push('show-up-save');
       }
+    },
+    onClickComment() {
+      this.$emit('hanldeClickCommentBtn');
     },
   },
 };

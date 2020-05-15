@@ -17,12 +17,24 @@
           offset-xl="1"
           class="pt-0"
         >
-          <post-tabs type="writePost" class="d-none d-sm-flex" @setActivePage="handleSetActivePage"></post-tabs>
+          <post-tabs
+            type="writePost"
+            class="d-none d-sm-flex"
+            @setActivePage="handleSetActivePage"
+          ></post-tabs>
           <div class="pt-6">
-            <create-discussion v-if="activePage === 'discussions'"></create-discussion>
+            <create-discussion
+              v-if="activePage === 'discussions'"
+            ></create-discussion>
             <create-blog v-if="activePage === 'blogs'"></create-blog>
-            <create-audio type="podcasts" v-if="activePage === 'podcasts'"></create-audio>
-            <create-audio type="songs" v-if="activePage === 'songs'"></create-audio>
+            <create-audio
+              type="podcasts"
+              v-if="activePage === 'podcasts'"
+            ></create-audio>
+            <create-audio
+              type="songs"
+              v-if="activePage === 'songs'"
+            ></create-audio>
             <create-movie v-if="activePage === 'movieReviews'"></create-movie>
             <create-book v-if="activePage === 'bookReviews'"></create-book>
             <create-food v-if="activePage === 'foodReviews'"></create-food>
