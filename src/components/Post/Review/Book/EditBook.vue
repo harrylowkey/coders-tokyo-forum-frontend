@@ -7,14 +7,14 @@
       <v-row>
         <v-col
           cols="12"
-          sm="8"
-          md="8"
-          lg="8"
-          xl="8"
-          offset-sm="2"
-          offset-md="2"
-          offset-lg="2"
-          offset-xl="2"
+          sm="9"
+          md="9"
+          lg="9"
+          xl="9"
+          offset-sm="1"
+          offset-md="1"
+          offset-lg="1"
+          offset-xl="1"
           class="pt-0"
         >
           <div class="pt-6">
