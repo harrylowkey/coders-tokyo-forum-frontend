@@ -6,31 +6,31 @@
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        ></v-skeleton-loader>
+        />
 
         <v-skeleton-loader
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        ></v-skeleton-loader>
+        />
 
         <v-skeleton-loader
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        ></v-skeleton-loader>
+        />
 
         <v-skeleton-loader
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        ></v-skeleton-loader>
+        />
 
         <v-skeleton-loader
           class="mt-5 mb-5"
           v-if="isLoading"
           type="list-item-avatar-three-line, list-item-three-line"
-        ></v-skeleton-loader>
+        />
         <div v-if="!isLoading">
           <discussion
             v-for="item in discussions"
@@ -47,14 +47,14 @@
             :createdAt="item.createdAt"
             :updatedAt="item.updatedAt"
             :metadata="item.metadata"
-          ></discussion>
+          />
         </div>
 
         <div
           v-infinite-scroll="loadMore"
           infinite-scroll-disabled="isLoadmore"
           infinite-scroll-distance="10"
-        ></div>
+        />
         <v-text-field color="primary" v-if="isLoadmore" loading disabled />
       </v-col>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4" :style="sideBarStyle">
@@ -278,5 +278,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

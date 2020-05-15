@@ -1,13 +1,13 @@
 <template>
   <v-container fluid style="padding: 0 !important">
-    <app-banner></app-banner>
-    <v-divider></v-divider>
-    <v-divider inset></v-divider>
+    <app-banner />
+    <v-divider />
+    <v-divider inset />
     <audio-playlist
       v-if="!isLoading"
       class="d-none d-sm-flex"
       id="audio-playlist"
-    ></audio-playlist>
+    />
     <div class="d-flex justify-center">
       <v-skeleton-loader
         class="song mb-6"
@@ -16,7 +16,7 @@
         max-height="160"
         v-if="isLoading"
         type="image, date-picker-options"
-      ></v-skeleton-loader>
+      />
       <v-skeleton-loader
         class="song mb-6"
         style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
@@ -24,7 +24,7 @@
         max-height="160"
         v-if="isLoading"
         type="image, date-picker-options"
-      ></v-skeleton-loader>
+      />
       <v-skeleton-loader
         class="song mb-6"
         style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
@@ -32,7 +32,7 @@
         max-height="160"
         v-if="isLoading"
         type="image, date-picker-options"
-      ></v-skeleton-loader>
+      />
       <v-skeleton-loader
         class="song mb-6"
         style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
@@ -40,7 +40,7 @@
         max-height="160"
         v-if="isLoading"
         type="image, date-picker-options"
-      ></v-skeleton-loader>
+      />
       <v-skeleton-loader
         class="song mb-6"
         style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
@@ -48,7 +48,7 @@
         max-height="160"
         v-if="isLoading"
         type="image, date-picker-options"
-      ></v-skeleton-loader>
+      />
       <v-skeleton-loader
         class="song mb-6"
         style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
@@ -56,9 +56,9 @@
         max-height="160"
         v-if="isLoading"
         type="image, date-picker-options"
-      ></v-skeleton-loader>
+      />
     </div>
-    <v-divider></v-divider>
+    <v-divider />
     <br />
     <v-container color="dark">
       <v-row>
@@ -67,14 +67,14 @@
           :selectedPage="activePage"
           class="d-none d-sm-flex"
           @setActivePage="handleSetActivePage"
-        ></post-tabs>
-        <discussion-page v-if="activePage === 'discussions'"></discussion-page>
-        <blog-page v-if="activePage === 'blogs'"></blog-page>
-        <podcast-page v-if="activePage === 'podcasts'"></podcast-page>
-        <song-page v-if="activePage === 'songs'"></song-page>
-        <movie-page v-if="activePage === 'movieReviews'"></movie-page>
-        <book-page v-if="activePage === 'bookReviews'"></book-page>
-        <food-page v-if="activePage === 'foodReviews'"></food-page>
+        />
+        <discussion-page v-if="activePage === 'discussions'" />
+        <blog-page v-if="activePage === 'blogs'" />
+        <podcast-page v-if="activePage === 'podcasts'" />
+        <song-page v-if="activePage === 'songs'" />
+        <movie-page v-if="activePage === 'movieReviews'" />
+        <book-page v-if="activePage === 'bookReviews'" />
+        <food-page v-if="activePage === 'foodReviews'" />
       </v-row>
     </v-container>
   </v-container>
