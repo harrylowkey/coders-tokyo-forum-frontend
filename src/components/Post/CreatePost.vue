@@ -5,44 +5,28 @@
     <br />
     <v-container color="dark">
       <v-row>
-        <post-tabs
-          type="writePost"
-          class="d-none d-sm-flex"
-          @setActivePage="handleSetActivePage"
-        ></post-tabs>
-        <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
+        <v-col
+          cols="12"
+          sm="9"
+          md="9"
+          lg="9"
+          xl="9"
+          offset-sm="1"
+          offset-md="1"
+          offset-lg="1"
+          offset-xl="1"
+          class="pt-0"
+        >
+          <post-tabs type="writePost" class="d-none d-sm-flex" @setActivePage="handleSetActivePage"></post-tabs>
           <div class="pt-6">
-            <create-discussion
-              v-if="activePage === 'discussions'"
-            ></create-discussion>
+            <create-discussion v-if="activePage === 'discussions'"></create-discussion>
             <create-blog v-if="activePage === 'blogs'"></create-blog>
-            <create-audio
-              type="podcasts"
-              v-if="activePage === 'podcasts'"
-            ></create-audio>
-            <create-audio
-              type="songs"
-              v-if="activePage === 'songs'"
-            ></create-audio>
+            <create-audio type="podcasts" v-if="activePage === 'podcasts'"></create-audio>
+            <create-audio type="songs" v-if="activePage === 'songs'"></create-audio>
             <create-movie v-if="activePage === 'movieReviews'"></create-movie>
             <create-book v-if="activePage === 'bookReviews'"></create-book>
             <create-food v-if="activePage === 'foodReviews'"></create-food>
           </div>
-        </v-col>
-        <v-col cols="12" sm="4" md="4" lg="4" xl="4">
-          <side-card
-            class="fix-sidebar top-blogger"
-            :title="topBloggers.title"
-            :type="topBloggers.type"
-            :data="topBloggers.data"
-          />
-
-          <side-card
-            class="fix-sidebar"
-            :title="tags.title"
-            :type="tags.type"
-            :data="tags.data"
-          />
         </v-col>
       </v-row>
     </v-container>
@@ -50,7 +34,6 @@
 </template>
 
 <script>
-import SideCard from '../Shared/SideCard';
 import PostTabs from '../Shared/PostTabs';
 
 import CreateBlog from './Blog/CreateBlog';
@@ -62,7 +45,6 @@ import CreateFood from './Review/Food/CreateFood';
 
 export default {
   components: {
-    SideCard,
     CreateBlog,
     CreateMovie,
     CreateDiscussion,
