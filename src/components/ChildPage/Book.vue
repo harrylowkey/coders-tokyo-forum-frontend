@@ -15,10 +15,19 @@
           :saves="post && post.metadata ? post.metadata.saves : 0"
           :flowers="0"
           :postId="post._id"
+          @hanldeClickCommentBtn="hanldeClickCommentBtn"
         />
       </v-col>
 
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
+        <a
+          id="trigger-scroll-comments"
+          style="display: none"
+          href="#"
+          v-scroll-to="'#comments'"
+        >
+          Scroll to #comment
+        </a>
         <v-skeleton-loader />
         <v-boilerplate
           class="mx-auto mt-6"

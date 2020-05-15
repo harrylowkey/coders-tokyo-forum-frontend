@@ -1,7 +1,7 @@
 <template>
   <v-container v-if="!isLoading" style="padding: 0 !important">
-    <v-card 
-      color="basil" 
+    <v-card
+      color="basil"
       :style="type === 'writePost' ? 'width: 100%' : 'width: 67%'"
     >
       <v-toolbar dense>

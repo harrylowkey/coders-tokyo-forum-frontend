@@ -15,9 +15,18 @@
           :saves="post && post.metadata ? post.metadata.saves : 0"
           :flowers="0"
           :postId="post._id"
+          @hanldeClickCommentBtn="hanldeClickCommentBtn"
         />
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
+        <a
+          id="trigger-scroll-comments"
+          style="display: none"
+          href="#"
+          v-scroll-to="'#comments'"
+        >
+          Scroll to #comment
+        </a>
         <v-skeleton-loader />
         <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image" />
         <v-boilerplate
@@ -201,7 +210,7 @@
             </v-row>
           </v-container>
         </v-card>
-        <div class="mt-5">
+        <div class="mt-5" id="comments">
           <v-divider />
           <h1 class="mb-3 mt-8">Comments</h1>
 
@@ -296,8 +305,12 @@
                 </v-card-text>
                 <v-spacer />
                 <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
-                  <like-btn :likes="4" />
-                  <comment-btn :comments="9" />
+                  <like-btn :likes="podcast.likes.length" />
+                  <comment-btn
+                    :type="podcast.type"
+                    :postId="podcast._id"
+                    :comments="podcast.comments.length"
+                  />
                 </v-container>
               </v-card-actions>
             </v-card>

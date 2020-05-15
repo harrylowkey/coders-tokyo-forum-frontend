@@ -283,7 +283,11 @@
               <like-btn :likes="likes.length" />
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :comments="comments.length" />
+              <comment-btn
+                :type="type"
+                :postId="_id"
+                :comments="comments.length"
+              />
             </v-col>
           </v-row>
         </v-container>

@@ -34,7 +34,11 @@
           <v-card-actions class="pb-1 pl-0 pt-md-0 pt-sm-5">
             <v-container class="pt-0 pl-0 pr-0 d-flex justify-space-around">
               <like-btn :likes="likes.length" class="mr-10" />
-              <comment-btn :comments="comments.length" />
+              <comment-btn
+                :type="type"
+                :postId="_id"
+                :comments="comments.length"
+              />
             </v-container>
           </v-card-actions>
           <v-spacer />

@@ -64,6 +64,12 @@ export const crudPost = {
         this.post = data;
       });
     },
+    hanldeClickCommentBtn() {
+      const triggerScrollToComment = document.querySelector(
+        '#trigger-scroll-comments',
+      );
+      triggerScrollToComment.click();
+    },
   },
   computed: {
     ...mapState('user', ['user']),
@@ -74,6 +80,16 @@ export const crudPost = {
   },
   created() {
     this.fetchPost();
+  },
+  mounted() {
+    if (this.$route.hash === '#comment') {
+      const triggerScrollToComment = document.querySelector(
+        '#trigger-scroll-comments',
+      );
+      triggerScrollToComment.click();
+    } else {
+      window.scrollTo(0, 0);
+    }
   },
   components: {
     Tag,
