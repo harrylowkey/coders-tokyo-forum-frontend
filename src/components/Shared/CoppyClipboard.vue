@@ -38,7 +38,16 @@ export default {
       isCopied: false,
     };
   },
-  props: ['isAttachImageSuccess', 'imageURL'],
+  props: {
+    isAttachImageSuccess: {
+      type: Boolean,
+      default: false,
+    },
+    imageURL: {
+      type: String,
+      required: true,
+    },
+  },
   methods: {
     onCopy() {
       this.isCopied = !this.isCopied;

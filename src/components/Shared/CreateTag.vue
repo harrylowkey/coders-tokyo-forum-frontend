@@ -34,7 +34,12 @@
 
 <script>
 export default {
-  props: ['tags'],
+  props: {
+    tags: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       valid: true,

@@ -39,7 +39,16 @@
 
 <script>
 export default {
-  props: ['isLoading', 'attachImage'],
+  props: {
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+    attachImage: {
+      type: Boolean,
+      default: false,
+    },
+  },
   methods: {
     onClickUploadImage() {
       this.$emit('handleUploadImage');

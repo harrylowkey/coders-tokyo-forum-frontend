@@ -17,7 +17,16 @@
 
 <script>
 export default {
-  props: ['src', 'username'],
+  props: {
+    src: {
+      type: String,
+      required: true,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       link: `/users/${this.username}`,
