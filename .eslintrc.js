@@ -28,11 +28,11 @@ module.exports = {
     'no-param-reassign': 0,
     'no-irregular-whitespace': 0,
     'no-unused-vars': [2, { argsIgnorePattern: '^_' }],
-    'no-underscore-dangle': 1,
     'prefer-arrow-callback': 1,
     'prefer-spread': 1,
     'prefer-template': 1,
     'prefer-const': 2,
+    'no-underscore-dangle': 0,
     camelcase: 0,
 
     // vue

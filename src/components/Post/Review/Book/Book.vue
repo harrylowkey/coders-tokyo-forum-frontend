@@ -328,7 +328,6 @@ export default {
   },
   data() {
     return {
-      // eslint-disable-next-line no-underscore-dangle
       blogLink: `/bookReviews/${this._id}?type=${this.type}`,
     };
   },

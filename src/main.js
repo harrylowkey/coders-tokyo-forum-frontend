@@ -107,7 +107,8 @@ Vue.component('app-banner', Banner);
 Vue.component('picture-input', PictureInput);
 
 Vue.use(APlayer, {
-  defaultCover: 'https://res.cloudinary.com/hongquangraem/image/upload/v1589443283/Coders-Tokyo-Forum/posts/brveajqadnizkighglht.jpg',
+  defaultCover:
+    'https://res.cloudinary.com/hongquangraem/image/upload/v1589443283/Coders-Tokyo-Forum/posts/brveajqadnizkighglht.jpg',
   productionTip: true,
 });
 Vue.use(Notifications);

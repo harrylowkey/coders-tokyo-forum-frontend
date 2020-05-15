@@ -215,12 +215,10 @@
 
 <script>
 import myUpload from 'vue-image-crop-upload';
-import VueUploadMultipleImage from 'vue-upload-multiple-image';
 import { extend, setInteractionMode } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
 
 import { updateBanner } from '@/mixins/updateBanner';
-import CreateTag from '@/components/Shared/CreateTag';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import ToggleTag from '@/components/Shared/ToggleTag';
 import CreateTagBlog from '@/components/Shared/CreateTagBlog';
@@ -236,12 +234,8 @@ export default {
   components: {
     CreateTagBlog,
     UserAvatar,
-    // eslint-disable-next-line vue/no-unused-components
-    CreateTag,
     myUpload,
     ToggleTag,
-    // eslint-disable-next-line vue/no-unused-components
-    VueUploadMultipleImage,
   },
   data() {
     return {

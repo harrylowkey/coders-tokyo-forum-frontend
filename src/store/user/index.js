@@ -1,7 +1,5 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
-// eslint-disable-next-line no-unused-vars
-import jwt from 'jsonwebtoken';
 
 import { SIGN_IN, SIGN_OUT, UPLOAD_AVATAR, UPDATE_PROFILE } from '../constants';
 

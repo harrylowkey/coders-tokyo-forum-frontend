@@ -15,13 +15,13 @@ export default {
     isShowPlayer: false,
     currentAudioPlaying: {},
     isSwitch: false,
-    audioSwitchIndex: -1
+    audioSwitchIndex: -1,
   },
   mutations: {
     [ADD_TO_PLAYLIST](state, payload) {
       state.playlist.push(payload);
       if (state.playlist.length > 10) {
-        state.playlist.shift()
+        state.playlist.shift();
       }
     },
     [SET_PLAYLIST](state, payload) {
@@ -32,13 +32,17 @@ export default {
     },
     [UPDATE_PLAYING_PAUSE](state, payload) {
       if (payload.status === true) {
-        const audioToPlay = state.playlist.find(audio => audio._id === payload.audio._id);
+        const audioToPlay = state.playlist.find(
+          audio => audio._id === payload.audio._id,
+        );
         audioToPlay.isPlaying = true;
         state.currentAudioPlaying = audioToPlay;
       }
 
       if (payload.status === false) {
-        const audioToPause = state.playlist.find(audio => audio._id === payload.audio._id);
+        const audioToPause = state.playlist.find(
+          audio => audio._id === payload.audio._id,
+        );
         audioToPause.isPlaying = false;
         state.currentAudioPlaying.isPlaying = false;
       }
@@ -52,7 +56,9 @@ export default {
       setTimeout(() => {
         state.isSwitch = payload.status;
         state.currentAudioPlaying = payload.audio;
-        const audioToSwitchIndex = state.playlist.findIndex(audio => audio._id === payload.audio._id);
+        const audioToSwitchIndex = state.playlist.findIndex(
+          audio => audio._id === payload.audio._id,
+        );
         state.audioSwitchIndex = audioToSwitchIndex;
       }, 0);
 
@@ -68,7 +74,9 @@ export default {
         if (!state.playlist.length) {
           commit('ADD_TO_PLAYLIST', payload.audio);
         } else {
-          const audioToPlay = state.playlist.find(_audio => _audio._id === payload.audio._id);
+          const audioToPlay = state.playlist.find(
+            _audio => _audio._id === payload.audio._id,
+          );
           if (!audioToPlay) {
             commit('ADD_TO_PLAYLIST', payload.audio);
           }
@@ -87,7 +95,9 @@ export default {
       return audio.isPlaying;
     },
     switchAudio({ commit, state }, payload) {
-      const audioToSwitch = state.playlist.find(_audio => _audio._id === payload.audio._id);
+      const audioToSwitch = state.playlist.find(
+        _audio => _audio._id === payload.audio._id,
+      );
       if (!audioToSwitch) {
         commit('ADD_TO_PLAYLIST', payload.audio);
       }

@@ -95,7 +95,6 @@ export default {
       this.$router.push({ path: this.link });
     },
     async onClickFollow() {
-      // eslint-disable-next-line no-underscore-dangle
       const response = await this.follow(this.author._id);
       if (!response) {
         return this.$router.push({ path: '/signin' });
@@ -119,7 +118,6 @@ export default {
       }
     },
     async onClickUnFollow() {
-      // eslint-disable-next-line no-underscore-dangle
       const response = await this.unfollow(this.author._id);
       if (!response) {
         return this.$router.push({ path: '/signin' });
