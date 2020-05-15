@@ -29,7 +29,7 @@
                           <v-icon left color="white" size="18">
                             mdi-paperclip
                           </v-icon>
-                          Choose audio file
+                          Upload audio file
                         </v-btn>
                         <div :class="fileSelectClasses">
                           <VueFileAgent

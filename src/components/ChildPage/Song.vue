@@ -57,7 +57,7 @@
 
             <v-card-text class="song-description pl-0 pt-0">
               <v-card-title class="ml-5 headline pt-0">
-                {{ post.media.fileName }}
+                {{ post.topic }}
               </v-card-title>
               <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
                 <span
