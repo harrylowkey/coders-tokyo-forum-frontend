@@ -365,17 +365,7 @@ export default {
     }
 
     await this.getSongs();
-  },
-  watch: {
-    isLoading(newVal) {
-      if (newVal === false) {
-        setTimeout(() => {
-          const aplayer = document.querySelector('.aplayer');
-          aplayer.style.display = 'none';
-        }, 0);
-      }
-    },
-  },
+  }
 };
 </script>
 
