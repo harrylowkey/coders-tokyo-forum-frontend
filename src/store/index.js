@@ -13,6 +13,7 @@ import foodReviews from './post/foodReviews';
 import movieReviews from './post/movieReviews';
 import songs from './post/songs';
 import podcasts from './post/podcasts';
+import player from './player'
 
 Vue.use(Vuex);
 export const store = new Vuex.Store({
@@ -26,6 +27,7 @@ export const store = new Vuex.Store({
     movieReviews,
     podcasts,
     songs,
+    player,
     stream,
     utils,
   },

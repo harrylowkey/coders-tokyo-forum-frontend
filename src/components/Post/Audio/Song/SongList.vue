@@ -12,19 +12,19 @@
               v-if="isLoading"
               type="image"
             />
-          
+
             <div style="width: 100%">
               <v-skeleton-loader
-              class="song mb-0 ml-0 mb-0"
-              style="margin-top: 30px;"
-              v-if="isLoading"
-              type="list-item-two-line"
-            />
-            <v-skeleton-loader
-              class="song mb-6 ml-0 mt-0"
-              v-if="isLoading"
-              type="actions"
-            />
+                class="song mb-0 ml-0 mb-0"
+                style="margin-top: 30px;"
+                v-if="isLoading"
+                type="list-item-two-line"
+              />
+              <v-skeleton-loader
+                class="song mb-6 ml-0 mt-0"
+                v-if="isLoading"
+                type="actions"
+              />
             </div>
           </div>
           <div class="d-flex" v-if="isLoading">
@@ -36,19 +36,19 @@
               v-if="isLoading"
               type="image"
             />
-          
+
             <div style="width: 100%">
               <v-skeleton-loader
-              class="song mb-0 ml-0 mb-0"
-              style="margin-top: 30px;"
-              v-if="isLoading"
-              type="list-item-two-line"
-            />
-            <v-skeleton-loader
-              class="song mb-6 ml-0 mt-0"
-              v-if="isLoading"
-              type="actions"
-            />
+                class="song mb-0 ml-0 mb-0"
+                style="margin-top: 30px;"
+                v-if="isLoading"
+                type="list-item-two-line"
+              />
+              <v-skeleton-loader
+                class="song mb-6 ml-0 mt-0"
+                v-if="isLoading"
+                type="actions"
+              />
             </div>
           </div>
           <div class="d-flex" v-if="isLoading">
@@ -60,19 +60,19 @@
               v-if="isLoading"
               type="image"
             />
-          
+
             <div style="width: 100%">
               <v-skeleton-loader
-              class="song mb-0 ml-0 mb-0"
-              style="margin-top: 30px;"
-              v-if="isLoading"
-              type="list-item-two-line"
-            />
-            <v-skeleton-loader
-              class="song mb-6 ml-0 mt-0"
-              v-if="isLoading"
-              type="actions"
-            />
+                class="song mb-0 ml-0 mb-0"
+                style="margin-top: 30px;"
+                v-if="isLoading"
+                type="list-item-two-line"
+              />
+              <v-skeleton-loader
+                class="song mb-6 ml-0 mt-0"
+                v-if="isLoading"
+                type="actions"
+              />
             </div>
           </div>
           <div class="d-flex" v-if="isLoading">
@@ -84,19 +84,19 @@
               v-if="isLoading"
               type="image"
             />
-          
+
             <div style="width: 100%">
               <v-skeleton-loader
-              class="song mb-0 ml-0 mb-0"
-              style="margin-top: 30px;"
-              v-if="isLoading"
-              type="list-item-two-line"
-            />
-            <v-skeleton-loader
-              class="song mb-6 ml-0 mt-0"
-              v-if="isLoading"
-              type="actions"
-            />
+                class="song mb-0 ml-0 mb-0"
+                style="margin-top: 30px;"
+                v-if="isLoading"
+                type="list-item-two-line"
+              />
+              <v-skeleton-loader
+                class="song mb-6 ml-0 mt-0"
+                v-if="isLoading"
+                type="actions"
+              />
             </div>
           </div>
           <div class="d-flex" v-if="isLoading">
@@ -108,19 +108,19 @@
               v-if="isLoading"
               type="image"
             />
-          
+
             <div style="width: 100%">
               <v-skeleton-loader
-              class="song mb-0 ml-0 mb-0"
-              style="margin-top: 30px;"
-              v-if="isLoading"
-              type="list-item-two-line"
-            />
-            <v-skeleton-loader
-              class="song mb-6 ml-0 mt-0"
-              v-if="isLoading"
-              type="actions"
-            />
+                class="song mb-0 ml-0 mb-0"
+                style="margin-top: 30px;"
+                v-if="isLoading"
+                type="list-item-two-line"
+              />
+              <v-skeleton-loader
+                class="song mb-6 ml-0 mt-0"
+                v-if="isLoading"
+                type="actions"
+              />
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@
           :audio="item.media"
           :cover="item.cover"
         />
-        
+
         <div
           v-infinite-scroll="loadMore"
           infinite-scroll-disabled="isLoadmore"
@@ -342,7 +342,7 @@ export default {
       },
     };
   },
-    computed: {
+  computed: {
     ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
     ...mapState('songs', ['songs', 'metadata']),
   },
@@ -365,17 +365,7 @@ export default {
     }
 
     await this.getSongs();
-  },
-  watch: {
-    isLoading(newVal) {
-      if (newVal === false) {
-        setTimeout(() => {
-          const aplayer = document.querySelector('.aplayer');
-          aplayer.style.display = 'none';
-        }, 0);
-      }
-    },
-  },
+  }
 };
 </script>
 

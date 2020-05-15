@@ -264,7 +264,7 @@ export default {
       this.mostViewBlogs.data = sliceMostViews;
     }
 
-    await this.getFoodReviews()
+    await this.getFoodReviews();
   },
 };
 </script>
