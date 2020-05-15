@@ -38,7 +38,16 @@
 
 <script>
 export default {
-  props: ['postId', 'postType'],
+  props: {
+    postId: {
+      type: String,
+      required: true,
+    },
+    postType: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       dialogDeletePost: false,

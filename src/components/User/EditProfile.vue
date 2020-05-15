@@ -187,7 +187,24 @@
 import { mapActions } from 'vuex';
 
 export default {
-  props: ['user', 'userGithub', 'userLinkedin', 'userFacebook'],
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+    userGithub: {
+      type: Object,
+      default: () => {},
+    },
+    userLinkedin: {
+      type: Object,
+      default: () => {},
+    },
+    userFacebook: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       valid: true,
