@@ -9,16 +9,27 @@
       preload="metadata"
     />
     <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
-      <v-card :elevation="hover ? 10 : 3" :class="{ 'on-hover': hover }" id="audio-card">
+      <v-card
+        :elevation="hover ? 10 : 3"
+        :class="{ 'on-hover': hover }"
+        id="audio-card"
+      >
         <v-img
           :class="coverClasses"
           :src="cover.secureURL"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
           height="200px"
         >
-          <v-card-title class="title white--text d-flex flex-column align-start pb-0">
+          <v-card-title
+            class="title white--text d-flex flex-column align-start pb-0"
+          >
             <router-link class="title-link" :to="podcastLink">
-              <p style="color: #fff" class="mt-2 mb-0 font-italic subheading text-left">{{ topic }}</p>
+              <p
+                style="color: #fff"
+                class="mt-2 mb-0 font-italic subheading text-left"
+              >
+                {{ topic }}
+              </p>
             </router-link>
             <p class="mb-2">
               <span
@@ -28,13 +39,17 @@
                 @click="searchPodcastBySinger(artist)"
               >
                 {{ artist }}
-                <span style="font-size: 12px">{{ isAddFt(i, slicedArtists.length) }}</span>
+                <span style="font-size: 12px">
+                  {{ isAddFt(i, slicedArtists.length) }}
+                </span>
               </span>
             </p>
           </v-card-title>
 
           <div class="align-self-center d-flex justify-center">
-            <v-icon style="color: #fff" size="50" @click="togglePlayPause">{{ togglePlayPauseIcon }}</v-icon>
+            <v-icon style="color: #fff" size="50" @click="togglePlayPause">
+              {{ togglePlayPauseIcon }}
+            </v-icon>
           </div>
 
           <!-- <div class="audio-btns" :class="{ 'show-btns': hover }">
@@ -89,23 +104,33 @@
                         class="pr-1"
                         style="cursor: pointer"
                         @click="handleClickLink(link.url)"
-                      >{{ link.icon }}</v-icon>
+                      >
+                        {{ link.icon }}
+                      </v-icon>
                     </div>
                     <div v-else style="height: 17px" />
                   </v-list-item-icon>
                   <v-list-item-content class="pt-0 pb-0">
-                    <v-list-item-title class="caption text-start" style="padding-top: 0px">
+                    <v-list-item-title
+                      class="caption text-start"
+                      style="padding-top: 0px"
+                    >
                       <a
                         class="username-link ml-1"
                         :href="`/users/${user.username}`"
-                      >{{ user.username }}</a>
+                      >
+                        {{ user.username }}
+                      </a>
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-container>
               </div>
             </v-container>
           </div>
-          <v-card-actions style="padding: 0px 25px 0 0px; " class="d-flex flex-column">
+          <v-card-actions
+            style="padding: 0px 25px 0 0px; "
+            class="d-flex flex-column"
+          >
             <v-spacer />
             <tag
               style="margin-top: 6px"
@@ -117,7 +142,10 @@
           </v-card-actions>
         </v-list-item>
 
-        <v-card-actions style="padding: 0px 25px 0 15px; height: 30px" class="pb-1">
+        <v-card-actions
+          style="padding: 0px 25px 0 15px; height: 30px"
+          class="pb-1"
+        >
           <v-card-text
             class="font-italic font-weight-light pt-0"
             style="font-size: 13px; height: 30px; margin-top: 16px !important"
@@ -141,7 +169,6 @@ import { mapActions, mapState } from 'vuex';
 import Tag from '@/components/Shared/Tag';
 import LikeBtn from '@/components/Shared/LikeButton';
 import CommentBtn from '@/components/Shared/CommentButton';
-import UserSocialLinks from '@/components/Shared/UserSocialLinks';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
 
 export default {
@@ -228,7 +255,6 @@ export default {
         max: 1,
       },
       composers: [],
-      // eslint-disable-next-line no-underscore-dangle
       podcastLink: `/podcasts/${this._id}?type=${this.type}`,
     };
   },
@@ -236,12 +262,9 @@ export default {
     Tag,
     LikeBtn,
     CommentBtn,
-    // eslint-disable-next-line vue/no-unused-components
-    UserSocialLinks,
   },
   watch: {
-    // eslint-disable-next-line no-unused-vars
-    currentVolume(newValue, oldValue) {
+    currentVolume(newValue) {
       if (newValue === 1) this.volumeIcon = 'mdi-volume-off';
       if (newValue !== 1) this.volumeIcon = 'mdi-volume-high';
       return (this.$refs.player.volume = newValue / 100);
@@ -272,7 +295,6 @@ export default {
       return artists;
     },
     slicedArtists() {
-      console.log(this.artists.slice(0, 4));
       return this.artists.slice(0, 4);
     },
   },
@@ -376,8 +398,6 @@ export default {
       return time;
     },
     calculateCurrentValue(currentTime) {
-      // eslint-disable-next-line no-unused-vars
-      const current_hour = parseInt(currentTime / 3600) % 24;
       const current_minute = parseInt(currentTime / 60) % 60;
       const current_seconds_long = currentTime % 60;
       const current_seconds = current_seconds_long.toFixed();

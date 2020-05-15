@@ -501,7 +501,6 @@
 
 <script>
 import myUpload from 'vue-image-crop-upload';
-import VueUploadMultipleImage from 'vue-upload-multiple-image';
 import { extend, setInteractionMode } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
 
@@ -523,8 +522,6 @@ export default {
     CreateTag,
     myUpload,
     ToggleTag,
-    // eslint-disable-next-line vue/no-unused-components
-    VueUploadMultipleImage,
   },
   data() {
     return {

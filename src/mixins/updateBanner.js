@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
 export const updateBanner = {
   methods: {
-    // eslint-disable-next-line no-unused-vars
-    cropSuccess(imgDataUrl, field) {
+    cropSuccess(imgDataUrl) {
       this.dataUpate.coverImage = imgDataUrl;
     },
     cropUploadSuccess(jsonData, field) {

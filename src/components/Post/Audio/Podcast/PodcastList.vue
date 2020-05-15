@@ -94,7 +94,12 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
+        <side-card
+          class="fix-sidebar"
+          :title="tags.title"
+          :type="tags.type"
+          :data="tags.data"
+        />
 
         <side-card
           class="fix-sidebar member-online"
@@ -291,7 +296,6 @@ export default {
     },
     handleSwitchAudio({ status, audio }) {
       if (status === true) {
-        console.log(audio)
         this.switchAudio({ status, audio });
       }
     },

@@ -3,12 +3,10 @@ import { mapActions } from 'vuex';
 export const uploadBanner = {
   methods: {
     ...mapActions('user', ['signOut']),
-    // eslint-disable-next-line no-unused-vars
-    cropUploadSuccess(res, field) {
+    cropUploadSuccess(res) {
       this.data.banner = res.data;
     },
-    // eslint-disable-next-line no-unused-vars
-    cropUploadFail(status, field) {
+    cropUploadFail(status) {
       if (status === 401) {
         this.signOut();
         this.$router.push({ path: '/signin' });

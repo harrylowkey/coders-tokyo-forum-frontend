@@ -62,7 +62,6 @@
 import Tag from '@/components/Shared/Tag';
 import LikeBtn from '@/components/Shared/LikeButton';
 import CommentBtn from '@/components/Shared/CommentButton';
-import UserAvatar from '@/components/Shared/UserAvatar';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
 
 export default {
@@ -140,7 +139,6 @@ export default {
   data() {
     return {
       maxTags: 3,
-      // eslint-disable-next-line no-underscore-dangle
       audioLink: `/songs/${this._id}?type=${this.type}`,
       audioFormat: {},
     };
@@ -170,7 +168,6 @@ export default {
   mounted() {
     const songTitle = document.querySelector('.aplayer-title');
     songTitle.addEventListener('click', () =>
-      // eslint-disable-next-line no-underscore-dangle
       window.open(`/songs/${this._id}?type=${this.type}`),
     );
     const songComposer = document.querySelector('.aplayer-author');
@@ -182,8 +179,6 @@ export default {
     Tag,
     LikeBtn,
     CommentBtn,
-    // eslint-disable-next-line vue/no-unused-components
-    UserAvatar,
   },
 };
 </script>

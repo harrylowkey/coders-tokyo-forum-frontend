@@ -474,10 +474,7 @@ export default {
     slicedTags(tags) {
       return tags.slice(0, this.maxTags);
     },
-    hanldePlayAnotherSong() {
-      // eslint-disable-next-line no-console
-      console.log('Play another song');
-    },
+    hanldePlayAnotherSong() {},
     toggleShowLyrics() {
       if (this.isShowMore) {
         this.lyricClasses.pop();
@@ -540,8 +537,6 @@ export default {
       return time;
     },
     calculateCurrentValue(currentTime) {
-      // eslint-disable-next-line no-unused-vars
-      const current_hour = parseInt(currentTime / 3600) % 24;
       const current_minute = parseInt(currentTime / 60) % 60;
       const current_seconds_long = currentTime % 60;
       const current_seconds = current_seconds_long.toFixed();

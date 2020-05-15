@@ -113,11 +113,6 @@ export default {
       this.$router.push({ path: this.userProfileLink });
     },
     async onClickFollow() {
-      // eslint-disable-next-line no-use-before-define
-      if (!response) {
-        return this.$router.push({ path: '/signin' });
-      }
-      // eslint-disable-next-line no-underscore-dangle
       const response = await this.follow(this.author._id);
       if (!response) {
         return this.$router.push({ path: '/signin' });
@@ -141,12 +136,10 @@ export default {
       }
     },
     async onClickUnFollow() {
-      // eslint-disable-next-line no-use-before-define
+      const response = await this.unfollow(this.author._id);
       if (!response) {
         this.$router.push({ path: '/signin' });
       }
-      // eslint-disable-next-line no-underscore-dangle
-      const response = await this.unfollow(this.author._id);
       if (response.status === 200) {
         this.followers = this.followers.filter(
           followerId => followerId !== this.userId,
@@ -166,7 +159,6 @@ export default {
   },
   computed: {
     isFollowing() {
-      // eslint-disable-next-line no-underscore-dangle
       return this.author.followers.includes(this.user._id);
     },
   },

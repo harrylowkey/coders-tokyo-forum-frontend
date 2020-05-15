@@ -6,7 +6,7 @@ export default {
   namespaced: true,
   state: {
     discussions: [],
-    metadata: {}
+    metadata: {},
   },
   mutations: {
     [SET_DISCUSSIONS](state, payload) {
@@ -16,14 +16,14 @@ export default {
     [LOAD_MORE_DISCUSSIONS](state, payload) {
       state.discussions.push(...payload.data);
       state.metadata = payload.metadata;
-    }
+    },
   },
   actions: {
     async getDiscussions({ commit }, options = { limit: 10, page: 1 }) {
       commit('utils/SET_LOADING', true, { root: true });
       const res = await axios
         .get(
-          `/posts?type=discussion&limit=${options.limit}&page=${options.page}`
+          `/posts?type=discussion&limit=${options.limit}&page=${options.page}`,
         )
         .then(res => {
           commit('SET_DISCUSSIONS', { data: res.data, metadata: res.metadata });
@@ -47,10 +47,13 @@ export default {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
         .get(
-          `/posts?type=discussion&limit=${options.limit}&page=${options.page}`
+          `/posts?type=discussion&limit=${options.limit}&page=${options.page}`,
         )
         .then(res => {
-          commit('LOAD_MORE_DISCUSSIONS', { data: res.data, metadata: res.metadata });
+          commit('LOAD_MORE_DISCUSSIONS', {
+            data: res.data,
+            metadata: res.metadata,
+          });
           return res;
         })
         .catch(err => {
@@ -65,6 +68,6 @@ export default {
           return res;
         });
       return res;
-    }
-  }
+    },
+  },
 };
