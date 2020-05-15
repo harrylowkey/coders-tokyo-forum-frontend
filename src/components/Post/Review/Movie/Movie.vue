@@ -308,6 +308,7 @@ import Tag from '@/components/Shared/Tag';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import { movieDescription } from '@/mixins/movieDescription';
 import ReadTime from '@/components/Shared/readTime';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [movieDescription],
@@ -391,7 +392,7 @@ export default {
   data() {
     return {
       director: {},
-      blogLink: `/movieReviews/${this._id}?type=${this.type}`,
+      blogLink: ROUTES.MOVIE_REVIEWS(this._id),
     };
   },
   methods: {

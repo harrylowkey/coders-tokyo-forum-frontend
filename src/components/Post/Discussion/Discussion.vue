@@ -61,6 +61,7 @@ import LikeBtn from '@/components/Shared/LikeButton';
 import CommentBtn from '@/components/Shared/CommentButton';
 import Tag from '@/components/Shared/Tag';
 import UserAvatar from '@/components/Shared/UserAvatar';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   props: {
@@ -119,7 +120,7 @@ export default {
   },
   data() {
     return {
-      discussionLink: `/discussions/${this._id}?type=${this.type}`,
+      discussionLink: ROUTES.DISCUSSION(this._id),
     };
   },
   methods: {},

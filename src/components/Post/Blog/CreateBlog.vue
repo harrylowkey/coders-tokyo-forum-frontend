@@ -52,7 +52,7 @@
                         field="banner"
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
-                        url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
+                        :url="APIS.UPLOAD_BANNER"
                         :width="880"
                         :height="450"
                         :headers="headers"
@@ -183,6 +183,7 @@
 
 <script>
 import { createPost } from '@/mixins/createPost';
+import { APIS } from '@/mixins/api-endpoints';
 
 export default {
   mixins: [createPost],
@@ -200,6 +201,9 @@ export default {
       imgDataUrl: '',
       isPreviewing: false,
     };
+  },
+  created() {
+    this.APIS = APIS;
   },
   methods: {},
   computed: {},

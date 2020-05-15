@@ -192,6 +192,7 @@
 import { mapState, mapActions } from 'vuex';
 
 import SideCard from '@/components/Shared/SideCard';
+import { ROUTES } from '@/mixins/routes';
 
 import Audio from './Song';
 
@@ -357,7 +358,10 @@ export default {
     },
   },
   async created() {
-    if (this.$route.path === '/stream' || this.$route.path === '/') {
+    if (
+      this.$route.path === ROUTES.STREAM ||
+      this.$route.path === ROUTES.HOME
+    ) {
       this.mostViewBlogs.title = 'Top 5 songs';
       const sliceMostViews = this.mostViewBlogs.data.slice(5);
 

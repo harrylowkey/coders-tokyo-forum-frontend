@@ -64,7 +64,7 @@
                         img-format="jpg"
                         langType="en"
                         noCircle
-                        url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
+                        :url="APIS.UPLOAD_BANNER"
                       />
                       <v-container
                         class="d-flex justify-center"
@@ -106,13 +106,6 @@
                             @limit-exceeded="handleLimitExceed"
                           />
                         </div>
-                        <!-- <v-skeleton-loader
-                          v-if="isLoading"
-                          class
-                          height="180"
-                          width="200"
-                          type="card"
-                        ></v-skeleton-loader>-->
                       </div>
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
@@ -339,6 +332,8 @@
 <script>
 import VueUploadMultipleImage from 'vue-upload-multiple-image';
 
+import { APIS } from '@/mixins/api-endpoints';
+import { ROUTES } from '@/mixins/routes';
 import { createPost } from '@/mixins/createPost';
 
 export default {
@@ -488,10 +483,13 @@ export default {
 
       setTimeout(() => {
         return this.$router.push({
-          path: `/${this.data.type}Reviews/${res.data._id}?type=${this.data.type}`,
+          path: ROUTES.FOOD_REVIEWS(res.data._id),
         });
       }, 1000);
     },
+  },
+  created() {
+    this.APIS = APIS;
   },
 };
 </script>

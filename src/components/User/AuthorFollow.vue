@@ -63,7 +63,7 @@
 <script>
 import { mapActions } from 'vuex';
 
-// import UserSocialLinks from '@/components/Shared/UserSocialLinks';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   props: {
@@ -79,7 +79,7 @@ export default {
   },
   data() {
     return {
-      link: `/users/${this.author.username}`,
+      link: ROUTES.USER_PROFILE({ username: this.author.username }),
       followers: [...this.author.followers],
     };
   },
@@ -97,7 +97,7 @@ export default {
     async onClickFollow() {
       const response = await this.follow(this.author._id);
       if (!response) {
-        return this.$router.push({ path: '/signin' });
+        return this.$router.push({ path: ROUTES.LOGIN });
       }
       if (response.status === 200) {
         this.followers.push(this.userId);
@@ -114,13 +114,13 @@ export default {
       }
 
       if (response.status === 401) {
-        this.$router.push({ path: '/signin' });
+        this.$router.push({ path: ROUTES.LOGIN });
       }
     },
     async onClickUnFollow() {
       const response = await this.unfollow(this.author._id);
       if (!response) {
-        return this.$router.push({ path: '/signin' });
+        return this.$router.push({ path: ROUTES.LOGIN });
       }
       if (response.status === 200) {
         this.followers = this.followers.filter(

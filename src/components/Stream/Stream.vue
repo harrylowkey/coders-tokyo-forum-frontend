@@ -64,7 +64,6 @@
       <v-row>
         <post-tabs
           type="stream"
-          v-if="!isLoading"
           :selectedPage="activePage"
           class="d-none d-sm-flex"
           @setActivePage="handleSetActivePage"

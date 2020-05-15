@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { ROUTES } from '@/mixins/routes.js';
+
 export default {
   props: {
     src: {
@@ -29,7 +31,7 @@ export default {
   },
   data() {
     return {
-      link: `/users/${this.username}`,
+      link: ROUTES.USER_PROFILE({ username: this.username }),
     };
   },
   methods: {

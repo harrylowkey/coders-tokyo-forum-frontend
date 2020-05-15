@@ -68,6 +68,7 @@ import Tag from '@/components/Shared/Tag';
 import LikeBtn from '@/components/Shared/LikeButton';
 import CommentBtn from '@/components/Shared/CommentButton';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [userSocialLinks],
@@ -144,7 +145,7 @@ export default {
   data() {
     return {
       maxTags: 3,
-      audioLink: `/songs/${this._id}?type=${this.type}`,
+      audioLink: ROUTES.SONG(this._id),
       audioFormat: {},
     };
   },
@@ -176,11 +177,13 @@ export default {
   mounted() {
     const songTitle = document.querySelector('.aplayer-title');
     songTitle.addEventListener('click', () =>
-      window.open(`/songs/${this._id}?type=${this.type}`),
+      window.open(ROUTES.SONG(this._id)),
     );
     const songComposer = document.querySelector('.aplayer-author');
     songComposer.addEventListener('click', () =>
-      window.open(`/posts?artist=${this.audio.artist}&type=${this.type}`),
+      window.open(
+        ROUTES.SEARCH_ARTIST({ name: this.audio.artist, type: 'podcast' }),
+      ),
     );
   },
   components: {

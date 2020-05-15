@@ -539,8 +539,6 @@ export default {
       headers: {
         smail: '*_~',
       },
-      uploadUrl: 'https://www.mocky.io/v2/5d4fb20b3000005c111099e3',
-      uploadHeaders: { 'X-Test-Header': 'vue-file-agent' },
       post: {
         _id: '5e9920603c513c2611a9df88',
         tags: [

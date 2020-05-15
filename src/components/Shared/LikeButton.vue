@@ -1,6 +1,5 @@
 <template>
   <div class="like-icon">
-    <!-- <v-icon size="20px" color="#64B5F6" >mdi-thumb-up</v-icon> -->
     <v-img
       src="https://res.cloudinary.com/hongquangraem/image/upload/v1587893696/planet_peappv.svg"
       class="react-icon like-icon"
