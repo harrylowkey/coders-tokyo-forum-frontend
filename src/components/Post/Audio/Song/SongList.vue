@@ -365,7 +365,7 @@ export default {
     }
 
     await this.getSongs();
-  }
+  },
 };
 </script>
 

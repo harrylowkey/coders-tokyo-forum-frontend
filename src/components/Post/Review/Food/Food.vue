@@ -375,7 +375,6 @@ export default {
     return {
       maxSlice1: 1,
       maxSlice: 2,
-      // eslint-disable-next-line no-underscore-dangle
       blogLink: `/foodReviews/${this._id}?type=${this.type}`,
     };
   },

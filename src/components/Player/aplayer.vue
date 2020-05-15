@@ -15,6 +15,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+
 export default {
   data() {
     return {
@@ -160,11 +161,10 @@ export default {
               // Show playing UI.
               this.$refs.aplayer.play();
             })
-            .catch(error => {
+            .catch(() => {
               // Auto-play was prevented
               // Show paused UI.
               this.$refs.aplayer.pause();
-              console.log(error);
             });
         } else {
           this.$refs.aplayer.pause();

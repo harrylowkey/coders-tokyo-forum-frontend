@@ -220,7 +220,7 @@ export default {
       isPreviewing: false,
       isReplyComment: false,
       isReplyChildComments: {},
-      link: '',
+      link: `/users/${this.author.username}`,
     };
   },
   created() {
@@ -240,7 +240,6 @@ export default {
     if (!childComments.length) return {};
     const initReplyChildComments = {};
     childComments.map(childComment => {
-      // eslint-disable-next-line no-underscore-dangle
       initReplyChildComments[childComment._id] = false;
       return initReplyChildComments;
     });
@@ -270,10 +269,6 @@ export default {
     WriteReplyComment,
   },
   computed: {},
-  // eslint-disable-next-line no-dupe-keys
-  created() {
-    this.link = `/users/${this.author.username}`;
-  },
 };
 </script>
 

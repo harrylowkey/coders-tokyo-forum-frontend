@@ -64,7 +64,6 @@ export const attachImage = {
 
       setTimeout(() => {
         return this.$router.push({
-          // eslint-disable-next-line no-underscore-dangle
           path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
             0,
             this.data.type.length - 1,
@@ -75,13 +74,11 @@ export const attachImage = {
     onChange({ image }) {
       this.attachImage = image;
     },
-    // eslint-disable-next-line no-unused-vars
-    onCopy: function(e) {
+    onCopy: function() {
       this.isAttachImageSuccess = false;
       this.attachImage = '';
     },
-    // eslint-disable-next-line no-unused-vars
-    onError: function(e) {
+    onError: function() {
       this.$notify({
         type: 'error',
         title: 'Copy failed',

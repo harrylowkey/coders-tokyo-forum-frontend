@@ -1,13 +1,19 @@
 <template>
   <v-container class="d-flex align-center justify-center flex-column">
-    <v-card style="cursor: pointer" @click="togglePlayPause" :class="isAudioPlaying">
+    <v-card
+      style="cursor: pointer"
+      @click="togglePlayPause"
+      :class="isAudioPlaying"
+    >
       <v-img :src="cover" height="160px" width="160px" class="audio-cover">
         <v-card-title class="title white--text px-4 pt-3">
           <v-row class="fill-height flex-column" justify="space-between">
             <span
               style="font-size: 16px !important; overflow: hidden; height: 30px"
               class="mt-2 ml-1 mb-0 text-left"
-            >{{ name }}</span>
+            >
+              {{ name }}
+            </span>
             <div class="mx-1 mt-n2 text-center">
               <span
                 v-for="(artist, i) in slicedArtists"
@@ -15,10 +21,9 @@
                 class="caption font-weight-medium font-italic"
               >
                 {{ artist }}
-                <span
-                  style="font-size: 12px"
-                  class="mx-1 font-italic"
-                >{{ isAddFt(i, slicedArtists.length) }}</span>
+                <span style="font-size: 12px" class="mx-1 font-italic">
+                  {{ isAddFt(i, slicedArtists.length) }}
+                </span>
               </span>
             </div>
           </v-row>
@@ -80,7 +85,7 @@ export default {
           audio: {
             name: this.name,
             _id: this._id,
-             artist: this.artists.join(','),
+            artist: this.artists.join(','),
             url: this.link,
             cover: this.cover,
             isPlaying: !isPlaying,
@@ -98,7 +103,7 @@ export default {
             audio: {
               name: this.name,
               _id: this._id,
-               artist: this.artists.join(','),
+              artist: this.artists.join(','),
               url: this.link,
               cover: this.cover,
               isPlaying: !isPlaying,
@@ -113,7 +118,7 @@ export default {
             audio: {
               name: this.name,
               _id: this._id,
-               artist: this.artists.join(','),
+              artist: this.artists.join(','),
               url: this.link,
               cover: this.cover,
               isPlaying: !isPlaying,

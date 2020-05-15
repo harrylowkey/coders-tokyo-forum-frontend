@@ -111,7 +111,6 @@ export default {
 
       setTimeout(() => {
         return this.$router.push({
-          // eslint-disable-next-line no-underscore-dangle
           path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
             0,
             this.data.type.length - 1,

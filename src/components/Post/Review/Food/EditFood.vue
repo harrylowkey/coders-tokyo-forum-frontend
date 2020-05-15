@@ -125,8 +125,6 @@
                                 >
                                   <vue-upload-multiple-image
                                     @upload-success="uploadImageSuccess"
-                                    @before-remove="beforeRemove"
-                                    @edit-image="editImage"
                                     idUpload="myIdUpload"
                                     editUpload="myIdEdit"
                                     :data-images="foodPhotosConvert"
@@ -357,11 +355,9 @@
 import myUpload from 'vue-image-crop-upload';
 import VueUploadMultipleImage from 'vue-upload-multiple-image';
 import { extend, setInteractionMode } from 'vee-validate';
-// eslint-disable-next-line no-unused-vars
-import { required, minmax, numeric } from 'vee-validate/dist/rules';
+import { numeric } from 'vee-validate/dist/rules';
 
 import { updateBanner } from '@/mixins/updateBanner';
-import CreateTag from '@/components/Shared/CreateTag';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import ToggleTag from '@/components/Shared/ToggleTag';
 import CreateTagBlog from '@/components/Shared/CreateTagBlog';
@@ -396,8 +392,6 @@ export default {
   components: {
     CreateTagBlog,
     UserAvatar,
-    // eslint-disable-next-line vue/no-unused-components
-    CreateTag,
     myUpload,
     ToggleTag,
     VueUploadMultipleImage,
@@ -561,8 +555,6 @@ export default {
     this.foodPhotosConvert = this.post.foodPhotos.map(photo => ({
       path: photo.secureURL,
     }));
-    // eslint-disable-next-line no-console
-    console.log(this.foodPhotosConvert);
   },
   methods: {
     handleAddTag(tag) {
@@ -579,16 +571,7 @@ export default {
         return (this.isPreviewing = true);
       }
     },
-    // eslint-disable-next-line no-unused-vars
-    beforeRemove(index, done, fileList) {
-      done();
-    },
-    editImage(formData, index, fileList) {
-      // eslint-disable-next-line no-console
-      console.log('edit data', formData, index, fileList);
-    },
-    // eslint-disable-next-line no-unused-vars
-    handleLimitExceed(amount) {
+    handleLimitExceed() {
       this.alertMessage = 'Please choose less than 20 photos';
       this.alert = true;
       setTimeout(() => {

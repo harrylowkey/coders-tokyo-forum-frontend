@@ -433,24 +433,7 @@ export default {
     onPickFile() {
       this.$refs.fileInput.click();
     },
-    onPickedFile(event) {
-      this.loadingImageUpload = true;
-      const files = event.target.files;
-      const filename = files[0].name;
-      if (filename.lastIndexOf('.') <= 0) {
-        // eslint-disable-next-line no-alert
-        return alert('Please add a vaid file');
-      }
-      const fileReader = new FileReader();
-      fileReader.addEventListener('load', () => {
-        this.src = fileReader.result;
-        this.loadingImageUpload = false;
-      });
-      fileReader.readAsDataURL(files[0]);
-      this.image = files[0];
-    },
-    // eslint-disable-next-line no-unused-vars
-    async cropUploadSuccess(res, field) {
+    async cropUploadSuccess(res) {
       const response = await this.uploadAvatar({ avatar: res.data });
       if (response.status === 200) {
         this.$notify({
@@ -468,8 +451,7 @@ export default {
         });
       }
     },
-    // eslint-disable-next-line no-unused-vars
-    cropUploadFail(status, field) {
+    cropUploadFail() {
       this.$notify({
         type: 'error',
         title: 'Upload avatar failed',
