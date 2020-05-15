@@ -18,7 +18,6 @@
           @hanldeClickCommentBtn="hanldeClickCommentBtn"
         />
       </v-col>
-
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
         <a
           id="trigger-scroll-comments"
