@@ -65,7 +65,7 @@
                     small
                     style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
                   >
-                    {{ movie.imdb }}
+                    {{ movie.IMDb }}
                   </v-chip>
                 </v-container>
 
@@ -169,7 +169,7 @@
                       small
                       style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
                     >
-                      {{ movie.imdb }}
+                      {{ movie.IMDb }}
                     </v-chip>
                   </v-container>
                   <v-container class="d-flex pl-1 pb-0">

@@ -239,10 +239,10 @@
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12">
-                                <v-text-field
+                                <v-textarea
                                   label="Description"
                                   persistent-hint
-                                  rows="2"
+                                  rows="3"
                                   v-model="post.description"
                                   hint="Write description to attract people at the first glance"
                                 />
@@ -356,13 +356,11 @@ export default {
         id: this.$route.params.id,
         typeQuery: this.$route.query.type,
       }).then((data) => {
-        console.log(data)
         this.post = data;
         this.post.tags = this.post.tags.map((tag) => tag.tagName);
         const authors = this.post.authors.filter(
           (person) => person.type === 'author',
         );
-        console.log('authors', authors)
         this.author = authors[0] ? authors[0].name : '';
         this.coAuthor = authors[1] ? authors[1].name : '';
 
@@ -409,7 +407,7 @@ export default {
         { type: 'author', name: this.author },
         { type: 'author', name: this.coAuthor },
       ].filter((author) => author.name !== '');
-console.log(dataUpdate.authors)
+
       dataUpdate.book.suggestedBy = [
         this.recommender,
         this.recommender2,

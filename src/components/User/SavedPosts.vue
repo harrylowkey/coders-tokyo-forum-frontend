@@ -363,7 +363,7 @@ export default {
           },
           movie: {
             status: 'Finished',
-            imdb: 5.2,
+            IMDb: 5.2,
             country: 'England',
             year: 2019,
             releaseDate: '22/11/2019',
