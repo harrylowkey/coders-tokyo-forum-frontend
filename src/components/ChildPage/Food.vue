@@ -1,14 +1,7 @@
 <template>
   <div>
     <v-row id="post">
-      <v-col
-        cols="12"
-        sm="12"
-        md="1"
-        lg="1"
-        xl="1"
-        class="pr-0 wrapper-icon d-sm-none d-md-flex"
-      >
+      <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
           v-if="!isLoading"
           :likes="post && post.metadata ? post.metadata.likes : 0"
@@ -25,25 +18,14 @@
           style="display: none"
           href="#"
           v-scroll-to="'#comments'"
-        >
-          Scroll to #comment
-        </a>
+        >Scroll to #comment</a>
         <v-skeleton-loader />
-        <v-boilerplate
-          class="mx-auto mt-6"
-          v-if="isLoading"
-          type="image, card-avatar, article"
-        />
+        <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image, card-avatar, article" />
         <v-card v-else class="mx-auto mt-6" id="blog-card" elevation="6">
           <v-container class="pa-0 pb-4">
             <v-row style="margin-right: 0">
               <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
-                <v-img
-                  :src="post.cover.secureURL"
-                  height="360px"
-                  style
-                  class="cover-food"
-                />
+                <v-img :src="post.cover.secureURL" height="360px" style class="cover-food" />
               </v-col>
               <v-col
                 class="pa-0"
@@ -57,14 +39,10 @@
                 <div class="d-md-none d-lg-flex">
                   <v-container class="ml-1 food-detail">
                     <v-card-text class="pb-2 pt-2">
-                      <p class="title text--primary mb-0 pt-1">
-                        {{ post.food.restaurant }}
-                      </p>
+                      <p class="title text--primary mb-0 pt-1">{{ post.food.restaurant }}</p>
 
                       <v-container class="d-flex pl-1 pb-0 pt-2">
-                        <v-icon color="green" size="15" class="mb-0 mr-2">
-                          mdi-tag-text
-                        </v-icon>
+                        <v-icon color="green" size="15" class="mb-0 mr-2">mdi-tag-text</v-icon>
                         <p class="value mb-0">{{ post.food.priceAverage }}</p>
                       </v-container>
 
@@ -81,9 +59,7 @@
                           outlined
                           small
                           :style="calPointColor(post.food.quality)"
-                        >
-                          {{ post.food.quality }}
-                        </v-chip>
+                        >{{ post.food.quality }}</v-chip>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -94,9 +70,7 @@
                           outlined
                           small
                           :style="calPointColor(post.food.price)"
-                        >
-                          {{ post.food.price }}
-                        </v-chip>
+                        >{{ post.food.price }}</v-chip>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -107,9 +81,7 @@
                           outlined
                           small
                           :style="calPointColor(post.food.service)"
-                        >
-                          {{ post.food.service }}
-                        </v-chip>
+                        >{{ post.food.service }}</v-chip>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -120,9 +92,7 @@
                           outlined
                           small
                           :style="calPointColor(post.food.space)"
-                        >
-                          {{ post.food.space }}
-                        </v-chip>
+                        >{{ post.food.space }}</v-chip>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
@@ -131,11 +101,9 @@
                           <a
                             target="_blank"
                             :href="
-                              `https://www.google.com/maps/place/${post.food.address}`
+                              `https://www.google.com/maps/place/${post.food.location}`
                             "
-                          >
-                            {{ post.food.address }}
-                          </a>
+                          >{{ post.food.location }}</a>
                         </p>
                       </v-container>
 
@@ -147,27 +115,19 @@
                           size="20"
                           :color="isStar(i + 1)"
                           style="width: 25px"
-                        >
-                          start
-                        </v-icon>
+                        >start</v-icon>
                       </v-container>
                     </v-card-text>
                   </v-container>
                 </div>
                 <div class="d-none d-md-flex d-lg-none">
                   <v-container class="ml-1 book-detail pt-1 pb-0">
-                    <v-card-text
-                      class="pb-6 pt-0 d-flex justify-space-around flex-wrap"
-                    >
+                    <v-card-text class="pb-6 pt-0 d-flex justify-space-around flex-wrap">
                       <div class="ml-12">
-                        <p class="title text--primary mb-0 pt-1">
-                          {{ post.food.restaurant }}
-                        </p>
+                        <p class="title text--primary mb-0 pt-1">{{ post.food.restaurant }}</p>
 
                         <v-container class="d-flex pl-1 pb-0 pt-2">
-                          <v-icon color="green" size="15" class="mb-0 mr-2">
-                            mdi-tag-text
-                          </v-icon>
+                          <v-icon color="green" size="15" class="mb-0 mr-2">mdi-tag-text</v-icon>
                           <p class="value mb-0">{{ post.food.priceAverage }}</p>
                         </v-container>
 
@@ -184,9 +144,7 @@
                             size="20"
                             :color="isStar(i + 1)"
                             style="width: 25px"
-                          >
-                            start
-                          </v-icon>
+                          >start</v-icon>
                         </v-container>
                       </div>
 
@@ -199,9 +157,7 @@
                             outlined
                             small
                             :style="calPointColor(post.food.quality)"
-                          >
-                            {{ post.food.quality }}
-                          </v-chip>
+                          >{{ post.food.quality }}</v-chip>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -212,9 +168,7 @@
                             outlined
                             small
                             :style="calPointColor(post.food.price)"
-                          >
-                            {{ post.food.price }}
-                          </v-chip>
+                          >{{ post.food.price }}</v-chip>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -225,9 +179,7 @@
                             outlined
                             small
                             :style="calPointColor(post.food.service)"
-                          >
-                            {{ post.food.service }}
-                          </v-chip>
+                          >{{ post.food.service }}</v-chip>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
@@ -238,15 +190,16 @@
                             outlined
                             small
                             :style="calPointColor(post.food.space)"
-                          >
-                            {{ post.food.space }}
-                          </v-chip>
+                          >{{ post.food.space }}</v-chip>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0 flex-wrap">
                           <p class="key mb-0 mr-3">Location:</p>
                           <p class="value mb-0">
-                            <a href="#">{{ post.food.address }}</a>
+                            target="_blank"
+                            <a
+                              :href="`https://www.google.com/maps/place/${post.food.location}`"
+                            >{{ post.food.location }}</a>
                           </p>
                         </v-container>
                       </div>
@@ -258,12 +211,7 @@
           </v-container>
           <v-divider />
           <v-sheet v-if="!isLoading" class="mx-auto">
-            <v-slide-group
-              v-model="foodPhotos"
-              class="px-4 pt-4"
-              show-arrows
-              center-active
-            >
+            <v-slide-group v-model="foodPhotos" class="px-4 pt-4" show-arrows center-active>
               <v-slide-item v-for="(photo, i) in foodPhotos" :key="i">
                 <v-card class="ma-4" height="155" width="155">
                   <v-img
@@ -282,9 +230,7 @@
                 v-if="foodPhotos.length > 3"
                 style="font-size: 13px;"
                 class="font-italic mb-0"
-              >
-                {{ foodPhotos.length }} photos
-              </p>
+              >{{ foodPhotos.length }} photos</p>
             </div>
           </v-sheet>
 
@@ -309,9 +255,7 @@
                     <img :src="post.user.avatar.secureURL" alt="Avatar" />
                   </v-avatar>
                   <v-card-subtitle style="font-size: 16px" class="ml-n1 pr-0">
-                    <a style="text-decoration: none; color: #000" href>
-                      {{ post.user.username }}
-                    </a>
+                    <a style="text-decoration: none; color: #000" href>{{ post.user.username }}</a>
                   </v-card-subtitle>
                   <v-list-item-icon class="mb-0 ml-3">
                     <v-icon
@@ -322,13 +266,9 @@
                       class="pr-1"
                       style="cursor: pointer"
                       @click="handleClickLink(link.url)"
-                    >
-                      {{ link.icon }}
-                    </v-icon>
+                    >{{ link.icon }}</v-icon>
                   </v-list-item-icon>
-                  <v-card-subtitle class="pl-1">
-                    {{ post.createdAt | date }}
-                  </v-card-subtitle>
+                  <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
                   <read-time class="pl-0" :text="post.content" />
                   <edit-delete-btns
                     v-if="isAuthor"
@@ -356,11 +296,7 @@
             <div style="width: 100%" id="comments" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
 
-              <v-boilerplate
-                style="width: 100%"
-                v-if="isLoading"
-                type="image"
-              />
+              <v-boilerplate style="width: 100%" v-if="isLoading" type="image" />
               <write-comment v-if="!isLoading" />
 
               <div v-if="post ? post.comments.length : false">
@@ -375,29 +311,13 @@
             </div>
           </v-row>
           <v-divider />
-          <v-row
-            id="other-posts-of-author"
-            v-if="otherBooksOfAuthor.length"
-            class="mb-10"
-          >
+          <v-row id="other-posts-of-author" v-if="otherBooksOfAuthor.length" class="mb-10">
             <h1 class="mt-8 mb-3">Other blogs</h1>
             <div style="width: 100%" class="d-flex" v-if="isLoading">
-              <v-boilerplate
-                class="other-post"
-                style="width: 100%"
-                type="article"
-              />
-              <v-boilerplate
-                class="other-post"
-                style="width: 100%"
-                type="article"
-              />
+              <v-boilerplate class="other-post" style="width: 100%" type="article" />
+              <v-boilerplate class="other-post" style="width: 100%" type="article" />
             </div>
-            <other-posts-of-author
-              v-else
-              psotType="food"
-              :posts="otherBooksOfAuthor"
-            />
+            <other-posts-of-author v-else psotType="food" :posts="otherBooksOfAuthor" />
           </v-row>
         </v-container>
       </v-col>
@@ -479,7 +399,7 @@ export default {
           food: {
             foodName: 'sushi',
             priceAverage: '200000 - 250000 VND',
-            address: 'Let’s Sushi 13B Quốc Tử Giám',
+            location: 'Let’s Sushi 13B Quốc Tử Giám',
             stars: 5,
             restaurant: "Let's sushi",
             quality: 7.8,
@@ -532,9 +452,9 @@ export default {
       this.getPostById({
         id: this.$route.params.id,
         typeQuery: this.$route.query.type,
-      }).then(data => {
+      }).then((data) => {
         this.post = data;
-        this.foodPhotos = data.food.foodPhotos.map(photo => ({
+        this.foodPhotos = data.food.foodPhotos.map((photo) => ({
           path: photo.secureURL,
           // caption: "Caption"
         }));
