@@ -359,7 +359,7 @@ export default {
   },
   async created() {
     if (
-      this.$route.path === ROUTES.STREAM ||
+      this.$route.path === ROUTES.STREAM() ||
       this.$route.path === ROUTES.HOME
     ) {
       this.mostViewBlogs.title = 'Top 5 songs';
