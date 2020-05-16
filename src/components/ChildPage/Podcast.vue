@@ -1,14 +1,7 @@
 <template>
   <div>
     <v-row id="post">
-      <v-col
-        cols="12"
-        sm="12"
-        md="1"
-        lg="1"
-        xl="1"
-        class="pr-0 wrapper-icon d-sm-none d-md-flex"
-      >
+      <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
           v-if="!isLoading"
           :likes="post && post.metadata ? post.metadata.likes : 0"
@@ -24,9 +17,7 @@
           style="display: none"
           href="#"
           v-scroll-to="'#comments'"
-        >
-          Scroll to #comment
-        </a>
+        >Scroll to #comment</a>
         <v-skeleton-loader />
         <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image" />
         <v-boilerplate
@@ -60,12 +51,12 @@
                   style="cursor: pointer"
                   @click="togglePlayPause"
                 >
-                  <div
-                    class="align-self-center d-flex justify-center wrapper-play-pause-icon"
-                  >
-                    <v-icon v-if="!isPlaying" class="play-pause-icon" size="50">
-                      {{ togglePlayPauseIcon }}
-                    </v-icon>
+                  <div class="align-self-center d-flex justify-center wrapper-play-pause-icon">
+                    <v-icon
+                      v-if="!isPlaying"
+                      class="play-pause-icon"
+                      size="50"
+                    >{{ togglePlayPauseIcon }}</v-icon>
                   </div>
                 </v-img>
                 <av-circle
@@ -88,9 +79,7 @@
                 <span
                   style="font-size: 13px; color: grey"
                   :class="totalLengthClasses"
-                >
-                  {{ totalLength }}
-                </span>
+                >{{ totalLength }}</span>
 
                 <v-icon
                   @click="togglePlayPause"
@@ -98,13 +87,9 @@
                   :class="pauseIconClasses"
                   size="28"
                   color="#0000FF"
-                >
-                  mdi-pause-circle-outline
-                </v-icon>
+                >mdi-pause-circle-outline</v-icon>
                 <div :class="volumeClasses" v-if="isPlaying">
-                  <v-icon @click="toggleMutedVolume" class="volume-icon">
-                    {{ volumeIcon }}
-                  </v-icon>
+                  <v-icon @click="toggleMutedVolume" class="volume-icon">{{ volumeIcon }}</v-icon>
                   <v-slider
                     color="#0000FF"
                     class="volume-bar"
@@ -119,28 +104,18 @@
 
             <v-col cols="9" sm="9" md="7" lg="9" xl="9">
               <v-card-text class="podcast-description pl-0 pt-0">
-                <v-card-title
-                  style="cursor: pointer"
-                  class="ml-5 headline pt-0"
-                >
-                  {{ post.topic }}
-                </v-card-title>
+                <v-card-title style="cursor: pointer" class="ml-5 headline pt-0">{{ post.topic }}</v-card-title>
                 <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
-                  <span
-                    style="font-size: 13px"
-                    v-for="(author, i) in post.authors"
-                    :key="author._id"
-                  >
+                  <span style="font-size: 13px" v-for="(artist, i) in artists" :key="artist._id">
                     <a
                       target="_blank"
                       style="text-decoration: none; color: #000"
-                      :href="`/posts?artist=${author.name}&type=podcast`"
-                    >
-                      {{ author.name }}
-                    </a>
-                    <span style="font-size: 12px" class="mx-1 font-italic">
-                      {{ isAddFt(i, post.authors.length) }}
-                    </span>
+                      :href="`/posts?artist=${artist}&type=podcast`"
+                    >{{ artist }}</a>
+                    <span
+                      style="font-size: 12px"
+                      class="mx-1 font-italic"
+                    >{{ isAddFt(i, artists.length) }}</span>
                   </span>
                 </v-card-subtitle>
 
@@ -162,14 +137,7 @@
           <v-divider />
           <v-container>
             <v-row>
-              <v-col
-                class="pr-0 user-profile"
-                cols="3"
-                sm="4"
-                md="4"
-                lg="3"
-                xl="3"
-              >
+              <v-col class="pr-0 user-profile" cols="3" sm="4" md="4" lg="3" xl="3">
                 <user-social-links
                   :socialLinks="socialLinks"
                   :author="post.user"
@@ -187,17 +155,13 @@
                   @click="toggleShowLyrics"
                   style="font-size: 13px; color: grey; cursor: pointer"
                   class="font-italic mb-0 show-more"
-                >
-                  Show more
-                </span>
+                >Show more</span>
                 <span
                   v-if="isShowMore"
                   @click="toggleShowLyrics"
                   style="font-size: 13px; color: grey; cursor: pointer"
                   class="font-italic mb-0 show-more"
-                >
-                  Show less
-                </span>
+                >Show less</span>
                 <div class="ml-9 mt-5 d-flex justify-end">
                   <edit-delete-btns
                     v-if="isAuthor"
@@ -251,21 +215,14 @@
           :userId="user._id"
         />
 
-        <div
-          v-if="!isLoading"
-          class="d-flex flex-column justify-center align-center mt-2"
-        >
+        <div v-if="!isLoading" class="d-flex flex-column justify-center align-center mt-2">
           <v-hover
             v-slot:default="{ hover }"
             style="transition: 0.3s"
             v-for="podcast in otherPodcastsOfAuthor"
             :key="podcast._id"
           >
-            <v-card
-              :elevation="hover ? 10 : 3"
-              :class="{ 'on-hover': hover }"
-              id="audio-card"
-            >
+            <v-card :elevation="hover ? 10 : 3" :class="{ 'on-hover': hover }" id="audio-card">
               <v-img
                 src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
@@ -273,30 +230,19 @@
                 style="cursor: pointer"
                 @click="hanldePlayAnotherpodcast(podcast._id)"
               >
-                <v-card-title
-                  class="title white--text d-flex flex-column align-start pb-0 pt-2"
-                >
-                  <p class="mt-0 mb-0 font-italic subheading text-left">
-                    {{ podcast.topic }}
-                  </p>
-                  <p class="caption font-weight-medium font-italic text-left">
-                    {{ podcast.authors[0].name }}
-                  </p>
+                <v-card-title class="title white--text d-flex flex-column align-start pb-0 pt-2">
+                  <p class="mt-0 mb-0 font-italic subheading text-left">{{ podcast.topic }}</p>
+                  <p
+                    class="caption font-weight-medium font-italic text-left"
+                  >{{ podcast.authors[0].name }}</p>
                 </v-card-title>
 
-                <div
-                  class="align-self-center d-flex justify-center mb-2 wrapper-icon"
-                >
-                  <v-icon class="play-icon" style="color: #fff" size="50">
-                    mdi-music-circle-outline
-                  </v-icon>
+                <div class="align-self-center d-flex justify-center mb-2 wrapper-icon">
+                  <v-icon class="play-icon" style="color: #fff" size="50">mdi-music-circle-outline</v-icon>
                 </div>
               </v-img>
 
-              <v-card-actions
-                style="padding: 25px 25px 0 15px; height: 30px"
-                class="pb-1"
-              >
+              <v-card-actions style="padding: 25px 25px 0 15px; height: 30px" class="pb-1">
                 <v-card-text
                   class="font-italic font-weight-light pt-0"
                   style="font-size: 13px; height: 30px; margin-top: 16px !important"
@@ -304,13 +250,8 @@
                   <span class="mt-2">{{ podcast.createdAt | date }}</span>
                 </v-card-text>
                 <v-spacer />
-                <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
+                <v-container class="pt-4 pl-6 pr-0 d-flex justify-end">
                   <like-btn :likes="podcast.likes.length" />
-                  <comment-btn
-                    :type="podcast.type"
-                    :postId="podcast._id"
-                    :comments="podcast.comments.length"
-                  />
                 </v-container>
               </v-card-actions>
             </v-card>
@@ -591,6 +532,20 @@ export default {
       seconds = seconds.toString().split('.');
       seconds = seconds[0].slice(0, 2);
       return `${minutes}:${seconds}`;
+    },
+    artists() {
+      let artists = this.post.authors.filter(
+        (person) => person.type === 'artist',
+      );
+      artists = artists.map((person) => person.name);
+      return artists;
+    },
+    composers() {
+      let composers = this.post.authors.filter(
+        (person) => person.type === 'composer',
+      );
+      composers = composers.map((person) => person.name);
+      return composers;
     },
   },
   components: {},

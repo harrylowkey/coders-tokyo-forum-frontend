@@ -56,7 +56,7 @@
                               <v-col cols="12" class="pa-0">
                                 <my-upload
                                   class="pt-0"
-                                  field="img"
+                                  field="cover"
                                   @crop-upload-success="cropUploadSuccess"
                                   @crop-upload-fail="cropUploadFail"
                                   v-model="isUploadBanner"

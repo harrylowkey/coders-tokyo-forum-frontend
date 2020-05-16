@@ -3,7 +3,7 @@
     <app-banner />
     <v-divider />
     <br />
-    <v-container color="dark">
+    <v-container color="dark" v-if="!isLoading">
       <v-row>
         <v-col
           cols="12"
@@ -18,29 +18,16 @@
           class="pt-0"
         >
           <div class="pt-6">
-            <app-alert v-if="alert" :alertMessage="alertMessage" />
             <ValidationObserver ref="observer">
               <v-form>
-                <v-alert
-                  v-if="alert"
-                  id="alert"
-                  type="warning"
-                  border="left"
-                  transition="slide-x-reverse-transition"
-                  dismissible
-                >
-                  {{ alertMessage }}
-                </v-alert>
                 <v-card class="d-flex py-3 pt-0">
                   <v-row>
                     <v-col cols="4" offset-sm="4" class="py-1">
                       <div class="d-flex flex-column align-center">
                         <user-avatar
-                          :src="
-                            'https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png'
-                          "
-                          :username="user.username"
-                          style="height: 130px;"
+                          :src="post.user.avatar.secureURL"
+                          :username="post.user.username"
+                          style="height: 130px"
                         />
                       </div>
                     </v-col>
@@ -54,79 +41,69 @@
                                   <v-col cols="12" class="pa-0">
                                     <my-upload
                                       class="pt-0"
-                                      field="img"
-                                      @crop-success="cropSuccess"
+                                      field="cover"
                                       @crop-upload-success="cropUploadSuccess"
                                       @crop-upload-fail="cropUploadFail"
-                                      v-model="uploadBanner"
+                                      v-model="isUploadBanner"
                                       :width="210"
                                       :height="210"
-                                      :params="params"
                                       :headers="headers"
                                       img-format="jpg"
                                       langType="en"
+                                      :url="APIS.UPLOAD_BANNER"
                                       noCircle
                                     />
                                   </v-col>
-                                  <div
-                                    style="flex: 26%"
-                                    class="d-flex flex-column align-center"
-                                  >
+                                  <div style="flex: 26%" class="d-flex flex-column align-center">
                                     <div
                                       v-if="!post.cover.secureURL"
                                       class="banner d-flex justify-center align-center pr-2"
                                     >
                                       <v-chip
-                                        @click="uploadBanner = !uploadBanner"
+                                        @click="isUploadBanner = !isUploadBanner"
                                         style="cursor: pointer"
                                         text-color="#fff"
                                         class="upload-btn"
                                         color="green"
                                         label
                                       >
-                                        <v-icon left>
-                                          mdi-cloud-upload-outline
-                                        </v-icon>
-                                        Image
+                                        <v-icon left>mdi-cloud-upload-outline</v-icon>Image
                                       </v-chip>
                                     </div>
                                     <v-container
                                       class="d-flex justify-center"
-                                      v-if="post.cover.secureURL"
+                                      v-if="newCover.secureURL || post.cover.secureURL"
                                       style="position: relative"
                                     >
                                       <v-img
                                         max-width="210"
                                         max-height="210"
-                                        :src="bannerImage"
+                                        :src="newCover.secureURL || post.cover.secureURL"
                                       />
                                       <v-chip
-                                        @click="uploadBanner = !uploadBanner"
+                                        @click="isUploadBanner = !isUploadBanner"
                                         text-color="#fff"
                                         class="upload-btn"
                                         color="green"
                                         label
                                       >
-                                        <v-icon left>
-                                          mdi-cloud-upload-outline
-                                        </v-icon>
-                                        Update
+                                        <v-icon left>mdi-cloud-upload-outline</v-icon>Update
                                       </v-chip>
                                     </v-container>
                                     <div
                                       class="mt-10 d-flex justify-center align-center flex-column"
                                     >
                                       <toggle-tag
-                                        v-for="(tag, i) in tags"
+                                        v-for="(tag, i) in post.tags"
                                         :key="i"
                                         :tagName="tag"
                                         @handleRemoveTag="handleRemoveTag(i)"
                                       />
 
                                       <create-tag
-                                        v-if="tags.length < 3"
+                                        v-if="post.tags.length < 3"
                                         @handleAddTag="handleAddTag"
-                                        :tags="tags"
+                                        :tags="post.tags"
                                       />
                                     </div>
                                   </div>
@@ -163,31 +140,21 @@
                                             label="Composer"
                                           />
                                         </ValidationProvider>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="!addComposer2"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="!addComposer2 && !composer2">
                                           <v-icon
                                             @click="
                                               addComposer2 = !addComposer2
                                             "
                                             color="green"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-plus-circle-outline
-                                          </v-icon>
+                                          >mdi-plus-circle-outline</v-icon>
                                         </span>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="addComposer2"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="addComposer2 || composer2">
                                           <v-icon
                                             @click="handleRemoveComposer(2)"
                                             color="warning"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-close-circle-outline
-                                          </v-icon>
+                                          >mdi-close-circle-outline</v-icon>
                                         </span>
                                       </div>
                                     </v-col>
@@ -195,7 +162,7 @@
                                       cols="12"
                                       sm="6"
                                       md="6"
-                                      v-if="addComposer2"
+                                      v-if="addComposer2 || composer2"
                                       class
                                     >
                                       <div class="d-flex align-end">
@@ -210,31 +177,21 @@
                                             label="Composer"
                                           />
                                         </ValidationProvider>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="!addComposer3"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="!addComposer3 && !composer3">
                                           <v-icon
                                             @click="
                                               addComposer3 = !addComposer3
                                             "
                                             color="green"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-plus-circle-outline
-                                          </v-icon>
+                                          >mdi-plus-circle-outline</v-icon>
                                         </span>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="addComposer3"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="addComposer3 || composer3">
                                           <v-icon
                                             @click="handleRemoveComposer(3)"
                                             color="warning"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-close-circle-outline
-                                          </v-icon>
+                                          >mdi-close-circle-outline</v-icon>
                                         </span>
                                       </div>
                                     </v-col>
@@ -242,7 +199,7 @@
                                       cols="12"
                                       sm="6"
                                       md="6"
-                                      v-if="addComposer3"
+                                      v-if="addComposer3 || composer3"
                                       class
                                     >
                                       <div class="d-flex align-end">
@@ -257,40 +214,25 @@
                                             label="Composer"
                                           />
                                         </ValidationProvider>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="!addComposer4"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="!addComposer4 && composer4">
                                           <v-icon
                                             @click="
                                               addComposer4 = !addComposer4
                                             "
                                             color="green"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-plus-circle-outline
-                                          </v-icon>
+                                          >mdi-plus-circle-outline</v-icon>
                                         </span>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="addComposer4"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="addComposer4 || composer4">
                                           <v-icon
                                             @click="handleRemoveComposer(4)"
                                             color="warning"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-close-circle-outline
-                                          </v-icon>
+                                          >mdi-close-circle-outline</v-icon>
                                         </span>
                                       </div>
                                     </v-col>
-                                    <v-col
-                                      cols="12"
-                                      sm="6"
-                                      md="6"
-                                      v-if="addComposer4"
-                                    >
+                                    <v-col cols="12" sm="6" md="6" v-if="addComposer4 | composer4">
                                       <div class="d-flex align-end">
                                         <ValidationProvider
                                           name="Composer"
@@ -321,29 +263,19 @@
                                             label="Artist"
                                           />
                                         </ValidationProvider>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="!addArtist2"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="!addArtist2 && !artist2">
                                           <v-icon
                                             @click="addArtist2 = !addArtist2"
                                             color="green"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-plus-circle-outline
-                                          </v-icon>
+                                          >mdi-plus-circle-outline</v-icon>
                                         </span>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="addArtist2"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="addArtist2 || artist2">
                                           <v-icon
                                             @click="handleRemoveArtist(2)"
                                             color="warning"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-close-circle-outline
-                                          </v-icon>
+                                          >mdi-close-circle-outline</v-icon>
                                         </span>
                                       </div>
                                     </v-col>
@@ -351,7 +283,7 @@
                                       cols="12"
                                       sm="6"
                                       md="6"
-                                      v-if="addArtist2"
+                                      v-if="addArtist2 || artist2"
                                       class
                                     >
                                       <div class="d-flex align-end">
@@ -366,38 +298,23 @@
                                             label="Artist"
                                           />
                                         </ValidationProvider>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="!addArtist3"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="!addArtist3 && !artist3">
                                           <v-icon
                                             @click="addArtist3 = !addArtist3"
                                             color="green"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-plus-circle-outline
-                                          </v-icon>
+                                          >mdi-plus-circle-outline</v-icon>
                                         </span>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="addArtist3"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="addArtist3 || artist3">
                                           <v-icon
                                             @click="handleRemoveArtist(3)"
                                             color="warning"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-close-circle-outline
-                                          </v-icon>
+                                          >mdi-close-circle-outline</v-icon>
                                         </span>
                                       </div>
                                     </v-col>
-                                    <v-col
-                                      cols="12"
-                                      sm="6"
-                                      md="6"
-                                      v-if="addArtist3"
-                                    >
+                                    <v-col cols="12" sm="6" md="6" v-if="addArtist3 || artist3">
                                       <div class="d-flex align-end">
                                         <ValidationProvider
                                           name="Name"
@@ -410,38 +327,23 @@
                                             label="Artist"
                                           />
                                         </ValidationProvider>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="!addArtist4"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="!addArtist4 && !artist4">
                                           <v-icon
                                             @click="addArtist4 = !addArtist4"
                                             color="green"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-plus-circle-outline
-                                          </v-icon>
+                                          >mdi-plus-circle-outline</v-icon>
                                         </span>
-                                        <span
-                                          class="pb-4 pl-3"
-                                          v-if="addArtist4"
-                                        >
+                                        <span class="pb-4 pl-3" v-if="addArtist4 || artist4">
                                           <v-icon
                                             @click="handleRemoveArtist(4)"
                                             color="warning"
                                             style="cursor: pointer"
-                                          >
-                                            mdi-close-circle-outline
-                                          </v-icon>
+                                          >mdi-close-circle-outline</v-icon>
                                         </span>
                                       </div>
                                     </v-col>
-                                    <v-col
-                                      cols="12"
-                                      sm="6"
-                                      md="6"
-                                      v-if="addArtist4"
-                                    >
+                                    <v-col cols="12" sm="6" md="6" v-if="addArtist4 || artist4">
                                       <div class="d-flex align-end">
                                         <ValidationProvider
                                           name="Name"
@@ -463,10 +365,7 @@
                                       auto-grow
                                       rows="15"
                                       required
-                                      v-model="post.content"
-                                      @change="
-                                        dataUpdate.content = post.content
-                                      "
+                                      v-model="post.description"
                                       placeholder="Markdown"
                                     />
                                   </v-col>
@@ -477,14 +376,7 @@
                         </v-card-text>
                         <v-card-actions class="pt-0">
                           <v-spacer />
-                          <v-btn
-                            class="mr-5"
-                            color="warning"
-                            dark
-                            @click="submit"
-                          >
-                            Update
-                          </v-btn>
+                          <v-btn class="mr-5 white--text" color="warning" @click="submit">Update</v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
@@ -500,144 +392,20 @@
 </template>
 
 <script>
-import myUpload from 'vue-image-crop-upload';
-import { extend, setInteractionMode } from 'vee-validate';
-import { required } from 'vee-validate/dist/rules';
+import { mapActions } from 'vuex';
 
+import { editPost } from '@/mixins/editPost';
+import { APIS } from '@/mixins/api-endpoints';
 import { updateBanner } from '@/mixins/updateBanner';
-import CreateTag from '@/components/Shared/CreateTag';
-import UserAvatar from '@/components/Shared/UserAvatar';
-import ToggleTag from '@/components/Shared/ToggleTag';
-
-setInteractionMode('eager');
-extend('required', {
-  ...required,
-  message: '{_field_} is required',
-});
+import { attachImage } from '@/mixins/attachImage';
 
 export default {
-  mixins: [updateBanner],
-  components: {
-    UserAvatar,
-    CreateTag,
-    myUpload,
-    ToggleTag,
-  },
+  mixins: [editPost, updateBanner, attachImage],
+  components: {},
   data() {
     return {
-      alert: false,
-      alertMessage: '',
-      user: {
-        username: 'hong_quang',
-      },
-      tags: [],
-      uploadBanner: false,
-      params: {
-        token: '123456798',
-        name: 'avatar',
-      },
-      headers: {
-        smail: '*_~',
-      },
-      post: {
-        _id: '5e9920603c513c2611a9df88',
-        tags: [
-          {
-            _id: '5e8c5f27abf7df7d3be426db',
-            tagName: 'aucoustic',
-          },
-          {
-            _id: '5e8c5f27abf7df7d3be426dc',
-            tagName: 'tinh ca',
-          },
-        ],
-        comments: [],
-        authors: [
-          {
-            _id: '5e9920603c513c2611a9df89',
-            type: 'artist',
-            name: 'Chillies',
-          },
-          {
-            _id: '5e9920603c513c26119df89',
-            type: 'artist',
-            name: 'ChilliesB',
-          },
-          {
-            _id: '5e9920603c513c2611a9df89',
-            type: 'composer',
-            name: 'Chillies',
-          },
-          {
-            _id: '5e9920603c513c26119df89',
-            type: 'composer',
-            name: 'ChilliesB',
-          },
-        ],
-        likes: [],
-        savedBy: [],
-        userId: '5e8b577f1a2dde32298795f4',
-        topic: ' Memories place',
-        description: 'Rock Ballad',
-        content:
-          '\nLyrics :  \nAnh sẽ mang tên em vào trong mixtape  \nSau đêm nay chỉ mong em vui lên  \nI see you wanna be mah girl  \nVà nếu em là mãi mãi\n\nJust let me show you what love really do  \nHaving the best moment for me n you  \nSo what you say girl  \nWill you be my world ?  \nHold my hand and feel my love\n\nĐôi chân phiêu du anh đưa tay tới nơi phía chân trời  \nLặng nhìn bầu trời vàng trong hoàng hôn  \nCho nỗi nhớ em thêm đầy vơi  \nBaby tell me you feel the same  \nCause I wanna be your man  \nGive me one more chance  \nTo be with you again  \nI wanna see you on the night\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.\n\nTên của em nó nằm trong bảng chữ cái A B C  \nVà Mr Yanbi đã nhắc tên em ở trong một cái MP3  \nSẽ là một nơi em đến  \nBao nhiêu người xung quanh yêu mến  \nAnh thắp chút ánh nến hòa với đôi môi em ngọt như là bánh Cookie Cookie  \nChỉ cần có em bay theo điệu nhạc với một chiếc bút bi bút bi  \nAnh sẽ hát bài ca này trên Radio và TV  \nGhi dấu lại những dòng tâm tư và thu vào trong cái CD  \nLet me see you babe girl  \nEm đẹp xinh khiến anh ngẩn ngơ  \nMọi thứ cứ xảy ra như thế vì đâu ai ngờ  \nNgay bây giờ ngay từng nhịp điệu anh viết chắc em nghĩ anh là Florida  \nVì em đẹp hơn cả Nexttop Model  \nEm sẽ phải sống ra sao khi trong cơn say này xô bồ  \nKhi T-Akayz in da track  \nEm không yêu chỉ còn 1 cách  \nEm sẽ không thể quên được anh đâu  \nMây mưa trăng sao mình bên nhau  \nVà đêm từng đêm về  \nEm ơi không cần câu nệ  \nNow let me see ya overnight\n\nBae I wanna see you on the night  \nỞ một nơi có từng cơn sóng xô  \nNhẹ nhàng sâu lắng nghe từng âm thanh  \nCâu hát phiêu dạt về nơi xa  \nĐiệu nhạc tình với rượu vang trên tay  \nEm có biết đâu khi lòng ta say  \nI say Drink wit meh overnight  \nLê bước chân trên những con đường dài.',
-        type: 'podcast',
-        media: {
-          _id: '5e99206e3c513c2611a9df8a',
-          secureURL:
-            'https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614.mp3',
-          publicId:
-            'Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614',
-          fileName: 'hongquang_podcast_Vung Ky Uc - Chillies',
-          sizeBytes: 4835851,
-          userId: '5e8b577f1a2dde32298795f4',
-          postId: '5e9920603c513c2611a9df88',
-          resourceType: 'video',
-          media: {
-            type: 'upload',
-            signature: 'b1cd21b54d3ac48aab7b3097fe59957cb525e614',
-            width: 500,
-            height: 500,
-            format: 'mp3',
-            resource_type: 'video',
-            frame_rate: 90000,
-            bit_rate: 129717,
-            duration: 298.24,
-          },
-          createdAt: '2020-04-17T03:20:14.881Z',
-          updatedAt: '2020-04-17T03:20:14.881Z',
-          __v: 0,
-        },
-        podcast: {
-          name: 'Memories place',
-          artist: 'Chillies',
-          url: 'https://cdn.moefe.org/music/mp3/thing.mp3',
-          cover: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80', // prettier-ignore
-          lrc: 'https://cdn.moefe.org/music/lrc/thing.lrc',
-        },
-        createdAt: '2020-04-17T03:20:14.886Z',
-        updatedAt: '2020-04-17T03:20:14.886Z',
-        metadata: {
-          _id: '5e9494fe935dfb5ed30435',
-          comments: 123,
-          likes: 69,
-          saves: 1,
-        },
-        cover: {
-          _id: '5e9ab00f0591fb40fc87faa3',
-          secureURL:
-            'https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png',
-          publicId: 'Coders-Tokyo-Forum/posts/javascript.png',
-          fileName: 'javascript.png',
-          sizeBytes: 316358,
-          userId: '5e8b577f1a2dde32298795f4',
-          postId: '5e9ab00f0591fb40fc87faa2',
-          resourceType: 'image',
-          createdAt: '2020-04-18T07:45:19.838Z',
-          updatedAt: '2020-04-18T07:45:19.838Z',
-          __v: 0,
-        },
-      },
+      post: null,
+      newCover: '',
       addArtist2: false,
       addArtist3: false,
       addArtist4: false,
@@ -652,44 +420,45 @@ export default {
       composer2: '',
       composer3: '',
       composer4: '',
-      bannerImage: '',
-      composers: [],
-      singers: [],
-      dataUpdate: {},
     };
   },
   computed: {},
-  created() {
-    this.tags = this.post.tags.map(tag => tag.tagName);
-    this.bannerImage = this.post.cover.secureURL;
-    const composers = this.post.authors.filter(
-      person => person.type === 'composer',
-    );
-    this.composer = composers[0] ? composers[0].name : '';
-    this.composer2 = composers[1] ? composers[1].name : '';
-    this.composer3 = composers[2] ? composers[2].name : '';
-    this.composer4 = composers[3] ? composers[3].name : '';
-    this.addComposer2 = !!this.composer2;
-    this.addComposer3 = !!this.composer3;
-    this.addComposer4 = !!this.composer4;
-
-    const singers = this.post.authors.filter(
-      person => person.type === 'artist',
-    );
-    this.artist = singers[0] ? singers[0].name : '';
-    this.artist2 = singers[1] ? singers[1].name : '';
-    this.artist3 = singers[2] ? singers[2].name : '';
-    this.artist4 = singers[3] ? singers[3].name : '';
-    this.addArtist2 = !!this.artist2;
-    this.addArtist3 = !!this.artist3;
-    this.addArtist4 = !!this.artist4;
+  async created() {
+    this.APIS = APIS;
+    await this.fetchPost();
   },
   methods: {
-    handleAddTag(tag) {
-      this.tags.push(tag);
-    },
-    handleRemoveTag(tagIndex) {
-      this.tags.splice(tagIndex, 1);
+    ...mapActions('post', ['getPostById']),
+    async fetchPost() {
+      this.getPostById({
+        id: this.$route.params.id,
+        typeQuery: this.$route.query.type,
+      }).then((data) => {
+        this.post = data;
+        this.post.tags = this.post.tags.map((tag) => tag.tagName);
+        this.tags = this.post.tags.map((tag) => tag.tagName);
+        const composers = this.post.authors.filter(
+          (person) => person.type === 'composer',
+        );
+        this.composer = composers[0] ? composers[0].name : '';
+        this.composer2 = composers[1] ? composers[1].name : '';
+        this.composer3 = composers[2] ? composers[2].name : '';
+        this.composer4 = composers[3] ? composers[3].name : '';
+        this.addComposer2 = !!this.composer2;
+        this.addComposer3 = !!this.composer3;
+        this.addComposer4 = !!this.composer4;
+
+        const singers = this.post.authors.filter(
+          (person) => person.type === 'artist',
+        );
+        this.artist = singers[0] ? singers[0].name : '';
+        this.artist2 = singers[1] ? singers[1].name : '';
+        this.artist3 = singers[2] ? singers[2].name : '';
+        this.artist4 = singers[3] ? singers[3].name : '';
+        this.addArtist2 = !!this.artist2;
+        this.addArtist3 = !!this.artist3;
+        this.addArtist4 = !!this.artist4;
+      });
     },
     handleRemoveComposer(index) {
       this[`addComposer${index}`] = !this[`addComposer${index}`];
@@ -699,7 +468,30 @@ export default {
       this[`addArtist${index}`] = !this[`addArtist${index}`];
       this[`artist${index}`] = '';
     },
-    submit() {
+    async submit() {
+      if (this.newCover) {
+        this.post.cover = this.newCover;
+      }
+      if (this.post.cover === '') {
+        this.$notify({
+          type: 'error',
+          title: "Let's upload the banner",
+        });
+        return;
+      }
+
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+
+      const dataUpdate = {
+        topic: this.post.topic,
+        description: this.post.description,
+        tags: this.post.tags,
+        type: this.post.type,
+        cover: this.post.cover,
+        authors: [],
+      };
+
       const authors = [
         { type: 'composer', name: this.composer },
         { type: 'composer', name: this.composer2 },
@@ -709,11 +501,32 @@ export default {
         { type: 'artist', name: this.artist2 },
         { type: 'artist', name: this.artist3 },
         { type: 'artist', name: this.artist4 },
-      ].filter(person => person.name !== '');
+      ].filter((person) => person.name !== '');
 
-      this.dataUpdate.authors = authors;
-      this.dataUpdate.tags = this.tags;
-      this.$refs.observer.validate();
+      dataUpdate.authors = authors;
+
+      const res = await this.editPost({ _id: this.post._id, data: dataUpdate });
+      if (res.status === 200) {
+        this.$notify({
+          type: 'success',
+          title: 'Update success',
+        });
+
+        if (this.newCover._id) {
+          this.deleteFile({ fileId: this.oldCover._id });
+        }
+        return this.$router.push({
+          path: `/${this.post.type}s/${this.post._id}?type=${this.post.type}`,
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: 'error',
+          title: 'Failed',
+          text: res.message,
+        });
+        this.deleteFile({ fileId: this.newCover._id });
+      }
     },
   },
 };

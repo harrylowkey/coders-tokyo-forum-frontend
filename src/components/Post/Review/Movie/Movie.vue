@@ -81,7 +81,8 @@
                     text-color="black"
                     outlined
                     small
-                    :style="calMovieYearColor"
+                    style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
+                    
                   >
                     <a target="_blank" :href="movie.link">{{ movie.link }}</a>
                   </v-chip>
@@ -94,7 +95,7 @@
                     text-color="black"
                     outlined
                     small
-                    style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
+                    :style="calMovieYearColor"
                   >
                     {{ movie.releaseDate }}
                   </v-chip>
@@ -188,7 +189,7 @@
                       small
                       :style="calMovieYearColor"
                     >
-                      {{ movie.year }}
+                      {{ movie.releaseDate }}
                     </v-chip>
                   </v-container>
 

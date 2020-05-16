@@ -304,7 +304,7 @@ export default {
 
 .author-follow {
   position: fixed;
-  max-width: 325px;
+  max-width: 365px;
   z-index: 0;
   top: 100px;
 }
