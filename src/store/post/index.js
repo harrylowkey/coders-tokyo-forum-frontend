@@ -69,7 +69,7 @@ export default {
     },
     async editPost({ commit }, {_id, data}) {
       commit('utils/SET_LOADING', true, { root: true });
-      const post = await axios
+      const response = await axios
         .put(APIS.EDIT_POST(_id, data.type), data)
         .catch(err => {
           commit('utils/SET_ERROR', err, { root: true });
@@ -82,7 +82,7 @@ export default {
           }, 0);
           return res;
         });
-      return post;
+      return response;
     },
     async uploadFiles({ commit }, formData) {
       commit('utils/SET_LOADING', true, { root: true });

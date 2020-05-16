@@ -180,7 +180,7 @@
 
               <v-col class="lyric" cols="9" sm="8" md="8" lg="9" xl="9">
                 <div :class="lyricClasses">
-                  <p v-html="$options.filters.markdown(post.content)" />
+                  <p v-html="$options.filters.markdown(post.description)" />
                 </div>
                 <span
                   v-if="!isShowMore"
