@@ -54,53 +54,6 @@ export const editPost = {
         return (this.isPreviewing = true);
       }
     },
-    async submit() {
-      if (this.newCover) {
-        this.post.cover = this.newCover;
-      }
-      if (this.post.cover === '') {
-        this.$notify({
-          type: 'error',
-          title: "Let's upload the banner",
-        });
-        return;
-      }
-      
-      const isValid = await this.$refs.observer.validate();
-      if (!isValid) return;
-
-      const dataUpdate = {
-        topic: this.post.topic,
-        content: this.post.content,
-        description: this.post.description,
-        tags: this.post.tags,
-        type: this.post.type,
-        cover: this.post.cover,
-      }
-      
-      const res = await this.editPost({ _id: this.post._id, data: dataUpdate});
-      if (res.status === 200) {
-        this.$notify({
-          type: 'success',
-          title: 'Update success',
-        });
-        
-        if (this.newCover._id) {
-          this.deleteFile({ fileId: this.oldCover._id });
-        }
-        return this.$router.push({
-          path: `/${this.post.type}s/${this.post._id}?type=${this.post.type}`,
-        });
-      }
-      if (res.status === 400) {
-        this.$notify({
-          type: 'error',
-          title: 'Failed',
-          text: res.message,
-        });
-        this.deleteFile({ fileId: this.newCover._id });
-      }
-    },
   },
   computed: {
     ...mapState('utils', ['errorMes', 'isLoading']),

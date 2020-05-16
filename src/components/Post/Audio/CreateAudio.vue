@@ -310,7 +310,7 @@
                         </div>
                         <v-col cols="12">
                           <v-textarea
-                            label="Lyric*"
+                            label="Lyric"
                             auto-grow
                             rows="15"
                             required
