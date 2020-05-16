@@ -110,6 +110,14 @@
                         />
                       </ValidationProvider>
                     </v-col>
+                    <v-col cols="12" sm="12" md="12">
+                      <v-text-field
+                        :error-messages="errors"
+                        v-model="data.food.location"
+                        label="Address"
+                        required
+                      />
+                    </v-col>
 
                     <v-col cols="12" sm="8" md="8">
                       <div class="d-flex align-end">
@@ -428,7 +436,7 @@ export default {
         });
         return;
       }
-      
+
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
       const res = await this.createPost(this.data);

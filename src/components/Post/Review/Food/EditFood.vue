@@ -131,6 +131,15 @@
                                 </ValidationProvider>
                               </v-col>
 
+                              <v-col cols="12" sm="12" md="12">
+                                <v-text-field
+                                  :error-messages="errors"
+                                  v-model="post.food.location"
+                                  label="Address"
+                                  required
+                                />
+                              </v-col>
+
                               <v-col cols="12" sm="8" md="8">
                                 <div class="d-flex align-end">
                                   <v-text-field
@@ -356,8 +365,8 @@ export default {
     },
     async beforeRemove(index, done) {
       const photoToDelete = this.post.food.foodPhotos[index];
-      this.photosToDelete.push(photoToDelete)
-      this.post.food.foodPhotos.splice(index, 1)
+      this.photosToDelete.push(photoToDelete);
+      this.post.food.foodPhotos.splice(index, 1);
       done();
     },
     async uploadImageSuccess(formData) {
@@ -385,8 +394,8 @@ export default {
     },
     async editImage(formData, index) {
       const photoToDelete = this.post.food.foodPhotos[index];
-      this.photosToDelte.push(photoToDelete)
-      this.post.food.foodPhotos.splice(index, 1)
+      this.photosToDelte.push(photoToDelete);
+      this.post.food.foodPhotos.splice(index, 1);
     },
     handleLimitExceed() {
       this.alertMessage = 'Please choose less than 20 photos';
@@ -432,8 +441,9 @@ export default {
         }
 
         if (this.photosToDelete.length) {
-          this.photosToDelete.map(photo => this.deleteFile({ fileId: photo._id }))
-          
+          this.photosToDelete.map((photo) =>
+            this.deleteFile({ fileId: photo._id }),
+          );
         }
         return this.$router.push({
           path: `/${this.post.type}Reviews/${this.post._id}?type=${this.post.type}`,
