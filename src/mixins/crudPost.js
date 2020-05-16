@@ -79,7 +79,7 @@ export const crudPost = {
   },
   computed: {
     ...mapState('user', ['user']),
-    ...mapState('utils', ['isLoading', 'errorMes']),
+    ...mapState('utils', ['isLoading', 'isLoadingUpload', 'errorMes']),
     isAuthor() {
       return this.post ? this.user._id === this.post.user._id : false;
     },

@@ -1,6 +1,7 @@
 // utils
 export const SET_LOADING = 'SET_LOADING';
 export const SET_LOADMORE = 'SET_LOADMORE';
+export const SET_LOADING_UPLOAD = 'SET_LOADING_UPLOAD';
 export const SET_ERROR = 'SET_ERROR';
 
 // auth

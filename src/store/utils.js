@@ -1,4 +1,4 @@
-import { SET_ERROR, SET_LOADING, SET_LOADMORE } from './constants';
+import { SET_ERROR, SET_LOADING, SET_LOADMORE, SET_LOADING_UPLOAD } from './constants';
 
 const utils = {
   namespaced: true,
@@ -6,10 +6,14 @@ const utils = {
     isLoading: false,
     errorMes: '',
     isLoadmore: false,
+    isLoadingUpload: false
   },
   mutations: {
     [SET_LOADING](state, payload = false) {
       state.isLoading = payload;
+    },
+    [SET_LOADING_UPLOAD](state, payload = false) {
+      state.isLoadingUpload = payload;
     },
     [SET_ERROR](state, payload = '') {
       state.errorMes = payload;

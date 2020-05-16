@@ -35,6 +35,8 @@ export const APIS = {
     return `/posts/${type}`;
   },
   EDIT_POST(id, type) {
-    return `/posts/${type}s/${id}?type=${type}`;
+    let typeParam = type + 's'
+    if (type === 'food') typeParam = type
+    return `/posts/${typeParam}/${id}?type=${type}`;
   }
 };
