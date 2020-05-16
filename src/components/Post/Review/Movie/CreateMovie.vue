@@ -93,7 +93,7 @@
                       />
                     </v-col>
                     <v-col cols="12" sm="4" md="2">
-                      <v-text-field v-model="data.movie.imdb" label="IMDb" />
+                      <v-text-field v-model="data.movie.IMDb" label="IMDb" />
                     </v-col>
                     <v-col cols="12" sm="4" md="2">
                       <v-text-field
