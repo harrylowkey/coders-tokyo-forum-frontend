@@ -17,7 +17,7 @@
           offset-xl="1"
           class="pt-0"
         >
-          <div class="pt-6"  v-if="!isLoading">
+          <div class="pt-6" v-if="!isLoading">
             <ValidationObserver ref="observer">
               <v-form>
                 <v-card class="d-flex py-3 pt-0">
@@ -192,7 +192,7 @@ export default {
     };
   },
   computed: {
-     ...mapState('utils', ['isLoading', 'errorMes']),
+    ...mapState('utils', ['isLoading', 'errorMes']),
   },
   methods: {
     ...mapActions('post', ['getPostById']),
@@ -202,7 +202,7 @@ export default {
         typeQuery: this.$route.query.type,
       }).then((data) => {
         this.post = data;
-        this.post.tags = this.post.tags.map(tag => tag.tagName);
+        this.post.tags = this.post.tags.map((tag) => tag.tagName);
       });
     },
   },
