@@ -66,6 +66,9 @@ export const editPost = {
         return;
       }
       
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+
       const dataUpdate = {
         topic: this.post.topic,
         content: this.post.content,
@@ -74,8 +77,6 @@ export const editPost = {
         type: this.post.type,
         cover: this.post.cover,
       }
-      const isValid = await this.$refs.observer.validate();
-      if (!isValid) return;
       
       const res = await this.editPost({ _id: this.post._id, data: dataUpdate});
       if (res.status === 200) {
