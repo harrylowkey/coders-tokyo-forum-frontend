@@ -108,7 +108,6 @@ export default {
   },
   data() {
     return {
-      isWelcomeLogin: false,
       activePage: '',
     };
   },
@@ -117,21 +116,6 @@ export default {
     handleSetActivePage({ page }) {
       return (this.activePage = page);
     },
-  },
-
-  beforeRouteEnter(to, from, next) {
-    if (from.path === '/signin') {
-      return next(vm => (vm.isWelcomeLogin = true));
-    }
-    next();
-  },
-  mounted() {
-    if (this.isWelcomeLogin) {
-      this.$notify({
-        type: 'success',
-        title: 'Login success',
-      });
-    }
   },
   computed: {
     ...mapState('utils', ['isLoading']),

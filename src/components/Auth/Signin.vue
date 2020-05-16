@@ -68,7 +68,7 @@ export default {
       alertMessage: '',
       email: '',
       password: '',
-      redirect: ROUTES.STREAM,
+      redirect: ROUTES.STREAM(),
     };
   },
   computed: {
