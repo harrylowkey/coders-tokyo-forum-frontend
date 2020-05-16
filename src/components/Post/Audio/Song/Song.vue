@@ -10,21 +10,20 @@
       >
         <span>{{ user.username }}</span>
       </a>
-      <span
-        style="font-size: 13px !important; color: grey"
-        class="caption ml-1"
-      >
-        posted a track
+      <span style="font-size: 13px !important; color: grey" class="caption ml-1">
+        posted a
+        <a
+          :href="`/songs/${_id}?type=song`"
+          target="_blank"
+          style="text-decoration: none; color: #444; font-style: italic"
+        >
+          <span>track</span>
+        </a>
       </span>
     </div>
     <v-hover v-slot:default="{ hover }" style="transition: 0.3s; height: 205px">
       <v-card id="song" class="mx-auto pb-0 mb-0" :elevation="hover ? 10 : 3">
-        <aplayer
-          @click="linkToSong"
-          loop="none"
-          :audio="audioFormat"
-          :lrcType="0"
-        />
+        <aplayer @click="linkToSong" loop="none" :audio="audioFormat" :lrcType="0" />
 
         <v-list-item
           three-line
@@ -34,11 +33,7 @@
           <v-card-actions class="pb-1 pl-0 pt-md-0 pt-sm-5">
             <v-container class="pt-0 pl-0 pr-0 d-flex justify-space-around">
               <like-btn :likes="likes.length" class="mr-10" />
-              <comment-btn
-                :type="type"
-                :postId="_id"
-                :comments="comments.length"
-              />
+              <comment-btn :type="type" :postId="_id" :comments="comments.length" />
             </v-container>
           </v-card-actions>
           <v-spacer />
@@ -153,10 +148,10 @@ export default {
     this.audio.theme = '#4A148C';
 
     const audio = this.audio;
-    const artists = this.authors.filter(person => person.type === 'artist');
+    const artists = this.authors.filter((person) => person.type === 'artist');
     this.audioFormat = {
       name: this.topic,
-      artist: artists.map(person => person.name).toString(),
+      artist: artists.map((person) => person.name).toString(),
       url: audio.secureURL,
       cover: this.cover.secureURL,
     };
