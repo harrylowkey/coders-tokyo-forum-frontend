@@ -11,7 +11,7 @@ export const bookDescription = {
   },
   data() {
     return {
-      minSlice: 1,
+      minSlice: 2,
       maxSlice: 2,
     };
   },
