@@ -38,6 +38,6 @@ export const ROUTES = {
     return `/posts?artist=${name}&type=${type}`;
   },
   SEARCH_TAG({ tagName, postType }) {
-    return `/posts?tag=${tagName}&type=${postType}`;
+    return `/posts?tag=${tagName.slice(1)}&type=${postType}`;
   },
 };
