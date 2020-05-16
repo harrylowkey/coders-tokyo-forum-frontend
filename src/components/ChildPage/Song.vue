@@ -295,13 +295,8 @@
                   <span class="mt-2">{{ song.createdAt | date }}</span>
                 </v-card-text>
                 <v-spacer />
-                <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
+                <v-container class="pt-4 pl-6 pr-0 d-flex justify-end">
                   <like-btn :likes="song.likes.length" />
-                  <comment-btn
-                    :type="song.type"
-                    :postId="song._id"
-                    :comments="song.comments.length"
-                  />
                 </v-container>
               </v-card-actions>
             </v-card>

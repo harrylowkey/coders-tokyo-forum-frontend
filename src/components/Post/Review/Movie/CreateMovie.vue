@@ -382,7 +382,7 @@ export default {
           name: '',
           status: 'Finished',
           country: '',
-          year: '',
+          releaseDate: '',
           length: 0,
           genres: [],
           suggestedBy: [],

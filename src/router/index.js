@@ -164,7 +164,13 @@ const routes = [
     component: PodcastDetails,
   },
   {
-    path: '/edit/audio/:id',
+    path: '/edit/podcast/:id',
+    name: 'editAudio',
+    component: EditAudio,
+    beforeEnter: AuthGuard,
+  },
+  {
+    path: '/edit/song/:id',
     name: 'editAudio',
     component: EditAudio,
     beforeEnter: AuthGuard,
