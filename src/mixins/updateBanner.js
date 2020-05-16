@@ -1,25 +1,23 @@
-/* eslint-disable no-console */
+import { mapActions } from 'vuex';
+
 export const updateBanner = {
   methods: {
-    cropSuccess(imgDataUrl) {
-      this.dataUpate.coverImage = imgDataUrl;
+    ...mapActions('user', ['signOut']),
+    cropUploadSuccess(res) {
+      this.oldBanner = this.post.cover
+      this.newCover = res.data
+      this.isUploadBanner = false
     },
-    cropUploadSuccess(jsonData, field) {
-      console.log('-------- upload success --------');
-      console.log(jsonData);
-      console.log(`field: ${field}`);
-    },
-    cropUploadFail(status, field) {
-      console.log('-------- upload fail --------');
-      console.log(status);
-      console.log(`field: ${field}`);
-    },
-    uploadImageSuccess(formData, index, fileList) {
-      console.log('data', formData, index, fileList);
-      // Upload image api
-      // axios.post('http://your-url-upload', formData).then(response => {
-      //   console.log(response)
-      // })
+    cropUploadFail(status) {
+      if (status === 401) {
+        this.signOut();
+        this.$router.push({ path: '/signin' });
+      }
+      this.$notify({
+        group: 'upload',
+        type: 'error',
+        title: 'Update banner failed',
+      });
     },
   },
 };
