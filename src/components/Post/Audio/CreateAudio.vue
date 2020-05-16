@@ -57,7 +57,7 @@
                         <v-col cols="12" class="pa-0">
                           <my-upload
                             class="pt-0"
-                            field="banner"
+                            field="cover"
                             @crop-upload-success="cropUploadSuccess"
                             @crop-upload-fail="cropUploadFail"
                             v-model="uploadBanner"
@@ -75,8 +75,8 @@
                           class="d-flex flex-column align-center"
                         >
                           <div
-                            v-if="!data.banner.secureURL"
-                            class="banner d-flex justify-center align-center pr-2"
+                            v-if="!data.cover.secureURL"
+                            class="cover d-flex justify-center align-center pr-2"
                           >
                             <v-chip
                               @click="uploadBanner = !uploadBanner"
@@ -92,14 +92,14 @@
                           </div>
                           <v-container
                             class="d-flex justify-center"
-                            v-if="data.banner.secureURL"
+                            v-if="data.cover.secureURL"
                           >
                             <v-img
                               style="cursor: pointer"
                               @click="uploadBanner = !uploadBanner"
                               max-width="210"
                               max-height="210"
-                              :src="data.banner.secureURL"
+                              :src="data.cover.secureURL"
                             />
                           </v-container>
                           <div
@@ -469,7 +469,7 @@ export default {
         description: '',
         content: '',
         type: '',
-        banner: '',
+        cover: '',
       },
       imgDataUrl: '',
       uploadAudioURL: APIS.UPLOAD_AUDIO,
@@ -550,15 +550,15 @@ export default {
       this.uploadFile();
     },
     async submit() {
-      if (this.data.banner === '') {
+      if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: "Let's upload the banner",
+          title: "Let's upload the cover",
         });
         return;
       }
       if (!this.fileRecordsForUpload.length) {
-        if (this.data.banner === '') {
+        if (this.data.cover === '') {
           this.$notify({
             type: 'error',
             title: "Hang on! Let's upload audio",
@@ -662,7 +662,7 @@ a {
   color: #42b983;
 }
 
-.banner {
+.cover {
   width: 210px;
   height: 210px;
   box-shadow: 9px 9px 10px 6px rgba(0, 0, 0, 0.16);

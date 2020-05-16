@@ -16,6 +16,7 @@ import ReadTime from '@/components/Shared/readTime';
 import WriteComment from '@/components/Comment/WriteComment';
 import EditDeleteBtns from '@/components/Post/EditDeleteBtns';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
+import { ROUTES } from '@/mixins/routes';
 
 export const crudPost = {
   mixins: [userSocialLinks],
@@ -45,6 +46,14 @@ export const crudPost = {
           type: 'success',
           title: response.data.message,
         });
+
+        let type = this.post.type + 's'
+        if (this.post.type === 'book' || this.post.type === 'food' || this.post.type === 'movie') {
+          type = this.post.type + 'Reviews'
+        }
+        return this.$router.push({
+          path: ROUTES.STREAM(`#${type}`),
+        });
       }
       if (response.status === 400) {
         this.$notify({
@@ -52,9 +61,6 @@ export const crudPost = {
           title: response.message,
         });
       }
-      setTimeout(() => {
-        return this.$router.push({ path: '/stream' });
-      }, 1000);
     },
     async fetchPost() {
       this.getPostById({

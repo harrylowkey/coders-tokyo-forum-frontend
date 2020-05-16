@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link class="edit-btn" :to="`/edit/${postType}/${postId}`">
+    <router-link class="edit-btn" :to="`/edit/${postType}/${postId}?type=${postType}`">
       <v-btn class="mr-3" x-small color="info">Edit</v-btn>
     </router-link>
     <v-btn x-small color="error" @click="dialogDeletePost = true">Delete</v-btn>
@@ -54,9 +54,6 @@ export default {
     };
   },
   methods: {
-    onClickEdit() {
-      this.$emit('handleEditPost');
-    },
     onClickDelete() {
       this.dialogDeletePost = false;
       this.$emit('handleDeletePost');
