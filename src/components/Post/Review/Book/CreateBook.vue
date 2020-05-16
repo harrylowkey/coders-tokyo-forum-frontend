@@ -306,7 +306,7 @@
                   class="mr-5"
                   color="green white--text"
                   @click="submit"
-                  :disabled="isLoading"
+                  :disabled="isLoadingUpload"
                 >
                   Post
                 </v-btn>

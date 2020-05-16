@@ -329,7 +329,7 @@
                   class="mr-5"
                   color="green white--text"
                   @click="submit"
-                  :disabled="isLoading"
+                  :disabled="isLoadingUpload"
                 >Post</v-btn>
               </v-card-actions>
             </v-container>
@@ -342,7 +342,7 @@
 
 <script>
 import myUpload from 'vue-image-crop-upload';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 import { APIS } from '@/mixins/api-endpoints';
 import { ROUTES } from '@/mixins/routes';
@@ -396,6 +396,7 @@ export default {
     };
   },
   computed: {
+    ...mapState('utils', ['isLoadingUpload']),
     headers() {
       return {
         Authorization: `Bearer ${this.accessToken}`,

@@ -155,12 +155,17 @@
                         <v-card-actions class="pt-0">
                           <v-spacer />
                           <v-btn
-                            class="mr-5"
+                            class="mr-5 white--text"
                             color="primary"
+                            darkz
                             @click="togglePreviewContent"
-                            dark
                           >Preview</v-btn>
-                          <v-btn class="mr-5" color="warning" dark @click="submit">Update</v-btn>
+                          <v-btn
+                            class="white--text"
+                            :disabled="isLoadingUpload"
+                            color="warning"
+                            @click="submit"
+                          >Update</v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
@@ -176,7 +181,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 
 import { editPost } from '@/mixins/editPost';
 import { APIS } from '@/mixins/api-endpoints';
@@ -190,9 +195,6 @@ export default {
       isPreviewing: false,
       newCover: '',
     };
-  },
-  computed: {
-    ...mapState('utils', ['isLoading', 'errorMes']),
   },
   methods: {
     ...mapActions('post', ['getPostById']),
@@ -216,7 +218,7 @@ export default {
         });
         return;
       }
-      
+
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
 
@@ -227,15 +229,15 @@ export default {
         tags: this.post.tags,
         type: this.post.type,
         cover: this.post.cover,
-      }
-      
-      const res = await this.editPost({ _id: this.post._id, data: dataUpdate});
+      };
+
+      const res = await this.editPost({ _id: this.post._id, data: dataUpdate });
       if (res.status === 200) {
         this.$notify({
           type: 'success',
           title: 'Update success',
         });
-        
+
         if (this.newCover._id) {
           this.deleteFile({ fileId: this.oldCover._id });
         }

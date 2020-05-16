@@ -76,7 +76,7 @@
                                   <v-img
                                     max-width="650"
                                     max-height="250"
-                                    :src="post.cover.secureURL"
+                                    :src="newCover.secureURL || post.cover.secureURL"
                                   />
                                   <v-chip
                                     @click="uploadBanner = !uploadBanner"
@@ -316,12 +316,16 @@
                         <v-card-actions class="pt-0">
                           <v-spacer />
                           <v-btn
-                            class="mr-5"
+                            class="mr-5 white--text"
                             color="primary"
                             @click="togglePreviewContent"
-                            dark
                           >Preview</v-btn>
-                          <v-btn class="mr-5" color="warning" dark @click="submit">Update</v-btn>
+                          <v-btn
+                            class="white--text"
+                            :disabled="isLoadingUpload"
+                            color="warning"
+                            @click="submit"
+                          >Update</v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
@@ -337,7 +341,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 
 import { editPost } from '@/mixins/editPost';
 import { APIS } from '@/mixins/api-endpoints';
@@ -365,9 +369,6 @@ export default {
       genres: ['Action', 'Funny', 'Moving', 'History'],
     };
   },
-  computed: {
-    ...mapState('utils', ['isLoading', 'errorMes']),
-  },
   async created() {
     this.APIS = APIS;
     await this.fetchPost();
@@ -380,7 +381,7 @@ export default {
         typeQuery: this.$route.query.type,
       }).then((data) => {
         this.post = data;
-        console.log(data)
+        this.post.tags = this.post.tags.map((tag) => tag.tagName);
         const actors = this.post.authors.filter(
           (person) => person.type === 'actor',
         );

@@ -56,7 +56,7 @@ export const editPost = {
     },
   },
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading']),
+    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadingUpload']),
     ...mapState('user', ['accessToken', 'user']),
     headers() {
       return {

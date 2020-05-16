@@ -76,7 +76,7 @@
                                   <v-img
                                     max-width="650"
                                     max-height="250"
-                                    :src="post.cover.secureURL"
+                                    :src="newCover.secureURL || post.cover.secureURL"
                                   />
                                   <v-chip
                                     @click="isUploadBanner = !isUploadBanner"
@@ -294,7 +294,13 @@
                             @click="togglePreviewContent"
                             dark
                           >Preview</v-btn>
-                          <v-btn class="mr-5" color="warning" dark @click="submit">Update</v-btn>
+                          <v-btn
+                            v-if="!isLoadingUpload"
+                            class="mr-5"
+                            color="warning"
+                            dark
+                            @click="submit"
+                          >Update</v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
@@ -310,7 +316,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 
 import { editPost } from '@/mixins/editPost';
 import { APIS } from '@/mixins/api-endpoints';
@@ -345,9 +351,6 @@ export default {
         'Improve-self',
       ],
     };
-  },
-  computed: {
-    ...mapState('utils', ['isLoading', 'errorMes']),
   },
   methods: {
     ...mapActions('post', ['getPostById']),
@@ -401,7 +404,7 @@ export default {
         cover: this.post.cover,
         book: this.post.book,
         authors: [],
-      }
+      };
 
       dataUpdate.authors = [
         { type: 'author', name: this.author },
@@ -413,13 +416,13 @@ export default {
         this.recommender2,
       ].filter((recommender) => recommender !== '');
 
-      const res = await this.editPost({ _id: this.post._id, data: dataUpdate});
+      const res = await this.editPost({ _id: this.post._id, data: dataUpdate });
       if (res.status === 200) {
         this.$notify({
           type: 'success',
           title: 'Update success',
         });
-        
+
         if (this.newCover._id) {
           this.deleteFile({ fileId: this.oldCover._id });
         }
@@ -435,7 +438,6 @@ export default {
         });
         this.deleteFile({ fileId: this.newCover._id });
       }
-
     },
   },
   async created() {
