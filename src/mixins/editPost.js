@@ -41,16 +41,16 @@ export const editPost = {
       'editPost',
     ]),
     handleAddTag(tag) {
-      this.data.tags.push(tag);
+      this.post.tags.push(tag);
     },
     handleRemoveTag(tagIndex) {
-      this.data.tags.splice(tagIndex, 1);
+      this.post.tags.splice(tagIndex, 1);
     },
     togglePreviewContent() {
       if (this.isPreviewing) {
         return (this.isPreviewing = false);
       }
-      if (!this.isPreviewing && this.data.content.trim() !== '') {
+      if (!this.isPreviewing && this.post.content.trim() !== '') {
         return (this.isPreviewing = true);
       }
     },
@@ -76,7 +76,7 @@ export const editPost = {
       }
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
-      console.log(dataUpdate)
+      
       const res = await this.editPost({ _id: this.post._id, data: dataUpdate});
       if (res.status === 200) {
         this.$notify({
@@ -84,8 +84,8 @@ export const editPost = {
           title: 'Update success',
         });
         
-        if (this.oldBanner._id) {
-          this.deleteFile({ fileId: this.oldBanner._id });
+        if (this.newCover._id) {
+          this.deleteFile({ fileId: this.oldCover._id });
         }
         return this.$router.push({
           path: `/${this.post.type}s/${this.post._id}?type=${this.post.type}`,

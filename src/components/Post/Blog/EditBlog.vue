@@ -187,7 +187,6 @@ export default {
   data() {
     return {
       post: null,
-      imgDataUrl: '',
       isPreviewing: false,
       newCover: '',
     };
@@ -203,7 +202,7 @@ export default {
         typeQuery: this.$route.query.type,
       }).then((data) => {
         this.post = data;
-        console.log(this.post)
+        this.post.tags = this.post.tags.map(tag => tag.tagName);
       });
     },
   },
