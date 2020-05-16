@@ -67,6 +67,23 @@ export default {
         });
       return response;
     },
+    async editPost({ commit }, {_id, data}) {
+      commit('utils/SET_LOADING', true, { root: true });
+      const post = await axios
+        .put(APIS.EDIT_POST(_id, data.type), data)
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true });
+          return err;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return post;
+    },
     async uploadFiles({ commit }, formData) {
       commit('utils/SET_LOADING', true, { root: true });
       const response = await axios
