@@ -93,9 +93,7 @@
                 </v-card-text>
               </v-list-item-content>
             </v-list-item>
-            <div>
-              {{ $options.filters.markdown(post.content) }}
-            </div>
+            <div v-html="$options.filters.markdown(post.content)" />
             <div class="d-flex justify-end">
               <span class="signature">{{ post.user.username }}</span>
             </div>

@@ -54,7 +54,7 @@
                     <v-col cols="12" class="pa-0">
                       <my-upload
                         class="pt-0"
-                        field="banner"
+                        field="cover"
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
                         v-model="uploadBanner"
@@ -68,12 +68,12 @@
                       />
                       <v-container
                         class="d-flex justify-center"
-                        v-if="data.banner.secureURL"
+                        v-if="data.cover.secureURL"
                       >
                         <v-img
                           max-width="650"
                           max-height="250"
-                          :src="data.banner.secureURL"
+                          :src="data.cover.secureURL"
                         />
                       </v-container>
                     </v-col>
@@ -364,7 +364,7 @@ export default {
         description: '',
         content: '',
         type: 'food',
-        banner: '',
+        cover: '',
       },
       previewPhotos: [],
     };
@@ -448,10 +448,10 @@ export default {
       });
     },
     async submit() {
-      if (this.data.banner === '') {
+      if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: "Let's upload the banner",
+          title: "Let's upload the cover",
         });
         return;
       }

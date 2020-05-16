@@ -4,7 +4,7 @@ export const uploadBanner = {
   methods: {
     ...mapActions('user', ['signOut']),
     cropUploadSuccess(res) {
-      this.data.banner = res.data;
+      this.data.cover = res.data;
     },
     cropUploadFail(status) {
       if (status === 401) {

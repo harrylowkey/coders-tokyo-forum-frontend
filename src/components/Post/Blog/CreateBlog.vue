@@ -49,7 +49,7 @@
                       <my-upload
                         class="pt-0"
                         v-model="isUploadBanner"
-                        field="banner"
+                        field="cover"
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
                         :url="APIS.UPLOAD_BANNER"
@@ -62,12 +62,12 @@
                       />
                       <v-container
                         class="d-flex justify-center"
-                        v-if="data.banner.secureURL"
+                        v-if="data.cover.secureURL"
                       >
                         <v-img
                           max-width="650"
                           max-height="250"
-                          :src="data.banner.secureURL"
+                          :src="data.cover.secureURL"
                         />
                       </v-container>
                     </v-col>
@@ -86,10 +86,10 @@
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12">
-                      <v-text-field
+                      <v-textarea
                         label="Description"
                         persistent-hint
-                        rows="2"
+                        rows="3"
                         v-model="data.description"
                         hint="Write description to attract people at the first glance"
                       />
@@ -194,7 +194,7 @@ export default {
         topic: '',
         description: '',
         content: '',
-        banner: '',
+        cover: '',
         tags: [],
         type: 'blogs',
       },
