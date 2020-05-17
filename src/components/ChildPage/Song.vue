@@ -137,7 +137,7 @@
                     <p v-html="$options.filters.markdown(post.description)" />
                   </div>
                   <span
-                    v-if="!isShowMore"
+                    v-if="!isShowMore && post.description.length > 100"
                     @click="toggleShowLyrics"
                     style="font-size: 13px; color: grey; cursor: pointer"
                     class="font-italic mb-0 show-more"
