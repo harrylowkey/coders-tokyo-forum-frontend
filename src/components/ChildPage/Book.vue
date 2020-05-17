@@ -135,7 +135,7 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Genre:</p>
+                          <p class="key mb-0 mr-3">Genres:</p>
                           <span v-if="slicedGenres">
                             <v-chip
                               label
@@ -151,7 +151,7 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Suggested by:</p>
+                          <p class="key mwb-0 mr-3">Suggested by:</p>
                           <p class="value mb-0" v-if="slicedSuggestedBy">
                             <span v-for="(person, i) in slicedSuggestedBy" :key="i">
                               {{ person
@@ -177,8 +177,8 @@
               </v-col>
             </v-row>
           </v-container>
-          <v-container v-if="!isLoading" style="padding: 15px 50px 20px 50px">
-            <v-list-item three-line style="padding: 10px 25px 25px 0px">
+          <v-container v-if="!isLoading" style="padding: 15px 0px 20px 50px">
+            <v-list-item three-line style="padding: 10px 0px 25px 0px">
               <v-list-item-content class="pr-10 pt-lg-0">
                 <v-list-item-title class="blog-title mb-0">
                   <h1 class="blog-title">{{ post.topic }}</h1>
@@ -202,7 +202,6 @@
                     >{{ link.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
-                  <read-time class="pl-0" :text="post.content" />
                   <read-time class="pl-0" :text="post.content" />
                   <edit-delete-btns
                     v-if="isAuthor"

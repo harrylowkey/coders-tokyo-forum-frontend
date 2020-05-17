@@ -53,7 +53,7 @@
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Genre:</p>
+                  <p class="key mb-0 mr-3">Genres:</p>
                   <span v-if="slicedGenres">
                     <v-chip
                       label
@@ -123,7 +123,7 @@
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Genre:</p>
+                    <p class="key mb-0 mr-3">Genres:</p>
                     <span v-if="slicedGenres">
                       <v-chip
                         label

@@ -165,13 +165,13 @@ const routes = [
   },
   {
     path: '/edit/podcast/:id',
-    name: 'editAudio',
+    name: 'editPodcast',
     component: EditAudio,
     beforeEnter: AuthGuard,
   },
   {
     path: '/edit/song/:id',
-    name: 'editAudio',
+    name: 'editSong',
     component: EditAudio,
     beforeEnter: AuthGuard,
   },
