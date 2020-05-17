@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="icon-container d-flex flex-column align-center justify-space-around"
-  >
+  <div class="icon-container d-flex flex-column align-center justify-space-around">
     <div class="wrapper-icon">
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587892953/love_fhkw0q.svg"
@@ -11,8 +9,9 @@
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587893696/planet_peappv.svg"
         :class="upHeartCLasses"
+        :isUserLiked="isUserLiked()"
       />
-      <span class="counter likes-counter">{{ likes }}</span>
+      <span class="counter likes-counter">{{ likes.length }}</span>
     </div>
 
     <div class="wrapper-icon">
@@ -38,7 +37,7 @@
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587914483/tick_1_k2ofpd.svg"
         :class="upSaveIconClasses"
       />
-      <span class="counter saves-counter">{{ saves }}</span>
+      <span class="counter saves-counter">{{ saves.length }}</span>
     </div>
 
     <div class="wrapper-icon">
@@ -64,15 +63,19 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+
+import { ROUTES } from '@/mixins/routes';
+
 export default {
   props: {
     likes: {
-      type: Number,
-      default: 0,
+      type: Array,
+      default: () => [],
     },
     saves: {
-      type: Number,
-      default: 0,
+      type: Array,
+      default: () => [],
     },
     flowers: {
       type: Number,
@@ -85,21 +88,60 @@ export default {
   },
   data() {
     return {
-      upHeartCLasses: ['up-heart'],
       upFlowerCLasses: ['up-flower'],
       donateCoinClasses: ['up-coin'],
       upSaveIconClasses: ['up-save'],
       isDonating: false,
     };
   },
+  computed: {
+    ...mapState('user', ['user']),
+  },
   methods: {
+    ...mapActions('post', ['likePost', 'unlikePost']),
+    async onClickLikePost() {
+      const response = await this.likePost(this.postId);
+      if (!response) {
+        return this.$router.push({ path: ROUTES.LOGIN });
+      }
+      if (response.status === 200) {
+        this.$emit('likedPost', { user: this.user });
+        this.upHeartCLasses.push('show-up-heart');
+      }
+      if (response.status === 409) {
+        this.$notify({
+          type: 'error',
+          title: response.data.message,
+        });
+      }
+
+      if (response.status === 401) {
+        this.$router.push({ path: ROUTES.LOGIN });
+      }
+    },
+    async onClickUnlikePost() {
+      const response = await this.unlikePost(this.postId);
+      if (!response) {
+        return this.$router.push({ path: ROUTES.LOGIN });
+      }
+      if (response.status === 200) {
+        this.$emit('unlikedPost', { user: this.user });
+        this.upHeartCLasses = ['up-heart'];
+      }
+      if (response.status === 409) {
+        this.$notify({
+          type: 'error',
+          title: response.data.message,
+        });
+      }
+    },
     toggleLike() {
-      if (this.upHeartCLasses.length === 2) {
-        --this.likes;
-        return this.upHeartCLasses.pop();
-      } else {
-        ++this.likes;
-        return this.upHeartCLasses.push('show-up-heart');
+      if (this.isUserLiked()) {
+        this.onClickUnlikePost();
+      }
+
+      if (!this.isUserLiked()) {
+        this.onClickLikePost();
       }
     },
     handleGiveFlower() {
@@ -107,7 +149,7 @@ export default {
       this.upFlowerCLasses.push('show-up-flower');
       setTimeout(() => {
         this.upFlowerCLasses = this.upFlowerCLasses.filter(
-          _class => _class !== 'show-up-flower',
+          (_class) => _class !== 'show-up-flower',
         );
       }, 700);
     },
@@ -115,7 +157,7 @@ export default {
       this.donateCoinClasses.push('rotate-upcoin');
       setTimeout(() => {
         this.donateCoinClasses = this.donateCoinClasses.filter(
-          _class => _class !== 'rotate-upcoin',
+          (_class) => _class !== 'rotate-upcoin',
         );
       }, 1000);
     },
@@ -129,6 +171,17 @@ export default {
     onClickComment() {
       this.$emit('hanldeClickCommentBtn');
     },
+    isUserLiked() {
+      const isUserLiked = this.likes.find((user) => user._id === this.user._id);
+      return Boolean(isUserLiked);
+    },
+  },
+  created() {
+    if (this.isUserLiked()) {
+      this.upHeartCLasses = ['up-heart', 'show-up-heart'];
+    } else {
+      this.upHeartCLasses = ['up-heart'];
+    }
   },
 };
 </script>

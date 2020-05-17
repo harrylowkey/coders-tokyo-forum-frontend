@@ -4,11 +4,13 @@
       <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
           v-if="!isLoading"
-          :likes="post && post.metadata ? post.metadata.likes : 0"
-          :saves="post && post.metadata ? post.metadata.saves : 0"
-          :flowers="0"
-          :postId="post._id"
           @hanldeClickCommentBtn="hanldeClickCommentBtn"
+          @likedPost="handleLikedPost"
+          @unlikedPost="handleUnlikedPost"
+          :postId="post._id"
+          :likes="post.likes"
+          :saves="post.saves"
+          :flowers="0"
         />
       </v-col>
 
@@ -461,6 +463,14 @@ export default {
           // caption: "Caption"
         }));
       });
+    },
+    handleLikedPost({ user }) {
+      this.post.likes.push({ username: user.username, _id: user._id });
+    },
+    handleUnlikedPost({ user }) {
+      this.post.likes = this.post.likes.filter(
+        (_user) => _user._id !== user._id,
+      );
     },
   },
   created() {},

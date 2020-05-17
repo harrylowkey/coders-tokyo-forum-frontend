@@ -85,6 +85,10 @@ export const crudPost = {
     isAuthor() {
       return this.post ? this.post.user._id === this.user._id : false;
     },
+    isUserLiked() {
+      const isUserLiked = this.likes.find(user => user._id === this.user._id);
+      return Boolean(isUserLiked);
+    },
   },
   async created() {
     await this.fetchPost();
