@@ -382,6 +382,7 @@ export default {
     };
   },
   created() {
+    window.scrollTo(0, 0);
     this.APIS = APIS;
     this.user = this.$store.getters.user;
     this.userGithub =

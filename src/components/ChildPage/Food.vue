@@ -470,7 +470,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #blog-card {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
