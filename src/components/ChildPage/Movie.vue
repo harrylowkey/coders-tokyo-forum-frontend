@@ -339,9 +339,10 @@
         <author-follow-card
           v-if="!isLoading"
           class="author-follow"
-          :isAuthor="isAuthor"
           :author="post.user"
-          :userId="user._id"
+          @handleFollow="handleFollow"
+          @handleUnFollow="handleUnFollow"
+          :isFollowing="isFollowing()"
         />
       </v-col>
     </v-row>

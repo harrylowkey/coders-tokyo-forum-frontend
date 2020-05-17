@@ -2,11 +2,7 @@
   <div class="d-flex flex-column justify-center">
     <v-container class="d-flex justify-center">
       <div class="user text-center d-flex">
-        <v-list-item-avatar
-          tile
-          :size="customize.avatarSize || 60"
-          style="margin: 16px 0 0 0"
-        >
+        <v-list-item-avatar tile :size="customize.avatarSize || 60" style="margin: 16px 0 0 0">
           <v-img
             :src="author.avatar.secureURL"
             style="cursor: pointer; border-radius: 50%"
@@ -24,24 +20,17 @@
                 class="pr-1"
                 style="cursor: pointer"
                 @click="handleClickLink(link.url)"
-              >
-                {{ link.icon }}
-              </v-icon>
+              >{{ link.icon }}</v-icon>
             </div>
             <div v-else style="height: 17px" />
           </v-list-item-icon>
           <v-list-item-content class="pt-0 pb-0">
-            <v-list-item-title
-              class="caption text-start"
-              :style="usernameWrapper"
-            >
+            <v-list-item-title class="caption text-start" :style="usernameWrapper">
               <a
                 :style="customize.usernameStyle"
                 class="username-link ml-1"
                 :href="userProfileLink"
-              >
-                {{ author.username }}
-              </a>
+              >{{ author.username }}</a>
             </v-list-item-title>
           </v-list-item-content>
         </v-container>
@@ -54,18 +43,14 @@
         dark
         color="green"
         x-small
-      >
-        Follow
-      </v-btn>
+      >Follow</v-btn>
       <v-btn
         @click="onClickUnFollow"
         v-if="isFollowing && !isAuthor"
         dark
         color="red"
         x-small
-      >
-        Unfollow
-      </v-btn>
+      >Unfollow</v-btn>
     </v-container>
   </div>
 </template>
@@ -85,11 +70,11 @@ export default {
       type: Array,
       default: () => [],
     },
-    author: {
-      type: Object,
+    isFollowing: {
+      type: Boolean,
       required: true,
     },
-    user: {
+    author: {
       type: Object,
       required: true,
     },
@@ -114,54 +99,11 @@ export default {
     onClickAvatar() {
       this.$router.push({ path: this.userProfileLink });
     },
-    async onClickFollow() {
-      const response = await this.follow(this.author._id);
-      if (!response) {
-        return this.$router.push({ path: ROUTES.LOGIN });
-      }
-      if (response.status === 200) {
-        this.followers.push(this.userId);
-        this.$notify({
-          type: 'success',
-          title: response.data.message,
-        });
-      }
-      if (response.status === 400) {
-        this.$notify({
-          type: 'error',
-          title: response.message,
-        });
-      }
-
-      if (response.status === 401) {
-        this.$router.push({ path: ROUTES.LOGIN });
-      }
+    onClickFollow() {
+      this.$emit('handleFollow');
     },
-    async onClickUnFollow() {
-      const response = await this.unfollow(this.author._id);
-      if (!response) {
-        this.$router.push({ path: ROUTES.LOGIN });
-      }
-      if (response.status === 200) {
-        this.followers = this.followers.filter(
-          followerId => followerId !== this.userId,
-        );
-        this.$notify({
-          type: 'success',
-          title: response.data.message,
-        });
-      }
-      if (response.status === 400) {
-        this.$notify({
-          type: 'error',
-          title: response.message,
-        });
-      }
-    },
-  },
-  computed: {
-    isFollowing() {
-      return this.author.followers.includes(this.user._id);
+    onClickUnFollow() {
+      this.$emit('handleUnFollow');
     },
   },
 };

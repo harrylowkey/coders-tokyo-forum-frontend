@@ -1,14 +1,7 @@
 <template>
   <div>
     <v-row id="post">
-      <v-col
-        cols="12"
-        sm="12"
-        md="1"
-        lg="1"
-        xl="1"
-        class="pr-0 wrapper-icon d-sm-none d-md-flex"
-      >
+      <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
           v-if="!isLoading"
           :likes="post && post.metadata ? post.metadata.likes : 0"
@@ -24,20 +17,12 @@
           style="display: none"
           href="#"
           v-scroll-to="'#comments'"
-        >
-          Scroll to #comment
-        </a>
-        <v-skeleton-loader
-          class="mx-auto mt-6"
-          v-if="isLoading"
-          type="article, actions"
-        />
+        >Scroll to #comment</a>
+        <v-skeleton-loader class="mx-auto mt-6" v-if="isLoading" type="article, actions" />
         <v-card class="mx-auto mt-6 pb-2" v-if="!isLoading">
           <v-list-item style="padding: 0px 25px 0 20px">
             <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-              <v-list-item-title class="headline discuss-title mb-0 py-3">
-                {{ post.topic }}
-              </v-list-item-title>
+              <v-list-item-title class="headline discuss-title mb-0 py-3">{{ post.topic }}</v-list-item-title>
               <v-divider />
               <div
                 style="line-height: 1.4;"
@@ -55,9 +40,7 @@
               <v-card-text
                 class="font-italic font-weight-light pt-0 pb-0"
                 style="font-size: small"
-              >
-                {{ post.createdAt | date }}
-              </v-card-text>
+              >{{ post.createdAt | date }}</v-card-text>
               <div style="width: 200px">
                 <edit-delete-btns
                   v-if="isAuthor"
@@ -83,11 +66,7 @@
           <v-row id="comments">
             <div style="width: 100%" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
-              <v-boilerplate
-                style="width: 100%"
-                v-if="isLoading"
-                type="image"
-              />
+              <v-boilerplate style="width: 100%" v-if="isLoading" type="image" />
               <write-comment v-if="!isLoading" />
 
               <div v-if="post ? post.comments.length : false">
@@ -102,23 +81,11 @@
             </div>
           </v-row>
           <v-divider />
-          <v-row
-            id="other-posts-of-author"
-            v-if="otherDiscussionsOfAuthor.length"
-            class="mb-10"
-          >
+          <v-row id="other-posts-of-author" v-if="otherDiscussionsOfAuthor.length" class="mb-10">
             <h1 style="width: 100%" class="mt-8 mb-3">Other discussions</h1>
             <div style="width: 100%" class="d-flex" v-if="isLoading">
-              <v-boilerplate
-                class="other-post"
-                style="width: 100%"
-                type="article"
-              />
-              <v-boilerplate
-                class="other-post"
-                style="width: 100%"
-                type="article"
-              />
+              <v-boilerplate class="other-post" style="width: 100%" type="article" />
+              <v-boilerplate class="other-post" style="width: 100%" type="article" />
             </div>
             <other-posts-of-author
               v-if="!isLoading"
@@ -145,9 +112,10 @@
         <author-follow-card
           v-if="!isLoading"
           class="author-follow"
-          :isAuthor="isAuthor"
           :author="post.user"
-          :userId="user._id"
+          @handleFollow="handleFollow"
+          @handleUnFollow="handleUnFollow"
+          :isFollowing="isFollowing()"
         />
       </v-col>
     </v-row>

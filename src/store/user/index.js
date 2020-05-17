@@ -122,7 +122,7 @@ export default {
       return dataUpdated;
     },
     async follow({ commit }, userToFollowId) {
-      commit('utils/SET_LOADING', true, { root: true });
+      commit('utils/SET_LOADING_API', true, { root: true });
       const response = await axios
         .post(`/users/${userToFollowId}/follow`)
         .catch(err => {
@@ -131,7 +131,7 @@ export default {
         })
         .then(res => {
           setTimeout(() => {
-            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_LOADING_API', false, { root: true });
             commit('utils/SET_ERROR', '', { root: true });
           }, 0);
           return res;
@@ -139,7 +139,7 @@ export default {
       return response;
     },
     async unfollow({ commit }, userToUnFollowId) {
-      commit('utils/SET_LOADING', true, { root: true });
+      commit('utils/SET_LOADING_API', true, { root: true });
       const response = await axios
         .post(`/users/${userToUnFollowId}/unfollow`)
         .catch(err => {
@@ -148,7 +148,7 @@ export default {
         })
         .then(res => {
           setTimeout(() => {
-            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_LOADING_API', false, { root: true });
             commit('utils/SET_ERROR', '', { root: true });
           }, 0);
           return res;

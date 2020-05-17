@@ -16,10 +16,11 @@ import ReadTime from '@/components/Shared/readTime';
 import WriteComment from '@/components/Comment/WriteComment';
 import EditDeleteBtns from '@/components/Post/EditDeleteBtns';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
+import { toggleFollow } from '@/mixins/toggleFollow';
 import { ROUTES } from '@/mixins/routes';
 
 export const crudPost = {
-  mixins: [userSocialLinks],
+  mixins: [userSocialLinks, toggleFollow],
   data() {
     return {
       post: null,
@@ -76,16 +77,17 @@ export const crudPost = {
       );
       triggerScrollToComment.click();
     },
+    
   },
   computed: {
     ...mapState('user', ['user']),
-    ...mapState('utils', ['isLoading', 'isLoadingUpload', 'errorMes']),
+    ...mapState('utils', ['isLoading', 'isLoadingUpload', 'isLoadingAPI', 'errorMes']),
     isAuthor() {
       return this.post ? this.user._id === this.post.user._id : false;
     },
   },
-  created() {
-    this.fetchPost();
+  async created() {
+    await this.fetchPost();
   },
   mounted() {
     if (this.$route.hash === '#comment') {
