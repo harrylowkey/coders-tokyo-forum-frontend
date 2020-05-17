@@ -33,20 +33,22 @@
         />
         <div v-if="!isLoading">
           <discussion
-            v-for="item in discussions"
+            v-for= "item in discussions"
             :key="item._id"
             :_id="item._id"
             :tags="item.tags"
             :comments="item.comments"
             :likes="item.likes"
             :savedBy="item.savedBy"
-            :user="item.user"
+            :author="item.user"
             :topic="item.topic"
             :content="item.content"
             :type="item.type"
             :createdAt="item.createdAt"
             :updatedAt="item.updatedAt"
             :metadata="item.metadata"
+            @likedPost="handleLikedPost"
+            @unlikedPost="handleUnlikedPost"
           />
         </div>
 
@@ -73,12 +75,7 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card
-          class="fix-sidebar"
-          :title="tags.title"
-          :type="tags.type"
-          :data="tags.data"
-        />
+        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
 
         <side-card
           class="fix-sidebar member-online"
@@ -257,6 +254,22 @@ export default {
       }
 
       await this.loadMoreDiscussions({ page: this.metadata.page + 1 });
+    },
+    handleLikedPost({ postId, user }) {
+      const discussion = this.discussions.find(
+        (discussion) => discussion._id === postId,
+      );
+      console.log('before like', discussion.likes);
+      discussion.likes.push({ username: user.username, _id: user._id });
+      console.log('after like', discussion.likes);
+    },
+    handleUnlikedPost({ postId, user }) {
+      const discussion = this.discussions.find(
+        (discussion) => discussion._id === postId,
+      );
+      discussion.likes = discussion.likes.filter((_user) => _user._id !== user._id);
+
+      console.log('after unliked', discussion.likes);
     },
   },
   async created() {
