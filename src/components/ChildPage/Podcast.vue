@@ -141,8 +141,10 @@
                 <user-social-links
                   :socialLinks="socialLinks"
                   :author="post.user"
-                  :user="user"
                   :isAuthor="isAuthor"
+                  @handleFollow="handleFollow"
+                  @handleUnFollow="handleUnFollow"
+                  :isFollowing="isFollowing()"
                 />
               </v-col>
 
@@ -210,9 +212,10 @@
         <author-follow-card
           v-if="!isLoading"
           class="author-follow"
-          :isAuthor="isAuthor"
           :author="post.user"
-          :userId="user._id"
+          @handleFollow="handleFollow"
+          @handleUnFollow="handleUnFollow"
+          :isFollowing="isFollowing()"
         />
 
         <div v-if="!isLoading" class="d-flex flex-column justify-center align-center mt-2">
@@ -283,7 +286,6 @@ export default {
       currentVolume: 100,
       maxVolume: 1.0,
       minVolume: 0.0,
-      isFollowing: false,
       otherPodcastsOfAuthor: [
         {
           _id: '5e992603c513c2611a9df88',

@@ -6,10 +6,10 @@
       </v-col>
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0;">
         <v-text-field
-          @keyup.enter="handleUpdateProfile"
           :rules="[rules.required]"
           v-model="editUsername"
           class="pt-0"
+          readonly
         />
       </v-col>
 
@@ -18,7 +18,6 @@
       </v-col>
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
         <v-text-field
-          @keyup.enter="handleUpdateProfile"
           readonly
           :value="user.email"
           class="pt-0"
