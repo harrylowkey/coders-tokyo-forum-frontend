@@ -48,9 +48,9 @@ export const crudPost = {
           title: response.data.message,
         });
 
-        let type = this.post.type + 's'
+        let type = this.post.type + 's';
         if (this.post.type === 'book' || this.post.type === 'food' || this.post.type === 'movie') {
-          type = this.post.type + 'Reviews'
+          type = this.post.type + 'Reviews';
         }
         return this.$router.push({
           path: ROUTES.STREAM(`#${type}`),
@@ -77,13 +77,13 @@ export const crudPost = {
       );
       triggerScrollToComment.click();
     },
-    
+
   },
   computed: {
     ...mapState('user', ['user']),
     ...mapState('utils', ['isLoading', 'isLoadingUpload', 'isLoadingAPI', 'errorMes']),
     isAuthor() {
-      return this.post ? this.user._id === this.post.user._id : false;
+      return this.post ? this.post.user._id === this.user._id : false;
     },
   },
   async created() {
