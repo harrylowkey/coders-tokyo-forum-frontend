@@ -197,7 +197,7 @@
         />
         <author-follow-card
           v-if="!isLoading"
-          class="author-follow"
+          class="author-follow mt-3"
           :author="post.user"
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
@@ -552,14 +552,21 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+
+audio {
+  display: none;
+}
+
 .lyric-wrapper {
-  height: 270px;
+  height: 40px;
+  padding-bottom: 95px;
   overflow: hidden;
 }
 
 .show-lyric-wrapper {
   height: auto;
+  padding-bottom: 0;
 }
 
 .v-application--is-ltr .v-list-item__action:first-child,
@@ -599,6 +606,7 @@ export default {
 }
 
 #song {
+  margin-top: 24px;
   padding: 16px 15px 8px 15px !important;
 }
 
@@ -678,10 +686,6 @@ export default {
   .aplayer-volume-bar {
   bottom: 4px !important;
   right: 12px !important;
-}
-
-audio {
-  display: none;
 }
 
 .wrapper-volume {

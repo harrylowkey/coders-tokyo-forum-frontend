@@ -158,7 +158,7 @@
                   v-if="!isShowMore"
                   @click="toggleShowLyrics"
                   style="font-size: 13px; color: grey; cursor: pointer"
-                  class="font-italic mb-0 show-more"
+                  class="font-italic mb-0 show-more mt-10"
                 >Show more</span>
                 <span
                   v-if="isShowMore"
@@ -213,7 +213,7 @@
         />
         <author-follow-card
           v-if="!isLoading"
-          class="author-follow"
+          class="author-follow mt-3"
           :author="post.user"
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
@@ -585,12 +585,14 @@ export default {
 }
 
 .lyric-wrapper {
-  height: 270px;
+  height: 40px;
+  padding-bottom: 95px;
   overflow: hidden;
 }
 
 .show-lyric-wrapper {
   height: auto;
+  padding-bottom: 0;
 }
 
 .total-length {
@@ -670,6 +672,7 @@ export default {
 }
 
 #podcast {
+  margin-top: 24px;
   padding: 16px 15px 8px 15px !important;
 }
 
