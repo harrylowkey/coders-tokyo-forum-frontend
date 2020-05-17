@@ -51,35 +51,35 @@ export default {
         });
       return res;
     },
-  },
-  async loadMoreBookReviews({ commit }, options = { limit: 10, page: 1 }) {
-    commit('utils/SET_LOADMORE', true, { root: true });
-    const res = await axios
-      .get(
-        APIS.GET_POSTS({
-          type: 'book',
-          limit: options.limit,
-          page: options.page,
-        }),
-      )
-      .then(res => {
-        commit('LOAD_MORE_BOOK_REVIEWS', {
-          data: res.data,
-          metadata: res.metadata,
+    async loadMoreBookReviews({ commit }, options = { limit: 10, page: 1 }) {
+      commit('utils/SET_LOADMORE', true, { root: true });
+      const res = await axios
+        .get(
+          APIS.GET_POSTS({
+            type: 'book',
+            limit: options.limit,
+            page: options.page,
+          }),
+        )
+        .then(res => {
+          commit('LOAD_MORE_BOOK_REVIEWS', {
+            data: res.data,
+            metadata: res.metadata,
+          });
+          return res;
+        })
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true });
+          return err;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADMORE', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
         });
-        return res;
-      })
-      .catch(err => {
-        commit('utils/SET_ERROR', err, { root: true });
-        return err;
-      })
-      .then(res => {
-        setTimeout(() => {
-          commit('utils/SET_LOADMORE', false, { root: true });
-          commit('utils/SET_ERROR', '', { root: true });
-        }, 0);
-        return res;
-      });
-    return res;
+      return res;
+    },
   },
 };
