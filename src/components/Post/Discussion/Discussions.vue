@@ -259,17 +259,13 @@ export default {
       const discussion = this.discussions.find(
         (discussion) => discussion._id === postId,
       );
-      console.log('before like', discussion.likes);
       discussion.likes.push({ username: user.username, _id: user._id });
-      console.log('after like', discussion.likes);
     },
     handleUnlikedPost({ postId, user }) {
       const discussion = this.discussions.find(
         (discussion) => discussion._id === postId,
       );
       discussion.likes = discussion.likes.filter((_user) => _user._id !== user._id);
-
-      console.log('after unliked', discussion.likes);
     },
   },
   async created() {

@@ -244,8 +244,8 @@
           </div>
         </v-list-item-content>
         <user-avatar
-          :src="user.avatar.secureURL"
-          :username="user.username"
+          :src="author.avatar.secureURL"
+          :username="author.username"
           style="padding-bottom: 7px;"
         />
       </v-list-item>
@@ -271,7 +271,12 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="likes.length" />
+              <like-btn
+                @handleLikePost="onClickLikePost"
+                @handleUnlikePost="onClickUnlikePost"
+                :isUserLiked="isUserLiked()"
+                :likes="likes.length"
+              />
             </v-col>
             <v-col class="pa-lg-0">
               <comment-btn
@@ -296,9 +301,10 @@ import UserAvatar from '@/components/Shared/UserAvatar';
 import ReadTime from '@/components/Shared/readTime';
 import { foodDescription } from '@/mixins/foodDescription';
 import { ROUTES } from '@/mixins/routes';
+import { toggleLike } from '@/mixins/toggleLike';
 
 export default {
-  mixins: [foodDescription],
+  mixins: [foodDescription, toggleLike],
   props: {
     _id: {
       type: String,
@@ -324,7 +330,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    user: {
+    author: {
       type: Object,
       default: () => ({}),
     },

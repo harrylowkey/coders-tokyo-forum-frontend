@@ -38,7 +38,7 @@
           :content="item.content"
           :tags="item.tags"
           :cover="item.cover"
-          :user="item.user"
+          :author="item.user"
           :type="item.type"
           :createdAt="item.createdAt"
           :updatedAt="item.updatedAt"
@@ -46,6 +46,8 @@
           :food="item.food"
           :comments="item.comments"
           :likes="item.likes"
+          @likedPost="handleLikedPost"
+          @unlikedPost="handleUnlikedPost"
         />
 
         <div
@@ -255,6 +257,14 @@ export default {
       }
 
       await this.loadMoreFoodReviews({ page: this.metadata.page + 1 });
+    },
+    handleLikedPost({ postId, user }) {
+      const foodReview = this.foodReviews.find((foodReview) => foodReview._id === postId);
+      foodReview.likes.push({ username: user.username, _id: user._id });
+    },
+    handleUnlikedPost({ postId, user }) {
+      const foodReview = this.foodReviews.find((foodReview) => foodReview._id === postId);
+      foodReview.likes = foodReview.likes.filter((_user) => _user._id !== user._id);
     },
   },
   async created() {

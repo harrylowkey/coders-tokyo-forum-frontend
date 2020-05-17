@@ -38,7 +38,7 @@
           :content="item.content"
           :tags="item.tags"
           :cover="item.cover"
-          :user="item.user"
+          :author="item.user"
           :type="item.type"
           :createdAt="item.createdAt"
           :updatedAt="item.updatedAt"
@@ -47,6 +47,8 @@
           :authors="item.authors"
           :comments="item.comments"
           :likes="item.likes"
+          @likedPost="handleLikedPost"
+          @unlikedPost="handleUnlikedPost"
         />
 
         <div
@@ -257,6 +259,14 @@ export default {
       }
 
       await this.loadMoreBookReviews({ page: this.metadata.page + 1 });
+    },
+    handleLikedPost({ postId, user }) {
+      const book = this.bookReviews.find((book) => book._id === postId);
+      book.likes.push({ username: user.username, _id: user._id });
+    },
+    handleUnlikedPost({ postId, user }) {
+      const book = this.bookReviews.find((book) => book._id === postId);
+      book.likes = book.likes.filter((_user) => _user._id !== user._id);
     },
   },
   async created() {
