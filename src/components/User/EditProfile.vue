@@ -255,7 +255,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped> 
 .key-style {
   padding-left: 1px;
   padding-top: 0;
