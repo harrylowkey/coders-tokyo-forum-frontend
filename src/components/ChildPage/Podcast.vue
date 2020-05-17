@@ -216,6 +216,7 @@
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
           :isFollowing="isFollowing()"
+          :isAuthor="isAuthor"
         />
 
         <div v-if="!isLoading" class="d-flex flex-column justify-center align-center mt-2">

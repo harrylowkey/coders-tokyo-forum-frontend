@@ -343,6 +343,7 @@
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
           :isFollowing="isFollowing()"
+          :isAuthor="isAuthor"
         />
       </v-col>
     </v-row>
