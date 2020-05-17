@@ -161,5 +161,39 @@ export default {
 
       return response;
     },
+    async likePost({ commit }, postId) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const response = await axios
+        .post(`/posts/${postId}/like`)
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true });
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return response;
+    },
+    async unlikePost({ commit }, postId) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const response = await axios
+        .post(`/posts/${postId}/unlike`)
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true });
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return response;
+    },
   },
 };

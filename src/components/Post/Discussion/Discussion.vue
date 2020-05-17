@@ -4,27 +4,18 @@
       <v-list-item three-line style="padding: 0px 25px 0 20px">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <router-link class="title-link" :to="discussionLink">
-            <v-list-item-title class="headline discuss-title mb-0 pt-3">
-              {{ topic }}
-            </v-list-item-title>
+            <v-list-item-title class="headline discuss-title mb-0 pt-3">{{ topic }}</v-list-item-title>
           </router-link>
-          <v-list-item-subtitle
-            style="line-height: 1.4;"
-            class="mt-lg-n9 pt-lg-10"
-          >
-            {{ content }}
-          </v-list-item-subtitle>
+          <v-list-item-subtitle style="line-height: 1.4;" class="mt-lg-n9 pt-lg-10">{{ content }}</v-list-item-subtitle>
         </v-list-item-content>
-        <user-avatar :src="user.avatar.secureURL" :username="user.username" />
+        <user-avatar :src="author.avatar.secureURL" :username="author.username" />
       </v-list-item>
 
       <v-card-actions style="padding: 0 25px 0 6px" class="pb-1 pb-lg-2">
         <v-card-text
           class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
-        >
-          {{ createdAt | date }}
-        </v-card-text>
+        >{{ createdAt | date }}</v-card-text>
         <v-spacer />
         <v-container>
           <v-row>
@@ -39,14 +30,15 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="likes.length" />
+              <like-btn
+                @handleLikePost="onClickLikePost"
+                @handleUnlikePost="onClickUnlikePost"
+                :isUserLiked="isUserLiked()"
+                :likes="likes.length"
+              />
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn
-                :type="type"
-                :postId="_id"
-                :comments="comments.length"
-              />
+              <comment-btn :type="type" :postId="_id" :comments="comments.length" />
             </v-col>
           </v-row>
         </v-container>
@@ -62,8 +54,11 @@ import CommentBtn from '@/components/Shared/CommentButton';
 import Tag from '@/components/Shared/Tag';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import { ROUTES } from '@/mixins/routes';
+import { toggleLike } from '@/mixins/toggleLike';
+
 
 export default {
+  mixins: [toggleLike],
   props: {
     _id: {
       type: String,
@@ -89,7 +84,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    user: {
+    author: {
       type: Object,
       default: () => ({}),
     },
@@ -123,7 +118,6 @@ export default {
       discussionLink: ROUTES.DISCUSSION(this._id),
     };
   },
-  methods: {},
   components: {
     Tag,
     LikeBtn,
