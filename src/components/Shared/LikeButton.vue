@@ -1,18 +1,20 @@
 <template>
   <div class="like-icon">
-    <v-img
-      v-if="isUserLiked"
-      src="https://res.cloudinary.com/hongquangraem/image/upload/v1587893696/planet_peappv.svg"
-      class="react-icon like-icon"
-      @click="onClickUnlike"
-      style="margin-bottom: -1px"
-    />
-    <v-img
-      v-else
-      src="https://res.cloudinary.com/hongquangraem/image/upload/v1589682245/interface_ecygwf.png"
-      class="react-icon not-like-icon mt-1"
-      @click="onClickLike"
-    />
+    <span v-if="isUserLiked">
+      <v-img
+        src="https://res.cloudinary.com/hongquangraem/image/upload/v1587893696/planet_peappv.svg"
+        class="react-icon like-icon"
+        @click="onClickUnlike"
+        style="margin-bottom: -0.5px"
+      />
+    </span>
+    <span v-else>
+      <v-img
+        src="https://res.cloudinary.com/hongquangraem/image/upload/v1589682245/interface_ecygwf.png"
+        class="react-icon not-like-icon mt-1"
+        @click="onClickLike"
+      />
+    </span>
     <span v-if="isUserLiked" class="like-icon-content">{{ likes }}</span>
     <span v-else class="notlike-icon-content">{{ likes }}</span>
   </div>
@@ -52,7 +54,7 @@ export default {
 }
 
 .not-like-icon {
-  width: 18px;
+  width: 80%;
 }
 
 div {

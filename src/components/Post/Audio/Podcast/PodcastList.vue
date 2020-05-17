@@ -56,7 +56,7 @@
           :authors="item.authors"
           :likes="item.likes"
           :savedBy="item.savedBy"
-          :user="item.user"
+          :author="item.user"
           :topic="item.topic"
           :content="item.content"
           :description="item.description"
@@ -69,6 +69,8 @@
           :customize="{}"
           @handlePlayPause="handlePlayPause"
           @handleSwitchAudio="handleSwitchAudio"
+          @likedPost="handleLikedPost"
+          @unlikedPost="handleUnlikedPost"
         />
 
         <div
@@ -94,12 +96,7 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card
-          class="fix-sidebar"
-          :title="tags.title"
-          :type="tags.type"
-          :data="tags.data"
-        />
+        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
 
         <side-card
           class="fix-sidebar member-online"
@@ -299,6 +296,14 @@ export default {
       if (status === true) {
         this.switchAudio({ status, audio });
       }
+    },
+    handleLikedPost({ postId, user }) {
+      const podcast = this.podcasts.find((podcast) => podcast._id === postId);
+      podcast.likes.push({ username: user.username, _id: user._id });
+    },
+    handleUnlikedPost({ postId, user }) {
+      const podcast = this.podcasts.find((podcast) => podcast._id === postId);
+      podcast.likes = podcast.likes.filter((_user) => _user._id !== user._id);
     },
   },
   async created() {

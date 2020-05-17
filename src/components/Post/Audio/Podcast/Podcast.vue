@@ -88,7 +88,7 @@
               <div class="user text-center d-flex">
                 <v-list-item-avatar tile size="60" style="margin: 16px 0 0 0">
                   <v-img
-                    :src="user.avatar.secureURL"
+                    :src="author.avatar.secureURL"
                     style="cursor: pointer; border-radius: 50%"
                     @click="onClickAvatar"
                   />
@@ -117,9 +117,9 @@
                     >
                       <a
                         class="username-link ml-1"
-                        :href="`/users/${user.username}`"
+                        :href="`/users/${author.username}`"
                       >
-                        {{ user.username }}
+                        {{ author.username }}
                       </a>
                     </v-list-item-title>
                   </v-list-item-content>
@@ -154,7 +154,12 @@
           </v-card-text>
           <v-spacer />
           <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
-            <like-btn :likes="likes.length" />
+             <like-btn
+                @handleLikePost="onClickLikePost"
+                @handleUnlikePost="onClickUnlikePost"
+                :isUserLiked="isUserLiked()"
+                :likes="likes.length"
+              />
             <comment-btn
               :type="type"
               :postId="_id"
@@ -175,9 +180,10 @@ import LikeBtn from '@/components/Shared/LikeButton';
 import CommentBtn from '@/components/Shared/CommentButton';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
 import { ROUTES } from '@/mixins/routes';
+import { toggleLike } from '@/mixins/toggleLike';
 
 export default {
-  mixins: [userSocialLinks],
+  mixins: [userSocialLinks, toggleLike],
   props: {
     _id: {
       type: String,
@@ -231,7 +237,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    user: {
+    author: {
       type: Object,
       required: true,
     },
@@ -426,7 +432,7 @@ export default {
       this.$router.push({ path: this.podcastLink });
     },
     onClickAvatar() {
-      this.$router.push(ROUTES.USER_PROFILE({ username: this.user.username }));
+      this.$router.push(ROUTES.USER_PROFILE({ username: this.author.username }));
     },
   },
 };

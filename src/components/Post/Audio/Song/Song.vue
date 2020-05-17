@@ -2,13 +2,13 @@
   <div>
     <div class="mb-3">
       <v-avatar size="30" style="cursor: pointer;" class="mr-2">
-        <img @click="onClickAvatar" :src="user.avatar.secureURL" alt="Avatar" />
+        <img @click="onClickAvatar" :src="author.avatar.secureURL" alt="Avatar" />
       </v-avatar>
       <a
         style="text-decoration: none; color: #000"
-        :href="`/posts?artist=${user.username}&type=${type}`"
+        :href="`/posts?artist=${author.username}&type=${type}`"
       >
-        <span>{{ user.username }}</span>
+        <span>{{ author.username }}</span>
       </a>
       <span style="font-size: 13px !important; color: grey" class="caption ml-1">
         posted a
@@ -32,7 +32,13 @@
         >
           <v-card-actions class="pb-1 pl-0 pt-md-0 pt-sm-5">
             <v-container class="pt-0 pl-0 pr-0 d-flex justify-space-around">
-              <like-btn :likes="likes.length" class="mr-10" />
+              <like-btn
+                class="mr-10"
+                @handleLikePost="onClickLikePost"
+                @handleUnlikePost="onClickUnlikePost"
+                :isUserLiked="isUserLiked()"
+                :likes="likes.length"
+              />
               <comment-btn :type="type" :postId="_id" :comments="comments.length" />
             </v-container>
           </v-card-actions>
@@ -64,9 +70,10 @@ import LikeBtn from '@/components/Shared/LikeButton';
 import CommentBtn from '@/components/Shared/CommentButton';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
 import { ROUTES } from '@/mixins/routes';
+import { toggleLike } from '@/mixins/toggleLike';
 
 export default {
-  mixins: [userSocialLinks],
+  mixins: [userSocialLinks, toggleLike],
   props: {
     _id: {
       type: String,
@@ -124,7 +131,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    user: {
+    author: {
       type: Object,
       required: true,
     },
@@ -166,7 +173,7 @@ export default {
       this.$router.push({ path: this.audioLink });
     },
     onClickAvatar() {
-      window.open(`/users/${this.user.username}`);
+      window.open(`/users/${this.author.username}`);
     },
   },
   mounted() {

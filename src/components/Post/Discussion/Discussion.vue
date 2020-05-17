@@ -56,7 +56,6 @@ import UserAvatar from '@/components/Shared/UserAvatar';
 import { ROUTES } from '@/mixins/routes';
 import { toggleLike } from '@/mixins/toggleLike';
 
-
 export default {
   mixins: [toggleLike],
   props: {
