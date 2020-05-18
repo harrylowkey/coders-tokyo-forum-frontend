@@ -48,7 +48,7 @@
                 class="mr-10"
                 @handleLikePost="onClickLikePost"
                 @handleUnlikePost="onClickUnlikePost"
-                :isUserLiked="isUserLiked()"
+                :isUserLiked="isUserLiked"
                 :likes="likes.length"
                 :postId="_id"
               />

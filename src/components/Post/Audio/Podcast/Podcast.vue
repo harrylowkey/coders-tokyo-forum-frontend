@@ -157,7 +157,7 @@
             <like-btn
               @handleLikePost="onClickLikePost"
               @handleUnlikePost="onClickUnlikePost"
-              :isUserLiked="isUserLiked()"
+              :isUserLiked="isUserLiked"
               :likes="likes.length"
               :postId="_id"
             />
@@ -352,7 +352,7 @@ export default {
           audio: {
             name: this.topic,
             _id: this._id,
-            artist: this.artists.join(','),
+            artist: this.artists.join(', '),
             url: this.audio.secureURL,
             cover: this.cover.secureURL,
             isPlaying: !isPlaying,
@@ -370,7 +370,7 @@ export default {
             audio: {
               name: this.topic,
               _id: this._id,
-              artist: this.artists.join(','),
+              artist: this.artists.join(', '),
               url: this.audio.secureURL,
               cover: this.cover.secureURL,
               isPlaying: !isPlaying,
@@ -385,7 +385,7 @@ export default {
             audio: {
               name: this.topic,
               _id: this._id,
-              artist: this.artists.join(','),
+              artist: this.artists.join(', '),
               url: this.audio.secureURL,
               cover: this.cover.secureURL,
               isPlaying: !isPlaying,
