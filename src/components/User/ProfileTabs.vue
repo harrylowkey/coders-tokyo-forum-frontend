@@ -1,7 +1,9 @@
 <template>
   <v-card color="basil">
     <v-card-title class="text-center justify-center py-6 mt-3">
-      <h1 class="font-weight-bold display-3 basil--text">{{ username }}</h1>
+      <h1 class="font-weight-bold display-3 basil--text">
+        {{ user.username }}
+      </h1>
     </v-card-title>
 
     <v-tabs background-color="transparent" color="basil" grow>
@@ -35,7 +37,6 @@ export default {
     return {
       text:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint sunt totam unde voluptatem qui ab praesentium velit magni? Officia molestiae porro ab dolor nulla animi praesentium fuga perspiciatis quam autem.',
-      username: 'hongquangraem',
       savedPostMenus: [
         { menu: 'Discussions', category: 'Discussions', icon: 'menu_book' },
         { menu: 'Blogs', category: 'Blogs', icon: 'fastfood' },

@@ -67,7 +67,7 @@
                       style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
                       v-for="genre in slicedGenres"
                       :key="genre._id"
-                      class="mr-1"
+                      class="mr-1 mb-2"
                     >
                       {{ genre }}
                     </v-chip>
@@ -145,7 +145,7 @@
                         style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
                         v-for="genre in slicedGenres"
                         :key="genre._id"
-                        class="mr-1"
+                        class="mr-1 mb-2"
                       >
                         {{ genre }}
                       </v-chip>
@@ -233,7 +233,7 @@
               <like-btn
                 @handleLikePost="onClickLikePost"
                 @handleUnlikePost="onClickUnlikePost"
-                :isUserLiked="isUserLiked()"
+                :isUserLiked="isUserLiked"
                 :likes="likes.length"
                 :postId="_id"
               />
