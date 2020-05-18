@@ -261,11 +261,11 @@
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12">
-                      <v-text-field
-                        v-model="data.description"
+                      <v-textarea
                         label="Description"
                         persistent-hint
-                        rows="2"
+                        rows="3"
+                        v-model="data.description"
                         hint="Write description to attract people at the first glance"
                       />
                     </v-col>
