@@ -1,7 +1,7 @@
 <template>
   <span class="caption text-center" id="tag">
     <a :href="ROUTES.SEARCH_TAG({ tagName, postType })" id="tag-link">
-      {{ tagName }}
+      #{{ tagName }}
     </a>
   </span>
 </template>
