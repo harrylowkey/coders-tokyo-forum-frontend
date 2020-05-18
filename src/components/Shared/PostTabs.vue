@@ -2,7 +2,11 @@
   <v-container style="padding: 0 !important">
     <v-card
       color="basil"
-      :style="type === 'writePost' ? 'width: 100%' : 'width: 67%'"
+      :style="
+        type === 'writePost' || type === 'profile'
+          ? 'width: 100%'
+          : 'width: 67%'
+      "
     >
       <v-toolbar dense>
         <v-tabs grow v-model="preSelectedPage">
@@ -75,8 +79,6 @@ export default {
     return {
       preSelectedPage: null,
       pages: ['Discussions', 'Blogs', 'Reviews', 'Audios'],
-      text:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       reviewMenus: [
         { menu: 'Book Reviews', category: 'bookReviews', icon: 'menu_book' },
         {

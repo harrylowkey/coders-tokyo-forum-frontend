@@ -117,7 +117,7 @@
                     >
                       <a
                         class="username-link ml-1"
-                        :href="`/users/${author.username}`"
+                        :href="`/users/profile/${author.username}`"
                       >
                         {{ author.username }}
                       </a>
@@ -154,13 +154,13 @@
           </v-card-text>
           <v-spacer />
           <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
-             <like-btn
-                @handleLikePost="onClickLikePost"
-                @handleUnlikePost="onClickUnlikePost"
-                :isUserLiked="isUserLiked()"
-                :likes="likes.length"
-                :postId="_id"
-              />
+            <like-btn
+              @handleLikePost="onClickLikePost"
+              @handleUnlikePost="onClickUnlikePost"
+              :isUserLiked="isUserLiked()"
+              :likes="likes.length"
+              :postId="_id"
+            />
             <comment-btn
               :type="type"
               :postId="_id"
@@ -433,7 +433,9 @@ export default {
       this.$router.push({ path: this.podcastLink });
     },
     onClickAvatar() {
-      this.$router.push(ROUTES.USER_PROFILE({ username: this.author.username }));
+      this.$router.push(
+        ROUTES.USER_PROFILE({ username: this.author.username }),
+      );
     },
   },
 };

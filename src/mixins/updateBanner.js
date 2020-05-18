@@ -4,9 +4,9 @@ export const updateBanner = {
   methods: {
     ...mapActions('user', ['signOut']),
     cropUploadSuccess(res) {
-      this.oldCover = this.post.cover
-      this.newCover = res.data
-      this.isUploadBanner = false
+      this.oldCover = this.post.cover;
+      this.newCover = res.data;
+      this.isUploadBanner = false;
     },
     cropUploadFail(status) {
       if (status === 401) {

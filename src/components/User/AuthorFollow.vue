@@ -5,25 +5,53 @@
         <v-row style="height: 80px;">
           <v-col sm="4" md="3">
             <v-avatar size="60" style="cursor: pointer" dark>
-              <img :src="author.avatar.secureURL" alt="Avatar" @click="onClickAvatar" />
+              <img
+                :src="author.avatar.secureURL"
+                alt="Avatar"
+                @click="onClickAvatar"
+              />
             </v-avatar>
           </v-col>
           <v-col sm="12" md="8">
             <p class="title mb-1 mt-1">
-              <a style="color: #000; text-decoration: none" :href="link">{{ author.username }}</a>
+              <a style="color: #000; text-decoration: none" :href="link">
+                {{ author.username }}
+              </a>
             </p>
-            <p style="font-size: 13px; color: grey" class="font-italic">{{ author.job }}</p>
+            <p style="font-size: 13px; color: grey" class="font-italic">
+              {{ author.job }}
+            </p>
           </v-col>
         </v-row>
       </v-list-item-content>
       <div v-if="!isAuthor && !isFollowing">
-        <v-btn small class="mt-3" @click="onClickFollow" dark color="green" width="100%">Follow</v-btn>
+        <v-btn
+          small
+          class="mt-3"
+          @click="onClickFollow"
+          dark
+          color="green"
+          width="100%"
+        >
+          Follow
+        </v-btn>
       </div>
       <div v-if="!isAuthor && isFollowing">
-        <v-btn small class="mt-3" @click="onClickUnFollow" dark color="red" width="100%">Unfollow</v-btn>
+        <v-btn
+          small
+          class="mt-3"
+          @click="onClickUnFollow"
+          dark
+          color="red"
+          width="100%"
+        >
+          Unfollow
+        </v-btn>
       </div>
 
-      <v-card-subtitle class="pa-0 pb-3 mt-6" v-if="author.description">{{ author.description }}</v-card-subtitle>
+      <v-card-subtitle class="pa-0 pb-3 mt-6" v-if="author.description">
+        {{ author.description }}
+      </v-card-subtitle>
       <p style="font-size: 13px;" class="pl-0 mb-1" v-if="author.sex">
         <span>Sex: {{ author.sex }}</span>
       </p>

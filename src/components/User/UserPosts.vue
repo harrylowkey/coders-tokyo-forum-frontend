@@ -3,140 +3,49 @@
     class="d-flex pt-0 flex-wrap justify-center mb-3 pt-4"
     id="wrapper"
   >
-    <v-container
-      v-for="post in data"
-      :key="post._id"
-      :style="calWidth(post.type)"
-    >
-      <discussion
-        v-if="post.type === 'discussion'"
-        :key="post._id"
-        :_id="post._id"
-        :tags="post.tags"
-        :comments="post.comments"
-        :likes="post.likes"
-        :savedBy="post.savedBy"
-        :userId="post.userId"
-        :topic="post.topic"
-        :content="post.content"
-        :type="post.type"
-        :createdAt="post.createdAt"
-        :updatedAt="post.updatedAt"
-        :metadata="post.metadata"
-      />
-
-      <blog
-        v-if="post.type === 'blog'"
-        :key="post._id"
-        :_id="post._id"
-        :topic="post.topic"
-        :description="post.description"
-        :content="post.content"
-        :tags="post.tags"
-        :cover="post.cover"
-        :userId="post.userId"
-        :type="post.type"
-        :createdAt="post.createdAt"
-        :updatedAt="post.updatedAt"
-        :metadata="post.metadata"
-      />
-
-      <movie
-        v-if="post.type === 'movie'"
-        :key="post._id"
-        :_id="post._id"
-        :topic="post.topic"
-        :description="post.description"
-        :content="post.content"
-        :tags="post.tags"
-        :cover="post.cover"
-        :userId="post.userId"
-        :url="post.url"
-        :type="post.type"
-        :createdAt="post.createdAt"
-        :updatedAt="post.updatedAt"
-        :metadata="post.metadata"
-        :movie="post.movie"
-        :authors="post.authors"
-      />
-
-      <book
-        v-if="post.type === 'book'"
-        :key="post._id"
-        :_id="post._id"
-        :topic="post.topic"
-        :description="post.description"
-        :content="post.content"
-        :tags="post.tags"
-        :cover="post.cover"
-        :userId="post.userId"
-        :type="post.type"
-        :createdAt="post.createdAt"
-        :updatedAt="post.updatedAt"
-        :metadata="post.metadata"
-        :book="post.book"
-        :authors="post.authors"
-      />
-
-      <food
-        v-if="post.type === 'food'"
-        :key="post._id"
-        :url="post.url"
-        :_id="post._id"
-        :topic="post.topic"
-        :description="post.description"
-        :content="post.content"
-        :tags="post.tags"
-        :cover="post.cover"
-        :userId="post.userId"
-        :type="post.type"
-        :createdAt="post.createdAt"
-        :updatedAt="post.updatedAt"
-        :metadata="post.metadata"
-        :food="post.food"
-      />
-
-      <song
-        class="song"
-        v-if="post.type === 'song'"
-        :key="post._id"
-        :_id="post._id"
-        :tags="post.tags"
-        :comments="post.comments"
-        :authors="post.authors"
-        :likes="post.likes"
-        :savedBy="post.savedBy"
-        :userId="post.userId"
-        :topic="post.topic"
-        :content="post.content"
-        :description="post.description"
-        :type="post.type"
-        :createdAt="post.createdAt"
-        :updatedAt="post.updatedAt"
-        :media="post.media"
-        :metadata="post.metadata"
-        :audio="post.song"
-      />
-    </v-container>
+    <post-tabs
+      :selectedPage="activePage"
+      class="d-none d-sm-flex"
+      @setActivePage="handleSetActivePage"
+      type="profile"
+    />
+    <user-discussions :user="user" v-if="activePage === 'discussions'" />
+    <!-- <user-blogs :user="user" v-if="activePage === 'blogs'" />
+    <user-podcasts :user="user" v-if="activePage === 'podcasts'" />
+    <user-songs :user="user" v-if="activePage === 'songs'" />
+    <user-movieReviews :user="user" v-if="activePage === 'movieReviews'" />
+    <user-bookReviews :user="user" v-if="activePage === 'bookReviews'" />
+    <user-foodReviews :user="user" v-if="activePage === 'foodReviews'" /> -->
   </v-container>
 </template>
 
 <script>
-import Song from '@/components/Post/Audio/Song/Song';
-import Discussion from '@/components/Post/Discussion/Discussion';
-import Blog from '@/components/Post/Blog/Blog';
-import Movie from '@/components/Post/Review/Movie/Movie';
-import Food from '@/components/Post/Review/Food/Food';
-import Book from '@/components/Post/Review/Book/Book';
+import PostTabs from '@/components/Shared/PostTabs';
+
+// import UserSongs from './Post/UserSongs';
+// import UserPodcasts from './Post/UserPodcasts';
+// import UserBookReviews from './Post/UserBookReviews';
+// import UserFoodReviews from './Post/UserFoodReviews';
+// import UserMovieReviews from './Post/UserMovieReviews';
+// import UserBlogs from './Post/UserBlogs';
+import UserDiscussions from './Post/UserDiscussions';
 
 export default {
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
   components: {
-    Song,
-    Discussion,
-    Blog,
-    Movie,
-    Food,
-    Book,
+    PostTabs,
+    // UserSongs,
+    // UserPodcasts,
+    // UserBookReviews,
+    // UserFoodReviews,
+    // UserMovieReviews,
+    // UserBlogs,
+    UserDiscussions,
   },
   data() {
     return {
@@ -685,12 +594,16 @@ export default {
           updatedAt: '2020-04-18T13:47:33.708Z',
         },
       ],
+      activePage: 'discussions',
     };
   },
   methods: {
     calWidth(type) {
       if (type === 'song') return { width: '40% !important' };
       return { width: '100%' };
+    },
+    handleSetActivePage({ page }) {
+      return (this.activePage = page);
     },
   },
 };

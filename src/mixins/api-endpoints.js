@@ -35,8 +35,17 @@ export const APIS = {
     return `/posts/${type}`;
   },
   EDIT_POST(id, type) {
-    let typeParam = type + 's'
-    if (type === 'food') typeParam = type
+    let typeParam = `${type}s`;
+    if (type === 'food') typeParam = type;
     return `/posts/${typeParam}/${id}?type=${type}`;
-  }
+  },
+  GET_USER_PROFILE({ username }) {
+    return `/users/profile/${username}`;
+  },
+  GET_USER_POSTS({ userId, queries = {} }) {
+    const queriesArray = Object.keys(queries).map(
+      key => `${key}=${queries[key]}`,
+    );
+    return `/posts/users/${userId}?${queriesArray.join('&')}`;
+  },
 };

@@ -96,7 +96,12 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
+        <side-card
+          class="fix-sidebar"
+          :title="tags.title"
+          :type="tags.type"
+          :data="tags.data"
+        />
 
         <side-card
           class="fix-sidebar member-online"
@@ -298,12 +303,12 @@ export default {
       }
     },
     handleLikedPost({ postId, user }) {
-      const podcast = this.podcasts.find((podcast) => podcast._id === postId);
+      const podcast = this.podcasts.find(podcast => podcast._id === postId);
       podcast.likes.push({ username: user.username, _id: user._id });
     },
     handleUnlikedPost({ postId, user }) {
-      const podcast = this.podcasts.find((podcast) => podcast._id === postId);
-      podcast.likes = podcast.likes.filter((_user) => _user._id !== user._id);
+      const podcast = this.podcasts.find(podcast => podcast._id === postId);
+      podcast.likes = podcast.likes.filter(_user => _user._id !== user._id);
     },
   },
   async created() {

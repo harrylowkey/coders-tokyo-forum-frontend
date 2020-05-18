@@ -1,4 +1,10 @@
-import { SET_ERROR, SET_LOADING, SET_LOADMORE, SET_LOADING_UPLOAD, SET_LOADING_API } from './constants';
+import {
+  SET_ERROR,
+  SET_LOADING,
+  SET_LOADMORE,
+  SET_LOADING_UPLOAD,
+  SET_LOADING_API,
+} from './constants';
 
 const utils = {
   namespaced: true,

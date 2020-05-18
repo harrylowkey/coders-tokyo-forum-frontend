@@ -31,7 +31,11 @@
                         />
                       </div>
                     </v-col>
-                    <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
+                    <v-col
+                      cols="12"
+                      class="pb-0 pt-0 px-6"
+                      style="height: 60px;"
+                    >
                       <div class="d-flex ml-7">
                         <div class="d-flex" />
                         <toggle-tag
@@ -75,7 +79,9 @@
                                   <v-img
                                     max-width="650"
                                     max-height="250"
-                                    :src="newCover.secureURL || post.cover.secureURL"
+                                    :src="
+                                      newCover.secureURL || post.cover.secureURL
+                                    "
                                   />
                                   <v-chip
                                     @click="isUploadBanner = !isUploadBanner"
@@ -85,7 +91,10 @@
                                     color="green"
                                     label
                                   >
-                                    <v-icon left>mdi-cloud-upload-outline</v-icon>Update Image
+                                    <v-icon left>
+                                      mdi-cloud-upload-outline
+                                    </v-icon>
+                                    Update Image
                                   </v-chip>
                                 </v-container>
                               </v-col>
@@ -129,7 +138,10 @@
                                   />
                                 </ValidationProvider>
 
-                                <v-dialog v-model="isPreviewing" max-width="800">
+                                <v-dialog
+                                  v-model="isPreviewing"
+                                  max-width="800"
+                                >
                                   <v-card
                                     class="preview px-8 pt-8 pb-5 d-flex flex-column"
                                     style="min-height: 330px;"
@@ -159,13 +171,17 @@
                             color="primary"
                             darkz
                             @click="togglePreviewContent"
-                          >Preview</v-btn>
+                          >
+                            Preview
+                          </v-btn>
                           <v-btn
                             class="white--text"
                             :disabled="isLoadingUpload"
                             color="warning"
                             @click="submit"
-                          >Update</v-btn>
+                          >
+                            Update
+                          </v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
@@ -202,9 +218,9 @@ export default {
       this.getPostById({
         id: this.$route.params.id,
         typeQuery: this.$route.query.type,
-      }).then((data) => {
+      }).then(data => {
         this.post = data;
-        this.post.tags = this.post.tags.map((tag) => tag.tagName);
+        this.post.tags = this.post.tags.map(tag => tag.tagName);
       });
     },
     async submit() {

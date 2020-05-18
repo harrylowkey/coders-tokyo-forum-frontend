@@ -12,14 +12,22 @@
       <v-list-item three-line style="padding: 0 25px 0 20px">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <router-link class="title-link" :to="blogLink">
-            <v-list-item-title class="headline blog-title mb-0 mt-3">{{ topic }}</v-list-item-title>
+            <v-list-item-title class="headline blog-title mb-0 mt-3">
+              {{ topic }}
+            </v-list-item-title>
           </router-link>
           <p class="description mb-0 pt-2">{{ description || content }}</p>
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
-              <a style=" text-decoration: none" :href="blogLink">Read more...</a>
+              <a style=" text-decoration: none" :href="blogLink">
+                Read more...
+              </a>
             </span>
-            <read-time class="pt-0" :text="content" :customize="'font-size: 0.775rem'" />
+            <read-time
+              class="pt-0"
+              :text="content"
+              :customize="'font-size: 0.775rem'"
+            />
           </div>
         </v-list-item-content>
         <user-avatar
@@ -33,7 +41,9 @@
         <v-card-text
           class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
-        >{{ createdAt | date }}</v-card-text>
+        >
+          {{ createdAt | date }}
+        </v-card-text>
         <v-spacer />
         <v-container>
           <v-row>
@@ -57,7 +67,11 @@
               />
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :type="type" :postId="_id" :comments="comments.length" />
+              <comment-btn
+                :type="type"
+                :postId="_id"
+                :comments="comments.length"
+              />
             </v-col>
           </v-row>
         </v-container>

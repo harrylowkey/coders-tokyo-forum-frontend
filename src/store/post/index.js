@@ -36,7 +36,9 @@ export default {
           return data;
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err, { root: true });
+          }
           return err;
         })
         .then(res => {
@@ -67,7 +69,7 @@ export default {
         });
       return response;
     },
-    async editPost({ commit }, {_id, data}) {
+    async editPost({ commit }, { _id, data }) {
       commit('utils/SET_LOADING', true, { root: true });
       const response = await axios
         .put(APIS.EDIT_POST(_id, data.type), data)

@@ -4,7 +4,7 @@ import { ROUTES } from '@/mixins/routes';
 
 export const toggleLike = {
   computed: {
-    ...mapState('user', ['user'])
+    ...mapState('user', ['user']),
   },
   methods: {
     ...mapActions('post', ['likePost', 'unlikePost']),

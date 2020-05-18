@@ -259,12 +259,18 @@ export default {
       await this.loadMoreFoodReviews({ page: this.metadata.page + 1 });
     },
     handleLikedPost({ postId, user }) {
-      const foodReview = this.foodReviews.find((foodReview) => foodReview._id === postId);
+      const foodReview = this.foodReviews.find(
+        foodReview => foodReview._id === postId,
+      );
       foodReview.likes.push({ username: user.username, _id: user._id });
     },
     handleUnlikedPost({ postId, user }) {
-      const foodReview = this.foodReviews.find((foodReview) => foodReview._id === postId);
-      foodReview.likes = foodReview.likes.filter((_user) => _user._id !== user._id);
+      const foodReview = this.foodReviews.find(
+        foodReview => foodReview._id === postId,
+      );
+      foodReview.likes = foodReview.likes.filter(
+        _user => _user._id !== user._id,
+      );
     },
   },
   async created() {

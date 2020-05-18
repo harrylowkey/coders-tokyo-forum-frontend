@@ -37,18 +37,27 @@ export const crudPost = {
   },
   computed: {
     ...mapState('user', ['user']),
-    ...mapState('utils', ['isLoading', 'isLoadingUpload', 'isLoadingAPI', 'errorMes']),
+    ...mapState('utils', [
+      'isLoading',
+      'isLoadingUpload',
+      'isLoadingAPI',
+      'errorMes',
+    ]),
     isAuthor() {
       return this.post ? this.post.user._id === this.user._id : false;
     },
     isUserLiked() {
-      const isUserLiked = this.post.likes.find(user => user._id === this.user._id);
+      const isUserLiked = this.post.likes.find(
+        user => user._id === this.user._id,
+      );
       return Boolean(isUserLiked);
     },
     isUserSaved() {
-      const isUserSaved = this.post.savedBy.find(user => user._id === this.user._id);
+      const isUserSaved = this.post.savedBy.find(
+        user => user._id === this.user._id,
+      );
       return Boolean(isUserSaved);
-    }
+    },
   },
   async created() {
     await this.fetchPost();
@@ -64,7 +73,12 @@ export const crudPost = {
     }
   },
   methods: {
-    ...mapActions('post', ['getPostById', 'deletePostById', 'likePost', 'unlikePost']),
+    ...mapActions('post', [
+      'getPostById',
+      'deletePostById',
+      'likePost',
+      'unlikePost',
+    ]),
     async handleDeletePost() {
       const response = await this.deletePostById({
         id: this.post._id,
@@ -76,9 +90,13 @@ export const crudPost = {
           title: response.data.message,
         });
 
-        let type = this.post.type + 's';
-        if (this.post.type === 'book' || this.post.type === 'food' || this.post.type === 'movie') {
-          type = this.post.type + 'Reviews';
+        let type = `${this.post.type}s`;
+        if (
+          this.post.type === 'book' ||
+          this.post.type === 'food' ||
+          this.post.type === 'movie'
+        ) {
+          type = `${this.post.type}Reviews`;
         }
         return this.$router.push({
           path: ROUTES.STREAM(`#${type}`),
@@ -97,7 +115,6 @@ export const crudPost = {
         typeQuery: this.$route.query.type,
       }).then(data => {
         this.post = data;
-        console.log(data);
       });
     },
     hanldeClickCommentBtn() {
@@ -112,7 +129,7 @@ export const crudPost = {
         return this.$router.push({ path: ROUTES.LOGIN });
       }
       if (response.status === 200) {
-        const post = this.otherPostsOfAuthor.find((post) => post._id === postId);
+        const post = this.otherPostsOfAuthor.find(post => post._id === postId);
         post.likes.push({ username: this.user.username, _id: this.user._id });
       }
       if (response.status === 409) {
@@ -132,8 +149,8 @@ export const crudPost = {
         return this.$router.push({ path: ROUTES.LOGIN });
       }
       if (response.status === 200) {
-        const post = this.otherPostsOfAuthor.find((post) => post._id === postId);
-        post.likes = post.likes.filter((_user) => _user._id !== this.user._id);
+        const post = this.otherPostsOfAuthor.find(post => post._id === postId);
+        post.likes = post.likes.filter(_user => _user._id !== this.user._id);
       }
       if (response.status === 409) {
         this.$notify({
@@ -143,9 +160,11 @@ export const crudPost = {
       }
     },
     isUserLikedAnotherPost(index) {
-      const isUserLiked = this.otherPostsOfAuthor[index].likes.find(user => user._id === this.user._id);
+      const isUserLiked = this.otherPostsOfAuthor[index].likes.find(
+        user => user._id === this.user._id,
+      );
       return Boolean(isUserLiked);
-    }
+    },
   },
   components: {
     Tag,

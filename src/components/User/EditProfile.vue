@@ -7,9 +7,9 @@
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0;">
         <v-text-field
           :rules="[rules.required]"
-          v-model="editUsername"
           class="pt-0"
           readonly
+          :value="user.username"
         />
       </v-col>
 
@@ -17,11 +17,7 @@
         <v-subheader class="pa-0">Email</v-subheader>
       </v-col>
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
-        <v-text-field
-          readonly
-          :value="user.email"
-          class="pt-0"
-        />
+        <v-text-field readonly :value="user.email" class="pt-0" />
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
@@ -213,7 +209,6 @@ export default {
         paddingLeft: '0px',
         paddingBottom: '0px',
       },
-      editUsername: this.user.username,
       editGithub: { ...this.userGithub },
       editFacebook: { ...this.userFacebook },
       editLinkedin: { ...this.userLinkedin },
@@ -240,7 +235,6 @@ export default {
         this.editLinkedin,
       ].filter(link => link.url !== '');
       const data = {
-        username: this.editUsername,
         socialLinks,
         sex: this.editSex,
         job: this.editJob,
@@ -255,7 +249,7 @@ export default {
 };
 </script>
 
-<style scoped> 
+<style scoped>
 .key-style {
   padding-left: 1px;
   padding-top: 0;

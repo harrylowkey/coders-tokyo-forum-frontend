@@ -2,9 +2,13 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="8">
-        <profile-tabs />
+        <profile-tabs
+          :isOwner="isOwner"
+          v-if="!isLoading"
+          :user="profileUser"
+        />
       </v-col>
-      <v-col cols="12" sm="4">
+      <v-col cols="12" sm="4" v-if="!isLoading">
         <v-container class="profile-details">
           <v-hover v-slot:default="{ hover }">
             <v-card
@@ -20,7 +24,7 @@
                 <v-avatar size="70" style="cursor: pointer;">
                   <img
                     @click="showAvatar = !showAvatar"
-                    :src="user.avatar.secureURL"
+                    :src="profileUser.avatar.secureURL"
                     alt="Avatar"
                   />
                 </v-avatar>
@@ -54,7 +58,7 @@
                   class="d-flex jutify-center"
                 >
                   <v-img
-                    :src="user.avatar.secureURL"
+                    :src="profileUser.avatar.secureURL"
                     height="80%"
                     width="80%"
                     class="avatar"
@@ -84,7 +88,7 @@
                       lg="9"
                       style="padding: 0;"
                     >
-                      <p class="mb-0 user-info">{{ user.username }}</p>
+                      <p class="mb-0 user-info">{{ profileUser.username }}</p>
                     </v-col>
 
                     <v-col
@@ -105,7 +109,7 @@
                       lg="9"
                       style="padding: 0"
                     >
-                      <p class="mb-0 user-info">{{ user.email }}</p>
+                      <p class="mb-0 user-info">{{ profileUser.email }}</p>
                     </v-col>
 
                     <v-col
@@ -222,7 +226,7 @@
                       lg="9"
                       style="padding: 0"
                     >
-                      <p class="user-info">{{ user.sex }}</p>
+                      <p class="user-info">{{ profileUser.sex }}</p>
                     </v-col>
 
                     <v-col
@@ -243,7 +247,7 @@
                       lg="9"
                       style="padding: 0"
                     >
-                      <p class="user-info">{{ user.job }}</p>
+                      <p class="user-info">{{ profileUser.job }}</p>
                     </v-col>
 
                     <v-col
@@ -264,13 +268,15 @@
                       lg="9"
                       style="padding: 0"
                     >
-                      <p class="pt-0 user-info">{{ user.createdAt | date }}</p>
+                      <p class="pt-0 user-info">
+                        {{ profileUser.createdAt | date }}
+                      </p>
                     </v-col>
                   </v-row>
                 </v-form>
                 <edit-profile
                   v-else
-                  :user="user"
+                  :user="profileUser"
                   :userGithub="userGithub"
                   :userFacebook="userFacebook"
                   :userLinkedin="userLinkedin"
@@ -308,7 +314,7 @@
                       <v-textarea
                         auto-grow
                         class="pt-0"
-                        :value="user.description"
+                        :value="profileUser.description"
                         readonly
                       />
                     </v-col>
@@ -318,7 +324,7 @@
                   v-else
                   @handleUpdateDescription="handleUpdateDescription"
                   @handleCancelEditDescription="handleCancelEditDescription"
-                  :description="user.description"
+                  :description="profileUser.description"
                 />
               </v-card-text>
               <v-card-actions class="pt-0 pb-5 d-flex justify-end">
@@ -352,7 +358,6 @@ import EditDescription from './EditDescription';
 export default {
   data() {
     return {
-      user: {},
       propertyUserInfoStyle: {
         paddingLeft: '1px',
         paddingTop: 0,
@@ -381,25 +386,11 @@ export default {
       },
     };
   },
-  created() {
-    window.scrollTo(0, 0);
-    this.APIS = APIS;
-    this.user = this.$store.getters.user;
-    this.userGithub =
-      this.user.socialLinks.find(link => link.type === 'Github') ||
-      this.userGithub;
-    this.userFacebook =
-      this.user.socialLinks.find(link => link.type === 'Facebook') ||
-      this.userFacebook;
-    this.userLinkedin =
-      this.user.socialLinks.find(link => link.type === 'Linkedin') ||
-      this.userLinkedin;
-  },
   computed: {
     ...mapState('utils', ['errorMes', 'isLoading']),
-    ...mapState('user', ['accessToken']),
+    ...mapState('user', ['accessToken', 'user']),
     isOwner() {
-      return true;
+      return this.user.username === this.$route.params.username;
     },
     socialLinksStyle() {
       if (!this.isEdit) {
@@ -431,9 +422,12 @@ export default {
         });
       }
     },
+    $route(to) {
+      this.fetchUserProfile(to.params.username);
+    },
   },
   methods: {
-    ...mapActions('user', ['uploadAvatar', 'updateProfile']),
+    ...mapActions('user', ['uploadAvatar', 'updateProfile', 'getByUsername']),
     onPickFile() {
       this.$refs.fileInput.click();
     },
@@ -467,6 +461,17 @@ export default {
           type: 'success',
           title: 'Update profile success',
         });
+
+        const socialLinks = res.data.socialLinks;
+        this.userGithub =
+          socialLinks.find(link => link.type === 'Github') || this.userGithub;
+        this.userFacebook =
+          socialLinks.find(link => link.type === 'Facebook') ||
+          this.userFacebook;
+        this.userLinkedin =
+          socialLinks.find(link => link.type === 'Linkedin') ||
+          this.userLinkedin;
+        this.profileUser = res.data;
       }
       if (res.status === 400) {
         this.$notify({
@@ -474,14 +479,6 @@ export default {
           title: 'Update profile failed',
         });
       }
-      const socialLinks = res.data.socialLinks;
-      this.userGithub =
-        socialLinks.find(link => link.type === 'Github') || this.userGithub;
-      this.userFacebook =
-        socialLinks.find(link => link.type === 'Facebook') || this.userFacebook;
-      this.userLinkedin =
-        socialLinks.find(link => link.type === 'Linkedin') || this.userLinkedin;
-      this.user = res.data;
       this.isEdit = false;
     },
     handleUpdateDescription(res) {
@@ -491,6 +488,7 @@ export default {
           type: 'success',
           title: 'Update description success',
         });
+        this.profileUser.description = res.data.description;
       }
       if (res.status === 400) {
         this.$notify({
@@ -499,7 +497,6 @@ export default {
           title: 'Update description failed',
         });
       }
-      this.user.description = res.data.description;
       this.isEditDescription = false;
     },
     handleCancelEditProfile() {
@@ -508,6 +505,25 @@ export default {
     handleCancelEditDescription() {
       this.isEditDescription = false;
     },
+    async fetchUserProfile(username) {
+      this.getByUsername({ username }).then(data => {
+        this.profileUser = data;
+        this.userGithub =
+          this.profileUser.socialLinks.find(link => link.type === 'Github') ||
+          this.userGithub;
+        this.userFacebook =
+          this.profileUser.socialLinks.find(link => link.type === 'Facebook') ||
+          this.userFacebook;
+        this.userLinkedin =
+          this.profileUser.socialLinks.find(link => link.type === 'Linkedin') ||
+          this.userLinkedin;
+      });
+    },
+  },
+  created() {
+    window.scrollTo(0, 0);
+    this.APIS = APIS;
+    this.fetchUserProfile(this.$route.params.username);
   },
   components: {
     ProfileTabs,

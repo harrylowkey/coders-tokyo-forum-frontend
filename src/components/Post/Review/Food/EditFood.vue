@@ -31,7 +31,11 @@
                         />
                       </div>
                     </v-col>
-                    <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
+                    <v-col
+                      cols="12"
+                      class="pb-0 pt-0 px-6"
+                      style="height: 60px;"
+                    >
                       <div class="d-flex ml-7">
                         <div class="d-flex" />
                         <toggle-tag
@@ -75,7 +79,9 @@
                                   <v-img
                                     max-width="650"
                                     max-height="250"
-                                    :src="newCover.secureURL || post.cover.secureURL"
+                                    :src="
+                                      newCover.secureURL || post.cover.secureURL
+                                    "
                                   />
                                   <v-chip
                                     @click="isUploadBanner = !isUploadBanner"
@@ -85,14 +91,21 @@
                                     color="green"
                                     label
                                   >
-                                    <v-icon left>mdi-cloud-upload-outline</v-icon>Update Image
+                                    <v-icon left>
+                                      mdi-cloud-upload-outline
+                                    </v-icon>
+                                    Update Image
                                   </v-chip>
                                 </v-container>
                               </v-col>
                               <v-col cols="12">
                                 <v-container class="ml-n2 headline">
-                                  <v-icon color="primary" size="18" left>mdi-paperclip</v-icon>
-                                  <span style="font-size: 17px">Attach photos</span>
+                                  <v-icon color="primary" size="18" left>
+                                    mdi-paperclip
+                                  </v-icon>
+                                  <span style="font-size: 17px">
+                                    Attach photos
+                                  </span>
                                 </v-container>
                                 <div
                                   id="my-strictly-unique-vue-upload-multiple-image"
@@ -108,8 +121,8 @@
                                     :showPrimary="false"
                                     :markIsPrimaryText="''"
                                     :accept="
-                              'image/gif,image/jpeg,image/png,image/bmp,image/jpg'
-                            "
+                                      'image/gif,image/jpeg,image/png,image/bmp,image/jpg'
+                                    "
                                     :dragText="'Drag photos to here'"
                                     :browseText="'or choose'"
                                     @limit-exceeded="handleLimitExceed"
@@ -217,7 +230,9 @@
                                   <span
                                     style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                                     class="mb-0 pt-1 pr-5"
-                                  >Your stars:</span>
+                                  >
+                                    Your stars:
+                                  </span>
                                   <v-rating
                                     v-model="post.food.stars"
                                     color="yellow darken-3"
@@ -269,7 +284,10 @@
                                     placeholder="Markdown"
                                   />
                                 </ValidationProvider>
-                                <v-dialog v-model="isPreviewing" max-width="800">
+                                <v-dialog
+                                  v-model="isPreviewing"
+                                  max-width="800"
+                                >
                                   <v-card
                                     class="preview px-8 pt-8 pb-5 d-flex flex-column"
                                     style="min-height: 330px;"
@@ -299,13 +317,17 @@
                             class="mr-5"
                             color="primary"
                             @click="togglePreviewContent"
-                          >Preview</v-btn>
+                          >
+                            Preview
+                          </v-btn>
                           <v-btn
                             class="white--text"
                             :disabled="isLoadingUpload"
                             color="warning"
                             @click="submit"
-                          >Update</v-btn>
+                          >
+                            Update
+                          </v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
@@ -355,10 +377,10 @@ export default {
       this.getPostById({
         id: this.$route.params.id,
         typeQuery: this.$route.query.type,
-      }).then((data) => {
+      }).then(data => {
         this.post = data;
-        this.post.tags = this.post.tags.map((tag) => tag.tagName);
-        this.previewPhotos = this.post.food.foodPhotos.map((photo) => ({
+        this.post.tags = this.post.tags.map(tag => tag.tagName);
+        this.previewPhotos = this.post.food.foodPhotos.map(photo => ({
           path: photo.secureURL,
         }));
       });
@@ -377,7 +399,7 @@ export default {
 
         // library bug
         this.previewPhotos = this.previewPhotos.filter(
-          (photo) => photo.default !== 0,
+          photo => photo.default !== 0,
         );
         this.$notify({
           type: 'success',
@@ -441,7 +463,7 @@ export default {
         }
 
         if (this.photosToDelete.length) {
-          this.photosToDelete.map((photo) =>
+          this.photosToDelete.map(photo =>
             this.deleteFile({ fileId: photo._id }),
           );
         }
