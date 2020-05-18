@@ -31,7 +31,11 @@
                         />
                       </div>
                     </v-col>
-                    <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
+                    <v-col
+                      cols="12"
+                      class="pb-0 pt-0 px-6"
+                      style="height: 60px;"
+                    >
                       <div class="d-flex ml-7">
                         <div class="d-flex">
                           <toggle-tag
@@ -76,7 +80,9 @@
                                   <v-img
                                     max-width="650"
                                     max-height="250"
-                                    :src="newCover.secureURL || post.cover.secureURL"
+                                    :src="
+                                      newCover.secureURL || post.cover.secureURL
+                                    "
                                   />
                                   <v-chip
                                     @click="isUploadBanner = !isUploadBanner"
@@ -86,7 +92,10 @@
                                     color="green"
                                     label
                                   >
-                                    <v-icon left>mdi-cloud-upload-outline</v-icon>Update Image
+                                    <v-icon left>
+                                      mdi-cloud-upload-outline
+                                    </v-icon>
+                                    Update Image
                                   </v-chip>
                                 </v-container>
                               </v-col>
@@ -133,23 +142,38 @@
                                       :error-messages="errors"
                                     />
                                   </ValidationProvider>
-                                  <span class="pb-4 pl-3" v-if="!addCoAuthor && !coAuthor">
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="!addCoAuthor && !coAuthor"
+                                  >
                                     <v-icon
                                       @click="addCoAuthor = !addCoAuthor"
                                       color="green"
                                       style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
+                                    >
+                                      mdi-plus-circle-outline
+                                    </v-icon>
                                   </span>
-                                  <span class="pb-4 pl-3" v-if="addCoAuthor || coAuthor">
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="addCoAuthor || coAuthor"
+                                  >
                                     <v-icon
                                       @click="handleRemoveCoAuthor"
                                       color="warning"
                                       style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
+                                    >
+                                      mdi-close-circle-outline
+                                    </v-icon>
                                   </span>
                                 </div>
                               </v-col>
-                              <v-col cols="12" sm="6" md="4" v-if="addCoAuthor || coAuthor">
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                                v-if="addCoAuthor || coAuthor"
+                              >
                                 <div class="d-flex align-end">
                                   <ValidationProvider
                                     name="Name"
@@ -166,30 +190,54 @@
                               </v-col>
                               <v-col cols="12" sm="6" md="6">
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="recommender" label="Recommender" />
-                                  <span class="pb-4 pl-3" v-if="!addRecomender2 && !recommender2">
+                                  <v-text-field
+                                    v-model="recommender"
+                                    label="Recommender"
+                                  />
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="!addRecomender2 && !recommender2"
+                                  >
                                     <v-icon
                                       @click="addRecomender2 = !addRecomender2"
                                       color="green"
                                       style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
+                                    >
+                                      mdi-plus-circle-outline
+                                    </v-icon>
                                   </span>
-                                  <span class="pb-4 pl-3" v-if="addRecomender2 || recommender2">
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="addRecomender2 || recommender2"
+                                  >
                                     <v-icon
                                       @click="handleRemoveRecommender2"
                                       color="warning"
                                       style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
+                                    >
+                                      mdi-close-circle-outline
+                                    </v-icon>
                                   </span>
                                 </div>
                               </v-col>
-                              <v-col cols="12" sm="6" md="6" v-if="addRecomender2 || recommender2">
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                                v-if="addRecomender2 || recommender2"
+                              >
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="recommender2" label="Recommender" />
+                                  <v-text-field
+                                    v-model="recommender2"
+                                    label="Recommender"
+                                  />
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="4">
-                                <v-text-field v-model="post.book.country" label="Nation" />
+                                <v-text-field
+                                  v-model="post.book.country"
+                                  label="Nation"
+                                />
                               </v-col>
                               <v-col cols="12" sm="6" md="3">
                                 <v-text-field
@@ -203,7 +251,9 @@
                                   <span
                                     style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                                     class="mb-0 pt-1 pr-5"
-                                  >Your stars:</span>
+                                  >
+                                    Your stars:
+                                  </span>
                                   <v-rating
                                     v-model="post.book.stars"
                                     color="yellow darken-3"
@@ -263,7 +313,10 @@
                                     placeholder="Markdown"
                                   />
                                 </ValidationProvider>
-                                <v-dialog v-model="isPreviewing" max-width="800">
+                                <v-dialog
+                                  v-model="isPreviewing"
+                                  max-width="800"
+                                >
                                   <v-card
                                     class="preview px-8 pt-8 pb-5 d-flex flex-column"
                                     style="min-height: 330px;"
@@ -293,14 +346,18 @@
                             color="primary"
                             @click="togglePreviewContent"
                             dark
-                          >Preview</v-btn>
+                          >
+                            Preview
+                          </v-btn>
                           <v-btn
                             v-if="!isLoadingUpload"
                             class="mr-5"
                             color="warning"
                             dark
                             @click="submit"
-                          >Update</v-btn>
+                          >
+                            Update
+                          </v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
@@ -358,11 +415,11 @@ export default {
       this.getPostById({
         id: this.$route.params.id,
         typeQuery: this.$route.query.type,
-      }).then((data) => {
+      }).then(data => {
         this.post = data;
-        this.post.tags = this.post.tags.map((tag) => tag.tagName);
+        this.post.tags = this.post.tags.map(tag => tag.tagName);
         const authors = this.post.authors.filter(
-          (person) => person.type === 'author',
+          person => person.type === 'author',
         );
         this.author = authors[0] ? authors[0].name : '';
         this.coAuthor = authors[1] ? authors[1].name : '';
@@ -409,12 +466,12 @@ export default {
       dataUpdate.authors = [
         { type: 'author', name: this.author },
         { type: 'author', name: this.coAuthor },
-      ].filter((author) => author.name !== '');
+      ].filter(author => author.name !== '');
 
       dataUpdate.book.suggestedBy = [
         this.recommender,
         this.recommender2,
-      ].filter((recommender) => recommender !== '');
+      ].filter(recommender => recommender !== '');
 
       const res = await this.editPost({ _id: this.post._id, data: dataUpdate });
       if (res.status === 200) {

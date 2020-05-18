@@ -123,7 +123,7 @@ const routes = [
     component: Stream,
   },
   {
-    path: '/profile',
+    path: '/users/profile/:username',
     name: 'profile',
     component: Profile,
     beforeEnter: AuthGuard,

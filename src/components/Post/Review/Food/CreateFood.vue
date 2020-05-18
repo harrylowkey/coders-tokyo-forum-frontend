@@ -23,7 +23,9 @@
                   text-color="white"
                   v-for="(tag, i) in data.tags"
                   :key="i"
-                >{{ tag }}</v-chip>
+                >
+                  {{ tag }}
+                </v-chip>
               </div>
               <create-tag-blog
                 v-if="data.tags.length < 3"
@@ -39,7 +41,8 @@
                 color="green"
                 label
               >
-                <v-icon left>mdi-cloud-upload-outline</v-icon>Image
+                <v-icon left>mdi-cloud-upload-outline</v-icon>
+                Image
               </v-chip>
             </div>
           </v-col>
@@ -63,13 +66,22 @@
                         noCircle
                         :url="APIS.UPLOAD_BANNER"
                       />
-                      <v-container class="d-flex justify-center" v-if="data.cover.secureURL">
-                        <v-img max-width="650" max-height="250" :src="data.cover.secureURL" />
+                      <v-container
+                        class="d-flex justify-center"
+                        v-if="data.cover.secureURL"
+                      >
+                        <v-img
+                          max-width="650"
+                          max-height="250"
+                          :src="data.cover.secureURL"
+                        />
                       </v-container>
                     </v-col>
                     <v-col cols="12">
                       <v-container class="ml-n2 headline">
-                        <v-icon color="primary" size="18" left>mdi-paperclip</v-icon>
+                        <v-icon color="primary" size="18" left>
+                          mdi-paperclip
+                        </v-icon>
                         <span style="font-size: 17px">Attach photos</span>
                       </v-container>
                       <div
@@ -192,14 +204,19 @@
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12" sm="6" md="7">
-                      <v-text-field v-model="data.food.location" label="Location" />
+                      <v-text-field
+                        v-model="data.food.location"
+                        label="Location"
+                      />
                     </v-col>
                     <v-col cols="12" sm="6" md="5">
                       <v-container class="d-flex pl-0 pr-0 mt-2">
                         <span
                           style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                           class="mb-0 pt-1 pr-5"
-                        >Your stars:</span>
+                        >
+                          Your stars:
+                        </span>
                         <v-rating
                           v-model="data.food.stars"
                           color="yellow darken-3"
@@ -212,7 +229,11 @@
                       </v-container>
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
-                      <ValidationProvider name="Topic" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Topic"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-text-field
                           :error-messages="errors"
                           v-model="data.topic"
@@ -231,7 +252,11 @@
                       />
                     </v-col>
                     <v-col cols="12">
-                      <ValidationProvider name="Content" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Content"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-textarea
                           label="Content*"
                           auto-grow
@@ -269,16 +294,26 @@
                   class="ml-5"
                   @click="isAttachImage = !isAttachImage"
                 >
-                  <v-icon left color="primary">image</v-icon>Attach image
+                  <v-icon left color="primary">image</v-icon>
+                  Attach image
                 </v-chip>
                 <v-spacer />
-                <v-btn class="mr-5" color="primary" @click="togglePreviewContent" dark>Preview</v-btn>
+                <v-btn
+                  class="mr-5"
+                  color="primary"
+                  @click="togglePreviewContent"
+                  dark
+                >
+                  Preview
+                </v-btn>
                 <v-btn
                   class="mr-5"
                   color="green white--text"
                   @click="submit"
                   :disabled="isLoadingUpload"
-                >Post</v-btn>
+                >
+                  Post
+                </v-btn>
               </v-card-actions>
             </v-container>
             <v-dialog max-width="500" v-model="isAttachImage">
@@ -370,7 +405,7 @@ export default {
 
         // library bug
         this.previewPhotos = this.previewPhotos.filter(
-          (photo) => photo.default !== 0,
+          photo => photo.default !== 0,
         );
         this.$notify({
           type: 'success',

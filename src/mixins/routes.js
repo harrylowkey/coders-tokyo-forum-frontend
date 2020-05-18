@@ -10,8 +10,8 @@ export const ROUTES = {
     return `/writePost${type}`;
   },
   USER_PROFILE({ id, username }) {
-    if (id) return `/users/${id}`;
-    if (username) return `/users/${username}`;
+    if (id) return `/users/profile/${id}`;
+    if (username) return `/users/profile/${username}`;
   },
   PODCAST(id) {
     return `/podcasts/${id}?type=podcast`;

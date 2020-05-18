@@ -29,7 +29,9 @@
                 </router-link>
                 <v-container class="d-flex pl-1 pb-0 pt-2">
                   <p class="key mb-0 mr-3">Status:</p>
-                  <p class="value mb-0" :style="calBookStatusColor">{{ book.status }}</p>
+                  <p class="value mb-0" :style="calBookStatusColor">
+                    {{ book.status }}
+                  </p>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
@@ -38,7 +40,9 @@
                     <span
                       v-for="(author, i) in slicedAuthors"
                       :key="author._id"
-                    >{{ author.name }}{{ isAddComma(i, slicedAuthors.length) }}</span>
+                    >
+                      {{ author.name }}{{ isAddComma(i, slicedAuthors.length) }}
+                    </span>
                   </p>
                 </v-container>
 
@@ -64,17 +68,18 @@
                       v-for="genre in slicedGenres"
                       :key="genre._id"
                       class="mr-1"
-                    >{{ genre }}</v-chip>
+                    >
+                      {{ genre }}
+                    </v-chip>
                   </span>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
                   <p class="key mb-0 mr-3">Suggested by:</p>
                   <p class="value mb-0" v-if="slicedSuggestedBy">
-                    <span
-                      v-for="(person, i) in slicedSuggestedBy"
-                      :key="i"
-                    >{{ person }}{{ isAddComma(i, slicedSuggestedBy.length) }}</span>
+                    <span v-for="(person, i) in slicedSuggestedBy" :key="i">
+                      {{ person }}{{ isAddComma(i, slicedSuggestedBy.length) }}
+                    </span>
                   </p>
                 </v-container>
 
@@ -86,7 +91,9 @@
                     size="20"
                     :color="isStar(i + 1)"
                     style="width: 25px"
-                  >start</v-icon>
+                  >
+                    start
+                  </v-icon>
                 </v-container>
               </v-card-text>
             </v-container>
@@ -97,13 +104,18 @@
                 <div>
                   <v-container class="d-flex pl-1 pb-0 pt-2">
                     <p class="key mb-0 mr-3">Status:</p>
-                    <p class="value mb-0" :style="calBookStatusColor">{{ book.status }}</p>
+                    <p class="value mb-0" :style="calBookStatusColor">
+                      {{ book.status }}
+                    </p>
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
                     <p class="key mb-0 mr-3">Author:</p>
                     <p class="value mb-0" v-if="slicedAuthors">
-                      <span v-for="(author, i) in slicedAuthors" :key="author._id">
+                      <span
+                        v-for="(author, i) in slicedAuthors"
+                        :key="author._id"
+                      >
                         {{ author.name
                         }}{{ isAddComma(i, slicedAuthors.length) }}
                       </span>
@@ -134,7 +146,9 @@
                         v-for="genre in slicedGenres"
                         :key="genre._id"
                         class="mr-1"
-                      >{{ genre }}</v-chip>
+                      >
+                        {{ genre }}
+                      </v-chip>
                     </span>
                   </v-container>
 
@@ -155,7 +169,9 @@
                       size="20"
                       :color="isStar(i + 1)"
                       style="width: 25px"
-                    >start</v-icon>
+                    >
+                      start
+                    </v-icon>
                   </v-container>
                 </div>
               </v-card-text>
@@ -168,14 +184,22 @@
       <v-list-item three-line style="padding: 0 25px 0 20px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <router-link class="title-link" :to="blogLink">
-            <v-list-item-title class="headline book-title mb-0 mt-3">{{ topic }}</v-list-item-title>
+            <v-list-item-title class="headline book-title mb-0 mt-3">
+              {{ topic }}
+            </v-list-item-title>
           </router-link>
           <p class="description mb-0 pt-2">{{ description || content }}</p>
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
-              <a style=" text-decoration: none" :href="blogLink">Read more...</a>
+              <a style=" text-decoration: none" :href="blogLink">
+                Read more...
+              </a>
             </span>
-            <read-time class="pt-0" :text="content" :customize="'font-size: 0.775rem'" />
+            <read-time
+              class="pt-0"
+              :text="content"
+              :customize="'font-size: 0.775rem'"
+            />
           </div>
         </v-list-item-content>
         <user-avatar
@@ -189,7 +213,9 @@
         <v-card-text
           class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
-        >{{ createdAt | date }}</v-card-text>
+        >
+          {{ createdAt | date }}
+        </v-card-text>
         <v-spacer />
         <v-container>
           <v-row>
@@ -213,7 +239,11 @@
               />
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :type="type" :postId="_id" :comments="comments.length" />
+              <comment-btn
+                :type="type"
+                :postId="_id"
+                :comments="comments.length"
+              />
             </v-col>
           </v-row>
         </v-container>

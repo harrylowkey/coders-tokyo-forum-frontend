@@ -45,9 +45,7 @@ export default {
       valid: true,
       addTag: false,
       tag: '',
-      tagRules: [
-        t => t.length <= 20 || 'Tag muse be less than 20 characters',
-      ],
+      tagRules: [t => t.length <= 20 || 'Tag muse be less than 20 characters'],
     };
   },
   methods: {

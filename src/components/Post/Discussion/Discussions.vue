@@ -33,7 +33,7 @@
         />
         <div v-if="!isLoading">
           <discussion
-            v-for= "item in discussions"
+            v-for="item in discussions"
             :key="item._id"
             :_id="item._id"
             :tags="item.tags"
@@ -75,7 +75,12 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
+        <side-card
+          class="fix-sidebar"
+          :title="tags.title"
+          :type="tags.type"
+          :data="tags.data"
+        />
 
         <side-card
           class="fix-sidebar member-online"
@@ -102,7 +107,6 @@ export default {
   },
   data() {
     return {
-      showViewMoreBtn: true,
       topBloggers: {
         title: 'Top Bloggers',
         type: 1,
@@ -234,7 +238,6 @@ export default {
         ],
       },
       showTopBloggers: true,
-      showTags: true,
       showMostViewBlogs: true,
       showMembersOnline: true,
       sideBarStyle: {
@@ -257,15 +260,17 @@ export default {
     },
     handleLikedPost({ postId, user }) {
       const discussion = this.discussions.find(
-        (discussion) => discussion._id === postId,
+        discussion => discussion._id === postId,
       );
       discussion.likes.push({ username: user.username, _id: user._id });
     },
     handleUnlikedPost({ postId, user }) {
       const discussion = this.discussions.find(
-        (discussion) => discussion._id === postId,
+        discussion => discussion._id === postId,
       );
-      discussion.likes = discussion.likes.filter((_user) => _user._id !== user._id);
+      discussion.likes = discussion.likes.filter(
+        _user => _user._id !== user._id,
+      );
     },
   },
   async created() {

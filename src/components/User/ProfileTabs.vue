@@ -11,7 +11,7 @@
     </v-tabs>
 
     <v-tabs-items>
-      <user-posts v-if="tab === 'Legacies'" />
+      <user-posts :user="user" v-if="tab === 'Legacies'" />
       <saved-posts v-if="tab === 'Saved Posts'" />
     </v-tabs-items>
   </v-card>
@@ -21,13 +21,21 @@ import UserPosts from './UserPosts';
 import SavedPosts from './SavedPosts';
 
 export default {
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+    isOwner: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
-      tab: 'Legacies',
       text:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint sunt totam unde voluptatem qui ab praesentium velit magni? Officia molestiae porro ab dolor nulla animi praesentium fuga perspiciatis quam autem.',
       username: 'hongquangraem',
-      profileTabs: ['Legacies'],
       savedPostMenus: [
         { menu: 'Discussions', category: 'Discussions', icon: 'menu_book' },
         { menu: 'Blogs', category: 'Blogs', icon: 'fastfood' },
@@ -45,9 +53,16 @@ export default {
     },
   },
   components: {
-    // Discussions,
     UserPosts,
     SavedPosts,
+  },
+  created() {
+    this.tab = 'Legacies';
+    if (!this.isOwner) {
+      this.profileTabs = ['Legacies'];
+    } else {
+      this.profileTabs = ['Legacies', 'Saved Posts'];
+    }
   },
 };
 </script>

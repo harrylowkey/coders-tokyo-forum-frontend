@@ -113,10 +113,6 @@ export default {
       isSearching: false,
       search: '',
       sideNav: false,
-      dropdownMenus: [
-        { title: 'Profile', link: '/profile', icon: 'person' },
-        { title: 'Create post', link: '/writePost', icon: 'create' },
-      ],
     };
   },
   computed: {
@@ -141,6 +137,16 @@ export default {
         ];
       }
       return menus;
+    },
+    dropdownMenus() {
+      return [
+        {
+          title: 'Profile',
+          link: `/users/profile/${this.user.username}`,
+          icon: 'person',
+        },
+        { title: 'Create post', link: '/writePost', icon: 'create' },
+      ];
     },
   },
   methods: {

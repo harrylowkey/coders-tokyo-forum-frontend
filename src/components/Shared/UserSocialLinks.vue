@@ -2,7 +2,11 @@
   <div class="d-flex flex-column justify-center">
     <v-container class="d-flex justify-center">
       <div class="user text-center d-flex">
-        <v-list-item-avatar tile :size="customize.avatarSize || 60" style="margin: 16px 0 0 0">
+        <v-list-item-avatar
+          tile
+          :size="customize.avatarSize || 60"
+          style="margin: 16px 0 0 0"
+        >
           <v-img
             :src="author.avatar.secureURL"
             style="cursor: pointer; border-radius: 50%"
@@ -20,17 +24,24 @@
                 class="pr-1"
                 style="cursor: pointer"
                 @click="handleClickLink(link.url)"
-              >{{ link.icon }}</v-icon>
+              >
+                {{ link.icon }}
+              </v-icon>
             </div>
             <div v-else style="height: 17px" />
           </v-list-item-icon>
           <v-list-item-content class="pt-0 pb-0">
-            <v-list-item-title class="caption text-start" :style="usernameWrapper">
+            <v-list-item-title
+              class="caption text-start"
+              :style="usernameWrapper"
+            >
               <a
                 :style="customize.usernameStyle"
                 class="username-link ml-1"
                 :href="userProfileLink"
-              >{{ author.username }}</a>
+              >
+                {{ author.username }}
+              </a>
             </v-list-item-title>
           </v-list-item-content>
         </v-container>
@@ -43,14 +54,18 @@
         dark
         color="green"
         x-small
-      >Follow</v-btn>
+      >
+        Follow
+      </v-btn>
       <v-btn
         @click="onClickUnFollow"
         v-if="isFollowing && !isAuthor"
         dark
         color="red"
         x-small
-      >Unfollow</v-btn>
+      >
+        Unfollow
+      </v-btn>
     </v-container>
   </div>
 </template>

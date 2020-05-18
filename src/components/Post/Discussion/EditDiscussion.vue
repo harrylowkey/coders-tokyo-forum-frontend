@@ -21,7 +21,10 @@
             <ValidationObserver ref="observer">
               <v-form>
                 <v-card class="d-flex py-3">
-                  <div style="flex: 26%" class="d-flex flex-column align-center">
+                  <div
+                    style="flex: 26%"
+                    class="d-flex flex-column align-center"
+                  >
                     <user-avatar
                       :src="post.user.avatar.secureURL"
                       :username="post.user.username"
@@ -33,7 +36,11 @@
                       :tagName="tag"
                       @handleRemoveTag="handleRemoveTag(i)"
                     />
-                    <create-tag v-if="post.tags.length < 3" @handleAddTag="handleAddTag" :tags="post.tags" />
+                    <create-tag
+                      v-if="post.tags.length < 3"
+                      @handleAddTag="handleAddTag"
+                      :tags="post.tags"
+                    />
                   </div>
                   <div style="flex:80%">
                     <v-card-title class="pb-0">
@@ -43,7 +50,11 @@
                       <v-container class="py-0">
                         <v-row>
                           <v-col cols="12">
-                            <ValidationProvider name="Topic" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                              name="Topic"
+                              rules="required"
+                              v-slot="{ errors }"
+                            >
                               <v-text-field
                                 label="Topic*"
                                 v-model="post.topic"
@@ -53,7 +64,11 @@
                             </ValidationProvider>
                           </v-col>
                           <v-col cols="12">
-                            <ValidationProvider name="Content" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                              name="Content"
+                              rules="required"
+                              v-slot="{ errors }"
+                            >
                               <v-textarea
                                 :error-messages="errors"
                                 v-model="post.content"
@@ -69,7 +84,9 @@
                     </v-card-text>
                     <v-card-actions class="pt-0">
                       <v-spacer />
-                      <v-btn @click="submit" class="mr-5" color="warning" dark>Update</v-btn>
+                      <v-btn @click="submit" class="mr-5" color="warning" dark>
+                        Update
+                      </v-btn>
                     </v-card-actions>
                   </div>
                 </v-card>
@@ -122,9 +139,9 @@ export default {
       this.getPostById({
         id: this.$route.params.id,
         typeQuery: this.$route.query.type,
-      }).then((data) => {
+      }).then(data => {
         this.post = data;
-        this.post.tags = this.post.tags.map((tag) => tag.tagName);
+        this.post.tags = this.post.tags.map(tag => tag.tagName);
       });
     },
     handleAddTag(tag) {

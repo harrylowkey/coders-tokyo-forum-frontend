@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 
+import { APIS } from '@/mixins/api-endpoints';
+
 import { SIGN_IN, SIGN_OUT, UPLOAD_AVATAR, UPDATE_PROFILE } from '../constants';
 
 export default {
@@ -45,7 +47,9 @@ export default {
           commit('SIGN_IN', { user, accessToken: access_token });
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err, { root: true });
+          }
         })
         .then(() => {
           setTimeout(() => {
@@ -72,7 +76,7 @@ export default {
       commit('SIGN_IN', { user: JSON.parse(user), accessToken });
     },
     async uploadAvatar({ commit }, { avatar }) {
-      commit('utils/SET_LOADING', true, { root: true });
+      commit('utils/SET_LOADING_UPLOAD', true, { root: true });
       const response = await axios
         .post('/users/avatars', { avatar })
         .then(res => {
@@ -84,12 +88,14 @@ export default {
           return res;
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err, { root: true });
+          }
           return err;
         })
         .then(res => {
           setTimeout(() => {
-            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_LOADING_UPLOAD', false, { root: true });
             commit('utils/SET_ERROR', '', { root: true });
           }, 0);
           return res;
@@ -97,7 +103,7 @@ export default {
       return response;
     },
     async updateProfile({ commit, getters }, data) {
-      commit('utils/SET_LOADING', true, { root: true });
+      commit('utils/SET_LOADING_API', true, { root: true });
       const avatar = getters.user.avatar;
       const dataUpdated = await axios
         .put('/users', data)
@@ -109,12 +115,14 @@ export default {
           return res;
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err, { root: true });
+          }
           return err;
         })
         .then(res => {
           setTimeout(() => {
-            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_LOADING_API', false, { root: true });
             commit('utils/SET_ERROR', '', { root: true });
           }, 0);
           return res;
@@ -126,7 +134,9 @@ export default {
       const response = await axios
         .post(`/users/${userToFollowId}/follow`)
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err, { root: true });
+          }
           return err.response;
         })
         .then(res => {
@@ -143,7 +153,9 @@ export default {
       const response = await axios
         .post(`/users/${userToUnFollowId}/unfollow`)
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err, { root: true });
+          }
           return err.response;
         })
         .then(res => {
@@ -154,6 +166,88 @@ export default {
           return res;
         });
       return response;
+    },
+    async getByUsername({ commit }, { username }) {
+      commit('utils/SET_LOADING', true, { root: true });
+      const userProfile = await axios
+        .get(APIS.GET_USER_PROFILE({ username }))
+        .then(res => {
+          return res.data;
+        })
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err, { root: true });
+          }
+          return err;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return userProfile;
+    },
+    async getUserPosts(
+      { commit },
+      { userId, typeQuery, options = { limit: 10, page: 1 } },
+    ) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const posts = await axios
+        .get(
+          APIS.GET_USER_POSTS({
+            userId,
+            queries: {
+              type: typeQuery,
+              limit: options.limit,
+              page: options.page,
+            },
+          }),
+        )
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err, { root: true });
+          }
+          return err;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return posts;
+    },
+    async loadmoreUserPosts(
+      { commit },
+      { userId, typeQuery, options = { limit: 10, page: 1 } },
+    ) {
+      commit('utils/SET_LOADMORE', true, { root: true });
+      const res = await axios
+        .get(
+          APIS.GET_USER_POSTS({
+            userId,
+            queries: {
+              type: typeQuery,
+              limit: options.limit,
+              page: options.page,
+            },
+          }),
+        )
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true });
+          return err;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADMORE', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return res;
     },
   },
   getters: {

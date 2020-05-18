@@ -1,5 +1,7 @@
 <template>
-  <div class="icon-container d-flex flex-column align-center justify-space-around">
+  <div
+    class="icon-container d-flex flex-column align-center justify-space-around"
+  >
     <div class="wrapper-icon">
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587892953/love_fhkw0q.svg"
@@ -201,7 +203,7 @@ export default {
       this.upFlowerCLasses.push('show-up-flower');
       setTimeout(() => {
         this.upFlowerCLasses = this.upFlowerCLasses.filter(
-          (_class) => _class !== 'show-up-flower',
+          _class => _class !== 'show-up-flower',
         );
       }, 700);
     },
@@ -209,7 +211,7 @@ export default {
       this.donateCoinClasses.push('rotate-upcoin');
       setTimeout(() => {
         this.donateCoinClasses = this.donateCoinClasses.filter(
-          (_class) => _class !== 'rotate-upcoin',
+          _class => _class !== 'rotate-upcoin',
         );
       }, 1000);
     },

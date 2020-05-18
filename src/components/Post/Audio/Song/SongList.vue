@@ -20,7 +20,11 @@
                 v-if="isLoading"
                 type="list-item-two-line"
               />
-              <v-skeleton-loader class="song mb-6 ml-0 mt-0" v-if="isLoading" type="actions" />
+              <v-skeleton-loader
+                class="song mb-6 ml-0 mt-0"
+                v-if="isLoading"
+                type="actions"
+              />
             </div>
           </div>
           <div class="d-flex" v-if="isLoading">
@@ -40,7 +44,11 @@
                 v-if="isLoading"
                 type="list-item-two-line"
               />
-              <v-skeleton-loader class="song mb-6 ml-0 mt-0" v-if="isLoading" type="actions" />
+              <v-skeleton-loader
+                class="song mb-6 ml-0 mt-0"
+                v-if="isLoading"
+                type="actions"
+              />
             </div>
           </div>
           <div class="d-flex" v-if="isLoading">
@@ -60,7 +68,11 @@
                 v-if="isLoading"
                 type="list-item-two-line"
               />
-              <v-skeleton-loader class="song mb-6 ml-0 mt-0" v-if="isLoading" type="actions" />
+              <v-skeleton-loader
+                class="song mb-6 ml-0 mt-0"
+                v-if="isLoading"
+                type="actions"
+              />
             </div>
           </div>
           <div class="d-flex" v-if="isLoading">
@@ -80,7 +92,11 @@
                 v-if="isLoading"
                 type="list-item-two-line"
               />
-              <v-skeleton-loader class="song mb-6 ml-0 mt-0" v-if="isLoading" type="actions" />
+              <v-skeleton-loader
+                class="song mb-6 ml-0 mt-0"
+                v-if="isLoading"
+                type="actions"
+              />
             </div>
           </div>
           <div class="d-flex" v-if="isLoading">
@@ -100,7 +116,11 @@
                 v-if="isLoading"
                 type="list-item-two-line"
               />
-              <v-skeleton-loader class="song mb-6 ml-0 mt-0" v-if="isLoading" type="actions" />
+              <v-skeleton-loader
+                class="song mb-6 ml-0 mt-0"
+                v-if="isLoading"
+                type="actions"
+              />
             </div>
           </div>
         </div>
@@ -152,7 +172,12 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
+        <side-card
+          class="fix-sidebar"
+          :title="tags.title"
+          :type="tags.type"
+          :data="tags.data"
+        />
 
         <side-card
           class="fix-sidebar member-online"
@@ -334,12 +359,12 @@ export default {
       await this.loadMoreSongs({ page: this.metadata.page + 1 });
     },
     handleLikedPost({ postId, user }) {
-      const song = this.songs.find((song) => song._id === postId);
+      const song = this.songs.find(song => song._id === postId);
       song.likes.push({ username: user.username, _id: user._id });
     },
     handleUnlikedPost({ postId, user }) {
-      const song = this.songs.find((song) => song._id === postId);
-      song.likes = song.likes.filter((_user) => _user._id !== user._id);
+      const song = this.songs.find(song => song._id === postId);
+      song.likes = song.likes.filter(_user => _user._id !== user._id);
     },
   },
   async created() {

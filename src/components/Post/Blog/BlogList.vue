@@ -2,11 +2,31 @@
   <v-container class="pt-0">
     <v-row>
       <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
-        <v-skeleton-loader class="mt-5" v-if="isLoading" type="card-avatar, list-item-three-line" />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
+        <v-skeleton-loader
+          class="mt-5"
+          v-if="isLoading"
+          type="card-avatar, list-item-three-line"
+        />
 
         <blog
           v-for="item in blogs"
@@ -51,7 +71,12 @@
           :data="mostViewBlogs.data"
         />
 
-        <side-card class="fix-sidebar" :title="tags.title" :type="tags.type" :data="tags.data" />
+        <side-card
+          class="fix-sidebar"
+          :title="tags.title"
+          :type="tags.type"
+          :data="tags.data"
+        />
 
         <side-card
           class="fix-sidebar member-online"
@@ -233,12 +258,12 @@ export default {
       await this.loadMoreBlogs({ page: this.metadata.page + 1 });
     },
     handleLikedPost({ postId, user }) {
-      const blog = this.blogs.find((blog) => blog._id === postId);
+      const blog = this.blogs.find(blog => blog._id === postId);
       blog.likes.push({ username: user.username, _id: user._id });
     },
     handleUnlikedPost({ postId, user }) {
-      const blog = this.blogs.find((blog) => blog._id === postId);
-      blog.likes = blog.likes.filter((_user) => _user._id !== user._id);
+      const blog = this.blogs.find(blog => blog._id === postId);
+      blog.likes = blog.likes.filter(_user => _user._id !== user._id);
     },
   },
   async created() {

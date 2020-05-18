@@ -31,7 +31,11 @@
                         />
                       </div>
                     </v-col>
-                    <v-col cols="12" class="pb-0 pt-0 px-6" style="height: 60px;">
+                    <v-col
+                      cols="12"
+                      class="pb-0 pt-0 px-6"
+                      style="height: 60px;"
+                    >
                       <div class="d-flex ml-7">
                         <div class="d-flex">
                           <toggle-tag
@@ -76,7 +80,9 @@
                                   <v-img
                                     max-width="650"
                                     max-height="250"
-                                    :src="newCover.secureURL || post.cover.secureURL"
+                                    :src="
+                                      newCover.secureURL || post.cover.secureURL
+                                    "
                                   />
                                   <v-chip
                                     @click="uploadBanner = !uploadBanner"
@@ -86,7 +92,10 @@
                                     color="green"
                                     label
                                   >
-                                    <v-icon left>mdi-cloud-upload-outline</v-icon>Update Image
+                                    <v-icon left>
+                                      mdi-cloud-upload-outline
+                                    </v-icon>
+                                    Update Image
                                   </v-chip>
                                 </v-container>
                               </v-col>
@@ -105,7 +114,10 @@
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12" sm="6" md="6">
-                                <v-text-field v-model="post.movie.country" label="Nation" />
+                                <v-text-field
+                                  v-model="post.movie.country"
+                                  label="Nation"
+                                />
                               </v-col>
                               <v-col cols="12" sm="4" md="2">
                                 <ValidationProvider
@@ -129,92 +141,173 @@
                                 />
                               </v-col>
                               <v-col cols="12" sm="4" md="8">
-                                <v-text-field v-model="post.movie.link" label="Link" />
+                                <v-text-field
+                                  v-model="post.movie.link"
+                                  label="Link"
+                                />
                               </v-col>
                               <v-col cols="12" sm="6" md="4">
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="director" label="Director" />
-                                  <span class="pb-4 pl-3" v-if="!addCoDirector && !coDirector">
+                                  <v-text-field
+                                    v-model="director"
+                                    label="Director"
+                                  />
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="!addCoDirector && !coDirector"
+                                  >
                                     <v-icon
                                       @click="addCoDirector = !addCoDirector"
                                       color="green"
                                       style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
+                                    >
+                                      mdi-plus-circle-outline
+                                    </v-icon>
                                   </span>
-                                  <span class="pb-4 pl-3" v-if="addCoDirector || coDirector">
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="addCoDirector || coDirector"
+                                  >
                                     <v-icon
                                       @click="handleRemoveCoDirector"
                                       color="warning"
                                       style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
+                                    >
+                                      mdi-close-circle-outline
+                                    </v-icon>
                                   </span>
                                 </div>
                               </v-col>
-                              <v-col cols="12" sm="6" md="4" v-if="addCoDirector || coDirector">
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                                v-if="addCoDirector || coDirector"
+                              >
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="coDirector" label="Co - Director" />
+                                  <v-text-field
+                                    v-model="coDirector"
+                                    label="Co - Director"
+                                  />
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="4">
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="actor" label="Actor/Actress" />
-                                  <span class="pb-4 pl-3" v-if="!addActor2 && !actor2">
+                                  <v-text-field
+                                    v-model="actor"
+                                    label="Actor/Actress"
+                                  />
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="!addActor2 && !actor2"
+                                  >
                                     <v-icon
                                       @click="addActor2 = !addActor2"
                                       color="green"
                                       style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
+                                    >
+                                      mdi-plus-circle-outline
+                                    </v-icon>
                                   </span>
-                                  <span class="pb-4 pl-3" v-if="addActor2 || actor2">
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="addActor2 || actor2"
+                                  >
                                     <v-icon
                                       @click="handleRemoveCoDirector(2)"
                                       color="warning"
                                       style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
+                                    >
+                                      mdi-close-circle-outline
+                                    </v-icon>
                                   </span>
                                 </div>
                               </v-col>
-                              <v-col cols="12" sm="6" md="4" v-if="addActor2 || actor2">
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                                v-if="addActor2 || actor2"
+                              >
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="actor2" label="Actor/Actress" />
-                                  <span class="pb-4 pl-3" v-if="!addActor3 && !actor3">
+                                  <v-text-field
+                                    v-model="actor2"
+                                    label="Actor/Actress"
+                                  />
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="!addActor3 && !actor3"
+                                  >
                                     <v-icon
                                       @click="addActor3 = !addActor3"
                                       color="green"
                                       style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
+                                    >
+                                      mdi-plus-circle-outline
+                                    </v-icon>
                                   </span>
-                                  <span class="pb-4 pl-3" v-if="addActor3 || actor3">
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="addActor3 || actor3"
+                                  >
                                     <v-icon
                                       @click="handleRemoveActor(3)"
                                       color="warning"
                                       style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
+                                    >
+                                      mdi-close-circle-outline
+                                    </v-icon>
                                   </span>
                                 </div>
                               </v-col>
-                              <v-col cols="12" sm="6" md="4" v-if="addActor3 || actor3">
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                                v-if="addActor3 || actor3"
+                              >
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="actor3" label="Actor/Actress" />
-                                  <span class="pb-4 pl-3" v-if="!addActor4 && !actor4">
+                                  <v-text-field
+                                    v-model="actor3"
+                                    label="Actor/Actress"
+                                  />
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="!addActor4 && !actor4"
+                                  >
                                     <v-icon
                                       @click="addActor4 = !addActor4"
                                       color="green"
                                       style="cursor: pointer"
-                                    >mdi-plus-circle-outline</v-icon>
+                                    >
+                                      mdi-plus-circle-outline
+                                    </v-icon>
                                   </span>
-                                  <span class="pb-4 pl-3" v-if="addActor4 || actor4">
+                                  <span
+                                    class="pb-4 pl-3"
+                                    v-if="addActor4 || actor4"
+                                  >
                                     <v-icon
                                       @click="handleRemoveActor(4)"
                                       color="warning"
                                       style="cursor: pointer"
-                                    >mdi-close-circle-outline</v-icon>
+                                    >
+                                      mdi-close-circle-outline
+                                    </v-icon>
                                   </span>
                                 </div>
                               </v-col>
-                              <v-col cols="12" sm="6" md="4" v-if="addActor4 || actor4">
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                                v-if="addActor4 || actor4"
+                              >
                                 <div class="d-flex align-end">
-                                  <v-text-field v-model="actor4" label="Actor/Actress" />
+                                  <v-text-field
+                                    v-model="actor4"
+                                    label="Actor/Actress"
+                                  />
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="5">
@@ -228,7 +321,9 @@
                                   <span
                                     style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                                     class="mb-0 pt-1 pr-5"
-                                  >Your stars:</span>
+                                  >
+                                    Your stars:
+                                  </span>
                                   <v-rating
                                     v-model="post.movie.stars"
                                     color="yellow darken-3"
@@ -290,7 +385,10 @@
                                     placeholder="Markdown"
                                   />
                                 </ValidationProvider>
-                                <v-dialog v-model="isPreviewing" max-width="800">
+                                <v-dialog
+                                  v-model="isPreviewing"
+                                  max-width="800"
+                                >
                                   <v-card
                                     class="preview px-8 pt-8 pb-5 d-flex flex-column"
                                     style="min-height: 330px;"
@@ -319,13 +417,17 @@
                             class="mr-5 white--text"
                             color="primary"
                             @click="togglePreviewContent"
-                          >Preview</v-btn>
+                          >
+                            Preview
+                          </v-btn>
                           <v-btn
                             class="white--text"
                             :disabled="isLoadingUpload"
                             color="warning"
                             @click="submit"
-                          >Update</v-btn>
+                          >
+                            Update
+                          </v-btn>
                         </v-card-actions>
                       </v-container>
                     </v-col>
@@ -379,11 +481,11 @@ export default {
       this.getPostById({
         id: this.$route.params.id,
         typeQuery: this.$route.query.type,
-      }).then((data) => {
+      }).then(data => {
         this.post = data;
-        this.post.tags = this.post.tags.map((tag) => tag.tagName);
+        this.post.tags = this.post.tags.map(tag => tag.tagName);
         const actors = this.post.authors.filter(
-          (person) => person.type === 'actor',
+          person => person.type === 'actor',
         );
         this.actor = actors[0] ? actors[0].name : '';
         this.actor2 = actors[1] ? actors[1].name : '';
@@ -394,7 +496,7 @@ export default {
         this.addActor24 = !!this.actor4;
 
         const directors = this.post.authors.filter(
-          (person) => person.type === 'director',
+          person => person.type === 'director',
         );
         this.director = directors[0] ? directors[0].name : '';
         this.coDirector = directors[1] ? directors[1].name : '';
@@ -441,7 +543,7 @@ export default {
         { type: 'actor', name: this.actor4 },
         { type: 'director', name: this.director },
         { type: 'director', name: this.coDirector },
-      ].filter((person) => person.name !== '');
+      ].filter(person => person.name !== '');
 
       const res = await this.editPost({ _id: this.post._id, data: dataUpdate });
       if (res.status === 200) {
