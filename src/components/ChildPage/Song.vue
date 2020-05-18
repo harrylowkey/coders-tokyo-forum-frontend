@@ -201,7 +201,7 @@
         />
         <author-follow-card
           v-if="!isLoading"
-          class="author-follow mt-3"
+          class="author-follow mt-10 ml-2"
           :author="post.user"
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
@@ -213,7 +213,7 @@
           <v-hover
             v-slot:default="{ hover }"
             style="transition: 0.3s"
-            v-for="song in otherSongsOfAuthor"
+            v-for="(song, i) in otherPostsOfAuthor"
             :key="song._id"
           >
             <v-card :elevation="hover ? 10 : 3" :class="{ 'on-hover': hover }" id="audio-card">
@@ -251,7 +251,13 @@
                 </v-card-text>
                 <v-spacer />
                 <v-container class="pt-4 pl-6 pr-0 d-flex justify-end">
-                  <like-btn :likes="song.likes.length" />
+                  <like-btn
+                    @handleLikePost="onClickLikePost"
+                    @handleUnlikePost="onClickUnlikePost"
+                    :isUserLiked="isUserLikedAnotherPost(i)"
+                    :likes="song.likes.length"
+                    :postId="song._id"
+                  />
                 </v-container>
               </v-card-actions>
             </v-card>
@@ -283,9 +289,9 @@ export default {
       currentVolume: 100,
       maxVolume: 1.0,
       minVolume: 0.0,
-      otherSongsOfAuthor: [
+      otherPostsOfAuthor: [
         {
-          _id: '5e9920603c513c2611a9df88',
+          _id: '5ebb574e24f0d8118a7e9bd6',
           tags: [
             {
               _id: '5e8c5f27abf7df7d3be426db',
@@ -354,7 +360,7 @@ export default {
           },
         },
         {
-          _id: '5e99202c3c513c2611a9df86',
+          _id: '5ebfc1bb5e8ac6549bccc10e',
           tags: [
             {
               _id: '5e8c5f27abf7df7d3be426db',
@@ -394,7 +400,7 @@ export default {
             fileName: 'hongquang_podcast_Vung Ky Uc - Chillies',
             sizeBytes: 4835851,
             userId: '5e8b577f1a2dde32298795f4',
-            postId: '5e99202c3c513c2611a9df86',
+            postId: '5ebb574e24f0d8118a7e9bd6',
             resourceType: 'video',
             media: {
               type: 'upload',

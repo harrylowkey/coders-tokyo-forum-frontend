@@ -53,6 +53,7 @@
                 @handleUnlikePost="onClickUnlikePost"
                 :isUserLiked="isUserLiked()"
                 :likes="likes.length"
+                :postId="_id"
               />
             </v-col>
             <v-col class="pa-lg-0">

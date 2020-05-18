@@ -35,8 +35,36 @@ export const crudPost = {
       },
     };
   },
+  computed: {
+    ...mapState('user', ['user']),
+    ...mapState('utils', ['isLoading', 'isLoadingUpload', 'isLoadingAPI', 'errorMes']),
+    isAuthor() {
+      return this.post ? this.post.user._id === this.user._id : false;
+    },
+    isUserLiked() {
+      const isUserLiked = this.post.likes.find(user => user._id === this.user._id);
+      return Boolean(isUserLiked);
+    },
+    isUserSaved() {
+      const isUserSaved = this.post.savedBy.find(user => user._id === this.user._id);
+      return Boolean(isUserSaved);
+    }
+  },
+  async created() {
+    await this.fetchPost();
+  },
+  mounted() {
+    if (this.$route.hash === '#comment') {
+      const triggerScrollToComment = document.querySelector(
+        '#trigger-scroll-comments',
+      );
+      triggerScrollToComment.click();
+    } else {
+      window.scrollTo(0, 0);
+    }
+  },
   methods: {
-    ...mapActions('post', ['getPostById', 'deletePostById']),
+    ...mapActions('post', ['getPostById', 'deletePostById', 'likePost', 'unlikePost']),
     async handleDeletePost() {
       const response = await this.deletePostById({
         id: this.post._id,
@@ -78,34 +106,45 @@ export const crudPost = {
       );
       triggerScrollToComment.click();
     },
+    async onClickLikePost({ postId }) {
+      const response = await this.likePost(postId);
+      if (!response) {
+        return this.$router.push({ path: ROUTES.LOGIN });
+      }
+      if (response.status === 200) {
+        const post = this.otherPostsOfAuthor.find((post) => post._id === postId);
+        post.likes.push({ username: this.user.username, _id: this.user._id });
+      }
+      if (response.status === 409) {
+        this.$notify({
+          type: 'error',
+          title: response.data.message,
+        });
+      }
 
-  },
-  computed: {
-    ...mapState('user', ['user']),
-    ...mapState('utils', ['isLoading', 'isLoadingUpload', 'isLoadingAPI', 'errorMes']),
-    isAuthor() {
-      return this.post ? this.post.user._id === this.user._id : false;
+      if (response.status === 401) {
+        this.$router.push({ path: ROUTES.LOGIN });
+      }
     },
-    isUserLiked() {
-      const isUserLiked = this.post.likes.find(user => user._id === this.user._id);
+    async onClickUnlikePost({ postId }) {
+      const response = await this.unlikePost(postId);
+      if (!response) {
+        return this.$router.push({ path: ROUTES.LOGIN });
+      }
+      if (response.status === 200) {
+        const post = this.otherPostsOfAuthor.find((post) => post._id === postId);
+        post.likes = post.likes.filter((_user) => _user._id !== this.user._id);
+      }
+      if (response.status === 409) {
+        this.$notify({
+          type: 'error',
+          title: response.data.message,
+        });
+      }
+    },
+    isUserLikedAnotherPost(index) {
+      const isUserLiked = this.otherPostsOfAuthor[index].likes.find(user => user._id === this.user._id);
       return Boolean(isUserLiked);
-    },
-    isUserSaved() {
-      const isUserSaved = this.post.savedBy.find(user => user._id === this.user._id);
-      return Boolean(isUserSaved);
-    }
-  },
-  async created() {
-    await this.fetchPost();
-  },
-  mounted() {
-    if (this.$route.hash === '#comment') {
-      const triggerScrollToComment = document.querySelector(
-        '#trigger-scroll-comments',
-      );
-      triggerScrollToComment.click();
-    } else {
-      window.scrollTo(0, 0);
     }
   },
   components: {

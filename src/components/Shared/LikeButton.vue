@@ -31,13 +31,17 @@ export default {
       type: Number,
       default: 0,
     },
+    postId: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
     onClickLike() {
-      this.$emit('handleLikePost');
+      this.$emit('handleLikePost', { postId: this.postId });
     },
     onClickUnlike() {
-      this.$emit('handleUnlikePost');
+      this.$emit('handleUnlikePost', { postId: this.postId });
     },
   },
 };

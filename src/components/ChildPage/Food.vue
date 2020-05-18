@@ -317,13 +317,13 @@
             </div>
           </v-row>
           <v-divider />
-          <v-row id="other-posts-of-author" v-if="otherBooksOfAuthor.length" class="mb-10">
+          <v-row id="other-posts-of-author" v-if="otherFoodReviewsOfAuthor.length" class="mb-10">
             <h1 class="mt-8 mb-3">Other blogs</h1>
             <div style="width: 100%" class="d-flex" v-if="isLoading">
               <v-boilerplate class="other-post" style="width: 100%" type="article" />
               <v-boilerplate class="other-post" style="width: 100%" type="article" />
             </div>
-            <other-posts-of-author v-else psotType="food" :posts="otherBooksOfAuthor" />
+            <other-posts-of-author v-else psotType="food" :posts="otherFoodReviewsOfAuthor" />
           </v-row>
         </v-container>
       </v-col>
@@ -369,7 +369,7 @@ export default {
     return {
       dialog: false,
       dialogImageSrc: '',
-      otherBooksOfAuthor: [
+      otherFoodReviewsOfAuthor: [
         {
           _id: '5e9c6ce7830bd646939c7624',
           tags: [
