@@ -85,7 +85,7 @@ export default {
           audio: {
             name: this.name,
             _id: this._id,
-            artist: this.artists.join(','),
+            artist: this.artists.join(', '),
             url: this.link,
             cover: this.cover,
             isPlaying: !isPlaying,
@@ -103,7 +103,7 @@ export default {
             audio: {
               name: this.name,
               _id: this._id,
-              artist: this.artists.join(','),
+              artist: this.artists.join(', '),
               url: this.link,
               cover: this.cover,
               isPlaying: !isPlaying,
@@ -118,7 +118,7 @@ export default {
             audio: {
               name: this.name,
               _id: this._id,
-              artist: this.artists.join(','),
+              artist: this.artists.join(', '),
               url: this.link,
               cover: this.cover,
               isPlaying: !isPlaying,

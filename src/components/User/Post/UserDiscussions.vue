@@ -1,20 +1,8 @@
 <template>
   <v-container class="pt-0">
     <v-row>
-      <v-col cols="10" offset-sm="1" class="pt-0">
-        <v-skeleton-loader
-          class="mt-5 mb-5"
-          v-if="isLoading"
-          type="list-item-avatar-three-line, list-item-three-line"
-        />
-
-        <v-skeleton-loader
-          class="mt-5 mb-5"
-          v-if="isLoading"
-          type="list-item-avatar-three-line, list-item-three-line"
-        />
-
-        <div v-if="!isLoading">
+      <v-col cols="11" class="pt-0 ml-8">
+        <div v-if="!isLoadingGetPosts">
           <discussion
             v-for="item in discussions"
             :key="item._id"
@@ -36,11 +24,11 @@
         </div>
 
         <div
-          v-if="!isLoadingAPI && !isLoadingAPI"
           v-infinite-scroll="loadMore"
           infinite-scroll-disabled="isLoadmore"
           infinite-scroll-distance="10"
         />
+
         <v-text-field color="primary" v-if="isLoadmore" loading disabled />
       </v-col>
     </v-row>
@@ -71,21 +59,21 @@ export default {
       'isLoading',
       'isLoadingAPI',
       'isLoadmore',
+      'isLoadingGetPosts',
     ]),
+    ...mapState('userDiscussions', ['discussions', 'metadata']),
   },
   methods: {
-    ...mapActions('user', ['getUserPosts', 'loadmoreUserPosts']),
+    ...mapActions('userDiscussions', ['getDiscussions', 'loadMoreDiscussions']),
     async loadMore() {
+      if (!this.metadata.page) return;
       if (this.metadata.page >= this.metadata.totalPage) {
         return;
       }
-      await this.loadmoreUserPosts({
+      await this.loadMoreDiscussions({
         userId: this.user._id,
         typeQuery: 'discussion',
-        options: { limit: 2, page: this.metadata.page + 1 },
-      }).then(res => {
-        this.discussions.push(...res.data);
-        this.metadata = res.metadata;
+        options: { limit: 10, page: this.metadata.page + 1 },
       });
     },
     handleLikedPost({ postId, user }) {
@@ -102,28 +90,24 @@ export default {
         _user => _user._id !== user._id,
       );
     },
-    async fetchPost(dataQuery) {
-      this.getUserPosts(dataQuery).then(res => {
-        this.discussions = res.data;
-        this.metadata = res.metadata;
-      });
-    },
   },
   async created() {
-    await this.fetchPost({
+    await this.getDiscussions({
       userId: this.user._id,
       typeQuery: 'discussion',
-      options: { limit: 2, page: 1 },
+      options: { limit: 10, page: 1 },
     });
   },
-  errorMes(newVal) {
-    if (newVal.length) {
-      this.$notify({
-        type: 'error',
-        title: 'Update failed',
-        text: newVal,
-      });
-    }
+  watch: {
+    errorMes(newVal) {
+      if (newVal.length) {
+        this.$notify({
+          type: 'error',
+          title: 'Update failed',
+          text: newVal,
+        });
+      }
+    },
   },
 };
 </script>

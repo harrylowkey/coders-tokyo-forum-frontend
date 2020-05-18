@@ -4,6 +4,7 @@ import {
   SET_LOADMORE,
   SET_LOADING_UPLOAD,
   SET_LOADING_API,
+  SET_LOADING_GET_POSTS,
 } from './constants';
 
 const utils = {
@@ -14,6 +15,7 @@ const utils = {
     isLoadmore: false,
     isLoadingUpload: false,
     isLoadingAPI: false,
+    isLoadingGetPosts: false,
   },
   mutations: {
     [SET_LOADING](state, payload = false) {
@@ -30,6 +32,9 @@ const utils = {
     },
     [SET_LOADMORE](state, payload = false) {
       state.isLoadmore = payload;
+    },
+    [SET_LOADING_GET_POSTS](state, payload = false) {
+      state.isLoadingGetPosts = payload;
     },
   },
   actions: {

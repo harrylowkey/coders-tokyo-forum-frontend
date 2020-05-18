@@ -5,6 +5,10 @@ import { ROUTES } from '@/mixins/routes';
 export const toggleLike = {
   computed: {
     ...mapState('user', ['user']),
+    isUserLiked() {
+      const isUserLiked = this.likes.find(user => user._id === this.user._id);
+      return Boolean(isUserLiked);
+    },
   },
   methods: {
     ...mapActions('post', ['likePost', 'unlikePost']),
@@ -41,10 +45,6 @@ export const toggleLike = {
           title: response.data.message,
         });
       }
-    },
-    isUserLiked() {
-      const isUserLiked = this.likes.find(user => user._id === this.user._id);
-      return Boolean(isUserLiked);
     },
   },
 };

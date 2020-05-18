@@ -191,9 +191,9 @@ export default {
     },
     async getUserPosts(
       { commit },
-      { userId, typeQuery, options = { limit: 10, page: 1 } },
+      { userId, typeQuery, options = { limit: 5, page: 1 } },
     ) {
-      commit('utils/SET_LOADING_API', true, { root: true });
+      commit('utils/SET_LOADING_GET_POSTS', true, { root: true });
       const posts = await axios
         .get(
           APIS.GET_USER_POSTS({
@@ -213,7 +213,7 @@ export default {
         })
         .then(res => {
           setTimeout(() => {
-            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_LOADING_GET_POSTS', false, { root: true });
             commit('utils/SET_ERROR', '', { root: true });
           }, 0);
           return res;
@@ -222,7 +222,7 @@ export default {
     },
     async loadmoreUserPosts(
       { commit },
-      { userId, typeQuery, options = { limit: 10, page: 1 } },
+      { userId, typeQuery, options = { limit: 5, page: 1 } },
     ) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
