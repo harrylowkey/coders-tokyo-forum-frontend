@@ -44,18 +44,17 @@ export default {
     return {
       valid: true,
       addTag: false,
-      tag: '#',
+      tag: '',
       tagRules: [
-        t => t[0] === '#' || 'Hash tag at a first character is required',
         t => t.length <= 20 || 'Tag muse be less than 20 characters',
       ],
     };
   },
   methods: {
     handleAddTag(tag) {
-      if (tag[0] !== '#' || tag.length > 20 || tag.trim() === '#') return;
+      if (tag.length > 20 || tag.trim() === '') return;
       this.addTag = !this.addTag;
-      this.tag = '#';
+      this.tag = '';
       return this.$emit('handleAddTag', tag);
     },
   },

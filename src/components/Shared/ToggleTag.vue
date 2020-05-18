@@ -7,7 +7,7 @@
       text-color="white"
       @click="onClickRemove"
     >
-      {{ tagName }}
+      #{{ tagName }}
     </v-chip>
   </v-hover>
 </template>
