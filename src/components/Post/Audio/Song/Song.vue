@@ -38,6 +38,7 @@
                 @handleUnlikePost="onClickUnlikePost"
                 :isUserLiked="isUserLiked()"
                 :likes="likes.length"
+                :postId="_id"
               />
               <comment-btn :type="type" :postId="_id" :comments="comments.length" />
             </v-container>

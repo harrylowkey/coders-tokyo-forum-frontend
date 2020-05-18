@@ -217,7 +217,7 @@
         />
         <author-follow-card
           v-if="!isLoading"
-          class="author-follow mt-3"
+          class="author-follow mt-10 ml-2"
           :author="post.user"
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
@@ -229,7 +229,7 @@
           <v-hover
             v-slot:default="{ hover }"
             style="transition: 0.3s"
-            v-for="podcast in otherPodcastsOfAuthor"
+            v-for="(podcast, i) in otherPostsOfAuthor"
             :key="podcast._id"
           >
             <v-card :elevation="hover ? 10 : 3" :class="{ 'on-hover': hover }" id="audio-card">
@@ -261,7 +261,13 @@
                 </v-card-text>
                 <v-spacer />
                 <v-container class="pt-4 pl-6 pr-0 d-flex justify-end">
-                  <like-btn :likes="podcast.likes.length" />
+                  <like-btn
+                    @handleLikePost="onClickLikePost"
+                    @handleUnlikePost="onClickUnlikePost"
+                    :isUserLiked="isUserLikedAnotherPost(i)"
+                    :likes="podcast.likes.length"
+                    :postId="podcast._id"
+                  />
                 </v-container>
               </v-card-actions>
             </v-card>
@@ -293,9 +299,9 @@ export default {
       currentVolume: 100,
       maxVolume: 1.0,
       minVolume: 0.0,
-      otherPodcastsOfAuthor: [
+      otherPostsOfAuthor: [
         {
-          _id: '5e992603c513c2611a9df88',
+          _id: '5ebfc32a5e8ac6549bccc118',
           tags: [
             {
               _id: '5e8c5f27abf7df7d3be426db',
@@ -364,7 +370,7 @@ export default {
           },
         },
         {
-          _id: '5e9202c3c513c2611a9df86',
+          _id: '5eba2855d7244b46d2a1a29b',
           tags: [
             {
               _id: '5e8c5f27abf7df7d3be426db',

@@ -8,13 +8,13 @@ export const toggleLike = {
   },
   methods: {
     ...mapActions('post', ['likePost', 'unlikePost']),
-    async onClickLikePost() {
-      const response = await this.likePost(this._id);
+    async onClickLikePost({ postId }) {
+      const response = await this.likePost(postId);
       if (!response) {
         return this.$router.push({ path: ROUTES.LOGIN });
       }
       if (response.status === 200) {
-        this.$emit('likedPost', { postId: this._id, user: this.user });
+        this.$emit('likedPost', { postId, user: this.user });
       }
       if (response.status === 409) {
         this.$notify({
@@ -27,13 +27,13 @@ export const toggleLike = {
         this.$router.push({ path: ROUTES.LOGIN });
       }
     },
-    async onClickUnlikePost() {
-      const response = await this.unlikePost(this._id);
+    async onClickUnlikePost({ postId }) {
+      const response = await this.unlikePost(postId);
       if (!response) {
         return this.$router.push({ path: ROUTES.LOGIN });
       }
       if (response.status === 200) {
-        this.$emit('unlikedPost', { postId: this._id, user: this.user });
+        this.$emit('unlikedPost', { postId, user: this.user });
       }
       if (response.status === 409) {
         this.$notify({
