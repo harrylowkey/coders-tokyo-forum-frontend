@@ -195,5 +195,39 @@ export default {
         });
       return response;
     },
+    async savePost({ commit }, postId) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const response = await axios
+        .post(`/posts/${postId}/save`)
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true });
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return response;
+    },
+    async unsavePost({ commit }, postId) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const response = await axios
+        .post(`/posts/${postId}/unsave`)
+        .catch(err => {
+          commit('utils/SET_ERROR', err, { root: true });
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return response;
+    },
   },
 };

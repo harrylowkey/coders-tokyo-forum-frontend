@@ -9,7 +9,7 @@
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587893696/planet_peappv.svg"
         :class="upHeartCLasses"
-        :isUserLiked="isUserLiked()"
+        :isUserLiked="isUserLiked"
       />
       <span class="counter likes-counter">{{ likes.length }}</span>
     </div>
@@ -85,12 +85,19 @@ export default {
       type: String,
       required: true,
     },
+    isUserSaved: {
+      type: Boolean,
+      default: false,
+    },
+    isUserLiked: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       upFlowerCLasses: ['up-flower'],
       donateCoinClasses: ['up-coin'],
-      upSaveIconClasses: ['up-save'],
       isDonating: false,
     };
   },
@@ -98,7 +105,7 @@ export default {
     ...mapState('user', ['user']),
   },
   methods: {
-    ...mapActions('post', ['likePost', 'unlikePost']),
+    ...mapActions('post', ['likePost', 'unlikePost', 'savePost', 'unsavePost']),
     async onClickLikePost() {
       const response = await this.likePost(this.postId);
       if (!response) {
@@ -135,13 +142,58 @@ export default {
         });
       }
     },
+    async onClickSavePost() {
+      const response = await this.savePost(this.postId);
+      if (!response) {
+        return this.$router.push({ path: ROUTES.LOGIN });
+      }
+      if (response.status === 200) {
+        this.$emit('savedPost', { user: this.user });
+        this.upSaveIconClasses.push('show-up-save');
+      }
+      if (response.status === 409) {
+        this.$notify({
+          type: 'error',
+          title: response.data.message,
+        });
+      }
+
+      if (response.status === 401) {
+        this.$router.push({ path: ROUTES.LOGIN });
+      }
+    },
+    async onClickUnsavePost() {
+      const response = await this.unsavePost(this.postId);
+      if (!response) {
+        return this.$router.push({ path: ROUTES.LOGIN });
+      }
+      if (response.status === 200) {
+        this.$emit('unsavedPost', { user: this.user });
+        this.upSaveIconClasses = ['up-save'];
+      }
+      if (response.status === 409) {
+        this.$notify({
+          type: 'error',
+          title: response.data.message,
+        });
+      }
+    },
     toggleLike() {
-      if (this.isUserLiked()) {
+      if (this.isUserLiked) {
         this.onClickUnlikePost();
       }
 
-      if (!this.isUserLiked()) {
+      if (!this.isUserLiked) {
         this.onClickLikePost();
+      }
+    },
+    toggleSave() {
+      if (this.isUserSaved) {
+        this.onClickUnsavePost();
+      }
+
+      if (!this.isUserSaved) {
+        this.onClickSavePost();
       }
     },
     handleGiveFlower() {
@@ -161,26 +213,21 @@ export default {
         );
       }, 1000);
     },
-    toggleSave() {
-      if (this.upSaveIconClasses.length === 2) {
-        return this.upSaveIconClasses.pop();
-      } else {
-        return this.upSaveIconClasses.push('show-up-save');
-      }
-    },
     onClickComment() {
       this.$emit('hanldeClickCommentBtn');
     },
-    isUserLiked() {
-      const isUserLiked = this.likes.find((user) => user._id === this.user._id);
-      return Boolean(isUserLiked);
-    },
   },
   created() {
-    if (this.isUserLiked()) {
+    if (this.isUserLiked) {
       this.upHeartCLasses = ['up-heart', 'show-up-heart'];
     } else {
       this.upHeartCLasses = ['up-heart'];
+    }
+
+    if (this.isUserSaved) {
+      this.upSaveIconClasses = ['up-save', 'show-up-save'];
+    } else {
+      this.upSaveIconClasses = ['up-save'];
     }
   },
 };
