@@ -256,7 +256,10 @@ export default {
         return;
       }
 
-      await this.loadMoreDiscussions({ page: this.metadata.page + 1 });
+      await this.loadMoreDiscussions({
+        limit: 10,
+        page: this.metadata.page + 1,
+      });
     },
     handleLikedPost({ postId, user }) {
       const discussion = this.discussions.find(
