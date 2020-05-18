@@ -7,10 +7,14 @@
           @hanldeClickCommentBtn="hanldeClickCommentBtn"
           @likedPost="handleLikedPost"
           @unlikedPost="handleUnlikedPost"
+          @savedPost="handleSavedPost"
+          @unsavedPost="handleUnsavedPost"
           :postId="post._id"
           :likes="post.likes"
-          :saves="post.saves"
+          :saves="post.savedBy"
           :flowers="0"
+          :isUserLiked="isUserLiked"
+          :isUserSaved="isUserSaved"
         />
       </v-col>
 
@@ -469,6 +473,14 @@ export default {
     },
     handleUnlikedPost({ user }) {
       this.post.likes = this.post.likes.filter(
+        (_user) => _user._id !== user._id,
+      );
+    },
+    handleSavedPost({ user }) {
+      this.post.savedBy.push({ username: user.username, _id: user._id });
+    },
+    handleUnsavedPost({ user }) {
+      this.post.savedBy = this.post.savedBy.filter(
         (_user) => _user._id !== user._id,
       );
     },

@@ -69,6 +69,7 @@ export const crudPost = {
         typeQuery: this.$route.query.type,
       }).then(data => {
         this.post = data;
+        console.log(data);
       });
     },
     hanldeClickCommentBtn() {
@@ -86,9 +87,13 @@ export const crudPost = {
       return this.post ? this.post.user._id === this.user._id : false;
     },
     isUserLiked() {
-      const isUserLiked = this.likes.find(user => user._id === this.user._id);
+      const isUserLiked = this.post.likes.find(user => user._id === this.user._id);
       return Boolean(isUserLiked);
     },
+    isUserSaved() {
+      const isUserSaved = this.post.savedBy.find(user => user._id === this.user._id);
+      return Boolean(isUserSaved);
+    }
   },
   async created() {
     await this.fetchPost();
