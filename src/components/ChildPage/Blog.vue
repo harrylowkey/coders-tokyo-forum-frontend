@@ -55,11 +55,15 @@
                   <h1 class="blog-title">{{ post.topic }}</h1>
                 </v-list-item-title>
                 <v-card-actions class="pl-0">
-                  <v-avatar size="40" style="cursor: pointer" dark>
+                  <v-avatar size="40" dark>
                     <img :src="post.user.avatar.secureURL" alt="Avatar" />
                   </v-avatar>
                   <v-card-subtitle style="font-size: 16px" class="ml-n1 pr-0">
-                    <a style="text-decoration: none; color: #000" href>
+                    <a
+                      style="text-decoration: none; color: #000"
+                      target="_blank"
+                      :href="authorProfileLink"
+                    >
                       {{ post.user.username }}
                     </a>
                   </v-card-subtitle>
@@ -175,7 +179,7 @@
           :author="post.user"
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
-          :isFollowing="isFollowing()"
+          :isFollowing="isFollowing"
           :isAuthor="isAuthor"
         />
       </v-col>

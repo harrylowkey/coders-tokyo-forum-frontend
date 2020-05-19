@@ -165,7 +165,7 @@
                   :isAuthor="isAuthor"
                   @handleFollow="handleFollow"
                   @handleUnFollow="handleUnFollow"
-                  :isFollowing="isFollowing()"
+                  :isFollowing="isFollowing"
                 />
               </v-col>
               <v-col class="lyric" cols="9" sm="8" md="8" lg="9" xl="9">
@@ -242,7 +242,7 @@
           :author="post.user"
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
-          :isFollowing="isFollowing()"
+          :isFollowing="isFollowing"
           :isAuthor="isAuthor"
         />
 
@@ -267,7 +267,7 @@
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="100px"
                 style="cursor: pointer"
-                @click="playAnotherSong(song._id)"
+                @click="hanldePlayAnotherSong(song._id)"
               >
                 <v-card-title
                   class="title white--text d-flex flex-column align-start pb-0 pt-2"
@@ -286,7 +286,7 @@
                   <v-icon
                     class="play-icon"
                     style="color: #fff"
-                    @click="hanldePlayAnotherSong"
+                    @click="hanldePlayAnotherSong(song._id)"
                     size="50"
                   >
                     mdi-music-circle-outline
@@ -325,6 +325,7 @@
 
 <script>
 import { crudPost } from '@/mixins/crudPost';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [crudPost],
@@ -498,7 +499,9 @@ export default {
     slicedTags(tags) {
       return tags.slice(0, this.maxTags);
     },
-    hanldePlayAnotherSong() {},
+    hanldePlayAnotherSong(songId) {
+      window.open(ROUTES.SONG(songId), '_blank');
+    },
     toggleShowLyrics() {
       if (this.isShowMore) {
         this.lyricClasses.pop();

@@ -41,6 +41,8 @@ export const toggleFollow = {
         });
       }
     },
+  },
+  computed: {
     isFollowing() {
       return this.post.user.followers.includes(this.user._id);
     },

@@ -154,7 +154,7 @@
           :author="post.user"
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
-          :isFollowing="isFollowing()"
+          :isFollowing="isFollowing"
           :isAuthor="isAuthor"
         />
       </v-col>

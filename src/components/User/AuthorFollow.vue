@@ -14,11 +14,15 @@
           </v-col>
           <v-col sm="12" md="8">
             <p class="title mb-1 mt-1">
-              <a style="color: #000; text-decoration: none" :href="link">
+              <a
+                target="_blank"
+                style="color: #000; text-decoration: none"
+                :href="link"
+              >
                 {{ author.username }}
               </a>
             </p>
-            <p style="font-size: 13px; color: grey" class="font-italic">
+            <p style="font-size: 13px; color: green" class="font-italic">
               {{ author.job }}
             </p>
           </v-col>
@@ -90,7 +94,7 @@ export default {
   methods: {
     ...mapActions('user', ['follow', 'unfollow']),
     onClickAvatar() {
-      this.$router.push({ path: this.link });
+      window.open(this.link, '_blank');
     },
     onClickFollow() {
       this.$emit('handleFollow');

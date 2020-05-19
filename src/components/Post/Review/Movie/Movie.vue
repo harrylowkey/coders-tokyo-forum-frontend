@@ -232,16 +232,24 @@
 
       <v-list-item three-line style="padding: 0 25px 0 20px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-          <router-link class="title-link" :to="blogLink">
+          <a
+            style="text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
+            :href="blogLink"
+            target="_blank"
+          >
             <v-list-item-title class="headline movie-title mb-0 mt-3">
               {{ topic }}
             </v-list-item-title>
-          </router-link>
+          </a>
           <p class="description mb-0 pt-2">{{ description || content }}</p>
           <span style="font-size: 0.775rem;" class="pt-1" />
           <div class="d-flex justify-space-between" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
-              <a style=" text-decoration: none" :href="blogLink">
+              <a
+                target="_blank"
+                style=" text-decoration: none"
+                :href="blogLink"
+              >
                 Read more...
               </a>
             </span>
@@ -404,7 +412,7 @@ export default {
   },
   methods: {
     linkToBlog() {
-      this.$router.push({ path: this.blogLink });
+      window.open(this.blogLink, '_blank');
     },
   },
 };

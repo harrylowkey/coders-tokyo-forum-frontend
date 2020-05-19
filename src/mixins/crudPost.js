@@ -115,6 +115,9 @@ export const crudPost = {
         typeQuery: this.$route.query.type,
       }).then(data => {
         this.post = data;
+        this.authorProfileLink = ROUTES.USER_PROFILE({
+          username: this.post.user.username,
+        });
       });
     },
     hanldeClickCommentBtn() {

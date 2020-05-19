@@ -9,8 +9,9 @@
         />
       </v-avatar>
       <a
+        target="_blank"
         style="text-decoration: none; color: #000"
-        :href="`/posts?artist=${author.username}&type=${type}`"
+        :href="`/users/profile/${this.author.username}`"
       >
         <span>{{ author.username }}</span>
       </a>
@@ -190,7 +191,7 @@ export default {
       this.$router.push({ path: this.audioLink });
     },
     onClickAvatar() {
-      window.open(`/profile/${this.author.username}`);
+      window.open(`/users/profile/${this.author.username}`);
     },
   },
   mounted() {
