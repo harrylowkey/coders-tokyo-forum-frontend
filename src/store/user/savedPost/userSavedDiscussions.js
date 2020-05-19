@@ -2,31 +2,30 @@ import axios from 'axios';
 
 import { APIS } from '@/mixins/api-endpoints';
 
-import { SET_PODCASTS, LOAD_MORE_PODCASTS } from '../constants';
+import { SET_DISCUSSIONS, LOAD_MORE_DISCUSSIONS } from '../../constants';
 
 export default {
   namespaced: true,
   state: {
-    podcasts: [],
+    savedDiscussions: [],
     metadata: {},
   },
   mutations: {
-    [SET_PODCASTS](state, payload) {
-      state.podcasts = payload.data;
+    [SET_DISCUSSIONS](state, payload) {
+      state.savedDiscussions = payload.data;
       state.metadata = payload.metadata;
     },
-    [LOAD_MORE_PODCASTS](state, payload) {
-      state.podcasts.push(...payload.data);
+    [LOAD_MORE_DISCUSSIONS](state, payload) {
+      state.savedDiscussions.push(...payload.data);
       state.metadata = payload.metadata;
     },
   },
   actions: {
-    async getPodcasts({ commit }, data) {
+    async getDiscussions({ commit }, data) {
       commit('utils/SET_LOADING_GET_POSTS', true, { root: true });
       const posts = await axios
         .get(
-          APIS.GET_USER_POSTS({
-            userId: data.userId,
+          APIS.GET_USER_SAVED_POSTS({
             queries: {
               type: data.typeQuery,
               limit: data.options.limit,
@@ -35,7 +34,7 @@ export default {
           }),
         )
         .then(res => {
-          commit('SET_PODCASTS', { data: res.data, metadata: res.metadata });
+          commit('SET_DISCUSSIONS', { data: res.data, metadata: res.metadata });
           return res;
         })
         .catch(err => {
@@ -54,12 +53,11 @@ export default {
       return posts;
     },
 
-    async loadMorePodcasts({ commit }, data) {
+    async loadMoreDiscussions({ commit }, data) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
         .get(
-          APIS.GET_USER_POSTS({
-            userId: data.userId,
+          APIS.GET_USER_SAVED_POSTS({
             queries: {
               type: data.typeQuery,
               limit: data.options.limit,
@@ -68,7 +66,7 @@ export default {
           }),
         )
         .then(res => {
-          commit('LOAD_MORE_PODCASTS', {
+          commit('LOAD_MORE_DISCUSSIONS', {
             data: res.data,
             metadata: res.metadata,
           });

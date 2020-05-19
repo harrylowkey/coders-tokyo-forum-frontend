@@ -7,14 +7,18 @@
     </v-card-title>
 
     <v-tabs background-color="transparent" color="basil" grow>
-      <v-tab @click="setActiveTab(tab)" v-for="tab in profileTabs" :key="tab">
-        {{ tab }}
+      <v-tab
+        @click="setActiveTab(tab.key)"
+        v-for="tab in profileTabs"
+        :key="tab.key"
+      >
+        {{ tab.name }}
       </v-tab>
     </v-tabs>
 
     <v-tabs-items>
-      <user-posts :user="user" v-if="tab === 'Legacies'" />
-      <saved-posts v-if="tab === 'Saved Posts'" />
+      <user-posts :user="user" v-if="tab === 'legacies'" />
+      <saved-posts :user="user" v-if="tab === 'saved-posts'" />
     </v-tabs-items>
   </v-card>
 </template>
@@ -50,6 +54,9 @@ export default {
   },
   methods: {
     setActiveTab(tabName) {
+      this.$router.push({
+        path: `/users/profile/${this.user.username}#${tabName}`,
+      });
       return (this.tab = tabName);
     },
   },
@@ -58,11 +65,20 @@ export default {
     SavedPosts,
   },
   created() {
-    this.tab = 'Legacies';
     if (!this.isOwner) {
-      this.profileTabs = ['Legacies'];
+      this.profileTabs = [{ name: 'Legacies', key: 'legacies' }];
     } else {
-      this.profileTabs = ['Legacies', 'Saved Posts'];
+      this.profileTabs = [
+        { name: 'Legacies', key: 'legacies' },
+        { name: 'Saved Posts', key: 'saved-posts' },
+      ];
+    }
+
+    if (!this.$route.hash) {
+      this.tab = 'legacies';
+    } else {
+      const selectedTab = this.$route.hash.slice(1);
+      this.tab = selectedTab;
     }
   },
 };
