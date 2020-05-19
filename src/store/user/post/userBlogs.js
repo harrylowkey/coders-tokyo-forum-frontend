@@ -2,26 +2,26 @@ import axios from 'axios';
 
 import { APIS } from '@/mixins/api-endpoints';
 
-import { SET_SONGS, LOAD_MORE_SONGS } from '../constants';
+import { SET_BLOGS, LOAD_MORE_BLOGS } from '../../constants';
 
 export default {
   namespaced: true,
   state: {
-    songs: [],
+    blogs: [],
     metadata: {},
   },
   mutations: {
-    [SET_SONGS](state, payload) {
-      state.songs = payload.data;
+    [SET_BLOGS](state, payload) {
+      state.blogs = payload.data;
       state.metadata = payload.metadata;
     },
-    [LOAD_MORE_SONGS](state, payload) {
-      state.songs.push(...payload.data);
+    [LOAD_MORE_BLOGS](state, payload) {
+      state.blogs.push(...payload.data);
       state.metadata = payload.metadata;
     },
   },
   actions: {
-    async getSongs({ commit }, data) {
+    async getBlogs({ commit }, data) {
       commit('utils/SET_LOADING_GET_POSTS', true, { root: true });
       const posts = await axios
         .get(
@@ -35,7 +35,7 @@ export default {
           }),
         )
         .then(res => {
-          commit('SET_SONGS', { data: res.data, metadata: res.metadata });
+          commit('SET_BLOGS', { data: res.data, metadata: res.metadata });
           return res;
         })
         .catch(err => {
@@ -54,7 +54,7 @@ export default {
       return posts;
     },
 
-    async loadMoreSongs({ commit }, data) {
+    async loadMoreBlogs({ commit }, data) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
         .get(
@@ -68,7 +68,7 @@ export default {
           }),
         )
         .then(res => {
-          commit('LOAD_MORE_SONGS', {
+          commit('LOAD_MORE_BLOGS', {
             data: res.data,
             metadata: res.metadata,
           });

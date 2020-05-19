@@ -42,4 +42,10 @@ export const APIS = {
     );
     return `/posts/users/${userId}?${queriesArray.join('&')}`;
   },
+  GET_USER_SAVED_POSTS({ queries = {} }) {
+    const queriesArray = Object.keys(queries).map(
+      key => `${key}=${queries[key]}`,
+    );
+    return `/posts/savedPosts/user?${queriesArray.join('&')}`;
+  },
 };

@@ -3,8 +3,8 @@
     <v-row>
       <v-col cols="12" sm="8">
         <profile-tabs
-          :isOwner="isOwner"
           v-if="!isLoading"
+          :isOwner="isOwner"
           :user="profileUser"
         />
       </v-col>
