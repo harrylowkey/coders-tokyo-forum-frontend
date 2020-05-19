@@ -6,17 +6,11 @@ export const APIS = {
   UPLOAD_FILE(type) {
     return `/files/upload/${type}?type=${type}`;
   },
-  GET_POSTS({ type, limit, page, queries = {} }) {
-    if (!Object.keys(queries).length) {
-      return `/posts?type=${type}&limit=${limit}&page=${page}`;
-    } else {
-      const queriesArray = Object.keys(queries).map(
-        key => `${key}=${queries[key]}`,
-      );
-      return `/posts?type=${type}&limit=${limit}&page=${page}?${queriesArray.join(
-        '&',
-      )}`;
-    }
+  GET_POSTS(queryParams = {}) {
+    const queriesArray = Object.keys(queryParams).map(
+      key => `${key}=${queryParams[key]}`,
+    );
+    return `/posts?${queriesArray.join('&')}`;
   },
   GET_POST({ id, queries = {} }) {
     if (!Object.keys(queries).length) {

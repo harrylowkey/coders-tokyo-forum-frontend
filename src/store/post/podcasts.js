@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { APIS } from '@/mixins/api-endpoints';
+
 import { SET_PODCASTS, LOAD_MORE_PODCASTS } from '../constants';
 
 export default {
@@ -22,7 +24,13 @@ export default {
     async getPodcasts({ commit }, options = { limit: 6, page: 1 }) {
       commit('utils/SET_LOADING', true, { root: true });
       const res = await axios
-        .get(`/posts?type=podcast&limit=${options.limit}&page=${options.page}`)
+      .get(
+        APIS.GET_POSTS({
+          type: 'podcast',
+          limit: options.limit,
+          page: options.page,
+        }),
+      )
         .then(res => {
           commit('SET_PODCASTS', { data: res.data, metadata: res.metadata });
           return res;
@@ -44,7 +52,13 @@ export default {
     async loadMorePodcasts({ commit }, options = { limit: 6, page: 1 }) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
-        .get(`/posts?type=podcast&limit=${options.limit}&page=${options.page}`)
+      .get(
+        APIS.GET_POSTS({
+          type: 'podcast',
+          limit: options.limit,
+          page: options.page,
+        }),
+      )
         .then(res => {
           commit('LOAD_MORE_PODCASTS', {
             data: res.data,
