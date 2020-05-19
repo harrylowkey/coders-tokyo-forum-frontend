@@ -284,7 +284,6 @@
                     height="100%"
                     width="100%"
                     class="cover-food"
-                    style="cursor: pointer"
                     @click="handleZoomPhoto(i)"
                   />
                 </v-card>
@@ -318,11 +317,15 @@
                   <h1 class="blog-title">{{ post.topic }}</h1>
                 </v-list-item-title>
                 <v-card-actions class="pl-0">
-                  <v-avatar size="40" style="cursor: pointer" dark>
+                  <v-avatar size="40" dark>
                     <img :src="post.user.avatar.secureURL" alt="Avatar" />
                   </v-avatar>
                   <v-card-subtitle style="font-size: 16px" class="ml-n1 pr-0">
-                    <a style="text-decoration: none; color: #000" href>
+                    <a
+                      target="_blank"
+                      :href="authorProfileLink"
+                      style="text-decoration: none; color: #000"
+                    >
                       {{ post.user.username }}
                     </a>
                   </v-card-subtitle>
@@ -435,7 +438,7 @@
           :author="post.user"
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
-          :isFollowing="isFollowing()"
+          :isFollowing="isFollowing"
           :isAuthor="isAuthor"
         />
       </v-col>
@@ -447,6 +450,7 @@
 import VueImageLightboxCarousel from 'vue-image-lightbox-carousel';
 import { mapActions } from 'vuex';
 
+import { ROUTES } from '@/mixins/routes';
 import { crudPost } from '@/mixins/crudPost';
 import { foodDescription } from '@/mixins/foodDescription';
 
@@ -549,6 +553,9 @@ export default {
         typeQuery: this.$route.query.type,
       }).then(data => {
         this.post = data;
+        this.authorProfileLink = ROUTES.USER_PROFILE({
+          username: this.post.user.username,
+        });
         this.foodPhotos = data.food.foodPhotos.map(photo => ({
           path: photo.secureURL,
           // caption: "Caption"

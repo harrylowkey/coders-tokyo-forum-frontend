@@ -23,14 +23,18 @@
           <v-card-title
             class="title white--text d-flex flex-column align-start pb-0"
           >
-            <router-link class="title-link" :to="podcastLink">
+            <a
+              style="text-decoration: none"
+              :href="podcastLink"
+              target="_blank"
+            >
               <p
                 style="color: #fff"
                 class="mt-2 mb-0 font-italic subheading text-left"
               >
                 {{ topic }}
               </p>
-            </router-link>
+            </a>
             <p class="mb-2">
               <span
                 style="font-size: 13px; cursor: pointer"
@@ -117,6 +121,7 @@
                     >
                       <a
                         class="username-link ml-1"
+                        target="_blank"
                         :href="`/users/profile/${author.username}`"
                       >
                         {{ author.username }}
@@ -430,11 +435,12 @@ export default {
       this.progressBar.value = percent / 100;
     },
     linkToPodcast() {
-      this.$router.push({ path: this.podcastLink });
+      window.open(this.podcastLink, '_blank');
     },
     onClickAvatar() {
-      this.$router.push(
+      window.open(
         ROUTES.USER_PROFILE({ username: this.author.username }),
+        '_blank',
       );
     },
   },

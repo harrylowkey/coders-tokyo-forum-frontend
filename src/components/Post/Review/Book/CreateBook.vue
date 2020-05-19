@@ -36,7 +36,8 @@
                 color="green"
                 label
               >
-                <v-icon left>mdi-cloud-upload-outline</v-icon>Image
+                <v-icon left>mdi-cloud-upload-outline</v-icon>
+                Image
               </v-chip>
             </div>
           </v-col>
@@ -60,12 +61,23 @@
                         langType="en"
                         noCircle
                       />
-                      <v-container class="d-flex justify-center" v-if="data.cover.secureURL">
-                        <v-img max-width="650" max-height="250" :src="data.cover.secureURL" />
+                      <v-container
+                        class="d-flex justify-center"
+                        v-if="data.cover.secureURL"
+                      >
+                        <v-img
+                          max-width="650"
+                          max-height="250"
+                          :src="data.cover.secureURL"
+                        />
                       </v-container>
                     </v-col>
                     <v-col cols="12" sm="8" md="8">
-                      <ValidationProvider name="Book name" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Book name"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-text-field
                           v-model="data.book.name"
                           label="Book name*"
@@ -75,7 +87,11 @@
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12" sm="4" md="4">
-                      <ValidationProvider name="Status" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Status"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-text-field
                           v-model="data.book.status"
                           :error-messages="errors"
@@ -87,7 +103,11 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <div class="d-flex align-end">
-                        <ValidationProvider name="Author" rules="required" v-slot="{ errors }">
+                        <ValidationProvider
+                          name="Author"
+                          rules="required"
+                          v-slot="{ errors }"
+                        >
                           <v-text-field
                             required
                             v-model="author"
@@ -100,20 +120,28 @@
                             @click="addCoAuthor = !addCoAuthor"
                             color="green"
                             style="cursor: pointer"
-                          >mdi-plus-circle-outline</v-icon>
+                          >
+                            mdi-plus-circle-outline
+                          </v-icon>
                         </span>
                         <span class="pb-4 pl-3" v-if="addCoAuthor">
                           <v-icon
                             @click="handleRemoveCoAuthor"
                             color="warning"
                             style="cursor: pointer"
-                          >mdi-close-circle-outline</v-icon>
+                          >
+                            mdi-close-circle-outline
+                          </v-icon>
                         </span>
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" v-if="addCoAuthor">
                       <div class="d-flex align-end">
-                        <ValidationProvider name="Name" rules="required" v-slot="{ errors }">
+                        <ValidationProvider
+                          name="Name"
+                          rules="required"
+                          v-slot="{ errors }"
+                        >
                           <v-text-field
                             :error-messages="errors"
                             v-model="coAuthor"
@@ -124,30 +152,43 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="recommender" label="Recommender" />
+                        <v-text-field
+                          v-model="recommender"
+                          label="Recommender"
+                        />
                         <span class="pb-4 pl-3" v-if="!addRecomender2">
                           <v-icon
                             @click="addRecomender2 = !addRecomender2"
                             color="green"
                             style="cursor: pointer"
-                          >mdi-plus-circle-outline</v-icon>
+                          >
+                            mdi-plus-circle-outline
+                          </v-icon>
                         </span>
                         <span class="pb-4 pl-3" v-if="addRecomender2">
                           <v-icon
                             @click="handleRemoveRecommender2"
                             color="warning"
                             style="cursor: pointer"
-                          >mdi-close-circle-outline</v-icon>
+                          >
+                            mdi-close-circle-outline
+                          </v-icon>
                         </span>
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="6" v-if="addRecomender2">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="recommender2" label="Recommender" />
+                        <v-text-field
+                          v-model="recommender2"
+                          label="Recommender"
+                        />
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="data.book.country" label="Nation" />
+                      <v-text-field
+                        v-model="data.book.country"
+                        label="Nation"
+                      />
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                       <v-text-field
@@ -161,7 +202,9 @@
                         <span
                           style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                           class="mb-0 pt-1 pr-5"
-                        >Your stars:</span>
+                        >
+                          Your stars:
+                        </span>
                         <v-rating
                           v-model="data.book.stars"
                           color="yellow darken-3"
@@ -181,7 +224,11 @@
                       />
                     </v-col>
                     <v-col cols="12">
-                      <ValidationProvider name="Topic" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Topic"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-text-field
                           v-model="data.topic"
                           required
@@ -202,7 +249,11 @@
                       />
                     </v-col>
                     <v-col cols="12">
-                      <ValidationProvider name="Content" rules="required" v-slot="{ errors }">
+                      <ValidationProvider
+                        name="Content"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
                         <v-textarea
                           label="Content*"
                           v-model="data.content"
@@ -240,16 +291,26 @@
                   class="ml-5"
                   @click="isAttachImage = !isAttachImage"
                 >
-                  <v-icon left color="primary">image</v-icon>Attach image
+                  <v-icon left color="primary">image</v-icon>
+                  Attach image
                 </v-chip>
                 <v-spacer />
-                <v-btn class="mr-5" color="primary" @click="togglePreviewContent" dark>Preview</v-btn>
+                <v-btn
+                  class="mr-5"
+                  color="primary"
+                  @click="togglePreviewContent"
+                  dark
+                >
+                  Preview
+                </v-btn>
                 <v-btn
                   class="mr-5"
                   color="green white--text"
                   @click="submit"
                   :disabled="isLoadingUpload"
-                >Post</v-btn>
+                >
+                  Post
+                </v-btn>
               </v-card-actions>
             </v-container>
             <v-dialog max-width="500" v-model="isAttachImage">
@@ -348,9 +409,9 @@ export default {
       this.data.authors = [
         { type: 'author', name: this.author },
         { type: 'author', name: this.coAuthor },
-      ].filter((author) => author.name !== '');
+      ].filter(author => author.name !== '');
       this.data.book.suggestedBy = [this.recommender, this.recommender2].filter(
-        (recommender) => recommender !== '',
+        recommender => recommender !== '',
       );
 
       const res = await this.createPost(this.data);

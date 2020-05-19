@@ -22,7 +22,9 @@
               v-clipboard:copy="imageURL"
               v-clipboard:success="onCopy"
               v-clipboard:error="onError"
-            >Copy</v-btn>
+            >
+              Copy
+            </v-btn>
           </div>
         </v-col>
       </v-row>

@@ -125,10 +125,7 @@
 
             <v-col cols="9" sm="9" md="7" lg="9" xl="9">
               <v-card-text class="podcast-description pl-0 pt-0">
-                <v-card-title
-                  style="cursor: pointer"
-                  class="ml-5 headline pt-0"
-                >
+                <v-card-title class="ml-5 headline pt-0">
                   {{ post.topic }}
                 </v-card-title>
                 <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
@@ -182,7 +179,7 @@
                   :isAuthor="isAuthor"
                   @handleFollow="handleFollow"
                   @handleUnFollow="handleUnFollow"
-                  :isFollowing="isFollowing()"
+                  :isFollowing="isFollowing"
                 />
               </v-col>
 
@@ -257,7 +254,7 @@
           :author="post.user"
           @handleFollow="handleFollow"
           @handleUnFollow="handleUnFollow"
-          :isFollowing="isFollowing()"
+          :isFollowing="isFollowing"
           :isAuthor="isAuthor"
         />
 
@@ -297,7 +294,12 @@
                 <div
                   class="align-self-center d-flex justify-center mb-2 wrapper-icon"
                 >
-                  <v-icon class="play-icon" style="color: #fff" size="50">
+                  <v-icon
+                    @click="hanldePlayAnotherpodcast(podcast._id)"
+                    class="play-icon"
+                    style="color: #fff"
+                    size="50"
+                  >
                     mdi-music-circle-outline
                   </v-icon>
                 </div>
@@ -334,6 +336,7 @@
 
 <script>
 import { crudPost } from '@/mixins/crudPost';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [crudPost],
@@ -505,7 +508,7 @@ export default {
       return tags.slice(0, this.maxTags);
     },
     hanldePlayAnotherpodcast(podcastId) {
-      this.$router.push({ path: `/podcasts/${podcastId}` });
+      window.open(ROUTES.PODCAST(podcastId), '_blank');
     },
     toggleShowLyrics() {
       if (this.isShowMore) {
@@ -635,7 +638,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .player {
   opacity: 0;
   position: absolute;
@@ -688,7 +691,7 @@ export default {
   display: flex;
   width: 20%;
   position: absolute;
-  top: 30%;
+  top: 44%;
   left: 9%;
   width: 15%;
   display: flex;

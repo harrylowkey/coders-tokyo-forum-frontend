@@ -20,14 +20,22 @@
           }"
         />
         <div v-show="attachImage">
-          <v-text-field class="mt-0 pt-0" color="success" v-if="isLoadingUpload" loading disabled />
+          <v-text-field
+            class="mt-0 pt-0"
+            color="success"
+            v-if="isLoadingUpload"
+            loading
+            disabled
+          />
           <div class="d-flex justify-center mb-0">
             <v-btn
               text
               color="green"
               @click="onClickUploadImage"
               v-if="attachImage && !isLoadingUpload"
-            >Upload</v-btn>
+            >
+              Upload
+            </v-btn>
           </div>
         </div>
       </form>

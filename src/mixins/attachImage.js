@@ -39,11 +39,11 @@ export const attachImage = {
     onChange({ image }) {
       this.attachImage = image;
     },
-    onCopy: function () {
+    onCopy: function() {
       this.isAttachImageSuccess = false;
       this.attachImage = '';
     },
-    onError: function () {
+    onError: function() {
       this.$notify({
         type: 'error',
         title: 'Copy failed',
@@ -57,7 +57,10 @@ export const attachImage = {
       const blob = this.b64toBlob(realData, contentType);
       const formDataToUpload = new FormData(form);
       formDataToUpload.append('photo', blob);
-      const response = await this.uploadFile({ formData: formDataToUpload, fileType: 'photo' });
+      const response = await this.uploadFile({
+        formData: formDataToUpload,
+        fileType: 'photo',
+      });
       if (response.status === 200) {
         this.isAttachImageSuccess = true;
         this.isAttachImage = false;

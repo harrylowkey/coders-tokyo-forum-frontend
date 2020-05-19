@@ -9,7 +9,7 @@
     </v-list-item-avatar>
     <v-list-item-content class="pt-md-1.5 pt-lg-1 pb-lg-1">
       <v-list-item-title class="caption text-center">
-        <a class="username-link" :href="link">{{ username }}</a>
+        <a target="_blank" class="username-link" :href="link">{{ username }}</a>
       </v-list-item-title>
     </v-list-item-content>
   </div>
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     onClickAvatar() {
-      this.$router.push({ path: this.link });
+      window.open(this.link, '_blank');
     },
   },
 };
