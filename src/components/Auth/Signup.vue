@@ -30,11 +30,7 @@
                         </ValidationProvider>
                         <v-row>
                           <v-col cols="9" sm="9" md="9">
-                            <ValidationProvider
-                              name="Email"
-                              rules="required"
-                              v-slot="{ errors }"
-                            >
+                            <ValidationProvider name="Email" rules="required" v-slot="{ errors }">
                               <v-text-field
                                 v-model="email"
                                 :error-messages="errors"
@@ -56,16 +52,10 @@
                               @click="getEmailCode"
                               small
                               class="success"
-                            >
-                              Get code
-                            </v-btn>
+                            >Get code</v-btn>
                           </v-col>
                         </v-row>
-                        <ValidationProvider
-                          name="Password"
-                          rules="required"
-                          v-slot="{ errors }"
-                        >
+                        <ValidationProvider name="Password" rules="required" v-slot="{ errors }">
                           <v-text-field
                             :error-messages="errors"
                             id="password"
@@ -92,21 +82,30 @@
                             required
                           />
                         </ValidationProvider>
-                        <ValidationProvider
-                          name="Code"
-                          rules="required"
-                          v-slot="{ errors }"
-                        >
-                          <v-text-field
-                            :error-messages="errors"
-                            v-model="code"
-                            id="code"
-                            label="Code"
-                            name="code"
-                            prepend-icon="lock"
-                            type="text"
-                          />
-                        </ValidationProvider>
+
+                        <v-row>
+                          <v-col cols="7" sm="7" md="7">
+                            <ValidationProvider name="Code" rules="required" v-slot="{ errors }">
+                              <v-text-field
+                                :error-messages="errors"
+                                v-model="code"
+                                id="code"
+                                label="Code"
+                                name="code"
+                                prepend-icon="lock"
+                                type="text"
+                              />
+                            </ValidationProvider>
+                          </v-col>
+                          <v-col
+                            cols="4"
+                            sm="4"
+                            md="4"
+                            class="d-flex justify-center align-center pt-4"
+                          >
+                            <v-select v-model="sex" :items="sexes" label="Sex" />
+                          </v-col>
+                        </v-row>
                       </v-form>
                     </v-card-text>
                     <v-card-actions class="pa-4">
@@ -115,9 +114,7 @@
                         :disabled="!email || !password || !username || !code"
                         color="primary"
                         @click="register"
-                      >
-                        Register
-                      </v-btn>
+                      >Register</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-form>
@@ -173,6 +170,8 @@ export default {
       confirmPassword: '',
       username: '',
       code: '',
+      sex: 'Unknown',
+      sexes: ['Male', 'Female', 'Unknown'],
       redirectLink: ROUTES.LOGIN,
     };
   },
@@ -191,6 +190,7 @@ export default {
         confirmPassword: this.confirmPassword,
         username: this.username,
         code: Number(this.code),
+        sex: this.sex,
       };
 
       const res = await this.signUp(data);
