@@ -2,26 +2,26 @@ import axios from 'axios';
 
 import { APIS } from '@/mixins/api-endpoints';
 
-import { SET_BOOK_REVIEWS, LOAD_MORE_BOOK_REVIEWS } from '../constants';
+import { SET_FOOD_REVIEWS, LOAD_MORE_FOOD_REVIEWS } from '../../constants';
 
 export default {
   namespaced: true,
   state: {
-    bookReviews: [],
+    foodReviews: [],
     metadata: {},
   },
   mutations: {
-    [SET_BOOK_REVIEWS](state, payload) {
-      state.bookReviews = payload.data;
+    [SET_FOOD_REVIEWS](state, payload) {
+      state.foodReviews = payload.data;
       state.metadata = payload.metadata;
     },
-    [LOAD_MORE_BOOK_REVIEWS](state, payload) {
-      state.bookReviews.push(...payload.data);
+    [LOAD_MORE_FOOD_REVIEWS](state, payload) {
+      state.foodReviews.push(...payload.data);
       state.metadata = payload.metadata;
     },
   },
   actions: {
-    async getBookReviews({ commit }, data) {
+    async getFoodReviews({ commit }, data) {
       commit('utils/SET_LOADING_GET_POSTS', true, { root: true });
       const posts = await axios
         .get(
@@ -35,7 +35,7 @@ export default {
           }),
         )
         .then(res => {
-          commit('SET_BOOK_REVIEWS', {
+          commit('SET_FOOD_REVIEWS', {
             data: res.data,
             metadata: res.metadata,
           });
@@ -57,7 +57,7 @@ export default {
       return posts;
     },
 
-    async loadMoreBookReviews({ commit }, data) {
+    async loadMoreFoodReviews({ commit }, data) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
         .get(
@@ -71,7 +71,7 @@ export default {
           }),
         )
         .then(res => {
-          commit('LOAD_MORE_BOOK_REVIEWS', {
+          commit('LOAD_MORE_FOOD_REVIEWS', {
             data: res.data,
             metadata: res.metadata,
           });
