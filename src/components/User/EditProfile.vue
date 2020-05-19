@@ -5,7 +5,12 @@
         <v-subheader class="pa-0">Username</v-subheader>
       </v-col>
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0;">
-        <v-text-field :rules="[rules.required]" class="pt-0" readonly :value="user.username" />
+        <v-text-field
+          :rules="[rules.required]"
+          class="pt-0"
+          readonly
+          :value="user.username"
+        />
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
@@ -16,7 +21,9 @@
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
-        <v-subheader @keyup.enter="handleUpdateProfile" class="pa-0">Password</v-subheader>
+        <v-subheader @keyup.enter="handleUpdateProfile" class="pa-0">
+          Password
+        </v-subheader>
       </v-col>
 
       <v-col class="col" cols="12" sm="9" md="7" style="padding: 0">
@@ -39,7 +46,9 @@
       <v-dialog persistent max-width="600px" v-model="dialogChangePassword">
         <change-password
           :email="user.email"
-          @hanldeCancelChangePassword="dialogChangePassword = !dialogChangePassword"
+          @hanldeCancelChangePassword="
+            dialogChangePassword = !dialogChangePassword
+          "
         />
       </v-dialog>
 
@@ -47,21 +56,33 @@
         <v-subheader class="pa-0">Github</v-subheader>
       </v-col>
       <v-col cols="12" sm="12" md="12" lg="9" class="social-links col">
-        <v-text-field @keyup.enter="handleUpdateProfile" v-model="editGithub.url" class="pt-0" />
+        <v-text-field
+          @keyup.enter="handleUpdateProfile"
+          v-model="editGithub.url"
+          class="pt-0"
+        />
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
         <v-subheader class="pa-0">Facebook</v-subheader>
       </v-col>
       <v-col cols="12" sm="12" md="12" lg="9" class="social-links col">
-        <v-text-field @keyup.enter="handleUpdateProfile" v-model="editFacebook.url" class="pt-0" />
+        <v-text-field
+          @keyup.enter="handleUpdateProfile"
+          v-model="editFacebook.url"
+          class="pt-0"
+        />
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
         <v-subheader class="pa-0">Linkedin</v-subheader>
       </v-col>
       <v-col cols="12" sm="12" md="12" lg="9" class="social-links col">
-        <v-text-field @keyup.enter="handleUpdateProfile" v-model="editLinkedin.url" class="pt-0" />
+        <v-text-field
+          @keyup.enter="handleUpdateProfile"
+          v-model="editLinkedin.url"
+          class="pt-0"
+        />
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
@@ -79,7 +100,11 @@
         <v-subheader class="pa-0">Job</v-subheader>
       </v-col>
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
-        <v-text-field @keyup.enter="handleUpdateProfile" v-model="editJob" class="pt-0" />
+        <v-text-field
+          @keyup.enter="handleUpdateProfile"
+          v-model="editJob"
+          class="pt-0"
+        />
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
@@ -88,10 +113,15 @@
       <v-col class="col" cols="12" sm="12" md="12" lg="9">
         <p class="pt-0 user-info">{{ user.createdAt | date }}</p>
       </v-col>
-      <v-card-actions style="width: 100%" class="pt-1 pb-0 d-flex justify-center">
+      <v-card-actions
+        style="width: 100%"
+        class="pt-1 pb-0 d-flex justify-center"
+      >
         <v-row>
           <v-col class="d-flex justify-center">
-            <v-btn @click="handleUpdateProfile" small color="success">Update</v-btn>
+            <v-btn @click="handleUpdateProfile" small color="success">
+              Update
+            </v-btn>
           </v-col>
           <v-col class="d-flex justify-center">
             <v-btn @click="onCancel" dark small color="red">Cancel</v-btn>
@@ -146,8 +176,8 @@ export default {
       isEditPassword: false,
       dialogChangePassword: false,
       rules: {
-        required: (value) => !!value || 'Required.',
-        min: (v) => v.length >= 8 || 'Min 8 characters',
+        required: value => !!value || 'Required.',
+        min: v => v.length >= 8 || 'Min 8 characters',
       },
     };
   },
@@ -159,7 +189,7 @@ export default {
         this.editGithub,
         this.editFacebook,
         this.editLinkedin,
-      ].filter((link) => link.url !== '');
+      ].filter(link => link.url !== '');
       const data = {
         socialLinks,
         sex: this.editSex,

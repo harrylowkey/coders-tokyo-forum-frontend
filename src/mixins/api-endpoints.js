@@ -49,5 +49,5 @@ export const APIS = {
     return `/posts/${typeParam}/${id}?type=${type}`;
   },
   CHANGE_PASSWORD: '/auth/change-password',
-  GET_CODE: '/auth/send-verify-code'
+  GET_CODE: '/auth/send-verify-code',
 };
