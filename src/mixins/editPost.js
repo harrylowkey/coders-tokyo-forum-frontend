@@ -37,7 +37,7 @@ export const editPost = {
       'createPost',
       'uploadFiles',
       'deleteFile',
-      'uploadPhoto',
+      'uploadFile',
       'editPost',
     ]),
     handleAddTag(tag) {

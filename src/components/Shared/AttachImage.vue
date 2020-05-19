@@ -5,8 +5,8 @@
         <picture-input
           @change="onChange"
           :hideChangeButton="true"
-          style="height: 300px; width: 300px"
-          :changeOnClick="!isLoading"
+          style="height: 300px; width: 300px;"
+          :changeOnClick="!isLoadingUpload"
           ref="pictureInput"
           width="600"
           height="600"
@@ -20,16 +20,14 @@
           }"
         />
         <div v-show="attachImage">
-          <v-text-field color="success" v-if="isLoading" loading disabled />
+          <v-text-field class="mt-0 pt-0" color="success" v-if="isLoadingUpload" loading disabled />
           <div class="d-flex justify-center mb-0">
             <v-btn
               text
               color="green"
               @click="onClickUploadImage"
-              v-if="attachImage && !isLoading"
-            >
-              Upload
-            </v-btn>
+              v-if="attachImage && !isLoadingUpload"
+            >Upload</v-btn>
           </div>
         </div>
       </form>
@@ -40,13 +38,13 @@
 <script>
 export default {
   props: {
-    isLoading: {
+    isLoadingUpload: {
       type: Boolean,
       default: false,
     },
     attachImage: {
-      type: Boolean,
-      default: false,
+      type: String,
+      required: true,
     },
   },
   methods: {

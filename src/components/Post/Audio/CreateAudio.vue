@@ -490,7 +490,6 @@ export default {
     this.APIS = APIS;
   },
   methods: {
-    ...mapActions('post', ['uploadAudio']),
     ...mapActions('utils', ['setLoading']),
     handleRemoveComposer(index) {
       this[`addComposer${index}`] = !this[`addComposer${index}`];
@@ -503,7 +502,7 @@ export default {
     chooseFile() {
       this.$refs.vueFileAgent.$refs.fileInput.click();
     },
-    async uploadFile() {
+    async uploadAudioSelected() {
       const res = (
         await this.$refs.vueFileAgent.upload(
           this.uploadAudioURL,
@@ -548,7 +547,7 @@ export default {
         ...['show-wrapper-file-select', 'show-file-select'],
       );
       this.setLoading(true);
-      this.uploadFile();
+      this.uploadAudioSelected();
     },
     async submit() {
       if (this.data.cover === '') {

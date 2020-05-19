@@ -162,8 +162,8 @@
             </v-container>
             <v-dialog max-width="500" v-model="isAttachImage">
               <attach-image-dialog
-                :isLoading="isLoading"
                 :attachImage="attachImage"
+                :isLoadingUpload="isLoadingUpload"
                 @handleUploadImage="uploadImage"
                 @handleOnChange="onChange"
               />
