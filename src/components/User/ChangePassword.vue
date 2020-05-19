@@ -9,7 +9,11 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="11">
-                <ValidationProvider name="Old password" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                  name="Old password"
+                  rules="required"
+                  v-slot="{ errors }"
+                >
                   <v-text-field
                     :error-messages="errors"
                     v-model="oldPassword"
@@ -20,7 +24,11 @@
                 </ValidationProvider>
               </v-col>
               <v-col cols="12" sm="11">
-                <ValidationProvider name="New password" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                  name="New password"
+                  rules="required"
+                  v-slot="{ errors }"
+                >
                   <v-text-field
                     :error-messages="errors"
                     v-model="newPassword"
@@ -32,7 +40,11 @@
                 </ValidationProvider>
               </v-col>
               <v-col cols="12" sm="11">
-                <ValidationProvider name="Confirm password" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                  name="Confirm password"
+                  rules="required"
+                  v-slot="{ errors }"
+                >
                   <v-text-field
                     :error-messages="errors"
                     v-model="confirmPassword"
@@ -46,7 +58,11 @@
             </v-row>
             <v-row>
               <v-col cols="9" sm="9" md="9">
-                <ValidationProvider name="Code" rules="required|numeric" v-slot="{ errors }">
+                <ValidationProvider
+                  name="Code"
+                  rules="required|numeric"
+                  v-slot="{ errors }"
+                >
                   <v-text-field
                     type="text"
                     :error-messages="errors"
@@ -54,20 +70,41 @@
                     label="Code"
                     name="code"
                     prepend-icon="lock"
-                    v-model="emailCode"
+                    v-model="code"
                   />
                 </ValidationProvider>
               </v-col>
-              <v-col cols="3" sm="3" md="3" class="d-flex justify-center align-center pt-4">
-                <v-btn :disabled="isLoadingAPI" @click="getEmailCode" small class="success">Get code</v-btn>
+              <v-col
+                cols="3"
+                sm="3"
+                md="3"
+                class="d-flex justify-center align-center pt-4"
+              >
+                <v-btn
+                  :disabled="isLoadingAPI"
+                  @click="getEmailCode"
+                  small
+                  class="success"
+                >
+                  Get code
+                </v-btn>
               </v-col>
             </v-row>
           </v-container>
         </v-card-text>
         <v-card-actions class="pt-0 pr-5 pb-0">
           <v-spacer />
-          <v-btn class="white--text" small color="red" @click="onClickCancel">Cancle</v-btn>
-          <v-btn class="white--text ml-3" small color="green" @click="onClickSubmit">Change</v-btn>
+          <v-btn class="white--text" small color="red" @click="onClickCancel">
+            Cancle
+          </v-btn>
+          <v-btn
+            class="white--text ml-3"
+            small
+            color="green"
+            @click="onClickSubmit"
+          >
+            Change
+          </v-btn>
         </v-card-actions>
         <p />
       </v-card>
@@ -103,7 +140,7 @@ export default {
       oldPassword: '',
       newPassword: '',
       confirmPassword: '',
-      emailCode: '',
+      code: '',
     };
   },
   computed: {
@@ -123,7 +160,7 @@ export default {
         oldPassword: this.oldPassword,
         newPassword: this.newPassword,
         confirmPassword: this.confirmPassword,
-        code: Number(this.emailCode),
+        code: Number(this.code),
       };
       const response = await this.changePassword(data);
       if (response.status === 200) {
@@ -146,5 +183,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

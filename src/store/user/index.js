@@ -47,11 +47,12 @@ export default {
           commit('SIGN_IN', { user, accessToken: access_token });
         })
         .catch(err => {
-          console.log(err.response)
           if (err) {
-            commit('utils/SET_ERROR', err.response.data.message, { root: true });
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
           }
-          return err.response
+          return err.response;
         })
         .then(() => {
           setTimeout(() => {
@@ -77,6 +78,27 @@ export default {
       const user = localStorage.getItem('user');
       commit('SIGN_IN', { user: JSON.parse(user), accessToken });
     },
+    async signUp({ commit }, data) {
+      commit('utils/SET_LOADING', true, { root: true });
+      const res = await axios
+        .post('/auth/signup', data)
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return res;
+    },
     async uploadAvatar({ commit }, { avatar }) {
       commit('utils/SET_LOADING_UPLOAD', true, { root: true });
       const response = await axios
@@ -91,7 +113,9 @@ export default {
         })
         .catch(err => {
           if (err) {
-            commit('utils/SET_ERROR', err.response.data.message, { root: true });
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
           }
           return err;
         })
@@ -118,7 +142,9 @@ export default {
         })
         .catch(err => {
           if (err) {
-            commit('utils/SET_ERROR', err.response.data.message, { root: true });
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
           }
           return err;
         })
@@ -137,7 +163,9 @@ export default {
         .post(`/users/${userToFollowId}/follow`)
         .catch(err => {
           if (err) {
-            commit('utils/SET_ERROR', err.response.data.message, { root: true });
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
           }
           return err.response;
         })
@@ -156,7 +184,9 @@ export default {
         .post(`/users/${userToUnFollowId}/unfollow`)
         .catch(err => {
           if (err) {
-            commit('utils/SET_ERROR', err.response.data.message, { root: true });
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
           }
           return err.response;
         })
@@ -178,7 +208,9 @@ export default {
         })
         .catch(err => {
           if (err) {
-            commit('utils/SET_ERROR', err.response.data.message, { root: true });
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
           }
           return err;
         })
@@ -197,7 +229,9 @@ export default {
         .put(APIS.CHANGE_PASSWORD, data)
         .catch(err => {
           if (err) {
-            commit('utils/SET_ERROR', err.response.data.message, { root: true });
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
           }
           return err.response;
         })
@@ -215,11 +249,13 @@ export default {
       const res = await axios
         .post(APIS.GET_CODE, { email })
         .then(res => {
-          return res.data
+          return res.data;
         })
         .catch(err => {
           if (err) {
-            commit('utils/SET_ERROR', err.response.data.message, { root: true });
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
           }
           return err.response;
         })
@@ -231,7 +267,7 @@ export default {
           return res;
         });
       return res;
-    }
+    },
   },
   getters: {
     user(state) {
