@@ -413,15 +413,6 @@ export default {
     },
   },
   watch: {
-    errorMes(newVal) {
-      if (newVal.length) {
-        this.$notify({
-          type: 'error',
-          title: 'Update failed',
-          text: newVal,
-        });
-      }
-    },
     $route(to) {
       this.fetchUserProfile(to.params.username);
     },
@@ -438,14 +429,6 @@ export default {
           group: 'upload',
           type: 'success',
           title: 'Update avatar success',
-        });
-      }
-
-      if (response.status === 400) {
-        this.$notify({
-          group: 'upload',
-          type: 'error',
-          title: 'Update avatar failed',
         });
       }
     },
@@ -473,12 +456,6 @@ export default {
           this.userLinkedin;
         this.profileUser = res.data;
       }
-      if (res.status === 400) {
-        this.$notify({
-          type: 'error',
-          title: 'Update profile failed',
-        });
-      }
       this.isEdit = false;
     },
     handleUpdateDescription(res) {
@@ -489,13 +466,6 @@ export default {
           title: 'Update description success',
         });
         this.profileUser.description = res.data.description;
-      }
-      if (res.status === 400) {
-        this.$notify({
-          group: 'upload',
-          type: 'error',
-          title: 'Update description failed',
-        });
       }
       this.isEditDescription = false;
     },

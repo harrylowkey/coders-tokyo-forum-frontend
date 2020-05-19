@@ -39,7 +39,7 @@ export default {
         })
         .catch(err => {
           if (err) {
-            commit('utils/SET_ERROR', err, { root: true });
+            commit('utils/SET_ERROR', err.response.data.message, { root: true });
           }
           return err;
         })
@@ -73,7 +73,7 @@ export default {
           return res;
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err;
         })
         .then(res => {

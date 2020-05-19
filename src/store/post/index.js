@@ -14,7 +14,7 @@ export default {
       const post = await axios
         .post(APIS.WRITE_POST(data.type), data)
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err;
         })
         .then(res => {
@@ -37,7 +37,7 @@ export default {
         })
         .catch(err => {
           if (err) {
-            commit('utils/SET_ERROR', err, { root: true });
+            commit('utils/SET_ERROR', err.response.data.message, { root: true });
           }
           return err;
         })
@@ -57,7 +57,7 @@ export default {
           APIS.GET_POST({ id: data.id, queries: { type: data.typeQuery } }),
         )
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err;
         })
         .then(res => {
@@ -74,7 +74,7 @@ export default {
       const response = await axios
         .put(APIS.EDIT_POST(_id, data.type), data)
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err;
         })
         .then(res => {
@@ -93,7 +93,7 @@ export default {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err;
         })
         .then(res => {
@@ -111,7 +111,7 @@ export default {
       const response = await axios
         .delete(APIS.GET_FILE({ id: fileId }))
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err;
         })
         .then(res => {
@@ -130,7 +130,7 @@ export default {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err;
         })
         .then(res => {
@@ -148,7 +148,7 @@ export default {
       const response = await axios
         .post(`/posts/${postId}/like`)
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err.response;
         })
         .then(res => {
@@ -165,7 +165,7 @@ export default {
       const response = await axios
         .post(`/posts/${postId}/unlike`)
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err.response;
         })
         .then(res => {
@@ -182,7 +182,7 @@ export default {
       const response = await axios
         .post(`/posts/${postId}/save`)
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err.response;
         })
         .then(res => {
@@ -199,7 +199,7 @@ export default {
       const response = await axios
         .post(`/posts/${postId}/unsave`)
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err.response;
         })
         .then(res => {

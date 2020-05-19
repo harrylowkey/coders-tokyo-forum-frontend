@@ -53,11 +53,6 @@
                 :likes="likes.length"
                 :postId="_id"
               />
-              <comment-btn
-                :type="type"
-                :postId="_id"
-                :comments="comments.length"
-              />
             </v-container>
           </v-card-actions>
           <v-spacer />
@@ -85,7 +80,6 @@
 <script>
 import Tag from '@/components/Shared/Tag';
 import LikeBtn from '@/components/Shared/LikeButton';
-import CommentBtn from '@/components/Shared/CommentButton';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
 import { ROUTES } from '@/mixins/routes';
 import { toggleLike } from '@/mixins/toggleLike';
@@ -209,7 +203,6 @@ export default {
   components: {
     Tag,
     LikeBtn,
-    CommentBtn,
   },
 };
 </script>
