@@ -71,15 +71,15 @@ axios.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (error.response.status === 400) {
-      Vue.notify({
-        type: 'error',
-        title: 'Not found',
-      });
+    // if (error.response.status === 400) {
+    //   Vue.notify({
+    //     type: 'error',
+    //     title: 'Not found',
+    //   });
 
-      router.push('/stream');
-      return Promise.reject(error);
-    }
+    //   router.push('/stream');
+    //   return Promise.reject(error);
+    // }
 
     if (error.response.status === 500) {
       Vue.notify({

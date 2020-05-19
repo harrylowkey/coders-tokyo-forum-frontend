@@ -25,14 +25,6 @@ export const APIS = {
   GET_FILE({ id }) {
     return `/files/${id}`;
   },
-  WRITE_POST(type) {
-    return `/posts/${type}`;
-  },
-  EDIT_POST(id, type) {
-    let typeParam = `${type}s`;
-    if (type === 'food') typeParam = type;
-    return `/posts/${typeParam}/${id}?type=${type}`;
-  },
   GET_USER_PROFILE({ username }) {
     return `/users/profile/${username}`;
   },
@@ -48,4 +40,14 @@ export const APIS = {
     );
     return `/posts/savedPosts/user?${queriesArray.join('&')}`;
   },
+  WRITE_POST(type) {
+    return `/posts/${type}`;
+  },
+  EDIT_POST(id, type) {
+    let typeParam = `${type}s`;
+    if (type === 'food') typeParam = type;
+    return `/posts/${typeParam}/${id}?type=${type}`;
+  },
+  CHANGE_PASSWORD: '/auth/change-password',
+  GET_CODE: '/auth/send-verify-code'
 };
