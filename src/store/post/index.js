@@ -123,30 +123,10 @@ export default {
         });
       return response;
     },
-    async uploadPhoto({ commit }, formData) {
+    async uploadFile({ commit }, { formData, fileType }) {
       commit('utils/SET_LOADING_UPLOAD', true, { root: true });
       const response = await axios
-        .post(APIS.UPLOAD_FILE('photo'), formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        })
-        .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
-          return err;
-        })
-        .then(res => {
-          setTimeout(() => {
-            commit('utils/SET_LOADING_UPLOAD', false, { root: true });
-            commit('utils/SET_ERROR', '', { root: true });
-          }, 0);
-          return res;
-        });
-
-      return response;
-    },
-    async uploadAudio({ commit }, formData) {
-      commit('utils/SET_LOADING_UPLOAD', true, { root: true });
-      const response = await axios
-        .post(APIS.UPLOAD_FILE('audio'), formData, {
+        .post(APIS.UPLOAD_FILE(fileType), formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .catch(err => {

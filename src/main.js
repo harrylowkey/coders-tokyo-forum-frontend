@@ -65,7 +65,8 @@ axios.interceptors.response.use(
   },
   error => {
     if (error.response.status === 401) {
-      _store.dispatch('signOut');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user'  );
       router.push('/signin');
       return Promise.reject(error);
     }

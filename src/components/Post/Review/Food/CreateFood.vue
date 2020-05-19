@@ -124,7 +124,6 @@
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
                       <v-text-field
-                        :error-messages="errors"
                         v-model="data.food.location"
                         label="Address"
                         required
@@ -318,8 +317,8 @@
             </v-container>
             <v-dialog max-width="500" v-model="isAttachImage">
               <attach-image-dialog
-                :isLoading="isLoading"
                 :attachImage="attachImage"
+                :isLoadingUpload="isLoadingUpload"
                 @handleUploadImage="uploadImage"
                 @handleOnChange="onChange"
               />

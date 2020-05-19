@@ -4,7 +4,7 @@ export const APIS = {
   UPLOAD_AVATAR: 'http://localhost:3000/api/v1/files/upload/avatar?type=avatar',
   UPLOAD_FOOD_PHOTOS: '/files/upload/foodPhotos',
   UPLOAD_FILE(type) {
-    return `/file/upload/${type}?type=${type}`;
+    return `/files/upload/${type}?type=${type}`;
   },
   GET_POSTS({ type, limit, page, queries = {} }) {
     if (!Object.keys(queries).length) {

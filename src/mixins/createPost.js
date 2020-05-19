@@ -37,7 +37,7 @@ export const createPost = {
       'createPost',
       'uploadFiles',
       'deleteFile',
-      'uploadPhoto',
+      'uploadFile',
     ]),
     handleAddTag(tag) {
       this.data.tags.push(tag);
