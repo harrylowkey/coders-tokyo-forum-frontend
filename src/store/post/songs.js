@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { APIS } from '@/mixins/api-endpoints';
+
 import { SET_SONGS, LOAD_MORE_SONGS } from '../constants';
 
 export default {
@@ -22,7 +24,13 @@ export default {
     async getSongs({ commit }, options = { limit: 6, page: 1 }) {
       commit('utils/SET_LOADING', true, { root: true });
       const res = await axios
-        .get(`/posts?type=song&limit=${options.limit}&page=${options.page}`)
+        .get(
+          APIS.GET_POSTS({
+            type: 'song',
+            limit: options.limit,
+            page: options.page,
+          }),
+        )
         .then(res => {
           commit('SET_SONGS', { data: res.data, metadata: res.metadata });
           return res;
@@ -44,7 +52,13 @@ export default {
     async loadMoreSongs({ commit }, options = { limit: 6, page: 1 }) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
-        .get(`/posts?type=song&limit=${options.limit}&page=${options.page}`)
+        .get(
+          APIS.GET_POSTS({
+            type: 'song',
+            limit: options.limit,
+            page: options.page,
+          }),
+        )
         .then(res => {
           commit('LOAD_MORE_SONGS', { data: res.data, metadata: res.metadata });
           return res;
