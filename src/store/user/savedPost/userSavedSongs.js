@@ -2,31 +2,30 @@ import axios from 'axios';
 
 import { APIS } from '@/mixins/api-endpoints';
 
-import { SET_BLOGS, LOAD_MORE_BLOGS } from '../constants';
+import { SET_SONGS, LOAD_MORE_SONGS } from '../../constants';
 
 export default {
   namespaced: true,
   state: {
-    blogs: [],
+    songs: [],
     metadata: {},
   },
   mutations: {
-    [SET_BLOGS](state, payload) {
-      state.blogs = payload.data;
+    [SET_SONGS](state, payload) {
+      state.songs = payload.data;
       state.metadata = payload.metadata;
     },
-    [LOAD_MORE_BLOGS](state, payload) {
-      state.blogs.push(...payload.data);
+    [LOAD_MORE_SONGS](state, payload) {
+      state.songs.push(...payload.data);
       state.metadata = payload.metadata;
     },
   },
   actions: {
-    async getBlogs({ commit }, data) {
+    async getSongs({ commit }, data) {
       commit('utils/SET_LOADING_GET_POSTS', true, { root: true });
       const posts = await axios
         .get(
-          APIS.GET_USER_POSTS({
-            userId: data.userId,
+          APIS.GET_USER_SAVED_POSTS({
             queries: {
               type: data.typeQuery,
               limit: data.options.limit,
@@ -35,7 +34,7 @@ export default {
           }),
         )
         .then(res => {
-          commit('SET_BLOGS', { data: res.data, metadata: res.metadata });
+          commit('SET_SONGS', { data: res.data, metadata: res.metadata });
           return res;
         })
         .catch(err => {
@@ -54,12 +53,11 @@ export default {
       return posts;
     },
 
-    async loadMoreBlogs({ commit }, data) {
+    async loadMoreSongs({ commit }, data) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
         .get(
-          APIS.GET_USER_POSTS({
-            userId: data.userId,
+          APIS.GET_USER_SAVED_POSTS({
             queries: {
               type: data.typeQuery,
               limit: data.options.limit,
@@ -68,7 +66,7 @@ export default {
           }),
         )
         .then(res => {
-          commit('LOAD_MORE_BLOGS', {
+          commit('LOAD_MORE_SONGS', {
             data: res.data,
             metadata: res.metadata,
           });

@@ -2,31 +2,30 @@ import axios from 'axios';
 
 import { APIS } from '@/mixins/api-endpoints';
 
-import { SET_FOOD_REVIEWS, LOAD_MORE_FOOD_REVIEWS } from '../constants';
+import { SET_PODCASTS, LOAD_MORE_PODCASTS } from '../../constants';
 
 export default {
   namespaced: true,
   state: {
-    foodReviews: [],
+    podcasts: [],
     metadata: {},
   },
   mutations: {
-    [SET_FOOD_REVIEWS](state, payload) {
-      state.foodReviews = payload.data;
+    [SET_PODCASTS](state, payload) {
+      state.podcasts = payload.data;
       state.metadata = payload.metadata;
     },
-    [LOAD_MORE_FOOD_REVIEWS](state, payload) {
-      state.foodReviews.push(...payload.data);
+    [LOAD_MORE_PODCASTS](state, payload) {
+      state.podcasts.push(...payload.data);
       state.metadata = payload.metadata;
     },
   },
   actions: {
-    async getFoodReviews({ commit }, data) {
+    async getPodcasts({ commit }, data) {
       commit('utils/SET_LOADING_GET_POSTS', true, { root: true });
       const posts = await axios
         .get(
-          APIS.GET_USER_POSTS({
-            userId: data.userId,
+          APIS.GET_USER_SAVED_POSTS({
             queries: {
               type: data.typeQuery,
               limit: data.options.limit,
@@ -35,10 +34,7 @@ export default {
           }),
         )
         .then(res => {
-          commit('SET_FOOD_REVIEWS', {
-            data: res.data,
-            metadata: res.metadata,
-          });
+          commit('SET_PODCASTS', { data: res.data, metadata: res.metadata });
           return res;
         })
         .catch(err => {
@@ -57,12 +53,11 @@ export default {
       return posts;
     },
 
-    async loadMoreFoodReviews({ commit }, data) {
+    async loadMorePodcasts({ commit }, data) {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
         .get(
-          APIS.GET_USER_POSTS({
-            userId: data.userId,
+          APIS.GET_USER_SAVED_POSTS({
             queries: {
               type: data.typeQuery,
               limit: data.options.limit,
@@ -71,7 +66,7 @@ export default {
           }),
         )
         .then(res => {
-          commit('LOAD_MORE_FOOD_REVIEWS', {
+          commit('LOAD_MORE_PODCASTS', {
             data: res.data,
             metadata: res.metadata,
           });
