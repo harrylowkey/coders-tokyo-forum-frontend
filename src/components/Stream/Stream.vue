@@ -122,13 +122,13 @@ export default {
     // ...mapState('stream', ['audioTrending'])
   },
   async created() {
-    const response = await this.getStream();
+    await this.getStream();
     const selectPage = this.$route.hash.slice(1);
-    if (response.status === 200 && selectPage === '') {
+    if (!this.isLoading && selectPage === '') {
       this.activePage = 'discussions';
     }
 
-    if (response.status === 200 && selectPage !== '') {
+    if (!this.isLoading && selectPage !== '') {
       this.activePage = selectPage;
     }
   },

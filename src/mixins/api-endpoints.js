@@ -62,4 +62,10 @@ export const APIS = {
       '&',
     )}`;
   },
+  GET_TOP_TAGS(limit) {
+    return `/posts/tags/statics?limit=${limit}`;
+  },
+  GET_TOP_POSTS(limit) {
+    return `/posts/topPosts/statics?limit=${limit}`;
+  },
 };

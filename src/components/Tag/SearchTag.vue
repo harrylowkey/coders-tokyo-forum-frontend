@@ -255,15 +255,10 @@
         <v-col cols="12" sm="4" md="4" lg="4" xl="4" class="pt-3">
           <side-card
             class="fix-sidebar"
-            :title="tags.title"
-            :type="tags.type"
-            :data="tags.data"
-          />
-          <side-card
-            class="fix-sidebar most-view-posts"
-            :title="mostViewBlogs.title"
-            :type="mostViewBlogs.type"
-            :data="mostViewBlogs.data"
+            :title="topTagDatas.title"
+            :type="topTagDatas.type"
+            :data="topTagDatas.data"
+            :dataType="topTagDatas.dataType"
           />
         </v-col>
       </v-row>
@@ -299,125 +294,17 @@ export default {
       page: 1,
       limit: 5,
       activePage: '',
-      tags: {
-        title: 'Top Tags',
-        type: 2,
-        data: [
-          {
-            _id: '1',
-            text: 'javascript',
-            counter: 153,
-          },
-          {
-            _id: '2',
-            text: 'discussion',
-            counter: 153,
-          },
-          {
-            _id: '3',
-            text: 'nodejs',
-            counter: 153,
-          },
-          {
-            _id: '4',
-            text: 'html',
-            counter: 153,
-          },
-          {
-            _id: '5',
-            text: 'javascript',
-            counter: 153,
-          },
-          {
-            _id: '6',
-            text: 'javascript',
-            counter: 153,
-          },
-          {
-            _id: '7',
-            text: 'discussion',
-            counter: 153,
-          },
-          {
-            _id: '8',
-            text: 'nodejs',
-            counter: 153,
-          },
-          {
-            _id: '9',
-            text: 'html',
-            counter: 153,
-          },
-          {
-            _id: '10',
-            text: 'javascript',
-            counter: 153,
-          },
-        ],
-      },
-      mostViewBlogs: {
-        title: 'Most Likes',
-        type: 2,
-        data: [
-          {
-            _id: '1',
-            text: 'Javascript the best parts',
-            counter: 153,
-          },
-          {
-            _id: '2',
-            text: 'Top 5 nodejs frameworks',
-            counter: 100,
-          },
-          {
-            _id: '3',
-            text: 'HTML for dummies',
-            counter: 99,
-          },
-          {
-            _id: '4',
-            text: 'Testing issues',
-            counter: 80,
-          },
-          {
-            _id: '5',
-            text: 'Setting Mongo local',
-            counter: 79,
-          },
-          {
-            _id: '6',
-            text: 'Javascript the best parts',
-            counter: 153,
-          },
-          {
-            _id: '7',
-            text: 'Top 5 nodejs frameworks',
-            counter: 100,
-          },
-          {
-            _id: '8',
-            text: 'HTML for dummies',
-            counter: 99,
-          },
-          {
-            _id: '9',
-            text: 'Testing issues',
-            counter: 80,
-          },
-          {
-            _id: '10',
-            text: 'Setting Mongo local',
-            counter: 79,
-          },
-        ],
-      },
-      showTopBloggers: true,
-      showMostViewBlogs: true,
-      showMembersOnline: true,
       tagsSearch: '',
+      topTagDatas: {
+        title: 'Top Tags',
+        dataType: 'tags',
+        type: 2,
+        data: [],
+      },
     };
   },
   methods: {
+    ...mapActions('stream', ['getStream']),
     ...mapActions('searchTag', ['searchPostsByTags', 'loadMorePosts']),
     ...mapActions('player', [
       'updatePlaying',
@@ -496,6 +383,7 @@ export default {
       'isLoadingAPI',
     ]),
     ...mapState('searchTag', ['postsMatchedTags', 'metadata']),
+    ...mapState('stream', ['topTags']),
     posts() {
       const slicedPosts = this.postsMatchedTags.slice(
         (this.page - 1) * this.limit,
@@ -506,6 +394,8 @@ export default {
   },
   async created() {
     await this.handleTagsParams();
+    await this.getStream({ limitTopTags: 20 });
+    this.topTagDatas.data = this.topTags;
   },
   watch: {
     async page(newVal, oldVal) {
