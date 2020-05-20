@@ -63,7 +63,7 @@
                   <v-container class="ml-1 pl-3 book-detail">
                     <v-card-text class="pb-2 pt-2">
                       <p class="title text--primary mb-0 pt-1">
-                        {{ post.topic }}
+                        {{ post.book.name }}
                       </p>
                       <v-container class="d-flex pl-1 pb-0 pt-2">
                         <p class="key mb-0 mr-3">Status:</p>
@@ -485,15 +485,6 @@ export default {
   border-top-right-radius: 4px;
 }
 
-.blog-title {
-  text-align: left;
-  white-space: initial;
-  line-height: 1.3;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-}
-
 .wrapper-author-follow {
   position: relative;
   padding: 0 25px 0 20px;
@@ -545,8 +536,8 @@ export default {
 .blog-title {
   text-align: left;
   white-space: initial;
-  line-height: 1.1;
-  -webkit-line-clamp: 2;
+  line-height: 1.3;
+  -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   display: -webkit-box;
 }
