@@ -55,6 +55,14 @@
                         Don't have an account yet?
                       </a>
                       <v-spacer />
+                      <a
+                        style="text-decoration: none; font-size: 14px; color: red; margin-left: 75px"
+                        class="font-italic"
+                        :href="ROUTES.REGISTER"
+                      >
+                        Forgot password?
+                      </a>
+                      <v-spacer />
                       <v-btn
                         :disabled="!email || !password"
                         color="primary"
