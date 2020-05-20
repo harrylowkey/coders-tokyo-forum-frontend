@@ -19,6 +19,7 @@ export const CREATE_DISCUSSION = 'CREATE_DISCUSSION';
 
 // stream
 export const SET_STREAM = 'SET_STREAM';
+export const SET_TRENDING_AUDIOS = 'SET_TRENDING_AUDIOS';
 
 // post
 export const SET_DISCUSSIONS = 'SET_DISCUSSIONS';
