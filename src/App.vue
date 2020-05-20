@@ -77,7 +77,7 @@
         </v-menu>
       </v-toolbar>
       <aplayer />
-      <main class="mt-12">
+      <main>
         <router-view />
       </main>
     </v-card>
