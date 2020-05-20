@@ -37,7 +37,7 @@ export const ROUTES = {
   SEARCH_ARTIST({ name, type }) {
     return `/posts?artist=${name}&type=${type}`;
   },
-  SEARCH_TAG({ tagName, postType }) {
-    return `/posts?tag=${tagName.slice(1)}&type=${postType}`;
+  SEARCH_TAG({ tagName }) {
+    return `/posts/tags?tag=${tagName}`;
   },
 };

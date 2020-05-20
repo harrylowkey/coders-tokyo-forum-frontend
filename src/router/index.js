@@ -8,6 +8,7 @@ const SignIn = () => import('@/components/Auth/Signin');
 const SignUp = () => import('@/components/Auth/Signup');
 const Profile = () => import('@/components/User/Profile');
 const Stream = () => import('@/components/Stream/Stream');
+const SearchTag = () => import('@/components/Tag/SearchTag');
 const CreatePost = () => import('@/components/Post/CreatePost');
 const CreateDiscussion = () =>
   import('@/components/Post/Discussion/CreateDiscussion');
@@ -203,6 +204,11 @@ const routes = [
     name: 'editFood',
     component: EditFood,
     beforeEnter: AuthGuard,
+  },
+  {
+    path: '/posts/tags',
+    name: 'Tag',
+    component: SearchTag,
   },
 ];
 

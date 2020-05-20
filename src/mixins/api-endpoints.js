@@ -50,4 +50,16 @@ export const APIS = {
   },
   CHANGE_PASSWORD: '/auth/change-password',
   GET_CODE: '/auth/send-verify-code',
+  SEARCH_POSTS_BY_TAGS({ tagNames, pagination }) {
+    const tagNameQueries = tagNames.reduce(
+      (tagNameQueries, tagName) => [...tagNameQueries, `tag=${tagName}`],
+      [],
+    );
+    const paginationQueries = Object.keys(pagination).map(
+      key => `${key}=${pagination[key]}`,
+    );
+    return `/posts/tags?${tagNameQueries.join('&')}&${paginationQueries.join(
+      '&',
+    )}`;
+  },
 };
