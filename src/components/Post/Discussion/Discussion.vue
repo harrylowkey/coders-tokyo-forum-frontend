@@ -3,11 +3,15 @@
     <v-card class="mx-auto mt-6" :elevation="hover ? 10 : 3">
       <v-list-item three-line style="padding: 0px 25px 0 20px">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-          <router-link class="title-link" :to="discussionLink">
+          <a
+            style="width: 80%;overflow: hidden;text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
+            :href="discussionLink"
+            target="_blank"
+          >
             <v-list-item-title class="headline discuss-title mb-0 pt-3">
               {{ topic }}
             </v-list-item-title>
-          </router-link>
+          </a>
           <v-list-item-subtitle
             style="line-height: 1.4;"
             class="mt-lg-n9 pt-lg-10"

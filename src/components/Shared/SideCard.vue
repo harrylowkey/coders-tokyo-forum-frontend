@@ -11,7 +11,7 @@
         </v-list-item-avatar>
         <v-list-item-content class="pl-2">
           <v-list-item-title>
-            {{ title === 'Tags' ? '#' : '' }}{{ item.text }}
+            {{ title === 'Top Tags' ? '#' : '' }}{{ item.text }}
           </v-list-item-title>
         </v-list-item-content>
         <v-chip

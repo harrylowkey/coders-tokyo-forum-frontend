@@ -36,7 +36,9 @@ export default {
       ) {
         typeParam = `${this.type}Review`;
       }
-      window.open(`${typeParam}s/${this.postId}?type=${typeQuery}#comment`);
+      window.open(
+        `http://localhost:8080/${typeParam}s/${this.postId}?type=${typeQuery}#comment`,
+      );
     },
   },
 };
