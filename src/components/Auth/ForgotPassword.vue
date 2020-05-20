@@ -9,25 +9,43 @@
                 <v-form>
                   <v-card class="elevation-12">
                     <v-toolbar color="primary" dark flat>
-                      <v-toolbar-title>Sign up</v-toolbar-title>
+                      <v-toolbar-title>Forgot Password</v-toolbar-title>
                       <v-spacer />
                     </v-toolbar>
                     <v-card-text class="pb-0">
                       <v-form>
                         <ValidationProvider
-                          name="Username"
-                          rules="required|minmax:5,20"
+                          name="Password"
+                          rules="required"
                           v-slot="{ errors }"
                         >
                           <v-text-field
                             :error-messages="errors"
-                            label="Username"
-                            v-model="username"
-                            name="username"
-                            prepend-icon="person"
-                            type="text"
+                            id="password"
+                            v-model="newPassword"
+                            hint="Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!"
+                            label="New Password"
+                            name="password"
+                            prepend-icon="lock"
+                            type="password"
                           />
                         </ValidationProvider>
+                        <ValidationProvider
+                          name="Confirm password"
+                          :rules="`required|samePassword:${newPassword}`"
+                          v-slot="{ errors }"
+                        >
+                          <v-text-field
+                            :error-messages="errors"
+                            v-model="confirmPassword"
+                            label="Confirm password"
+                            hint="Type new password again"
+                            prepend-icon="lock"
+                            type="password"
+                            required
+                          />
+                        </ValidationProvider>
+
                         <v-row>
                           <v-col cols="9" sm="9" md="9">
                             <ValidationProvider
@@ -61,79 +79,34 @@
                             </v-btn>
                           </v-col>
                         </v-row>
-                        <ValidationProvider
-                          name="Password"
-                          rules="required"
-                          v-slot="{ errors }"
-                        >
-                          <v-text-field
-                            :error-messages="errors"
-                            id="password"
-                            v-model="password"
-                            hint="Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!"
-                            label="Password"
-                            name="password"
-                            prepend-icon="lock"
-                            type="password"
-                          />
-                        </ValidationProvider>
-                        <ValidationProvider
-                          name="Confirm password"
-                          :rules="`required|samePassword:${password}`"
-                          v-slot="{ errors }"
-                        >
-                          <v-text-field
-                            :error-messages="errors"
-                            v-model="confirmPassword"
-                            label="Confirm password"
-                            hint="Type new password again"
-                            prepend-icon="lock"
-                            type="password"
-                            required
-                          />
-                        </ValidationProvider>
 
-                        <v-row>
-                          <v-col cols="7" sm="7" md="7">
-                            <ValidationProvider
-                              name="Code"
-                              rules="required|numeric"
-                              v-slot="{ errors }"
-                            >
-                              <v-text-field
-                                :error-messages="errors"
-                                v-model="code"
-                                id="code"
-                                label="Code"
-                                name="code"
-                                prepend-icon="lock"
-                                type="text"
-                              />
-                            </ValidationProvider>
-                          </v-col>
-                          <v-col
-                            cols="4"
-                            sm="4"
-                            md="4"
-                            class="d-flex justify-center align-center pt-4"
-                          >
-                            <v-select
-                              v-model="sex"
-                              :items="sexes"
-                              label="Sex"
-                            />
-                          </v-col>
-                        </v-row>
+                        <ValidationProvider
+                          name="Code"
+                          rules="required|numeric"
+                          v-slot="{ errors }"
+                        >
+                          <v-text-field
+                            :error-messages="errors"
+                            v-model="code"
+                            id="code"
+                            label="Code"
+                            name="code"
+                            prepend-icon="lock"
+                            type="text"
+                          />
+                        </ValidationProvider>
                       </v-form>
                     </v-card-text>
                     <v-card-actions class="pa-4">
                       <v-spacer />
                       <v-btn
-                        :disabled="!email || !password || !username || !code"
+                        :disabled="
+                          !email || !newPassword || !confirmPassword || !code
+                        "
                         color="primary"
                         @click="register"
                       >
-                        Register
+                        Change Password
                       </v-btn>
                     </v-card-actions>
                   </v-card>
@@ -160,6 +133,11 @@ extend('required', {
   message: '{_field_} is required',
 });
 
+extend('number', {
+  ...required,
+  message: '{_field_} is required',
+});
+
 extend('numeric', {
   ...numeric,
   message: '{_field_} must be a number',
@@ -175,23 +153,20 @@ extend('minmax', {
 });
 
 extend('samePassword', {
-  validate(confirmPassword, { password }) {
-    return confirmPassword === password;
+  validate(confirmPassword, { newPassword }) {
+    return confirmPassword === newPassword;
   },
   message: 'Confirm password is not matched',
-  params: ['password'],
+  params: ['newPassword'],
 });
 
 export default {
   data() {
     return {
       email: '',
-      password: '',
+      newPassword: '',
       confirmPassword: '',
-      username: '',
       code: '',
-      sex: 'Unknown',
-      sexes: ['Male', 'Female', 'Unknown'],
       redirectLink: ROUTES.LOGIN,
     };
   },
@@ -199,25 +174,23 @@ export default {
     ...mapState('utils', ['errorMes', 'isLoadingAPI']),
   },
   methods: {
-    ...mapActions('user', ['signUp', 'getCode']),
+    ...mapActions('user', ['forgotPassword', 'getCode']),
     async register() {
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
 
       const data = {
         email: this.email,
-        password: this.password,
+        newPassword: this.newPassword,
         confirmPassword: this.confirmPassword,
-        username: this.username,
         code: Number(this.code),
-        sex: this.sex,
       };
 
-      const res = await this.signUp(data);
+      const res = await this.forgotPassword(data);
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Sign up success',
+          title: 'Change password success',
         });
         this.$router.push({ path: this.redirectLink });
       }

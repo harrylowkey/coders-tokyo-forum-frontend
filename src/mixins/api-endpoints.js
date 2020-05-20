@@ -49,6 +49,7 @@ export const APIS = {
     return `/posts/${typeParam}/${id}?type=${type}`;
   },
   CHANGE_PASSWORD: '/auth/change-password',
+  FORGOT_PASSWORD: '/auth/forgot-password',
   GET_CODE: '/auth/send-verify-code',
   SEARCH_POSTS_BY_TAGS({ tagNames, pagination }) {
     const tagNameQueries = tagNames.reduce(

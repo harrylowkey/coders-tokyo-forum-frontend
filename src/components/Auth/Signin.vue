@@ -58,7 +58,7 @@
                       <a
                         style="text-decoration: none; font-size: 14px; color: red; margin-left: 75px"
                         class="font-italic"
-                        :href="ROUTES.REGISTER"
+                        :href="ROUTES.FORGOT_PASSWORD"
                       >
                         Forgot password?
                       </a>
