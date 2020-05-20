@@ -184,7 +184,7 @@
       <v-list-item three-line style="padding: 0 25px 0 20px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <a
-            style="text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
+            style="width: 80%;overflow: hidden;text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
             :href="blogLink"
             target="_blank"
           >

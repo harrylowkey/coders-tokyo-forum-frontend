@@ -41,7 +41,7 @@
         <v-card class="mx-auto mt-6 pb-2" v-if="!isLoading">
           <v-list-item style="padding: 0px 25px 0 20px">
             <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-              <v-list-item-title class="headline discuss-title mb-0 py-3">
+              <v-list-item-title class="headline discussion-title mb-0 py-3">
                 {{ post.topic }}
               </v-list-item-title>
               <v-divider />
@@ -266,15 +266,6 @@ export default {
   font-size: 28px;
 }
 
-.blog-title {
-  text-align: left;
-  white-space: initial;
-  line-height: 1.3;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-}
-
 .wrapper-author-follow {
   position: relative;
   padding: 0 25px 0 20px;
@@ -317,11 +308,11 @@ export default {
   border-radius: 0px !important;
 }
 
-.blog-title {
+.discussion-title {
   text-align: left;
   white-space: initial;
-  line-height: 1.1;
-  -webkit-line-clamp: 2;
+  line-height: 1.3;
+  -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   display: -webkit-box;
 }
