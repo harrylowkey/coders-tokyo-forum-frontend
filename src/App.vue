@@ -28,20 +28,6 @@
           </a>
         </v-toolbar-title>
         <v-spacer />
-        <v-text-field
-          v-model="search"
-          v-if="isSearching"
-          hide-details
-          single-line
-        />
-        <v-btn
-          text
-          class="ml-10 search-icon"
-          color="primary"
-          @click="isSearching = !isSearching"
-        >
-          <v-icon size="20">search</v-icon>
-        </v-btn>
         <v-btn
           class="hidden-xs-only mr-1"
           color="primary"
@@ -166,12 +152,6 @@ export default {
 <style scoped>
 .v-menu__content {
   top: 42px !important;
-}
-.search-icon {
-  height: 36px !important;
-  min-width: 38px !important;
-  padding: 0 10px !important;
-  border-radius: 50% !important;
 }
 
 .toolbar {

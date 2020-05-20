@@ -80,27 +80,29 @@
         />
         <v-text-field color="primary" v-if="isLoadmore" loading disabled />
       </v-col>
-      <v-col cols="12" sm="4" md="4" lg="4" xl="4" :style="sideBarStyle">
+      <v-col cols="12" sm="4" md="4" lg="4" xl="4" style="padding-top: 12px">
         <side-card
           class="fix-sidebar top-blogger"
           :title="topBloggers.title"
           :type="topBloggers.type"
           :data="topBloggers.data"
-          v-if="showTopBloggers"
+          :dataType="topBloggers.dataType"
         />
 
         <side-card
           class="fix-sidebar most-view-posts"
-          :title="mostViewBlogs.title"
-          :type="mostViewBlogs.type"
-          :data="mostViewBlogs.data"
+          :title="topPostLikes.title"
+          :type="topPostLikes.type"
+          :data="topPostLikes.data"
+          :dataType="topPostLikes.dataType"
         />
 
         <side-card
           class="fix-sidebar"
-          :title="tags.title"
-          :type="tags.type"
-          :data="tags.data"
+          :title="topTagDatas.title"
+          :type="topTagDatas.type"
+          :data="topTagDatas.data"
+          :dataType="topTagDatas.dataType"
         />
 
         <side-card
@@ -108,6 +110,7 @@
           :title="membersOnline.title"
           :type="membersOnline.type"
           :data="membersOnline.data"
+          :dataType="membersOnline.dataType"
         />
       </v-col>
     </v-row>
@@ -118,7 +121,6 @@
 import { mapState, mapActions } from 'vuex';
 
 import SideCard from '@/components/Shared/SideCard';
-import { ROUTES } from '@/mixins/routes';
 
 import Podcast from './Podcast';
 
@@ -129,115 +131,46 @@ export default {
   },
   data() {
     return {
-      showViewMoreBtn: true,
       topBloggers: {
         title: 'Top Bloggers',
+        dataType: 'bloggers',
         type: 1,
         data: [
           {
             _id: '1',
             icon:
               'https://res.cloudinary.com/hongquangraem/image/upload/v1587030274/Draw-io-trophies/--02-128_kotkpp.png',
-            text: 'chau_chau',
+            text: 'ydobon',
           },
           {
             _id: '2',
             icon:
               'https://res.cloudinary.com/hongquangraem/image/upload/v1587030285/Draw-io-trophies/advantage_quality-128_hxdkdz.png',
-            text: 'nhat_anh',
+            text: 'hongquangraem',
           },
           {
             _id: '3',
             icon:
               'https://res.cloudinary.com/hongquangraem/image/upload/v1587030256/Draw-io-trophies/movie-10-128_yf3ng3.png',
-            text: 'thanh_ton',
+            text: 'quangdepzai_99',
           },
         ],
       },
-      tags: {
-        title: 'Tags',
+      topTagDatas: {
+        title: 'Top Tags',
+        dataType: 'tags',
         type: 2,
-        data: [
-          {
-            _id: '1',
-            text: 'javascript',
-            counter: 153,
-          },
-          {
-            _id: '2',
-            text: 'discussion',
-            counter: 153,
-          },
-          {
-            _id: '3',
-            text: 'nodejs',
-            counter: 153,
-          },
-          {
-            _id: '4',
-            text: 'html',
-            counter: 153,
-          },
-        ],
+        data: [],
       },
-      mostViewBlogs: {
-        title: 'Most Views',
+      topPostLikes: {
+        title: 'Top Podcasts',
+        dataType: 'posts',
         type: 2,
-        data: [
-          {
-            _id: '1',
-            text: 'Javascript the best parts',
-            counter: 153,
-          },
-          {
-            _id: '2',
-            text: 'Top 5 nodejs frameworks',
-            counter: 100,
-          },
-          {
-            _id: '3',
-            text: 'HTML for dummies',
-            counter: 99,
-          },
-          {
-            _id: '4',
-            text: 'Testing issues',
-            counter: 80,
-          },
-          {
-            _id: '5',
-            text: 'Setting Mongo local',
-            counter: 79,
-          },
-          {
-            _id: '6',
-            text: 'Javascript the best parts',
-            counter: 153,
-          },
-          {
-            _id: '7',
-            text: 'Top 5 nodejs frameworks',
-            counter: 100,
-          },
-          {
-            _id: '8',
-            text: 'HTML for dummies',
-            counter: 99,
-          },
-          {
-            _id: '9',
-            text: 'Testing issues',
-            counter: 80,
-          },
-          {
-            _id: '10',
-            text: 'Setting Mongo local',
-            counter: 79,
-          },
-        ],
+        data: [],
       },
       membersOnline: {
         title: 'Members Online',
+        dataType: 'onlineMembers',
         type: 1,
         data: [
           {
@@ -260,18 +193,12 @@ export default {
           },
         ],
       },
-      showTopBloggers: true,
-      showTags: true,
-      showMostViewBlogs: true,
-      showMembersOnline: true,
-      sideBarStyle: {
-        paddingTop: '12px',
-      },
     };
   },
   computed: {
     ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
     ...mapState('podcasts', ['podcasts', 'metadata']),
+    ...mapState('stream', ['topPodcasts', 'topTags']),
   },
   methods: {
     ...mapActions('podcasts', ['getPodcasts', 'loadMorePodcasts']),
@@ -312,16 +239,9 @@ export default {
     },
   },
   async created() {
-    if (
-      this.$route.path === ROUTES.STREAM() ||
-      this.$route.path === ROUTES.HOME
-    ) {
-      this.mostViewBlogs.title = 'Top 5 Discussions';
-      const sliceMostViews = this.mostViewBlogs.data.slice(5);
-      this.mostViewBlogs.data = sliceMostViews;
-    }
-
     await this.getPodcasts();
+    this.topTagDatas.data = this.topTags.slice(0, 5);
+    this.topPostLikes.data = this.topPodcasts;
   },
 };
 </script>

@@ -285,10 +285,12 @@ export default {
     isPlaying(newVal) {
       if (newVal === true) {
         this.togglePlayPauseIcon = 'mdi-pause-circle-outline';
+        this.coverClasses.push('none-boder-cover-radius ');
       }
 
       if (newVal === false) {
         this.togglePlayPauseIcon = 'mdi-play-circle-outline';
+        this.coverClasses = ['cover'];
       }
     },
   },

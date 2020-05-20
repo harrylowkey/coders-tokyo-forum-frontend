@@ -11,7 +11,13 @@
         </v-list-item-avatar>
         <v-list-item-content class="pl-2">
           <v-list-item-title>
-            {{ title === 'Top Tags' ? '#' : '' }}{{ item.text }}
+            <a
+              style="text-decoration: none; color: #000"
+              target="_blank"
+              :href="link(item)"
+            >
+              {{ dataType === 'tags' ? '#' : '' }}{{ handleGenText(item) }}
+            </a>
           </v-list-item-title>
         </v-list-item-content>
         <v-chip
@@ -23,7 +29,7 @@
           small
           style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
         >
-          {{ item.counter }}
+          {{ handleGenCounter(item) }}
         </v-chip>
       </v-list-item>
     </v-card>
@@ -31,16 +37,25 @@
 </template>
 
 <script>
+import { ROUTES } from '@/mixins/routes';
+
 export default {
   props: {
     title: {
       type: String,
+      required: true,
     },
     type: {
       type: Number,
+      required: true,
     },
     data: {
       type: Array,
+      required: true,
+    },
+    dataType: {
+      type: String,
+      required: true,
     },
   },
   data() {
@@ -52,6 +67,51 @@ export default {
         { text: 'Conversions', icon: 'mdi-flag' },
       ],
     };
+  },
+  methods: {
+    handleGenText(item) {
+      if (this.dataType === 'tags') {
+        return item.tagName;
+      }
+
+      if (this.dataType === 'posts') {
+        return item.topic;
+      }
+
+      if (this.dataType === 'onlineMembers' || this.dataType === 'bloggers') {
+        return item.text;
+      }
+    },
+    handleGenCounter(item) {
+      if (this.dataType === 'tags') {
+        return item.total;
+      }
+
+      if (this.dataType === 'posts') {
+        return item.likes;
+      }
+    },
+    link(item) {
+      if (this.dataType === 'bloggers') {
+        return ROUTES.USER_PROFILE({ username: item.text });
+      }
+
+      if (this.dataType === 'tags') {
+        return ROUTES.SEARCH_TAG({ tagName: item.tagName });
+      }
+
+      if (this.dataType === 'posts') {
+        if (
+          item.type === 'food' ||
+          item.type === 'movie' ||
+          item.type === 'book'
+        ) {
+          return `/${item.type}Reviews/${item._id}?type=${item.type}`;
+        } else {
+          return `/${item.type}s/${item._id}?type=${item.type}`;
+        }
+      }
+    },
   },
 };
 </script>
