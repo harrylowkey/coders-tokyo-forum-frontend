@@ -3,6 +3,7 @@ export const ROUTES = {
   LOGIN: '/signin',
   LOGOUT: '/singout',
   REGISTER: '/signup',
+  FORGOT_PASSWORD: '/forgotPassword',
   STREAM(type = '') {
     return `/stream${type}`;
   },

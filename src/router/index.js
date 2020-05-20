@@ -6,6 +6,7 @@ import AuthGuard from './auth-guard';
 
 const SignIn = () => import('@/components/Auth/Signin');
 const SignUp = () => import('@/components/Auth/Signup');
+const ForgotPassword = () => import('@/components/Auth/ForgotPassword');
 const Profile = () => import('@/components/User/Profile');
 const Stream = () => import('@/components/Stream/Stream');
 const SearchTag = () => import('@/components/Tag/SearchTag');
@@ -45,6 +46,10 @@ const routes = [
   {
     path: '/signup',
     component: SignUp,
+  },
+  {
+    path: '/forgotPassword',
+    component: ForgotPassword,
   },
   {
     path: '/',

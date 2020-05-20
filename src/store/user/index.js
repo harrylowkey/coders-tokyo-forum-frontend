@@ -244,6 +244,27 @@ export default {
         });
       return res;
     },
+    async forgotPassword({ commit }, data) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const res = await axios
+        .put(APIS.FORGOT_PASSWORD, data)
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return res;
+    },
     async getCode({ commit }, email) {
       commit('utils/SET_LOADING_API', true, { root: true });
       const res = await axios
