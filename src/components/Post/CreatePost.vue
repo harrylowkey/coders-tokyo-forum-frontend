@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid style="padding: 0 !important">
+  <v-container fluid style="padding: 0 !important" class="mt-12">
     <app-banner />
     <v-divider />
     <br />

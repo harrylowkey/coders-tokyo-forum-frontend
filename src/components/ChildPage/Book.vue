@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-12">
     <v-row id="post">
       <v-col
         cols="12"

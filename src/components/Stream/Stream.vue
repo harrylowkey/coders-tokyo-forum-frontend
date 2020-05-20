@@ -1,6 +1,6 @@
 <template>
   <v-container fluid style="padding: 0 !important">
-    <app-banner />
+    <app-banner class="mt-12" />
     <v-divider />
     <v-divider inset />
     <audio-playlist
