@@ -68,4 +68,5 @@ export const APIS = {
   GET_TOP_POSTS(limit) {
     return `/posts/topPosts/statics?limit=${limit}`;
   },
+  GET_TRENDING_AUDIOS: '/posts/audios/trending',
 };
