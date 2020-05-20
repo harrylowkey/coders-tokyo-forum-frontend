@@ -109,6 +109,7 @@ export default {
       }
       const user = localStorage.getItem('user');
       commit('SIGN_IN', { user: JSON.parse(user), accessToken });
+      
     },
     async signUp({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true });

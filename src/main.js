@@ -23,6 +23,7 @@ import ReadTimeFilter from './filters/readTime';
 import Banner from './components/Shared/Banner';
 import { BACKEND_URL } from './config.js'
 import './registerServiceWorker';
+import '@/interception';
 import 'vue-file-agent/dist/vue-file-agent.css';
 
 

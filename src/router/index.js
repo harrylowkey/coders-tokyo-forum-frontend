@@ -2,8 +2,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import AuthGuard from './auth-guard';
-
 const SignIn = () => import('@/components/Auth/Signin');
 const SignUp = () => import('@/components/Auth/Signup');
 const ForgotPassword = () => import('@/components/Auth/ForgotPassword');
@@ -63,42 +61,37 @@ const routes = [
   {
     path: '/writePost',
     component: CreatePost,
-    beforeEnter: AuthGuard,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/writePost/discussion',
     component: CreateDiscussion,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/writePost/blog',
     component: CreateBlog,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/writePost/bookReview',
     component: CreateBookReview,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/writePost/movieReview',
     component: CreateMovieReview,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/writePost/foodReview',
     component: CreateFoodReview,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/writePost/song',
     component: CreateAudio,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/writePost/podcast',
     component: CreateAudio,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/stream#discussions',
@@ -132,7 +125,6 @@ const routes = [
     path: '/users/profile/:username',
     name: 'profile',
     component: Profile,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/discussions/:id',
@@ -173,25 +165,21 @@ const routes = [
     path: '/edit/podcast/:id',
     name: 'editPodcast',
     component: EditAudio,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/edit/song/:id',
     name: 'editSong',
     component: EditAudio,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/edit/discussion/:id',
     name: 'editDiscussion',
     component: EditDiscussion,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/edit/blog/:id',
     name: 'editBlog',
     component: EditBlog,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/edit/book/:id',
@@ -202,13 +190,11 @@ const routes = [
     path: '/edit/movie/:id',
     name: 'editMovie',
     component: EditMovie,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/edit/food/:id',
     name: 'editFood',
     component: EditFood,
-    beforeEnter: AuthGuard,
   },
   {
     path: '/posts/tags',
