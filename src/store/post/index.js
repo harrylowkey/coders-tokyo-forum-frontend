@@ -37,7 +37,7 @@ export default {
         })
         .catch(err => {
           if (err) {
-            commit('utils/SET_ERROR', err.response.data.message, {
+            commit('utils/SET_ERROR', err.response.message, {
               root: true,
             });
           }
@@ -59,7 +59,7 @@ export default {
           APIS.GET_POST({ id: data.id, queries: { type: data.typeQuery } }),
         )
         .catch(err => {
-          commit('utils/SET_ERROR', err.response.data.message, { root: true });
+          commit('utils/SET_ERROR', err.response.message, { root: true });
           return err;
         })
         .then(res => {
@@ -76,7 +76,7 @@ export default {
       const response = await axios
         .put(APIS.EDIT_POST(_id, data.type), data)
         .catch(err => {
-          commit('utils/SET_ERROR', err.response.data.message, { root: true });
+          commit('utils/SET_ERROR', err.response.message, { root: true });
           return err;
         })
         .then(res => {
@@ -95,7 +95,7 @@ export default {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err.response.data.message, { root: true });
+          commit('utils/SET_ERROR', err.response.message, { root: true });
           return err;
         })
         .then(res => {
@@ -113,7 +113,7 @@ export default {
       const response = await axios
         .delete(APIS.GET_FILE({ id: fileId }))
         .catch(err => {
-          commit('utils/SET_ERROR', err.response.data.message, { root: true });
+          commit('utils/SET_ERROR', err.response.message, { root: true });
           return err;
         })
         .then(res => {
@@ -132,7 +132,7 @@ export default {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err.response.data.message, { root: true });
+          commit('utils/SET_ERROR', err.response.message, { root: true });
           return err;
         })
         .then(res => {
@@ -148,9 +148,9 @@ export default {
     async likePost({ commit }, postId) {
       commit('utils/SET_LOADING_API', true, { root: true });
       const response = await axios
-        .post(`/posts/${postId}/like`)
+        .post(APIS.LIKE_POST(postId))
         .catch(err => {
-          commit('utils/SET_ERROR', err.response.data.message, { root: true });
+          commit('utils/SET_ERROR', err.response.message, { root: true });
           return err.response;
         })
         .then(res => {
@@ -165,9 +165,9 @@ export default {
     async unlikePost({ commit }, postId) {
       commit('utils/SET_LOADING_API', true, { root: true });
       const response = await axios
-        .post(`/posts/${postId}/unlike`)
+        .post(APIS.UNLIKE_POST(postId))
         .catch(err => {
-          commit('utils/SET_ERROR', err.response.data.message, { root: true });
+          commit('utils/SET_ERROR', err.response.message, { root: true });
           return err.response;
         })
         .then(res => {
@@ -182,9 +182,9 @@ export default {
     async savePost({ commit }, postId) {
       commit('utils/SET_LOADING_API', true, { root: true });
       const response = await axios
-        .post(`/posts/${postId}/save`)
+        .post(APIS.SAVE_POST(postId))
         .catch(err => {
-          commit('utils/SET_ERROR', err.response.data.message, { root: true });
+          commit('utils/SET_ERROR', err.response.message, { root: true });
           return err.response;
         })
         .then(res => {
@@ -199,9 +199,9 @@ export default {
     async unsavePost({ commit }, postId) {
       commit('utils/SET_LOADING_API', true, { root: true });
       const response = await axios
-        .post(`/posts/${postId}/unsave`)
+        .post(APIS.UNSAVE_POST(postId))
         .catch(err => {
-          commit('utils/SET_ERROR', err.response.data.message, { root: true });
+          commit('utils/SET_ERROR', err.response.message, { root: true });
           return err.response;
         })
         .then(res => {
@@ -213,5 +213,36 @@ export default {
         });
       return response;
     },
+    async loadmoreComments({ commit }, data) {
+      const limit = data.limit || 5;
+      const page = data.page || 1;
+      commit('utils/SET_LOADMORE', true, { root: true });
+      const comments = await axios
+        .get(APIS.LOAD_MORE_COMMENTS({
+          postId: data.postId,
+          pagination: {
+            limit,
+            page,
+          }
+        }))
+        .then(res => {
+          res.data = res.data.comments;
+          return res;
+        })
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err.response.message, { root: true });
+          }
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADMORE', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return comments;
+    }
   },
 };
