@@ -59,7 +59,7 @@ export default {
       if (this.isPreviewing) {
         return (this.isPreviewing = false);
       }
-      if (!this.isPreviewing && this.comment !== '') {
+      if (!this.isPreviewing && this.comment.trim() !== '') {
         return (this.isPreviewing = true);
       }
     },

@@ -33,6 +33,7 @@ export const crudPost = {
         marginLeft: '12px !important',
         borderRadius: '4px',
       },
+      commentMetadata: {},
     };
   },
   computed: {
@@ -41,6 +42,7 @@ export const crudPost = {
       'isLoading',
       'isLoadingUpload',
       'isLoadingAPI',
+      'isLoadmore',
       'errorMes',
     ]),
     isAuthor() {
@@ -78,7 +80,19 @@ export const crudPost = {
       'deletePostById',
       'likePost',
       'unlikePost',
+      'loadmoreComments'
     ]),
+    async handleLoadmoreComments() {
+      const response = await this.loadmoreComments({
+        postId: this.post._id,
+        limit: 5,
+        page: this.commentMetadata.page + 1,
+      });
+      if (response.status === 200) {
+        this.post.comments.push(...response.data);
+        this.commentMetadata = response.metadata;
+      }
+    },
     async handleDeletePost() {
       const response = await this.deletePostById({
         id: this.post._id,
@@ -115,6 +129,7 @@ export const crudPost = {
         typeQuery: this.$route.query.type,
       }).then(data => {
         this.post = data;
+        this.commentMetadata = data.metadata.comment;
         this.authorProfileLink = ROUTES.USER_PROFILE({
           username: this.post.user.username,
         });
@@ -153,7 +168,7 @@ export const crudPost = {
       }
       if (response.status === 200) {
         const post = this.otherPostsOfAuthor.find(post => post._id === postId);
-        post.likes = post.likes.filter(_user => _user._id !== this.user._id);
+        post.likes = post.lcommentIdikes.filter(_user => _user._id !== this.user._id);
       }
       if (response.status === 409) {
         this.$notify({

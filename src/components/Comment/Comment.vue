@@ -4,49 +4,34 @@
       <v-card class="comment mb-5">
         <v-list-item-content class>
           <v-row>
-            <v-col
-              class="pl-9 pr-0 pb-0 d-flex flex-column"
-              cols="5"
-              sm="3"
-              md="4"
-              lg="4"
-              xl="4"
-            >
+            <v-col class="pl-9 pr-0 pb-0 d-flex flex-column" cols="5" sm="3" md="4" lg="4" xl="4">
               <div class="d-flex">
                 <v-avatar size="60" style="cursor: pointer" dark>
-                  <img
-                    src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-                    alt="Avatar"
-                    @click="onClickAvatar"
-                  />
+                  <img :src="comment.user.avatar.secureURL" alt="Avatar" @click="onClickAvatar" />
                 </v-avatar>
                 <div class="pl-4">
                   <p class="title mb-1 mt-1">
-                    <a style="text-decoration: none; color: #000" :href="link">
-                      {{ comment.user.username }}
-                    </a>
+                    <a
+                      style="text-decoration: none; color: #000; font-size: 15px !important"
+                      :href="link"
+                      target="_blank"
+                    >{{ comment.user.username }}</a>
                   </p>
                   <p
                     style="font-size: 13px; color: grey"
                     class="font-italic mb-0"
-                  >
-                    {{ comment.user.job }}
-                  </p>
+                  >{{ comment.user.job }}</p>
                 </div>
               </div>
               <div class="d-flex flex-column pt-3">
+                <p style="font-size: 13px; color: grey" class="font-italic mb-2">
+                  <v-icon size="18">mdi-reply-outline</v-icon>
+                  <a style="text-decoration: none" :href="link">@{{ author.username }}</a>
+                </p>
                 <p
                   style="font-size: 13px; color: grey"
-                  class="font-italic mb-2"
-                >
-                  <v-icon size="18">mdi-reply-outline</v-icon>
-                  <a style="text-decoration: none" :href="link">
-                    @{{ author.username }}
-                  </a>
-                </p>
-                <p style="font-size: 13px; color: grey" class="font-italic">
-                  {{ comment.createdAt | dateTime }}
-                </p>
+                  class="font-italic mb-0 pt-2"
+                >{{ comment.createdAt | dateTime }}</p>
               </div>
             </v-col>
             <v-col
@@ -58,16 +43,11 @@
               lg="7"
               xl="8"
             >
-              <p
-                v-html="$options.filters.markdown(comment.content)"
-                class="comment-content"
-              />
+              <p v-html="$options.filters.markdown(comment.content)" class="comment-content" />
             </v-col>
           </v-row>
           <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
-            <v-icon @click="isReplyComment = !isReplyComment" size="18">
-              mdi-reply-outline
-            </v-icon>
+            <v-icon @click="isReplyComment = !isReplyComment" size="18">mdi-reply-outline</v-icon>
             <span
               v-if="comment.childComments.length"
               style="font-size: 13px; color: green"
@@ -82,62 +62,43 @@
       <write-reply-comment
         v-if="isReplyComment"
         :rows="3"
-        :placeholder="`Reply ${comment.user.username}`"
+        :placeholder="`Reply to ${comment.user.username}`"
       />
     </div>
 
-    <div
-      v-if="comment.childComments.length"
-      style="margin-left: 80px"
-      class="mb-5"
-    >
+    <div v-if="comment.childComments.length" style="margin-left: 80px" class="mb-5">
       <div v-for="childComment in showingChildComments" :key="childComment._id">
         <v-card class="comment mb-5">
           <v-list-item-content>
             <v-row>
-              <v-col
-                class="pl-9 pr-0 pb-0 d-flex flex-column"
-                cols="5"
-                sm="4"
-                md="4"
-                lg="4"
-                xl="3"
-              >
+              <v-col class="pl-9 pr-0 pb-0 d-flex flex-column" cols="5" sm="4" md="4" lg="4" xl="3">
                 <div class="d-flex">
                   <v-avatar size="60" style="cursor: pointer" dark>
-                    <img
-                      src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png"
-                      alt="Avatar"
-                    />
+                    <img :src="childComment.user.avatar.secureURL" alt="Avatar" />
                   </v-avatar>
                   <div class="pl-4">
-                    <p class="title mb-1 mt-1">
-                      {{ childComment.user.username }}
-                    </p>
+                    <p
+                      style="font-size: 15px !important"
+                      class="title mb-1 mt-1"
+                    >{{ childComment.user.username }}</p>
                     <p
                       style="font-size: 13px; color: grey"
                       class="font-italic mb-0"
-                    >
-                      {{ childComment.user.job }}
-                    </p>
+                    >{{ childComment.user.job }}</p>
                   </div>
                 </div>
                 <div class="d-flex flex-column pt-3">
-                  <p
-                    style="font-size: 13px; color: grey"
-                    class="font-italic mb-2"
-                  >
+                  <p style="font-size: 13px; color: grey" class="font-italic mb-2">
                     <v-icon size="18">mdi-reply-outline</v-icon>
                     <a
                       style="text-decoration: none"
                       :href="`/profile/${childComment.replyToComment.user._id}`"
-                    >
-                      @{{ childComment.replyToComment.user.username }}
-                    </a>
+                    >@{{ childComment.replyToComment.user.username }}</a>
                   </p>
-                  <p style="font-size: 13px; color: grey" class="font-italic">
-                    {{ childComment.createdAt | dateTime }}
-                  </p>
+                  <p
+                    style="font-size: 13px; color: grey"
+                    class="font-italic mb-0 pt-2"
+                  >{{ childComment.createdAt | dateTime }}</p>
                 </div>
               </v-col>
               <v-col
@@ -163,9 +124,7 @@
                   ] = !isReplyChildComments[childComment._id]
                 "
                 size="18"
-              >
-                mdi-reply-outline
-              </v-icon>
+              >mdi-reply-outline</v-icon>
               <span
                 v-if="comment.childComments.length"
                 style="font-size: 13px; color: green"
@@ -177,7 +136,7 @@
         <write-reply-comment
           v-if="isReplyChildComments[childComment._id]"
           :rows="3"
-          :placeholder="`Reply ${childComment.user.username}`"
+          :placeholder="`Reply to ${childComment.user.username}`"
         />
       </div>
     </div>
@@ -185,9 +144,7 @@
       <span
         @click="handleClickLoadmoreChildComments"
         class="font-italic load-more"
-      >
-        ... Load more ... ({{ leftChildCommentsNotShow.length }})
-      </span>
+      >... Load more ... ({{ leftChildCommentsNotShow.length }})</span>
     </div>
   </div>
 </template>
@@ -240,7 +197,7 @@ export default {
     const childComments = this.comment.childComments;
     if (!childComments.length) return {};
     const initReplyChildComments = {};
-    childComments.map(childComment => {
+    childComments.map((childComment) => {
       initReplyChildComments[childComment._id] = false;
       return initReplyChildComments;
     });
@@ -249,7 +206,7 @@ export default {
   },
   methods: {
     onClickAvatar() {
-      this.$router.push({ path: this.link });
+      window.open(this.link, '_blank');
     },
     handleClickLoadmoreChildComments() {
       ++this.loadMoreCounter;

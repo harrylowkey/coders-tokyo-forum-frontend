@@ -48,6 +48,18 @@ export const APIS = {
     if (type === 'food') typeParam = type;
     return `/posts/${typeParam}/${id}?type=${type}`;
   },
+  LIKE_POST(postId) {
+    return `/posts/${postId}/like`;
+  },
+  UNLIKE_POST(postId) {
+    return `/posts/${postId}/unlike`;
+  },
+  SAVE_POST(postId) {
+    return `/posts/${postId}/save`;
+  },
+  UNLSAVE_POST(postId) {
+    return `/posts/${postId}/unsave`;
+  },
   CHANGE_PASSWORD: '/auth/change-password',
   FORGOT_PASSWORD: '/auth/forgot-password',
   GET_CODE: '/auth/send-verify-code',
@@ -70,4 +82,10 @@ export const APIS = {
     return `/posts/topPosts/statics?limit=${limit}`;
   },
   GET_TRENDING_AUDIOS: '/posts/audios/trending',
+  LOAD_MORE_COMMENTS({ postId, pagination }) {
+    const paginationQueries = Object.keys(pagination).map(
+      key => `${key}=${pagination[key]}`,
+    );
+    return `/comments/loadmore/${postId}?${paginationQueries.join('&')}`;
+  }
 };
