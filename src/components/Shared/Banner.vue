@@ -1,8 +1,5 @@
 <template>
-  <v-parallax
-    height="300"
-    src="https://picsum.photos/1492/300"
-  />
+  <v-parallax height="300" src="https://picsum.photos/1492/300" />
 </template>
 
 <script>

@@ -3,20 +3,34 @@
     <notifications class="notif" />
     <v-card color="grey lighten-4">
       <v-toolbar dense class="toolbar">
-        <v-app-bar-nav-icon class="hidden-sm-and-up" @click.stop="sideNav = !sideNav" />
-        <v-avatar size="35" class="ml-2 mr-3" style="cursor: pointer" @click="onClickLogo">
+        <v-app-bar-nav-icon
+          class="hidden-sm-and-up"
+          @click.stop="sideNav = !sideNav"
+        />
+        <v-avatar
+          size="35"
+          class="ml-2 mr-3"
+          style="cursor: pointer"
+          @click="onClickLogo"
+        >
           <img
             src="https://res.cloudinary.com/hongquangraem/image/upload/v1586963014/coders-logo_nqkmk8.jpg"
             alt="codersX-logo"
           />
         </v-avatar>
         <v-toolbar-title>
-          <a ref="forumTitle" href="/stream" style="text-decoration: none; color: #000">Forum</a>
+          <a
+            ref="forumTitle"
+            href="/stream"
+            style="text-decoration: none; color: #000"
+          >
+            Forum
+          </a>
         </v-toolbar-title>
         <v-spacer />
         <div class="mr-2">
-          <span class="caption" style="font-size: 16px">{{ online }}</span>
-          <v-avatar size="10" class="ml-2 mr-3">
+          <span class="body-2" style="font-size: 16px">{{ online }}</span>
+          <v-avatar size="8" class="ml-1 mr-3">
             <img
               src="https://res.cloudinary.com/hongquangraem/image/upload/v1590030842/online-icon_fitjtb.jpg"
               alt="online-icon"
@@ -30,7 +44,9 @@
           :key="item.title"
           :to="item.link"
           text
-        >{{ item.title }}</v-btn>
+        >
+          {{ item.title }}
+        </v-btn>
         <v-menu transition="slide-y-transition" style="top: 48px" open-on-hover>
           <template v-slot:activator="{ on }">
             <v-avatar
@@ -45,18 +61,26 @@
             </v-avatar>
           </template>
           <v-list>
-            <v-list-item v-for="(item, i) in dropdownMenus" :key="i" :to="item.link">
+            <v-list-item
+              v-for="(item, i) in dropdownMenus"
+              :key="i"
+              :to="item.link"
+            >
               <v-list-item-icon>
                 <v-icon color="primary" size="20">{{ item.icon }}</v-icon>
               </v-list-item-icon>
-              <v-list-item-title style="cursor: pointer">{{ item.title }}</v-list-item-title>
+              <v-list-item-title style="cursor: pointer">
+                {{ item.title }}
+              </v-list-item-title>
             </v-list-item>
             <v-divider />
             <v-list-item @click="signOut">
               <v-list-item-icon>
                 <v-icon color="red" size="20">exit_to_app</v-icon>
               </v-list-item-icon>
-              <v-list-item-title style="cursor: pointer">Logout</v-list-item-title>
+              <v-list-item-title style="cursor: pointer">
+                Logout
+              </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>

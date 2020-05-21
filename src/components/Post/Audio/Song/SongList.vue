@@ -180,14 +180,6 @@
           :data="topTagDatas.data"
           :dataType="topTagDatas.dataType"
         />
-
-        <side-card
-          class="fix-sidebar member-online"
-          :title="membersOnline.title"
-          :type="membersOnline.type"
-          :data="membersOnline.data"
-          :dataType="membersOnline.dataType"
-        />
       </v-col>
     </v-row>
   </v-container>
@@ -243,31 +235,6 @@ export default {
         dataType: 'posts',
         type: 2,
         data: [],
-      },
-      membersOnline: {
-        title: 'Members Online',
-        dataType: 'onlineMembers',
-        type: 1,
-        data: [
-          {
-            _id: '1',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1586965772/Draw-io-avatars/12_avatar-128_hvhfyk.png',
-            text: 'ngo_minh',
-          },
-          {
-            _id: '2',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1586965680/Draw-io-avatars/4_avatar-128_rk2yxz.png',
-            text: 'nhat_anh',
-          },
-          {
-            _id: '3',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1586965594/Draw-io-avatars/avatar-128_s94fqh.png',
-            text: 'thanh_ton',
-          },
-        ],
       },
     };
   },
