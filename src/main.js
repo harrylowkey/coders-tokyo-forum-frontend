@@ -9,7 +9,10 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import Notifications from 'vue-notification';
 import infiniteScroll from 'vue-infinite-scroll';
 import VueScrollTo from 'vue-scrollto';
+import io from 'socket.io-client';
+import VueSocketIOExt from 'vue-socket.io-extended';
 
+// import SocketStore from './store/socket';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import { store } from './store';
@@ -20,6 +23,7 @@ import DateTimeFilter from './filters/dateTime';
 import MarkdownFilter from './filters/markdown';
 import ReadTimeFilter from './filters/readTime';
 import Banner from './components/Shared/Banner';
+
 
 import './registerServiceWorker';
 import 'vue-file-agent/dist/vue-file-agent.css';
@@ -102,6 +106,8 @@ Vue.filter('readTime', ReadTimeFilter);
 
 Vue.component('app-banner', Banner);
 Vue.component('picture-input', PictureInput);
+
+Vue.use(VueSocketIOExt, io('http://localhost:8888'));
 
 Vue.use(APlayer, {
   defaultCover:

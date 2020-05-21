@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import socket from './socket'
 import utils from './utils';
 import getters from './getters.js';
 import post from './post';
@@ -33,6 +34,7 @@ import searchTag from './tag/SearchTag';
 Vue.use(Vuex);
 export const store = new Vuex.Store({
   modules: {
+    socket,
     user,
     userDiscussions,
     userBlogs,

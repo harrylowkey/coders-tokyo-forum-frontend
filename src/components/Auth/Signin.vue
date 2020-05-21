@@ -14,11 +14,7 @@
                     </v-toolbar>
                     <v-card-text class="pb-0">
                       <v-form>
-                        <ValidationProvider
-                          name="Email"
-                          rules="required"
-                          v-slot="{ errors }"
-                        >
+                        <ValidationProvider name="Email" rules="required" v-slot="{ errors }">
                           <v-text-field
                             :error-messages="errors"
                             label="Email"
@@ -28,11 +24,7 @@
                             type="text"
                           />
                         </ValidationProvider>
-                        <ValidationProvider
-                          name="Password"
-                          rules="required"
-                          v-slot="{ errors }"
-                        >
+                        <ValidationProvider name="Password" rules="required" v-slot="{ errors }">
                           <v-text-field
                             id="password"
                             label="Password"
@@ -51,25 +43,19 @@
                         style="text-decoration: none; font-size: 14px"
                         class="font-italic"
                         :href="ROUTES.REGISTER"
-                      >
-                        Don't have an account yet?
-                      </a>
+                      >Don't have an account yet?</a>
                       <v-spacer />
                       <a
                         style="text-decoration: none; font-size: 14px; color: red; margin-left: 75px"
                         class="font-italic"
                         :href="ROUTES.FORGOT_PASSWORD"
-                      >
-                        Forgot password?
-                      </a>
+                      >Forgot password?</a>
                       <v-spacer />
                       <v-btn
                         :disabled="!email || !password"
                         color="primary"
                         @click="signIn({ email, password })"
-                      >
-                        Login
-                      </v-btn>
+                      >Login</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-form>
@@ -109,8 +95,9 @@ export default {
     };
   },
   computed: {
-    ...mapState('user', ['isAuthenticated']),
+    ...mapState('user', ['isAuthenticated', 'accessToken']),
     ...mapState('utils', ['errorMes']),
+    ...mapState('socket', ['online']),
   },
   watch: {
     isAuthenticated(isAuthen) {
@@ -119,6 +106,7 @@ export default {
           type: 'success',
           title: 'Login success',
         });
+        this.$socket.client.emit('auth', this.accessToken);
         setTimeout(() => this.$router.push({ path: this.redirect }), 500);
       }
     },
