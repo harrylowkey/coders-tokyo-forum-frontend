@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import socket from './socket'
+import socket from './socket';
 import utils from './utils';
 import getters from './getters.js';
 import post from './post';

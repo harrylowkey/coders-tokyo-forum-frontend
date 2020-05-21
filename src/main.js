@@ -24,7 +24,6 @@ import MarkdownFilter from './filters/markdown';
 import ReadTimeFilter from './filters/readTime';
 import Banner from './components/Shared/Banner';
 
-
 import './registerServiceWorker';
 import 'vue-file-agent/dist/vue-file-agent.css';
 

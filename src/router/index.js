@@ -35,15 +35,10 @@ const FoodDetails = () => import('@/components/ChildPage/Food');
 const SongDetails = () => import('@/components/ChildPage/Song');
 const PodcastDetails = () => import('@/components/ChildPage/Podcast');
 const DiscussionDetails = () => import('@/components/ChildPage/Discussion');
-const ListenToSocket = () => import('@/components/Socket/ListenToSocket');
 
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/socket',
-    component: ListenToSocket,
-  },
   {
     path: '/signin',
     component: SignIn,

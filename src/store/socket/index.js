@@ -1,10 +1,8 @@
-import { SET_TOTAL_ONLINE_MEMBERS, SOCKET_MESSAGECHANNEL } from '../constants';
-
 export default {
   namespaced: true,
   state: {
     online: 0,
-    socketMessage: ''
+    socketMessage: '',
   },
   mutations: {
     SET_TOTAL_ONLINE_MEMBERS(state, payload) {
@@ -12,11 +10,11 @@ export default {
     },
     SOCKET_MESSAGECHANNEL(state, message) {
       state.socketMessage = message;
-    }
+    },
   },
   actions: {
     setOnlineMembers({ commit }, total) {
-      commit('SET_TOTAL_ONLINE_MEMBERS', total)
-    }
-  }
+      commit('SET_TOTAL_ONLINE_MEMBERS', total);
+    },
+  },
 };
