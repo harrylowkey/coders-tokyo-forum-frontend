@@ -212,6 +212,19 @@
                 />
               </v-container>
             </v-list-item-content>
+            <v-card-actions class="edit-delete-btn">
+              <div>
+                <v-icon
+                  @click="
+                    onClickDeleteReplyComment(childComment._id, comment._id)
+                  "
+                  class="delete-comment-icon"
+                  size="15"
+                >
+                  mdi-window-close
+                </v-icon>
+              </div>
+            </v-card-actions>
           </v-card>
           <write-reply-comment
             type="threadReplyComment"
@@ -295,7 +308,17 @@ export default {
       this.leftLoadMores();
     },
     onClickDeleteComment() {
-      this.$emit('handleDeleteComment', { commentId: this.comment._id });
+      this.$emit('handleDeleteComment', {
+        commentId: this.comment._id,
+        type: 'comment',
+      });
+    },
+    onClickDeleteReplyComment(commentId, parentId) {
+      this.$emit('handleDeleteComment', {
+        commentId,
+        parentId,
+        type: 'replyComment',
+      });
     },
     handleReplyComment({ newComment, type }) {
       this.$emit('handleCommentPost', { newComment, type });
