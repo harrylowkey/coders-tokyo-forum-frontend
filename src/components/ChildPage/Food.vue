@@ -377,16 +377,27 @@
                 v-if="isLoading"
                 type="image"
               />
-              <write-comment v-if="!isLoading" />
+              <write-comment
+                @handleCommentPost="handleCommentPost"
+                v-if="!isLoading"
+                :postId="post._id"
+                type="comment"
+              />
 
-              <div v-if="post ? post.comments.length : false">
-                <comment
-                  v-for="comment in post.comments"
-                  :key="comment._id"
-                  :comment="comment"
-                  :author="post.user"
-                  :postId="post._id"
-                />
+              <div v-if="!isLoading && post.comments.length">
+                <transition-group name="list">
+                  <comment
+                    transition="slide-y-transition"
+                    v-for="comment in post.comments"
+                    :key="comment._id"
+                    :comment="comment"
+                    :author="post.user"
+                    :postId="post._id"
+                    :user="user"
+                    @handleDeleteComment="handleDeleteComment"
+                    @handleCommentPost="handleCommentPost"
+                  />
+                </transition-group>
               </div>
             </div>
           </v-row>

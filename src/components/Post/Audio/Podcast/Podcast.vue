@@ -40,7 +40,6 @@
                 style="font-size: 13px; cursor: pointer"
                 v-for="(artist, i) in slicedArtists"
                 :key="i"
-                @click="searchPodcastByArtist(artist)"
               >
                 {{ artist }}
                 <span style="font-size: 12px">
