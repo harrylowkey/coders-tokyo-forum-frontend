@@ -201,6 +201,7 @@
                     ] = !isReplyChildComments[childComment._id]
                   "
                   size="18"
+                  class="reply-icon"
                 >
                   mdi-reply-outline
                 </v-icon>
@@ -217,6 +218,10 @@
             v-if="isReplyChildComments[childComment._id]"
             :rows="3"
             :placeholder="`Reply to ${childComment.user.username}`"
+            :postId="postId"
+            :commentId="childComment._id"
+            :parentId="comment._id"
+            @handleReplyComment="handleReplyComment"
           />
         </div>
       </transition-group>
@@ -271,15 +276,7 @@ export default {
     this.calShowingChildComments();
     this.calLeftChildCommentsNotShow();
     this.leftLoadMores();
-    const childComments = this.comment.childComments;
-    if (!childComments.length) return {};
-    const initReplyChildComments = {};
-    childComments.map(childComment => {
-      initReplyChildComments[childComment._id] = false;
-      return initReplyChildComments;
-    });
-
-    this.isReplyChildComments = initReplyChildComments;
+    this.initIsReplyChildComments();
   },
   methods: {
     onClickAvatar() {
@@ -330,6 +327,17 @@ export default {
         this.leftChildCommentsNotShow.length / this.childCommentPerLoad,
       );
     },
+    initIsReplyChildComments() {
+      const childComments = this.comment.childComments;
+      if (!childComments.length) return {};
+      const initReplyChildComments = {};
+      childComments.map(childComment => {
+        initReplyChildComments[childComment._id] = false;
+        return initReplyChildComments;
+      });
+
+      this.isReplyChildComments = initReplyChildComments;
+    },
   },
   components: {
     WriteReplyComment,
@@ -349,6 +357,7 @@ export default {
       this.calShowingChildComments();
       this.calLeftChildCommentsNotShow();
       this.leftLoadMores();
+      this.initIsReplyChildComments();
     },
   },
 };

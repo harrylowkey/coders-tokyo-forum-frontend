@@ -12,7 +12,6 @@ import VueScrollTo from 'vue-scrollto';
 import io from 'socket.io-client';
 import VueSocketIOExt from 'vue-socket.io-extended';
 
-// import SocketStore from './store/socket';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import { store } from './store';
@@ -70,6 +69,7 @@ axios.interceptors.response.use(
     if (error.response.status === 401) {
       window.localStorage.removeItem('accessToken');
       window.localStorage.removeItem('user');
+      store.dispatch('user/setIsAuthenticated', false);
       router.push('/signin');
       return Promise.reject(error);
     }

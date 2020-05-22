@@ -94,6 +94,9 @@ export const APIS = {
   REPLY_COMMENT(commentId) {
     return `/comments/reply/${commentId}`;
   },
+  THREAD_REPLY_COMMENT(parentId, commentId) {
+    return `/comments/thread/reply/${parentId}/${commentId}`;
+  },
   DELETE_COMMENT(commentId) {
     return `/comments/${commentId}`;
   },
