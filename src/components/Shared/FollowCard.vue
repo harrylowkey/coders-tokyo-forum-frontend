@@ -1,7 +1,10 @@
 <template>
   <v-card class="pb-1">
     <v-container class="pb-0">
-      <p class="headline mb-2 mt-0 ml-4">{{ type }}</p>
+      <p class="headline mb-2 mt-0 ml-4">
+        {{ type }}
+        <span style="font-size: 16px">({{ list.length }})</span>
+      </p>
     </v-container>
     <v-divider />
     <div v-if="list.length">
