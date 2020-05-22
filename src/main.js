@@ -68,8 +68,8 @@ axios.interceptors.response.use(
   },
   error => {
     if (error.response.status === 401) {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('user');
+      window.localStorage.removeItem('accessToken');
+      window.localStorage.removeItem('user');
       router.push('/signin');
       return Promise.reject(error);
     }

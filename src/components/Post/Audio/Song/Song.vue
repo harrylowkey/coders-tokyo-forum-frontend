@@ -58,7 +58,7 @@
           <v-spacer />
           <v-card-actions class="d-flex">
             <tag
-              style="margin-top: 6px;"
+              class="mb-2"
               :tagName="tag.tagName"
               v-for="(tag, i) in slicedTags"
               :key="i"
