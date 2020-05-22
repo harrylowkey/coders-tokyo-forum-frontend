@@ -158,14 +158,6 @@
       </v-col>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4" style="padding-top: 12px">
         <side-card
-          class="fix-sidebar top-blogger"
-          :title="topBloggers.title"
-          :type="topBloggers.type"
-          :data="topBloggers.data"
-          :dataType="topBloggers.dataType"
-        />
-
-        <side-card
           class="fix-sidebar most-view-posts"
           :title="topPostLikes.title"
           :type="topPostLikes.type"
@@ -199,31 +191,6 @@ export default {
   },
   data() {
     return {
-      topBloggers: {
-        title: 'Top Bloggers',
-        dataType: 'bloggers',
-        type: 1,
-        data: [
-          {
-            _id: '1',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030274/Draw-io-trophies/--02-128_kotkpp.png',
-            text: 'ydobon',
-          },
-          {
-            _id: '2',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030285/Draw-io-trophies/advantage_quality-128_hxdkdz.png',
-            text: 'hongquangraem',
-          },
-          {
-            _id: '3',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030256/Draw-io-trophies/movie-10-128_yf3ng3.png',
-            text: 'quangdepzai_99',
-          },
-        ],
-      },
       topTagDatas: {
         title: 'Top Tags',
         dataType: 'tags',
