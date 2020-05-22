@@ -218,13 +218,15 @@ export default {
       const page = data.page || 1;
       commit('utils/SET_LOADMORE', true, { root: true });
       const comments = await axios
-        .get(APIS.LOAD_MORE_COMMENTS({
-          postId: data.postId,
-          pagination: {
-            limit,
-            page,
-          }
-        }))
+        .get(
+          APIS.LOAD_MORE_COMMENTS({
+            postId: data.postId,
+            pagination: {
+              limit,
+              page,
+            },
+          }),
+        )
         .then(res => {
           res.data = res.data.comments;
           return res;
@@ -243,6 +245,23 @@ export default {
           return res;
         });
       return comments;
-    }
+    },
+    async commentPost({ commit }, { postId, content }) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const response = await axios
+        .post(APIS.COMMENT_POST(postId), { content })
+        .catch(err => {
+          commit('utils/SET_ERROR', err.response.message, { root: true });
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return response;
+    },
   },
 };

@@ -80,8 +80,12 @@ export const crudPost = {
       'deletePostById',
       'likePost',
       'unlikePost',
-      'loadmoreComments'
+      'loadmoreComments',
     ]),
+    handleCommentPost({ newComment }) {
+      newComment.user = this.user;
+      this.post.comments.unshift(newComment);
+    },
     async handleLoadmoreComments() {
       const response = await this.loadmoreComments({
         postId: this.post._id,
@@ -168,7 +172,9 @@ export const crudPost = {
       }
       if (response.status === 200) {
         const post = this.otherPostsOfAuthor.find(post => post._id === postId);
-        post.likes = post.lcommentIdikes.filter(_user => _user._id !== this.user._id);
+        post.likes = post.lcommentIdikes.filter(
+          _user => _user._id !== this.user._id,
+        );
       }
       if (response.status === 409) {
         this.$notify({
