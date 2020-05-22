@@ -80,6 +80,7 @@ export const crudPost = {
       'deletePostById',
       'likePost',
       'unlikePost',
+      'deleteComment',
       'loadmoreComments',
     ]),
     handleCommentPost({ newComment }) {
@@ -95,6 +96,20 @@ export const crudPost = {
       if (response.status === 200) {
         this.post.comments.push(...response.data);
         this.commentMetadata = response.metadata;
+      }
+    },
+    async handleDeleteComment({ commentId }) {
+      const response = await this.deleteComment(commentId);
+      if (response.status === 200) {
+        this.post.comments = this.post.comments.filter(
+          comment => comment._id !== commentId,
+        );
+      }
+      if (response.status === 400) {
+        this.$notify({
+          type: 'error',
+          title: response.message,
+        });
       }
     },
     async handleDeletePost() {
