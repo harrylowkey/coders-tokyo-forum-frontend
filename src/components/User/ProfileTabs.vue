@@ -15,10 +15,10 @@
           @click="showFollowCard('followers')"
           class="caption mb-1 mt-2 follow"
         >
-          {{ followers.length }} followers
+          {{ followers.length }} Followers
         </span>
         <span @click="showFollowCard('following')" class="caption follow">
-          {{ following.length }} following
+          {{ following.length }} Following
         </span>
       </div>
     </v-card-title>
