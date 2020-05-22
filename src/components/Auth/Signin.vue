@@ -121,7 +121,7 @@ export default {
           title: 'Login success',
         });
         this.$socket.client.emit('auth', this.accessToken);
-        setTimeout(() => this.$router.push({ path: this.redirect }), 500);
+        setTimeout(() => window.open(this.redirect), 500);
       }
     },
     errorMes(newVal) {

@@ -3,7 +3,13 @@ import axios from 'axios';
 
 import { APIS } from '@/mixins/api-endpoints';
 
-import { SIGN_IN, SIGN_OUT, UPLOAD_AVATAR, UPDATE_PROFILE } from '../constants';
+import {
+  SIGN_IN,
+  SIGN_OUT,
+  UPLOAD_AVATAR,
+  UPDATE_PROFILE,
+  SET_LIST_FOLLOW,
+} from '../constants';
 
 export default {
   namespaced: true,
@@ -11,6 +17,8 @@ export default {
     user: {},
     isAuthenticated: false,
     accessToken: '',
+    followers: [],
+    following: [],
   },
   mutations: {
     [SIGN_IN](state, data) {
@@ -28,6 +36,16 @@ export default {
     },
     [UPDATE_PROFILE](state, data) {
       state.user = data;
+    },
+    [SET_LIST_FOLLOW](state, data) {
+      state.followers = data.followers;
+      state.following = data.following;
+    },
+    SET_FOLLOWERS_LIST(state, data) {
+      state.followers = data;
+    },
+    SET_FOLLOWING_LIST(state, data) {
+      state.following = data;
     },
   },
   actions: {
@@ -288,6 +306,24 @@ export default {
           return res;
         });
       return res;
+    },
+    async fetchFollowersAndFollowing({ commit }, userId) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const [followers, following] = await Promise.all([
+        axios.get(APIS.GET_FOLLOWERS(userId)),
+        axios.get(APIS.GET_FOLLOWING(userId)),
+      ]);
+      commit('SET_LIST_FOLLOW', {
+        followers: followers.data,
+        following: following.data,
+      });
+      commit('utils/SET_LOADING_API', false, { root: true });
+    },
+    setFollowerList({ commit }, data) {
+      commit('SET_FOLLOWERS_LIST', data);
+    },
+    setFollowingList({ commit }, data) {
+      commit('SET_FOLLOWING_LIST', data);
     },
   },
   getters: {

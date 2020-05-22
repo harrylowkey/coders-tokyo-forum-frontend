@@ -418,7 +418,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions('user', ['uploadAvatar', 'updateProfile', 'getByUsername']),
+    ...mapActions('user', [
+      'uploadAvatar',
+      'updateProfile',
+      'getByUsername',
+      'fetchFollowersAndFollowing',
+    ]),
     onPickFile() {
       this.$refs.fileInput.click();
     },
@@ -478,6 +483,7 @@ export default {
     async fetchUserProfile(username) {
       this.getByUsername({ username }).then(data => {
         this.profileUser = data;
+        this.fetchFollowersAndFollowing(data._id);
         this.userGithub =
           this.profileUser.socialLinks.find(link => link.type === 'Github') ||
           this.userGithub;
