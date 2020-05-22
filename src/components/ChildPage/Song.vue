@@ -208,12 +208,7 @@
           <h1 class="mb-3 mt-8">Comments</h1>
 
           <v-boilerplate style="width: 100%" v-if="isLoading" type="image" />
-          <write-comment
-            @handleCommentPost="handleCommentPost"
-            v-if="!isLoading"
-            :postId="post._id"
-            type="comment"
-          />
+          <write-comment v-if="!isLoading" :postId="post._id" type="comment" />
 
           <div v-if="!isLoading && post.comments.length">
             <transition-group name="list">
@@ -226,7 +221,6 @@
                 :postId="post._id"
                 :user="user"
                 @handleDeleteComment="handleDeleteComment"
-                @handleCommentPost="handleCommentPost"
               />
             </transition-group>
           </div>

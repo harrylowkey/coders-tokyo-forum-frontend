@@ -90,7 +90,7 @@
           </v-container>
         </v-list-item-content>
         <v-card-actions class="edit-delete-btn">
-          <div>
+          <div v-if="isAuthorComment">
             <v-icon
               @click="onClickDeleteComment"
               class="delete-comment-icon"
@@ -108,7 +108,6 @@
         :placeholder="`Reply to ${comment.user.username}`"
         :postId="postId"
         :commentId="comment._id"
-        @handleReplyComment="handleReplyComment"
       />
     </div>
 
@@ -213,7 +212,7 @@
               </v-container>
             </v-list-item-content>
             <v-card-actions class="edit-delete-btn">
-              <div>
+              <div v-if="isAuthorComment">
                 <v-icon
                   @click="
                     onClickDeleteReplyComment(childComment._id, comment._id)
@@ -234,7 +233,6 @@
             :postId="postId"
             :commentId="childComment._id"
             :parentId="comment._id"
-            @handleReplyComment="handleReplyComment"
           />
         </div>
       </transition-group>
@@ -319,9 +317,6 @@ export default {
         parentId,
         type: 'replyComment',
       });
-    },
-    handleReplyComment({ newComment, type }) {
-      this.$emit('handleCommentPost', { newComment, type });
     },
     calShowingChildComments() {
       if (this.totalChildComments) {
