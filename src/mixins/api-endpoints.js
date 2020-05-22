@@ -87,5 +87,14 @@ export const APIS = {
       key => `${key}=${pagination[key]}`,
     );
     return `/comments/loadmore/${postId}?${paginationQueries.join('&')}`;
-  }
+  },
+  COMMENT_POST(postId) {
+    return `/comments/${postId}`;
+  },
+  GET_FOLLOWERS(userId) {
+    return `/users/${userId}/followers`;
+  },
+  GET_FOLLOWING(userId) {
+    return `/users/${userId}/following`;
+  },
 };
