@@ -114,18 +114,39 @@ export const crudPost = {
         this.commentMetadata = response.metadata;
       }
     },
-    async handleDeleteComment({ commentId }) {
-      const response = await this.deleteComment(commentId);
-      if (response.status === 200) {
-        this.post.comments = this.post.comments.filter(
-          comment => comment._id !== commentId,
-        );
+    async handleDeleteComment({ commentId, parentId, type }) {
+      if (type === 'comment') {
+        const response = await this.deleteComment(commentId);
+        if (response.status === 200) {
+          this.post.comments = this.post.comments.filter(
+            comment => comment._id !== commentId,
+          );
+        }
+        if (response.status === 400) {
+          this.$notify({
+            type: 'error',
+            title: response.message,
+          });
+        }
       }
-      if (response.status === 400) {
-        this.$notify({
-          type: 'error',
-          title: response.message,
-        });
+
+      if (type === 'replyComment') {
+        const response = await this.deleteComment(commentId);
+        if (response.status === 200) {
+          const parentComment = this.post.comments.find(
+            comment => comment._id === parentId,
+          );
+
+          parentComment.childComments = parentComment.childComments.filter(
+            comment => comment._id !== commentId,
+          );
+        }
+        if (response.status === 400) {
+          this.$notify({
+            type: 'error',
+            title: response.message,
+          });
+        }
       }
     },
     async handleDeletePost() {

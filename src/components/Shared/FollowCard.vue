@@ -17,7 +17,10 @@
               style="cursor: pointer; border-radius: 50%"
             />
           </v-list-item-avatar>
-          <v-container class="d-flex justify-center pt-5 px-0">
+          <v-container
+            style="width: 30%;"
+            class="d-flex justify-center pt-5 px-0"
+          >
             <v-btn
               @click="onClickFollow(user)"
               v-if="!isFollowing(user._id)"
