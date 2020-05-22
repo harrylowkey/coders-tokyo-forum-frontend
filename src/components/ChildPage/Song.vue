@@ -102,14 +102,14 @@
                   :canv-width="600"
                   :canv-height="80"
                   :played-line-width="1.1"
-                  :played-line-color="'#4CAF50'"
+                  played-line-color="rgb(183, 218, 255)"
                   :noplayed-line-width="0.5"
                   :noplayed-line-color="'grey'"
                   :playtime="false"
                   :playtime-with-ms="false"
-                  :playtime-font-color="'#5e5b5b'"
+                  playtime-font-color="#5e5b5b'"
                   :playtime-slider-width="2.5"
-                  :playtime-slider-color="'#4CAF50'"
+                  playtime-slider-color="rgb(183, 218, 255)"
                   :playtime-font-family="'Roboto' || 'sans-serif'"
                 />
                 <div class="d-flex pr-5 justify-end">
@@ -135,12 +135,13 @@
                     {{ volumeIcon }}
                   </v-icon>
                   <v-slider
-                    :color="'#4CAF50'"
+                    color="rgb(183, 218, 255)"
                     class="volume-bar"
                     v-model="currentVolume"
                     max="100"
                     min="1"
                     track-color="grey"
+                    style="cursor: pointer"
                   />
                 </div>
               </div>
@@ -631,15 +632,22 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 audio {
   display: none;
 }
-
 .lyric-wrapper {
   height: 40px;
   padding-bottom: 95px;
   overflow: hidden;
+}
+
+.v-slider__track-container {
+  cursor: pointer;
+}
+
+.slider__thumb {
+  cursor: pointer;
 }
 
 .show-lyric-wrapper {
@@ -669,7 +677,7 @@ audio {
     .play-pause-icon {
       color: #fff;
       transition: ease 0.3s;
-      color: 'green';
+      color: #fff;
     }
 
     .playing-play-pause-icon {
@@ -688,65 +696,65 @@ audio {
   padding: 16px 15px 8px 15px !important;
 }
 
-.aplayer {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  margin: 0;
+// .aplayer {
+//   -webkit-box-shadow: none;
+//   box-shadow: none;
+//   margin: 0;
 
-  .aplayer-icon {
-    width: 18px;
-    height: 18px;
-  }
+//   .aplayer-icon {
+//     width: 18px;
+//     height: 18px;
+//   }
 
-  .aplayer-pic {
-    height: 250px !important;
-    width: 280px !important;
+//   .aplayer-pic {
+//     height: 250px !important;
+//     width: 280px !important;
 
-    .aplayer-play {
-      width: 56px;
-      height: 56px;
-      border: 2px solid #fff;
-      bottom: 44%;
-      right: 44%;
-      margin: 0 -15px -15px 0;
-    }
+//     .aplayer-play {
+//       width: 56px;
+//       height: 56px;
+//       border: 2px solid #fff;
+//       bottom: 44%;
+//       right: 44%;
+//       margin: 0 -15px -15px 0;
+//     }
 
-    .aplayer-play svg {
-      position: absolute;
-      top: 5px;
-      left: 4px;
-      height: 46px;
-      width: 55px;
-    }
-  }
+//     .aplayer-play svg {
+//       position: absolute;
+//       top: 5px;
+//       left: 4px;
+//       height: 46px;
+//       width: 55px;
+//     }
+//   }
 
-  .aplayer-info {
-    margin-left: 290px !important;
+//   .aplayer-info {
+//     margin-left: 290px !important;
 
-    .aplayer-controller {
-      .aplayer-bar-wrap {
-        .aplayer-bar {
-          .aplayer-played {
-            height: 2px;
-          }
-        }
-      }
-    }
+//     .aplayer-controller {
+//       .aplayer-bar-wrap {
+//         .aplayer-bar {
+//           .aplayer-played {
+//             height: 2px;
+//           }
+//         }
+//       }
+//     }
 
-    .aplayer-music {
-      margin-bottom: 35px;
-      height: 40px;
+//     .aplayer-music {
+//       margin-bottom: 35px;
+//       height: 40px;
 
-      .aplayer-title {
-        font-size: 1.65rem !important;
-      }
+//       .aplayer-title {
+//         font-size: 1.65rem !important;
+//       }
 
-      .aplayer-author {
-        font-size: 1.05rem !important;
-      }
-    }
-  }
-}
+//       .aplayer-author {
+//         font-size: 1.05rem !important;
+//       }
+//     }
+//   }
+// }
 
 .aplayer
   .aplayer-info

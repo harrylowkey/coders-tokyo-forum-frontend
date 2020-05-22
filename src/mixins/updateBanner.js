@@ -14,7 +14,6 @@ export const updateBanner = {
         this.$router.push({ path: '/signin' });
       }
       this.$notify({
-        group: 'upload',
         type: 'error',
         title: 'Update banner failed',
       });

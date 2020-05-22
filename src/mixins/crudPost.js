@@ -66,7 +66,6 @@ export const crudPost = {
       this.$socket.$subscribe(
         `NEW_COMMENT_POST_ID_${this.post._id}`,
         payload => {
-          console.log('payload', payload)
           if (payload.type === 'comment') {
             this.post.comments.unshift(payload);
           }

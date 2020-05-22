@@ -65,6 +65,7 @@
               v-for="(item, i) in dropdownMenus"
               :key="i"
               :to="item.link"
+              target="_blank"
             >
               <v-list-item-icon>
                 <v-icon color="primary" size="20">{{ item.icon }}</v-icon>

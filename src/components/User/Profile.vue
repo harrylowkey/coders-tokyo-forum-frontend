@@ -431,10 +431,10 @@ export default {
       const response = await this.uploadAvatar({ avatar: res.data });
       if (response.status === 200) {
         this.$notify({
-          group: 'upload',
           type: 'success',
           title: 'Update avatar success',
         });
+        this.profileUser.avatar.secureURL = response.data.secureURL;
       }
     },
     cropUploadFail() {
@@ -466,7 +466,6 @@ export default {
     handleUpdateDescription(res) {
       if (res.status === 200) {
         this.$notify({
-          group: 'upload',
           type: 'success',
           title: 'Update description success',
         });

@@ -51,6 +51,13 @@ export default {
   methods: {
     handleAddTag(tag) {
       if (tag.length > 20 || tag.trim() === '') return;
+      if (tag.indexOf(' ') >= 0) {
+        this.$notify({
+          type: 'error',
+          title: 'Use underscore instead of space',
+        });
+        return;
+      }
       this.addTag = !this.addTag;
       this.tag = '';
       return this.$emit('handleAddTag', tag);
