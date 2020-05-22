@@ -1,17 +1,24 @@
 <template>
   <v-container class="profile-introduction">
     <v-card max-width="344" class="mx-auto" style="border-radius: 20px">
-      <v-card-title class="justify-center" style="padding: 10px !important">{{ title }}</v-card-title>
+      <v-card-title class="justify-center" style="padding: 10px !important">
+        {{ title }}
+      </v-card-title>
       <v-divider />
-      <v-list-item class="list" v-for="item in data" :key="item._id" @click="onClick(item)">
+      <v-list-item
+        class="list"
+        v-for="item in data"
+        :key="item._id"
+        @click="onClick(item)"
+      >
         <v-list-item-avatar class="ml-4" v-if="type === 1">
           <v-img :src="item.icon" />
         </v-list-item-avatar>
         <v-list-item-content class="pl-2">
           <v-list-item-title>
-            <a
-              style="text-decoration: none; color: #000"
-            >{{ dataType === 'tags' ? '#' : '' }}{{ handleGenText(item) }}</a>
+            <a style="text-decoration: none; color: #000">
+              {{ dataType === 'tags' ? '#' : '' }}{{ handleGenText(item) }}
+            </a>
           </v-list-item-title>
         </v-list-item-content>
         <v-chip
@@ -22,7 +29,9 @@
           outlined
           small
           style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
-        >{{ handleGenCounter(item) }}</v-chip>
+        >
+          {{ handleGenCounter(item) }}
+        </v-chip>
       </v-list-item>
     </v-card>
   </v-container>

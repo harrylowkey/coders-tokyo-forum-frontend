@@ -62,6 +62,10 @@ export default {
       type: String,
       required: false,
     },
+    parentId: {
+      type: String,
+      required: false,
+    },
     type: {
       type: String,
       required: true,
@@ -75,7 +79,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions('post', ['commentPost', 'replyComment']),
+    ...mapActions('post', [
+      'commentPost',
+      'replyComment',
+      'threadReplyComment',
+    ]),
     togglePreviewComment() {
       if (this.isPreviewing) {
         return (this.isPreviewing = false);
@@ -115,6 +123,18 @@ export default {
       }
 
       if (this.type === 'threadReplyComment') {
+        const response = await this.threadReplyComment({
+          parentId: this.parentId,
+          commentId: this.commentId,
+          content: this.content,
+        });
+        if (response.status === 200) {
+          this.content = '';
+          this.$emit('handleReplyComment', {
+            newComment: response.data,
+            type: this.type,
+          });
+        }
       }
     },
   },

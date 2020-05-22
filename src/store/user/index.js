@@ -47,8 +47,14 @@ export default {
     SET_FOLLOWING_LIST(state, data) {
       state.following = data;
     },
+    SET_AUTHENTICATED(state, payload) {
+      state.isAuthenticated = payload;
+    },
   },
   actions: {
+    setIsAuthenticated({ commit }, payload) {
+      commit('SET_AUTHENTICATED', payload);
+    },
     async signIn({ commit }, authData) {
       commit('utils/SET_LOADING', true, { root: true });
       axios
