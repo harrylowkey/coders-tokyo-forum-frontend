@@ -291,7 +291,7 @@
               <comment-btn
                 :type="type"
                 :postId="_id"
-                :comments="comments.length"
+                :comments="totalComments"
               />
             </v-col>
           </v-row>
@@ -401,6 +401,17 @@ export default {
   methods: {
     linkToBlog() {
       window.open(this.blogLink, '_blank');
+    },
+  },
+  computed: {
+    totalComments() {
+      let counter = 0;
+      counter += this.comments.length;
+      this.comments.map(comment => {
+        counter += comment.childComments.length;
+        return counter;
+      });
+      return counter;
     },
   },
 };
