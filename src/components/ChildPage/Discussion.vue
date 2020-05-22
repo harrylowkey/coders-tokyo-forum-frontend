@@ -95,7 +95,6 @@
                 type="image"
               />
               <write-comment
-                @handleCommentPost="handleCommentPost"
                 v-if="!isLoading"
                 :postId="post._id"
                 type="comment"
@@ -112,7 +111,6 @@
                     :postId="post._id"
                     :user="user"
                     @handleDeleteComment="handleDeleteComment"
-                    @handleCommentPost="handleCommentPost"
                   />
                 </transition-group>
               </div>

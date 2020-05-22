@@ -62,7 +62,51 @@ export const crudPost = {
     },
   },
   async created() {
-    await this.fetchPost();
+    await this.fetchPost().then(() => {
+      this.$socket.$subscribe(
+        `NEW_COMMENT_POST_ID_${this.post._id}`,
+        payload => {
+          if (payload.type === 'comment') {
+            this.post.comments.unshift(payload);
+          }
+
+          if (payload.type === 'replyComment') {
+            const comment = this.post.comments.find(
+              comment => comment._id === payload.replyToComment._id,
+            );
+            comment.childComments.unshift(payload);
+          }
+
+          if (payload.type === 'threadReplyComment') {
+            const comment = this.post.comments.find(
+              comment => comment._id === payload.thread._id,
+            );
+            comment.childComments.unshift(payload);
+          }
+        },
+      );
+
+      this.$socket.$subscribe(
+        `DELETE_COMMENT_POST_ID_${this.post._id}`,
+        payload => {
+          if (payload.type === 'comment') {
+            this.post.comments = this.post.comments.filter(
+              comment => comment._id !== payload.commentId,
+            );
+          }
+
+          if (payload.type === 'replyComment') {
+            const parentComment = this.post.comments.find(
+              comment => comment._id === payload.parentId,
+            );
+
+            parentComment.childComments = parentComment.childComments.filter(
+              comment => comment._id !== payload.commentId,
+            );
+          }
+        },
+      );
+    });
   },
   mounted() {
     if (this.$route.hash === '#comment') {
@@ -83,26 +127,26 @@ export const crudPost = {
       'deleteComment',
       'loadmoreComments',
     ]),
-    handleCommentPost({ newComment, type }) {
-      newComment.user = this.user;
-      if (type === 'comment') {
-        this.post.comments.unshift(newComment);
-      }
+    // handleCommentPost({ newComment, type }) {
+    // newComment.user = this.user;
+    // if (type === 'comment') {
+    //   this.post.comments.unshift(newComment);
+    // }
 
-      if (type === 'replyComment') {
-        const comment = this.post.comments.find(
-          comment => comment._id === newComment.replyToComment._id,
-        );
-        comment.childComments.unshift(newComment);
-      }
+    // if (type === 'replyComment') {
+    //   const comment = this.post.comments.find(
+    //     comment => comment._id === newComment.replyToComment._id,
+    //   );
+    //   comment.childComments.unshift(newComment);
+    // }
 
-      if (type === 'threadReplyComment') {
-        const comment = this.post.comments.find(
-          comment => comment._id === newComment.thread._id,
-        );
-        comment.childComments.unshift(newComment);
-      }
-    },
+    // if (type === 'threadReplyComment') {
+    //   const comment = this.post.comments.find(
+    //     comment => comment._id === newComment.thread._id,
+    //   );
+    //   comment.childComments.unshift(newComment);
+    // }
+    // },
     async handleLoadmoreComments() {
       const response = await this.loadmoreComments({
         postId: this.post._id,
@@ -114,14 +158,14 @@ export const crudPost = {
         this.commentMetadata = response.metadata;
       }
     },
-    async handleDeleteComment({ commentId, parentId, type }) {
+    async handleDeleteComment({ commentId, type }) {
       if (type === 'comment') {
         const response = await this.deleteComment(commentId);
-        if (response.status === 200) {
-          this.post.comments = this.post.comments.filter(
-            comment => comment._id !== commentId,
-          );
-        }
+        // if (response.status === 200) {
+        //   this.post.comments = this.post.comments.filter(
+        //     comment => comment._id !== commentId,
+        //   );
+        // }
         if (response.status === 400) {
           this.$notify({
             type: 'error',
@@ -132,15 +176,15 @@ export const crudPost = {
 
       if (type === 'replyComment') {
         const response = await this.deleteComment(commentId);
-        if (response.status === 200) {
-          const parentComment = this.post.comments.find(
-            comment => comment._id === parentId,
-          );
+        // if (response.status === 200) {
+        //   const parentComment = this.post.comments.find(
+        //     comment => comment._id === parentId,
+        //   );
 
-          parentComment.childComments = parentComment.childComments.filter(
-            comment => comment._id !== commentId,
-          );
-        }
+        //   parentComment.childComments = parentComment.childComments.filter(
+        //     comment => comment._id !== commentId,
+        //   );
+        // }
         if (response.status === 400) {
           this.$notify({
             type: 'error',
@@ -180,7 +224,7 @@ export const crudPost = {
       }
     },
     async fetchPost() {
-      this.getPostById({
+      return this.getPostById({
         id: this.$route.params.id,
         typeQuery: this.$route.query.type,
       }).then(data => {

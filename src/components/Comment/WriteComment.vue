@@ -101,10 +101,6 @@ export default {
         });
         if (response.status === 200) {
           this.content = '';
-          this.$emit('handleCommentPost', {
-            newComment: response.data,
-            type: this.type,
-          });
         }
       }
 
@@ -115,10 +111,6 @@ export default {
         });
         if (response.status === 200) {
           this.content = '';
-          this.$emit('handleReplyComment', {
-            newComment: response.data,
-            type: this.type,
-          });
         }
       }
 
@@ -130,10 +122,6 @@ export default {
         });
         if (response.status === 200) {
           this.content = '';
-          this.$emit('handleReplyComment', {
-            newComment: response.data,
-            type: this.type,
-          });
         }
       }
     },
