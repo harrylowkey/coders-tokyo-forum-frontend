@@ -83,9 +83,21 @@ export const crudPost = {
       'deleteComment',
       'loadmoreComments',
     ]),
-    handleCommentPost({ newComment }) {
+    handleCommentPost({ newComment, type }) {
       newComment.user = this.user;
-      this.post.comments.unshift(newComment);
+      if (type === 'comment') {
+        this.post.comments.unshift(newComment);
+      }
+
+      if (type === 'replyComment') {
+        const comment = this.post.comments.find(
+          comment => comment._id === newComment.replyToComment._id,
+        );
+        comment.childComments.unshift(newComment);
+      }
+
+      if (type === 'threadReplyComment') {
+      }
     },
     async handleLoadmoreComments() {
       const response = await this.loadmoreComments({

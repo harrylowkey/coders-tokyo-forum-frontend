@@ -58,6 +58,14 @@ export default {
       type: String,
       required: true,
     },
+    commentId: {
+      type: String,
+      required: false,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -67,7 +75,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('post', ['commentPost']),
+    ...mapActions('post', ['commentPost', 'replyComment']),
     togglePreviewComment() {
       if (this.isPreviewing) {
         return (this.isPreviewing = false);
@@ -78,14 +86,35 @@ export default {
     },
     async submit() {
       if (this.content.trim() === '') return;
-      const response = await this.commentPost({
-        postId: this.postId,
-        content: this.content,
-      });
+      if (this.type === 'comment') {
+        const response = await this.commentPost({
+          postId: this.postId,
+          content: this.content,
+        });
+        if (response.status === 200) {
+          this.content = '';
+          this.$emit('handleCommentPost', {
+            newComment: response.data,
+            type: this.type,
+          });
+        }
+      }
 
-      if (response.status === 200) {
-        this.content = '';
-        this.$emit('handleCommentPost', { newComment: response.data });
+      if (this.type === 'replyComment') {
+        const response = await this.replyComment({
+          commentId: this.commentId,
+          content: this.content,
+        });
+        if (response.status === 200) {
+          this.content = '';
+          this.$emit('handleReplyComment', {
+            newComment: response.data,
+            type: this.type,
+          });
+        }
+      }
+
+      if (this.type === 'threadReplyComment') {
       }
     },
   },

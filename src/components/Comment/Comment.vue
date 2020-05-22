@@ -102,9 +102,13 @@
         </v-card-actions>
       </v-card>
       <write-reply-comment
+        type="replyComment"
         v-if="isReplyComment"
         :rows="3"
         :placeholder="`Reply to ${comment.user.username}`"
+        :postId="postId"
+        :commentId="comment._id"
+        @handleReplyComment="handleReplyComment"
       />
     </div>
 
@@ -113,103 +117,111 @@
       style="margin-left: 80px"
       class="mb-5"
     >
-      <div v-for="childComment in showingChildComments" :key="childComment._id">
-        <v-card class="comment mb-5">
-          <v-list-item-content>
-            <v-row>
-              <v-col
-                class="pl-9 pr-0 pb-0 d-flex flex-column"
-                cols="5"
-                sm="4"
-                md="4"
-                lg="4"
-                xl="3"
-              >
-                <div class="d-flex">
-                  <v-avatar size="60" style="cursor: pointer" dark>
-                    <img
-                      :src="childComment.user.avatar.secureURL"
-                      alt="Avatar"
-                    />
-                  </v-avatar>
-                  <div class="pl-4">
+      <transition-group name="list">
+        <div
+          v-for="childComment in showingChildComments"
+          :key="childComment._id"
+        >
+          <v-card class="comment mb-5">
+            <v-list-item-content>
+              <v-row>
+                <v-col
+                  class="pl-9 pr-0 pb-0 d-flex flex-column"
+                  cols="5"
+                  sm="4"
+                  md="4"
+                  lg="4"
+                  xl="3"
+                >
+                  <div class="d-flex">
+                    <v-avatar size="60" style="cursor: pointer" dark>
+                      <img
+                        :src="childComment.user.avatar.secureURL"
+                        alt="Avatar"
+                      />
+                    </v-avatar>
+                    <div class="pl-4">
+                      <p
+                        style="font-size: 15px !important"
+                        class="title mb-1 mt-1"
+                      >
+                        {{ childComment.user.username }}
+                      </p>
+                      <p
+                        style="font-size: 13px; color: grey"
+                        class="font-italic mb-0"
+                      >
+                        {{ childComment.user.job }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-column pt-3">
                     <p
-                      style="font-size: 15px !important"
-                      class="title mb-1 mt-1"
+                      style="font-size: 13px; color: grey"
+                      class="font-italic mb-2"
                     >
-                      {{ childComment.user.username }}
+                      <v-icon size="18">mdi-reply-outline</v-icon>
+                      <a
+                        style="text-decoration: none"
+                        :href="
+                          `/profile/${childComment.replyToComment.user._id}`
+                        "
+                      >
+                        @{{ childComment.replyToComment.user.username }}
+                      </a>
                     </p>
                     <p
                       style="font-size: 13px; color: grey"
-                      class="font-italic mb-0"
+                      class="font-italic mb-0 pt-2"
                     >
-                      {{ childComment.user.job }}
+                      {{ childComment.createdAt | dateTime }}
                     </p>
                   </div>
-                </div>
-                <div class="d-flex flex-column pt-3">
+                </v-col>
+                <v-col
+                  style="font-size: 15px; line-height: 1.5"
+                  class="pr-0 pb-0 pl-4"
+                  cols="7"
+                  sm="7"
+                  md="7"
+                  lg="7"
+                  xl="8"
+                >
                   <p
-                    style="font-size: 13px; color: grey"
-                    class="font-italic mb-2"
-                  >
-                    <v-icon size="18">mdi-reply-outline</v-icon>
-                    <a
-                      style="text-decoration: none"
-                      :href="`/profile/${childComment.replyToComment.user._id}`"
-                    >
-                      @{{ childComment.replyToComment.user.username }}
-                    </a>
-                  </p>
-                  <p
-                    style="font-size: 13px; color: grey"
-                    class="font-italic mb-0 pt-2"
-                  >
-                    {{ childComment.createdAt | dateTime }}
-                  </p>
-                </div>
-              </v-col>
-              <v-col
-                style="font-size: 15px; line-height: 1.5"
-                class="pr-0 pb-0 pl-4"
-                cols="7"
-                sm="7"
-                md="7"
-                lg="7"
-                xl="8"
-              >
-                <p
-                  v-html="$options.filters.markdown(childComment.content)"
-                  class="comment-content"
+                    v-html="$options.filters.markdown(childComment.content)"
+                    class="comment-content"
+                  />
+                </v-col>
+              </v-row>
+              <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
+                <v-icon
+                  @click="
+                    isReplyChildComments[
+                      childComment._id
+                    ] = !isReplyChildComments[childComment._id]
+                  "
+                  size="18"
+                >
+                  mdi-reply-outline
+                </v-icon>
+                <span
+                  v-if="comment.childComments.length"
+                  style="font-size: 13px; color: green"
+                  class="font-italic mb-0"
                 />
-              </v-col>
-            </v-row>
-            <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
-              <v-icon
-                @click="
-                  isReplyChildComments[
-                    childComment._id
-                  ] = !isReplyChildComments[childComment._id]
-                "
-                size="18"
-              >
-                mdi-reply-outline
-              </v-icon>
-              <span
-                v-if="comment.childComments.length"
-                style="font-size: 13px; color: green"
-                class="font-italic mb-0"
-              />
-            </v-container>
-          </v-list-item-content>
-        </v-card>
-        <write-reply-comment
-          v-if="isReplyChildComments[childComment._id]"
-          :rows="3"
-          :placeholder="`Reply to ${childComment.user.username}`"
-        />
-      </div>
+              </v-container>
+            </v-list-item-content>
+          </v-card>
+          <write-reply-comment
+            type="threadReplyComment"
+            v-if="isReplyChildComments[childComment._id]"
+            :rows="3"
+            :placeholder="`Reply to ${childComment.user.username}`"
+          />
+        </div>
+      </transition-group>
     </div>
-    <div class="d-flex justify-center mb-3" v-if="leftLoadMores > 0">
+    <div class="d-flex justify-center mb-3" v-if="leftLoadMores() > 0">
       <span
         @click="handleClickLoadmoreChildComments"
         class="font-italic load-more"
@@ -245,10 +257,8 @@ export default {
   },
   data() {
     return {
-      childCommentPerLoad: 3,
-      totalChildComments: 0,
+      childCommentPerLoad: 2,
       loadMoreCounter: 1,
-      leftLoadMores: 0,
       showingChildComments: [],
       leftChildCommentsNotShow: [],
       isPreviewing: false,
@@ -258,18 +268,9 @@ export default {
     };
   },
   created() {
-    this.totalChildComments = this.comment.childComments.length;
-    if (this.totalChildComments) {
-      this.showingChildComments = this.comment.childComments.slice(0, 2);
-      this.leftChildCommentsNotShow = this.comment.childComments.slice(
-        2,
-        this.totalChildComments.length,
-      );
-    }
-    this.leftLoadMores = Math.ceil(
-      this.leftChildCommentsNotShow.length / this.childCommentPerLoad,
-    );
-
+    this.calShowingChildComments();
+    this.calLeftChildCommentsNotShow();
+    this.leftLoadMores();
     const childComments = this.comment.childComments;
     if (!childComments.length) return {};
     const initReplyChildComments = {};
@@ -294,12 +295,40 @@ export default {
         this.childCommentPerLoad,
         this.leftChildCommentsNotShow.length,
       );
-      this.leftLoadMores = Math.ceil(
-        this.leftChildCommentsNotShow.length / this.childCommentPerLoad,
-      );
+      this.leftLoadMores();
     },
     onClickDeleteComment() {
       this.$emit('handleDeleteComment', { commentId: this.comment._id });
+    },
+    handleReplyComment({ newComment, type }) {
+      this.$emit('handleCommentPost', { newComment, type });
+    },
+    calShowingChildComments() {
+      if (this.totalChildComments) {
+        const showingChildCommentList = this.comment.childComments.slice(
+          0,
+          this.childCommentPerLoad,
+        );
+        this.showingChildComments = showingChildCommentList;
+      } else {
+        return [];
+      }
+    },
+    calLeftChildCommentsNotShow() {
+      if (this.totalChildComments) {
+        const leftChildCommentsNotShowList = this.comment.childComments.slice(
+          this.childCommentPerLoad,
+          this.totalChildComments.length,
+        );
+        this.leftChildCommentsNotShow = leftChildCommentsNotShowList;
+      } else {
+        return [];
+      }
+    },
+    leftLoadMores() {
+      return Math.ceil(
+        this.leftChildCommentsNotShow.length / this.childCommentPerLoad,
+      );
     },
   },
   components: {
@@ -309,6 +338,17 @@ export default {
     isAuthorComment() {
       if (!this.user) return false;
       return this.comment.user._id === this.user._id;
+    },
+    totalChildComments() {
+      return this.comment.childComments.length;
+    },
+  },
+  watch: {
+    totalChildComments() {
+      ++this.childCommentPerLoad;
+      this.calShowingChildComments();
+      this.calLeftChildCommentsNotShow();
+      this.leftLoadMores();
     },
   },
 };
@@ -344,5 +384,14 @@ export default {
 
 .reply-icon:hover {
   color: green;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(-30px);
 }
 </style>

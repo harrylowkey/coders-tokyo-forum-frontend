@@ -98,6 +98,7 @@
                 @handleCommentPost="handleCommentPost"
                 v-if="!isLoading"
                 :postId="post._id"
+                type="comment"
               />
 
               <div v-if="!isLoading && post.comments.length">
@@ -111,6 +112,7 @@
                     :postId="post._id"
                     :user="user"
                     @handleDeleteComment="handleDeleteComment"
+                    @handleCommentPost="handleCommentPost"
                   />
                 </transition-group>
               </div>
