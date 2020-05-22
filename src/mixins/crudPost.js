@@ -97,7 +97,6 @@ export const crudPost = {
       }
 
       if (type === 'threadReplyComment') {
-        console.log('newCOmment', newComment);
         const comment = this.post.comments.find(
           comment => comment._id === newComment.thread._id,
         );

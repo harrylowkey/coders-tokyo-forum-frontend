@@ -61,30 +61,6 @@ export default {
     return {
       changeLayout: false,
       activePage: 'Discussions',
-      topBloggers: {
-        title: 'Top Bloggers',
-        type: 1,
-        data: [
-          {
-            _id: '1',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030274/Draw-io-trophies/--02-128_kotkpp.png',
-            text: 'chau_chau',
-          },
-          {
-            _id: '2',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030285/Draw-io-trophies/advantage_quality-128_hxdkdz.png',
-            text: 'nhat_anh',
-          },
-          {
-            _id: '3',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030256/Draw-io-trophies/movie-10-128_yf3ng3.png',
-            text: 'thanh_ton',
-          },
-        ],
-      },
       tags: {
         title: 'Tags',
         type: 2,
