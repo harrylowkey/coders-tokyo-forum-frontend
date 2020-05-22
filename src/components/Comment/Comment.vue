@@ -82,7 +82,7 @@
             <span
               v-if="comment.childComments.length"
               style="font-size: 13px; color: green"
-              class="font-italic mb-0"
+              class="font-italic mb-0 ml-1"
             >
               {{ comment.childComments.length }}
               {{ comment.childComments.length > 1 ? 'replies' : 'reply' }}

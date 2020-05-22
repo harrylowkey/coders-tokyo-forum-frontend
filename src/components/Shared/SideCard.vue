@@ -1,11 +1,9 @@
 <template>
   <v-container class="profile-introduction">
     <v-card max-width="344" class="mx-auto" style="border-radius: 20px">
-      <v-card-title class="justify-center" style="padding: 10px !important">
-        {{ title }}
-      </v-card-title>
+      <v-card-title class="justify-center" style="padding: 10px !important">{{ title }}</v-card-title>
       <v-divider />
-      <v-list-item v-for="item in data" :key="item._id">
+      <v-list-item class="list" v-for="item in data" :key="item._id" @click="onClick(item)">
         <v-list-item-avatar class="ml-4" v-if="type === 1">
           <v-img :src="item.icon" />
         </v-list-item-avatar>
@@ -13,11 +11,7 @@
           <v-list-item-title>
             <a
               style="text-decoration: none; color: #000"
-              target="_blank"
-              :href="link(item)"
-            >
-              {{ dataType === 'tags' ? '#' : '' }}{{ handleGenText(item) }}
-            </a>
+            >{{ dataType === 'tags' ? '#' : '' }}{{ handleGenText(item) }}</a>
           </v-list-item-title>
         </v-list-item-content>
         <v-chip
@@ -28,9 +22,7 @@
           outlined
           small
           style="border: 1px solid #90d2a3 !important; background-color: #C5E1A5 !important"
-        >
-          {{ handleGenCounter(item) }}
-        </v-chip>
+        >{{ handleGenCounter(item) }}</v-chip>
       </v-list-item>
     </v-card>
   </v-container>
@@ -91,13 +83,13 @@ export default {
         return item.likes;
       }
     },
-    link(item) {
+    onClick(item) {
       if (this.dataType === 'bloggers') {
-        return ROUTES.USER_PROFILE({ username: item.text });
+        window.open(ROUTES.USER_PROFILE({ username: item.text }), '_blank');
       }
 
       if (this.dataType === 'tags') {
-        return ROUTES.SEARCH_TAG({ tagName: item.tagName });
+        window.open(ROUTES.SEARCH_TAG({ tagName: item.tagName }, '_blank'));
       }
 
       if (this.dataType === 'posts') {
@@ -106,12 +98,24 @@ export default {
           item.type === 'movie' ||
           item.type === 'book'
         ) {
-          return `/${item.type}Reviews/${item._id}?type=${item.type}`;
+          window.open(
+            `/${item.type}Reviews/${item._id}?type=${item.type}`,
+            '_blank',
+          );
         } else {
-          return `/${item.type}s/${item._id}?type=${item.type}`;
+          window.open(`/${item.type}s/${item._id}?type=${item.type}`, '_blank');
         }
       }
     },
   },
 };
 </script>
+
+<style scoped>
+.list {
+  cursor: pointer;
+}
+.list:hover {
+  background: rgb(243, 241, 241);
+}
+</style>
