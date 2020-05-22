@@ -91,6 +91,9 @@ export const APIS = {
   COMMENT_POST(postId) {
     return `/comments/${postId}`;
   },
+  DELETE_COMMENT(commentId) {
+    return `/comments/${commentId}`;
+  },
   GET_FOLLOWERS(userId) {
     return `/users/${userId}/followers`;
   },

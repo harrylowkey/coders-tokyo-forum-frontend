@@ -263,5 +263,24 @@ export default {
         });
       return response;
     },
+    async deleteComment({ commit }, commentId) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const response = await axios
+        .delete(APIS.DELETE_COMMENT(commentId))
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err.response.message, { root: true });
+          }
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return response;
+    },
   },
 };

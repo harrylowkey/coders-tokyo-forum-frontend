@@ -21,7 +21,7 @@
                   />
                 </v-avatar>
                 <div class="pl-4">
-                  <p class="title mb-1 mt-1">
+                  <p class="title mb-0 mt-1">
                     <a
                       style="text-decoration: none; color: #000; font-size: 15px !important"
                       :href="link"
@@ -43,7 +43,7 @@
                   style="font-size: 13px; color: grey"
                   class="font-italic mb-2"
                 >
-                  <v-icon size="18">mdi-reply-outline</v-icon>
+                  <v-icon class="mr-1" size="18">mdi-reply-outline</v-icon>
                   <a style="text-decoration: none" :href="link">
                     @{{ author.username }}
                   </a>
@@ -72,7 +72,11 @@
             </v-col>
           </v-row>
           <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
-            <v-icon @click="isReplyComment = !isReplyComment" size="18">
+            <v-icon
+              class="reply-icon"
+              @click="isReplyComment = !isReplyComment"
+              size="18"
+            >
               mdi-reply-outline
             </v-icon>
             <span
@@ -86,7 +90,15 @@
           </v-container>
         </v-list-item-content>
         <v-card-actions class="edit-delete-btn">
-          <edit-delete-btns v-if="isAuthorComment" />
+          <div>
+            <v-icon
+              @click="onClickDeleteComment"
+              class="delete-comment-icon"
+              size="15"
+            >
+              mdi-window-close
+            </v-icon>
+          </div>
         </v-card-actions>
       </v-card>
       <write-reply-comment
@@ -211,7 +223,6 @@
 <script>
 import WriteReplyComment from '@/components/Comment/WriteComment';
 import { ROUTES } from '@/mixins/routes';
-import EditDeleteBtns from '@/components/Post/EditDeleteBtns';
 
 export default {
   props: {
@@ -287,10 +298,12 @@ export default {
         this.leftChildCommentsNotShow.length / this.childCommentPerLoad,
       );
     },
+    onClickDeleteComment() {
+      this.$emit('handleDeleteComment', { commentId: this.comment._id });
+    },
   },
   components: {
     WriteReplyComment,
-    EditDeleteBtns,
   },
   computed: {
     isAuthorComment() {
@@ -317,7 +330,19 @@ export default {
 
 .edit-delete-btn {
   position: absolute;
-  top: 2px;
+  top: 0px;
   right: 4px;
+}
+
+.delete-comment-icon {
+  cursor: pointer;
+}
+
+.delete-comment-icon:hover {
+  color: red;
+}
+
+.reply-icon:hover {
+  color: green;
 }
 </style>

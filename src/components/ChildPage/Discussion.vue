@@ -110,6 +110,7 @@
                     :author="post.user"
                     :postId="post._id"
                     :user="user"
+                    @handleDeleteComment="handleDeleteComment"
                   />
                 </transition-group>
               </div>
