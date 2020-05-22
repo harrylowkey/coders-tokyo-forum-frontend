@@ -62,12 +62,22 @@
     <br />
     <v-container color="dark">
       <v-row>
-        <post-tabs
-          type="stream"
-          :selectedPage="activePage"
-          class="d-none d-sm-flex"
-          @setActivePage="handleSetActivePage"
-        />
+        <v-col
+          cols="11"
+          sm="11"
+          md="12"
+          lg="12"
+          xl="11"
+          offset-xl="1"
+          class="pt-0"
+        >
+          <post-tabs
+            type="stream"
+            :selectedPage="activePage"
+            class="d-none d-sm-flex"
+            @setActivePage="handleSetActivePage"
+          />
+        </v-col>
         <discussion-page v-if="activePage === 'discussions'" />
         <blog-page v-if="activePage === 'blogs'" />
         <podcast-page v-if="activePage === 'podcasts'" />

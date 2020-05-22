@@ -100,7 +100,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 #songs-wrapper {
   flex-wrap: wrap;
   justify-content: center;
