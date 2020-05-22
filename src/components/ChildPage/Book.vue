@@ -1,14 +1,7 @@
 <template>
   <div class="mt-12">
     <v-row id="post">
-      <v-col
-        cols="12"
-        sm="12"
-        md="1"
-        lg="1"
-        xl="1"
-        class="pr-0 wrapper-icon d-sm-none d-md-flex"
-      >
+      <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="pr-0 wrapper-icon d-sm-none d-md-flex">
         <post-reactions
           v-if="!isLoading"
           @hanldeClickCommentBtn="hanldeClickCommentBtn"
@@ -30,25 +23,14 @@
           style="display: none"
           href="#"
           v-scroll-to="'#comments'"
-        >
-          Scroll to #comment
-        </a>
+        >Scroll to #comment</a>
         <v-skeleton-loader />
-        <v-boilerplate
-          class="mx-auto mt-6"
-          v-if="isLoading"
-          type="image, card-avatar, article"
-        />
+        <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image, card-avatar, article" />
         <v-card v-else class="mx-auto mt-6" id="blog-card" elevation="6">
           <v-container class="pa-0">
             <v-row style="margin-right: 0">
               <v-col class="pt-0 pr-0" cols="12" sm="12" md="12" lg="7" xl="8">
-                <v-img
-                  :src="post.cover.secureURL"
-                  height="360px"
-                  style
-                  class="cover-book"
-                />
+                <v-img :src="post.cover.secureURL" height="360px" style class="cover-book" />
               </v-col>
               <v-col
                 class="pa-0"
@@ -62,23 +44,16 @@
                 <div class="d-md-none d-lg-flex">
                   <v-container class="ml-1 pl-3 book-detail">
                     <v-card-text class="pb-2 pt-2">
-                      <p class="title text--primary mb-0 pt-1">
-                        {{ post.book.name }}
-                      </p>
+                      <p class="title text--primary mb-0 pt-1">{{ post.book.name }}</p>
                       <v-container class="d-flex pl-1 pb-0 pt-2">
                         <p class="key mb-0 mr-3">Status:</p>
-                        <p class="value mb-0" :style="calBookStatusColor">
-                          {{ post.book.status }}
-                        </p>
+                        <p class="value mb-0" :style="calBookStatusColor">{{ post.book.status }}</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Author:</p>
                         <p class="value mb-0" v-if="slicedAuthors">
-                          <span
-                            v-for="(author, i) in slicedAuthors"
-                            :key="author._id"
-                          >
+                          <span v-for="(author, i) in slicedAuthors" :key="author._id">
                             {{ author.name
                             }}{{ isAddComma(i, slicedAuthors.length) }}
                           </span>
@@ -107,19 +82,14 @@
                             v-for="genre in slicedGenres"
                             :key="genre._id"
                             class="mr-1"
-                          >
-                            {{ genre }}
-                          </v-chip>
+                          >{{ genre }}</v-chip>
                         </span>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
                         <p class="key mb-0 mr-3">Suggested by:</p>
                         <p class="value mb-0" v-if="slicedSuggestedBy">
-                          <span
-                            v-for="(person, i) in slicedSuggestedBy"
-                            :key="i"
-                          >
+                          <span v-for="(person, i) in slicedSuggestedBy" :key="i">
                             {{ person
                             }}{{ isAddComma(i, slicedSuggestedBy.length) }}
                           </span>
@@ -134,9 +104,7 @@
                           size="20"
                           :color="isStar(i + 1)"
                           style="width: 25px"
-                        >
-                          start
-                        </v-icon>
+                        >start</v-icon>
                       </v-container>
                     </v-card-text>
                   </v-container>
@@ -147,18 +115,13 @@
                       <div>
                         <v-container class="d-flex pl-1 pb-0 pt-2">
                           <p class="key mb-0 mr-3">Status:</p>
-                          <p class="value mb-0" :style="calBookStatusColor">
-                            {{ post.book.status }}
-                          </p>
+                          <p class="value mb-0" :style="calBookStatusColor">{{ post.book.status }}</p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mb-0 mr-3">Author:</p>
                           <p class="value mb-0" v-if="slicedAuthors">
-                            <span
-                              v-for="(author, i) in slicedAuthors"
-                              :key="author._id"
-                            >
+                            <span v-for="(author, i) in slicedAuthors" :key="author._id">
                               {{ author.name
                               }}{{ isAddComma(i, slicedAuthors.length) }}
                             </span>
@@ -189,19 +152,14 @@
                               v-for="genre in slicedGenres"
                               :key="genre._id"
                               class="mr-1"
-                            >
-                              {{ genre }}
-                            </v-chip>
+                            >{{ genre }}</v-chip>
                           </span>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
                           <p class="key mwb-0 mr-3">Suggested by:</p>
                           <p class="value mb-0" v-if="slicedSuggestedBy">
-                            <span
-                              v-for="(person, i) in slicedSuggestedBy"
-                              :key="i"
-                            >
+                            <span v-for="(person, i) in slicedSuggestedBy" :key="i">
                               {{ person
                               }}{{ isAddComma(i, slicedSuggestedBy.length) }}
                             </span>
@@ -215,9 +173,7 @@
                             size="20"
                             :color="isStar(i + 1)"
                             style="width: 25px"
-                          >
-                            start
-                          </v-icon>
+                          >start</v-icon>
                         </v-container>
                       </div>
                     </v-card-text>
@@ -242,9 +198,7 @@
                       target="_blank"
                       :href="authorProfileLink"
                       style="text-decoration: none; color: #000"
-                    >
-                      {{ post.user.username }}
-                    </a>
+                    >{{ post.user.username }}</a>
                   </v-card-subtitle>
                   <v-list-item-icon class="mb-0 ml-3">
                     <v-icon
@@ -255,13 +209,9 @@
                       class="pr-1"
                       style="cursor: pointer"
                       @click="handleClickLink(link.url)"
-                    >
-                      {{ link.icon }}
-                    </v-icon>
+                    >{{ link.icon }}</v-icon>
                   </v-list-item-icon>
-                  <v-card-subtitle class="pl-1">
-                    {{ post.createdAt | date }}
-                  </v-card-subtitle>
+                  <v-card-subtitle class="pl-1">{{ post.createdAt | date }}</v-card-subtitle>
                   <read-time class="pl-0" :text="post.content" />
                   <edit-delete-btns
                     v-if="isAuthor"
@@ -289,48 +239,39 @@
             <div style="width: 100%" id="comments" class="mt-5">
               <h1 class="mb-3 mt-8">Comments</h1>
 
-              <v-boilerplate
-                style="width: 100%"
-                v-if="isLoading"
-                type="image"
+              <v-boilerplate style="width: 100%" v-if="isLoading" type="image" />
+              <write-comment
+                @handleCommentPost="handleCommentPost"
+                v-if="!isLoading"
+                :postId="post._id"
+                type="comment"
               />
-              <write-comment v-if="!isLoading" />
 
-              <div v-if="post ? post.comments.length : false">
-                <comment
-                  v-for="comment in post.comments"
-                  :key="comment._id"
-                  :comment="comment"
-                  :author="post.user"
-                  :postId="post._id"
-                />
+              <div v-if="!isLoading && post.comments.length">
+                <transition-group name="list">
+                  <comment
+                    transition="slide-y-transition"
+                    v-for="comment in post.comments"
+                    :key="comment._id"
+                    :comment="comment"
+                    :author="post.user"
+                    :postId="post._id"
+                    :user="user"
+                    @handleDeleteComment="handleDeleteComment"
+                    @handleCommentPost="handleCommentPost"
+                  />
+                </transition-group>
               </div>
             </div>
           </v-row>
           <v-divider />
-          <v-row
-            id="other-posts-of-author"
-            v-if="otherBooksOfAuthor.length"
-            class="mb-10"
-          >
+          <v-row id="other-posts-of-author" v-if="otherBooksOfAuthor.length" class="mb-10">
             <h1 class="mt-8 mb-3">Other blogs of author</h1>
             <div style="width: 100%" class="d-flex" v-if="isLoading">
-              <v-boilerplate
-                class="other-post"
-                style="width: 100%"
-                type="article"
-              />
-              <v-boilerplate
-                class="other-post"
-                style="width: 100%"
-                type="article"
-              />
+              <v-boilerplate class="other-post" style="width: 100%" type="article" />
+              <v-boilerplate class="other-post" style="width: 100%" type="article" />
             </div>
-            <other-posts-of-author
-              v-else
-              postType="book"
-              :posts="otherBooksOfAuthor"
-            />
+            <other-posts-of-author v-else postType="book" :posts="otherBooksOfAuthor" />
           </v-row>
         </v-container>
       </v-col>
@@ -464,14 +405,16 @@ export default {
       this.post.likes.push({ username: user.username, _id: user._id });
     },
     handleUnlikedPost({ user }) {
-      this.post.likes = this.post.likes.filter(_user => _user._id !== user._id);
+      this.post.likes = this.post.likes.filter(
+        (_user) => _user._id !== user._id,
+      );
     },
     handleSavedPost({ user }) {
       this.post.savedBy.push({ username: user.username, _id: user._id });
     },
     handleUnsavedPost({ user }) {
       this.post.savedBy = this.post.savedBy.filter(
-        _user => _user._id !== user._id,
+        (_user) => _user._id !== user._id,
       );
     },
   },
