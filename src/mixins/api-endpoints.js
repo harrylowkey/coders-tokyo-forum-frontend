@@ -57,7 +57,7 @@ export const APIS = {
   SAVE_POST(postId) {
     return `/posts/${postId}/save`;
   },
-  UNLSAVE_POST(postId) {
+  UNSAVE_POST(postId) {
     return `/posts/${postId}/unsave`;
   },
   CHANGE_PASSWORD: '/auth/change-password',
