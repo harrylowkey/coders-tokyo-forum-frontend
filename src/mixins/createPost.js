@@ -3,6 +3,7 @@ import { extend, setInteractionMode } from 'vee-validate';
 import { required, numeric } from 'vee-validate/dist/rules';
 import { mapActions, mapState } from 'vuex';
 
+import { ROUTES } from '@/mixins/routes';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import CreateTagBlog from '@/components/Shared/CreateTagBlog';
 import ToggleTag from '@/components/Shared/ToggleTag';
@@ -70,6 +71,10 @@ export const createPost = {
           type: 'success',
           title: 'Success',
         });
+
+        setTimeout(() => {
+          return this.$router.push({ path: ROUTES.BLOG(res.data._id) });
+        }, 1000);
       }
       if (res.status === 400) {
         this.$notify({
@@ -78,15 +83,6 @@ export const createPost = {
           text: res.message,
         });
       }
-
-      setTimeout(() => {
-        return this.$router.push({
-          path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
-            0,
-            this.data.type.length - 1,
-          )}`,
-        });
-      }, 1000);
     },
   },
   computed: {

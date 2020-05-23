@@ -14,11 +14,19 @@ import {
 export default {
   namespaced: true,
   state: {
-    user: {},
-    isAuthenticated: false,
-    accessToken: '',
-    followers: [],
-    following: [],
+    user: JSON.parse(window.localStorage.getItem('user')) || {},
+    isAuthenticated: JSON.parse(window.localStorage.getItem('user'))
+      ? JSON.parse(window.localStorage.getItem('user'))._id !== undefined ||
+        JSON.parse(window.localStorage.getItem('user'))._id !== null ||
+        JSON.parse(window.localStorage.getItem('user'))._id !== ''
+      : false,
+    accessToken: window.localStorage.getItem('accessToken') || '',
+    followers: JSON.parse(window.localStorage.getItem('user'))
+      ? JSON.parse(window.localStorage.getItem('user')).followers
+      : [],
+    following: JSON.parse(window.localStorage.getItem('user'))
+      ? JSON.parse(window.localStorage.getItem('user')).following
+      : [],
   },
   mutations: {
     [SIGN_IN](state, data) {

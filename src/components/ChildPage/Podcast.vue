@@ -639,7 +639,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .player {
   opacity: 0;
   position: absolute;

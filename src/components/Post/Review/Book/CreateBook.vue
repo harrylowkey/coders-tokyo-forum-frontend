@@ -337,6 +337,7 @@
 <script>
 import { createPost } from '@/mixins/createPost';
 import { APIS } from '@/mixins/api-endpoints';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [createPost],
@@ -420,6 +421,9 @@ export default {
           type: 'success',
           title: 'Success',
         });
+        setTimeout(() => {
+          return this.$router.push({ path: ROUTES.BOOK_REVIEWS(res.data._id) });
+        }, 1000);
       }
       if (res.status === 400) {
         this.$notify({
@@ -428,13 +432,6 @@ export default {
           text: res.message,
         });
       }
-
-      const type = this.data.type.slice(0, this.data.type.length - 1);
-      setTimeout(() => {
-        return this.$router.push({
-          path: `/${type}Reviews/${res.data._id}?type=${type}`,
-        });
-      }, 1000);
     },
   },
   created() {

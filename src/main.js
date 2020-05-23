@@ -9,14 +9,11 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import Notifications from 'vue-notification';
 import infiniteScroll from 'vue-infinite-scroll';
 import VueScrollTo from 'vue-scrollto';
-import io from 'socket.io-client';
-import VueSocketIOExt from 'vue-socket.io-extended';
 
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import { store } from './store';
 import router from './router';
-import _store from './store/user';
 import DateFilter from './filters/date';
 import DateTimeFilter from './filters/dateTime';
 import MarkdownFilter from './filters/markdown';
@@ -33,14 +30,9 @@ axios.defaults.headers.get.Accepts = 'application/json';
 axios.defaults.headers.post['Content-Type'] =
   'application/x-www-form-urlencoded';
 
-// TODO: change descripotion text-file to v-textareat with limit words
-axios.defaults.baseURL = 'http://localhost:3000/api/v1';
-axios.defaults.headers.get.Accepts = 'application/json';
-axios.defaults.headers.post['Content-Type'] =
-  'application/x-www-form-urlencoded';
 axios.interceptors.request.use(
   config => {
-    const token = _store.state.accessToken;
+    const token = window.localStorage.getItem('accessToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -105,8 +97,6 @@ Vue.filter('readTime', ReadTimeFilter);
 
 Vue.component('app-banner', Banner);
 Vue.component('picture-input', PictureInput);
-
-Vue.use(VueSocketIOExt, io('http://localhost:8888'));
 
 Vue.use(APlayer, {
   defaultCover:

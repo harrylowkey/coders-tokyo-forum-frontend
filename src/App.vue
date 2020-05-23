@@ -97,6 +97,8 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
+import socket from '@/socket.js';
+
 import Aplayer from './components/Player/aplayer';
 
 export default {
@@ -157,16 +159,10 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('user/tryAutoSignIn');
-    this.$socket.client.emit(
-      'auth',
-      window.localStorage.getItem('accessToken'),
-    );
-  },
-  sockets: {
-    USER_CONNECTIONS(data) {
+    socket.emit('auth', window.localStorage.getItem('accessToken'));
+    socket.on('USER_CONNECTIONS', data => {
       this.setOnlineMembers(data.online);
-    },
+    });
   },
 };
 </script>
