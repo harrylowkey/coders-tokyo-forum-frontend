@@ -15,7 +15,7 @@
     >
       <v-card>
         <v-card-title class="headline">
-          Are you sure to delete this blog?
+          Are you sure to delete this post?
         </v-card-title>
         <v-card-text>
           You can not restore it after deleting, so let's make sure before
