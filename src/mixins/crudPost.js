@@ -18,6 +18,7 @@ import EditDeleteBtns from '@/components/Post/EditDeleteBtns';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
 import { toggleFollow } from '@/mixins/toggleFollow';
 import { ROUTES } from '@/mixins/routes';
+import socket from '@/socket.js';
 
 export const crudPost = {
   mixins: [userSocialLinks, toggleFollow],
@@ -34,6 +35,7 @@ export const crudPost = {
         borderRadius: '4px',
       },
       commentMetadata: {},
+      otherPostsOfAuthor: [],
     };
   },
   computed: {
@@ -61,51 +63,50 @@ export const crudPost = {
       return Boolean(isUserSaved);
     },
   },
+  watch: {
+    $route() {
+      this.fetchPost();
+    },
+  },
   async created() {
-    await this.fetchPost().then(() => {
-      this.$socket.$subscribe(
-        `NEW_COMMENT_POST_ID_${this.post._id}`,
-        payload => {
-          if (payload.type === 'comment') {
-            this.post.comments.unshift(payload);
-          }
+    await this.fetchPost();
 
-          if (payload.type === 'replyComment') {
-            const comment = this.post.comments.find(
-              comment => comment._id === payload.replyToComment._id,
-            );
-            comment.childComments.unshift(payload);
-          }
+    socket.on(`NEW_COMMENT_POST_ID_${this.$route.params.id}`, payload => {
+      if (payload.type === 'comment') {
+        this.post.comments.unshift(payload);
+      }
 
-          if (payload.type === 'threadReplyComment') {
-            const comment = this.post.comments.find(
-              comment => comment._id === payload.thread._id,
-            );
-            comment.childComments.unshift(payload);
-          }
-        },
-      );
+      if (payload.type === 'replyComment') {
+        const comment = this.post.comments.find(
+          comment => comment._id === payload.replyToComment._id,
+        );
+        comment.childComments.unshift(payload);
+      }
 
-      this.$socket.$subscribe(
-        `DELETE_COMMENT_POST_ID_${this.post._id}`,
-        payload => {
-          if (payload.type === 'comment') {
-            this.post.comments = this.post.comments.filter(
-              comment => comment._id !== payload.commentId,
-            );
-          }
+      if (payload.type === 'threadReplyComment') {
+        const comment = this.post.comments.find(
+          comment => comment._id === payload.thread._id,
+        );
+        comment.childComments.unshift(payload);
+      }
+    });
 
-          if (payload.type === 'replyComment') {
-            const parentComment = this.post.comments.find(
-              comment => comment._id === payload.parentId,
-            );
+    socket.on(`DELETE_COMMENT_POST_ID_${this.$route.params.id}`, payload => {
+      if (payload.type === 'comment') {
+        this.post.comments = this.post.comments.filter(
+          comment => comment._id !== payload.commentId,
+        );
+      }
 
-            parentComment.childComments = parentComment.childComments.filter(
-              comment => comment._id !== payload.commentId,
-            );
-          }
-        },
-      );
+      if (payload.type === 'replyComment') {
+        const parentComment = this.post.comments.find(
+          comment => comment._id === payload.parentId,
+        );
+
+        parentComment.childComments = parentComment.childComments.filter(
+          comment => comment._id !== payload.commentId,
+        );
+      }
     });
   },
   mounted() {
@@ -126,27 +127,8 @@ export const crudPost = {
       'unlikePost',
       'deleteComment',
       'loadmoreComments',
+      'getRecommendPosts',
     ]),
-    // handleCommentPost({ newComment, type }) {
-    // newComment.user = this.user;
-    // if (type === 'comment') {
-    //   this.post.comments.unshift(newComment);
-    // }
-
-    // if (type === 'replyComment') {
-    //   const comment = this.post.comments.find(
-    //     comment => comment._id === newComment.replyToComment._id,
-    //   );
-    //   comment.childComments.unshift(newComment);
-    // }
-
-    // if (type === 'threadReplyComment') {
-    //   const comment = this.post.comments.find(
-    //     comment => comment._id === newComment.thread._id,
-    //   );
-    //   comment.childComments.unshift(newComment);
-    // }
-    // },
     async handleLoadmoreComments() {
       const response = await this.loadmoreComments({
         postId: this.post._id,
@@ -161,11 +143,6 @@ export const crudPost = {
     async handleDeleteComment({ commentId, type }) {
       if (type === 'comment') {
         const response = await this.deleteComment(commentId);
-        // if (response.status === 200) {
-        //   this.post.comments = this.post.comments.filter(
-        //     comment => comment._id !== commentId,
-        //   );
-        // }
         if (response.status === 400) {
           this.$notify({
             type: 'error',
@@ -176,15 +153,6 @@ export const crudPost = {
 
       if (type === 'replyComment') {
         const response = await this.deleteComment(commentId);
-        // if (response.status === 200) {
-        //   const parentComment = this.post.comments.find(
-        //     comment => comment._id === parentId,
-        //   );
-
-        //   parentComment.childComments = parentComment.childComments.filter(
-        //     comment => comment._id !== commentId,
-        //   );
-        // }
         if (response.status === 400) {
           this.$notify({
             type: 'error',
@@ -227,11 +195,19 @@ export const crudPost = {
       return this.getPostById({
         id: this.$route.params.id,
         typeQuery: this.$route.query.type,
-      }).then(data => {
+      }).then(async data => {
         this.post = data;
         this.commentMetadata = data.metadata.comment;
         this.authorProfileLink = ROUTES.USER_PROFILE({
           username: this.post.user.username,
+        });
+
+        await this.getRecommendPosts({
+          userId: this.post.user._id,
+          type: this.post.type,
+          postId: this.post._id,
+        }).then(res => {
+          this.otherPostsOfAuthor = res.data;
         });
       });
     },
@@ -268,9 +244,7 @@ export const crudPost = {
       }
       if (response.status === 200) {
         const post = this.otherPostsOfAuthor.find(post => post._id === postId);
-        post.likes = post.lcommentIdikes.filter(
-          _user => _user._id !== this.user._id,
-        );
+        post.likes = post.likes.filter(_user => _user._id !== this.user._id);
       }
       if (response.status === 409) {
         this.$notify({

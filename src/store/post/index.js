@@ -4,10 +4,6 @@ import { APIS } from '@/mixins/api-endpoints';
 
 export default {
   namespaced: true,
-  state: {
-    discussions: [],
-  },
-  mutations: {},
   actions: {
     async createPost({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true });
@@ -301,6 +297,25 @@ export default {
       commit('utils/SET_LOADING_API', true, { root: true });
       const response = await axios
         .delete(APIS.DELETE_COMMENT(commentId))
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err.response.message, { root: true });
+          }
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return response;
+    },
+    async getRecommendPosts({ commit }, { userId, type, postId }) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const response = await axios
+        .get(APIS.GET_RECOMMEND_POSTS({ userId, type, postId }))
         .catch(err => {
           if (err) {
             commit('utils/SET_ERROR', err.response.message, { root: true });

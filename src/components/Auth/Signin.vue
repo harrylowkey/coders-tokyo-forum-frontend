@@ -87,6 +87,7 @@ import { mapState, mapActions } from 'vuex';
 import { required, numeric } from 'vee-validate/dist/rules';
 import { extend, setInteractionMode } from 'vee-validate';
 
+import socket from '@/socket.js';
 import { ROUTES } from '@/mixins/routes';
 
 setInteractionMode('eager');
@@ -114,14 +115,14 @@ export default {
     ...mapState('socket', ['online']),
   },
   watch: {
-    isAuthenticated(isAuthen) {
-      if (isAuthen) {
+    isAuthenticated(isAuth) {
+      if (isAuth) {
         this.$notify({
           type: 'success',
           title: 'Login success',
         });
-        this.$socket.client.emit('auth', this.accessToken);
-        setTimeout(() => window.open(this.redirect), 500);
+        socket.emit('auth', this.accessToken);
+        setTimeout(() => window.open(this.redirect), 1000);
       }
     },
     errorMes(newVal) {

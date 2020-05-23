@@ -437,6 +437,12 @@ export default {
           type: 'success',
           title: 'Success',
         });
+
+        setTimeout(() => {
+          return this.$router.push({
+            path: ROUTES.MOVIE_REVIEWS(res.data._id),
+          });
+        }, 1000);
       }
       if (res.status === 400) {
         this.$notify({
@@ -445,12 +451,6 @@ export default {
           text: res.message,
         });
       }
-
-      setTimeout(() => {
-        return this.$router.push({
-          path: ROUTES.MOVIE_REVIEWS(res.data._id),
-        });
-      }, 1000);
     },
   },
   created() {

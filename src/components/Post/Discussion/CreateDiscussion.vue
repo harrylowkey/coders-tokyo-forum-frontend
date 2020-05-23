@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import { ROUTES } from '@/mixins/routes';
 import { createPost } from '@/mixins/createPost';
 
 export default {
@@ -100,6 +101,9 @@ export default {
           type: 'success',
           title: 'Success',
         });
+        setTimeout(() => {
+          return this.$router.push({ path: ROUTES.DISCUSSION(res.data._id) });
+        }, 1000);
       }
       if (res.status === 400) {
         this.$notify({
@@ -108,15 +112,6 @@ export default {
           text: res.message,
         });
       }
-
-      setTimeout(() => {
-        return this.$router.push({
-          path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
-            0,
-            this.data.type.length - 1,
-          )}`,
-        });
-      }, 1000);
     },
   },
   computed: {},

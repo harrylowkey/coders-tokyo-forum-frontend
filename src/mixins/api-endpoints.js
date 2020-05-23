@@ -40,6 +40,9 @@ export const APIS = {
     );
     return `/posts/savedPosts/user?${queriesArray.join('&')}`;
   },
+  GET_RECOMMEND_POSTS({ userId, type, postId }) {
+    return `/posts/recommend/users/${userId}?type=${type}&postId=${postId}`;
+  },
   WRITE_POST(type) {
     return `/posts/${type}`;
   },
