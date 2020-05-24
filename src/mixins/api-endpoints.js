@@ -1,4 +1,5 @@
-import { BACKEND_URL } from '../config'
+import { BACKEND_URL } from '../config';
+
 export const APIS = {
   UPLOAD_BANNER: `${BACKEND_URL}/files/upload/cover?type=cover`,
   UPLOAD_AUDIO: `${BACKEND_URL}/files/upload/audio?type=audio`,
