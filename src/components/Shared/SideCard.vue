@@ -1,6 +1,11 @@
 <template>
   <v-container class="profile-introduction">
-    <v-card max-width="344" class="mx-auto" style="border-radius: 20px">
+    <v-card
+      min-height="300"
+      max-width="344"
+      class="mx-auto"
+      style="border-radius: 20px"
+    >
       <v-card-title class="justify-center" style="padding: 10px !important">
         {{ title }}
       </v-card-title>
