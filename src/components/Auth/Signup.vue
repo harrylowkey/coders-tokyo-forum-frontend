@@ -1,35 +1,36 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <v-content>
+      <v-content class="grey lighten-5">
         <v-container fluid fill-height>
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
               <ValidationObserver ref="observer">
                 <v-form>
-                  <v-card class="elevation-12">
-                    <v-toolbar color="primary" dark flat>
+                  <v-card class="elevation-12 px-5 pt-2 pb-8">
+                    <v-toolbar flat>
                       <v-toolbar-title>Sign up</v-toolbar-title>
                       <v-spacer />
                     </v-toolbar>
-                    <v-card-text class="pb-0">
+                    <v-card-text class="py-6 px-10">
                       <v-form>
                         <ValidationProvider
                           name="Username"
                           rules="required|minmax:5,20"
                           v-slot="{ errors }"
                         >
+                          <div>Username</div>
                           <v-text-field
                             :error-messages="errors"
-                            label="Username"
                             v-model="username"
                             name="username"
-                            prepend-icon="person"
                             type="text"
+                            class="pt-0"
                           />
                         </ValidationProvider>
-                        <v-row>
-                          <v-col cols="9" sm="9" md="9">
+                        <div>Email</div>
+                        <v-row class="d-flex justify-center align-baseline">
+                          <v-col cols="8" sm="8" md="8">
                             <ValidationProvider
                               name="Email"
                               rules="required"
@@ -38,19 +39,12 @@
                               <v-text-field
                                 v-model="email"
                                 :error-messages="errors"
-                                label="Email"
-                                name="email"
-                                prepend-icon="person"
                                 type="text"
+                                class="pt-0"
                               />
                             </ValidationProvider>
                           </v-col>
-                          <v-col
-                            cols="3"
-                            sm="3"
-                            md="3"
-                            class="d-flex justify-center align-center pt-4"
-                          >
+                          <v-col cols="4" sm="4" md="4" class="text-right">
                             <v-btn
                               :disabled="isLoadingAPI"
                               @click="getEmailCode"
@@ -66,15 +60,15 @@
                           rules="required"
                           v-slot="{ errors }"
                         >
+                          <div>Password</div>
                           <v-text-field
                             :error-messages="errors"
                             id="password"
                             v-model="password"
                             hint="Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!"
-                            label="Password"
                             name="password"
-                            prepend-icon="lock"
                             type="password"
+                            class="pt-0"
                           />
                         </ValidationProvider>
                         <ValidationProvider
@@ -82,14 +76,14 @@
                           :rules="`required|samePassword:${password}`"
                           v-slot="{ errors }"
                         >
+                          <div>Confirm password</div>
                           <v-text-field
                             :error-messages="errors"
                             v-model="confirmPassword"
-                            label="Confirm password"
                             hint="Type new password again"
-                            prepend-icon="lock"
                             type="password"
                             required
+                            class="pt-0"
                           />
                         </ValidationProvider>
 
@@ -100,27 +94,23 @@
                               rules="required|numeric"
                               v-slot="{ errors }"
                             >
+                              <div>Code</div>
                               <v-text-field
                                 :error-messages="errors"
                                 v-model="code"
                                 id="code"
-                                label="Code"
                                 name="code"
-                                prepend-icon="lock"
                                 type="text"
+                                class="pt-0"
                               />
                             </ValidationProvider>
                           </v-col>
-                          <v-col
-                            cols="4"
-                            sm="4"
-                            md="4"
-                            class="d-flex justify-center align-center pt-4"
-                          >
+                          <v-col cols="4" sm="4" md="4">
+                            <div>Sex</div>
                             <v-select
                               v-model="sex"
                               :items="sexes"
-                              label="Sex"
+                              class="pt-0"
                             />
                           </v-col>
                         </v-row>
