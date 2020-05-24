@@ -177,9 +177,15 @@ export default {
   top: 0;
   z-index: 1;
   width: 100%;
+  border-bottom: 2px solid red;
 }
 
 .notif {
   margin-top: 60px;
+}
+
+.top-border {
+  height: 4px;
+  background: red;
 }
 </style>

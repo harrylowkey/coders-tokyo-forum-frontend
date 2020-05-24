@@ -21,16 +21,18 @@ import DateTimeFilter from './filters/dateTime';
 import MarkdownFilter from './filters/markdown';
 import ReadTimeFilter from './filters/readTime';
 import Banner from './components/Shared/Banner';
-
+import { BACKEND_URL } from './config.js'
 import './registerServiceWorker';
 import 'vue-file-agent/dist/vue-file-agent.css';
 
-// FIXME: Cannot set preselected tab when navigate URL
-// FIXME: Cannot style canvas
-axios.defaults.baseURL = 'http://localhost:3000/api/v1';
+
+axios.defaults.baseURL = BACKEND_URL;
 axios.defaults.headers.get.Accepts = 'application/json';
 axios.defaults.headers.post['Content-Type'] =
   'application/x-www-form-urlencoded';
+
+// FIXME: Cannot set preselected tab when navigate URL
+// FIXME: Cannot style canvas
 
 axios.interceptors.request.use(
   config => {

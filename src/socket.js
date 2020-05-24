@@ -1,5 +1,10 @@
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:8888');
+import { SOCKET_URL } from './config'
+
+const socket = io.connect(SOCKET_URL, {
+  transports: ['websocket'],
+  upgrade: false
+});
 
 export default socket;

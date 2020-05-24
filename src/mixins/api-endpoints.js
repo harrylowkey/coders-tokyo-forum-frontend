@@ -1,7 +1,8 @@
+import { BACKEND_URL } from '../config'
 export const APIS = {
-  UPLOAD_BANNER: 'http://localhost:3000/api/v1/files/upload/cover?type=cover',
-  UPLOAD_AUDIO: 'http://localhost:3000/api/v1/files/upload/audio?type=audio',
-  UPLOAD_AVATAR: 'http://localhost:3000/api/v1/files/upload/avatar?type=avatar',
+  UPLOAD_BANNER: `${BACKEND_URL}/files/upload/cover?type=cover`,
+  UPLOAD_AUDIO: `${BACKEND_URL}/files/upload/audio?type=audio`,
+  UPLOAD_AVATAR: `${BACKEND_URL}/files/upload/avatar?type=avatar`,
   UPLOAD_FOOD_PHOTOS: '/files/upload/foodPhotos',
   UPLOAD_FILE(type) {
     return `/files/upload/${type}?type=${type}`;

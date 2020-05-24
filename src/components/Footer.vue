@@ -80,7 +80,7 @@ export default {
 
 <style scoped>
 .top-border {
-  height: 4px;
+  height: 3px;
   background: red;
 }
 
