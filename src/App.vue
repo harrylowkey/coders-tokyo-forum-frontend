@@ -89,6 +89,7 @@
       <aplayer />
       <main>
         <router-view />
+        <Footer />
       </main>
     </v-card>
   </v-app>

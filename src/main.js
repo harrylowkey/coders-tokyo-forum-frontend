@@ -10,6 +10,8 @@ import Notifications from 'vue-notification';
 import infiniteScroll from 'vue-infinite-scroll';
 import VueScrollTo from 'vue-scrollto';
 
+import Footer from '@/components/Footer';
+
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import { store } from './store';
@@ -97,6 +99,7 @@ Vue.filter('readTime', ReadTimeFilter);
 
 Vue.component('app-banner', Banner);
 Vue.component('picture-input', PictureInput);
+Vue.component('app-footer', Footer);
 
 Vue.use(APlayer, {
   defaultCover:

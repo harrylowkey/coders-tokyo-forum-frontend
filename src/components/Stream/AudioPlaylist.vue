@@ -4,6 +4,7 @@
     elevation="8"
     max-width="1520px"
     max-height="200px"
+    style="min-height: 200px"
   >
     <v-slide-group class="px-4" show-arrows center-active>
       <v-slide-item v-for="(item, i) in trendingAudios" :key="i">
