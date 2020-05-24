@@ -21,11 +21,10 @@ import DateTimeFilter from './filters/dateTime';
 import MarkdownFilter from './filters/markdown';
 import ReadTimeFilter from './filters/readTime';
 import Banner from './components/Shared/Banner';
-import { BACKEND_URL } from './config.js'
+import { BACKEND_URL } from './config.js';
 import './registerServiceWorker';
 import '@/interception';
 import 'vue-file-agent/dist/vue-file-agent.css';
-
 
 axios.defaults.baseURL = BACKEND_URL;
 axios.defaults.headers.get.Accepts = 'application/json';
