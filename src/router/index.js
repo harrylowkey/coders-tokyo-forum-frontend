@@ -39,14 +39,17 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/signin',
+    name: 'Login',
     component: SignIn,
   },
   {
     path: '/signup',
+    name: 'Register',
     component: SignUp,
   },
   {
     path: '/forgotPassword',
+    name: 'ResetPassword',
     component: ForgotPassword,
   },
   {
@@ -55,7 +58,7 @@ const routes = [
   },
   {
     path: '/stream',
-    name: 'stream',
+    name: 'Stream',
     component: Stream,
     meta: {
       requiresAuth: true,
@@ -168,36 +171,57 @@ const routes = [
     path: '/edit/podcast/:id',
     name: 'editPodcast',
     component: EditAudio,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/edit/song/:id',
     name: 'editSong',
     component: EditAudio,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/edit/discussion/:id',
     name: 'editDiscussion',
     component: EditDiscussion,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/edit/blog/:id',
     name: 'editBlog',
     component: EditBlog,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/edit/book/:id',
     name: 'editBook',
     component: EditBook,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/edit/movie/:id',
     name: 'editMovie',
     component: EditMovie,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/edit/food/:id',
     name: 'editFood',
     component: EditFood,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/posts/tags',

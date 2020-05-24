@@ -122,6 +122,7 @@ export default {
           title: 'Login success',
         });
         socket.emit('auth', this.accessToken);
+        
         setTimeout(() => window.open(this.redirect), 1000);
       }
     },
