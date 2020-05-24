@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-vars */
 import isEmpty from 'lodash/isEmpty';
 
 import router from '@/router';
 import { store } from '@/store';
 
-// eslint-disable-next-line no-unused-vars
 const handleInfoUser = async (to, from, next) => {
   const accessToken = localStorage.getItem('accessToken');
 

@@ -1,31 +1,31 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <v-content>
+      <v-content class="grey lighten-5">
         <v-container fluid fill-height>
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
               <ValidationObserver ref="observer">
                 <v-form>
-                  <v-card class="elevation-12">
-                    <v-toolbar color="primary" dark flat>
+                  <v-card class="elevation-12 px-5 pt-2 pb-8">
+                    <v-toolbar flat>
                       <v-toolbar-title>Sign in</v-toolbar-title>
                       <v-spacer />
                     </v-toolbar>
-                    <v-card-text class="pb-0">
+                    <v-card-text class="py-6 px-10">
                       <v-form>
                         <ValidationProvider
                           name="Email"
                           rules="required"
                           v-slot="{ errors }"
                         >
+                          <div>Email</div>
                           <v-text-field
                             :error-messages="errors"
-                            label="Email"
                             v-model="email"
                             name="email"
-                            prepend-icon="person"
                             type="text"
+                            class="pt-0"
                           />
                         </ValidationProvider>
                         <ValidationProvider
@@ -33,44 +33,45 @@
                           rules="required"
                           v-slot="{ errors }"
                         >
+                          <div>Password</div>
                           <v-text-field
+                            class="pt-0"
                             id="password"
-                            label="Password"
                             name="password"
-                            prepend-icon="lock"
                             v-model="password"
                             type="password"
                             :error-messages="errors"
                             @keyup.enter="signIn({ email, password })"
                           />
                         </ValidationProvider>
+                        <div class="text-right">
+                          <v-btn
+                            :tile="true"
+                            :disabled="!email || !password"
+                            color="primary"
+                            class="mt-4"
+                            @click="signIn({ email, password })"
+                          >
+                            Login
+                          </v-btn>
+                        </div>
                       </v-form>
                     </v-card-text>
-                    <v-card-actions class="pa-4">
-                      <a
-                        style="text-decoration: none; font-size: 14px"
-                        class="font-italic"
-                        :href="ROUTES.REGISTER"
-                      >
-                        Don't have an account yet?
-                      </a>
-                      <v-spacer />
-                      <a
-                        style="text-decoration: none; font-size: 14px; color: red; margin-left: 75px"
-                        class="font-italic"
-                        :href="ROUTES.FORGOT_PASSWORD"
-                      >
-                        Forgot password?
-                      </a>
-                      <v-spacer />
-                      <v-btn
-                        :disabled="!email || !password"
-                        color="primary"
-                        @click="signIn({ email, password })"
-                      >
-                        Login
-                      </v-btn>
-                    </v-card-actions>
+                    <div class="px-10">
+                      <div class="text-right">
+                        <router-link :to="ROUTES.REGISTER">
+                          Don't have an account yet?
+                        </router-link>
+                      </div>
+                      <div class="text-right">
+                        <router-link
+                          class="red--text"
+                          :to="ROUTES.FORGOT_PASSWORD"
+                        >
+                          Forgot password?
+                        </router-link>
+                      </div>
+                    </div>
                   </v-card>
                 </v-form>
               </ValidationObserver>
@@ -122,7 +123,7 @@ export default {
           title: 'Login success',
         });
         socket.emit('auth', this.accessToken);
-        
+
         setTimeout(() => window.open(this.redirect), 1000);
       }
     },
