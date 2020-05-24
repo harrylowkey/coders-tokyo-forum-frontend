@@ -9,27 +9,24 @@ const handleInfoUser = async (to, from, next) => {
   const accessToken = localStorage.getItem('accessToken');
 
   if (!isEmpty(accessToken)) {
-    store.dispatch...
-  } else{
-    next({ path: `/login/redirect=${to.path}`})
+    store.dispatch('user/tryAutoSignIn');
+  } else {
+    next({ path: `/login/redirect=${to.path}` });
   }
 };
 
 router.beforeEach(async (to, from, next) => {
-  const { user } = store.getters;
+  const { isAuthenticated } = store.getters;
 
-  if (
-    to.matched.some(record => record.meta.requiresAuth) &&
-    !user.isAuthenticated
-  ) {
+  if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
     handleInfoUser(to, from, next);
-  } else if (user.isAuthenticated) {
+  } else if (isAuthenticated) {
     switch (to.name) {
       case 'Login' || 'Register' || 'ResetPassword':
         next({ path: '/' });
         break;
       case 'Home':
-        next({ path: '/my-page' });
+        next({ path: '/stream' });
         break;
       default:
         next();

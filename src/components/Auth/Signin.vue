@@ -106,7 +106,7 @@ export default {
     return {
       email: '',
       password: '',
-      redirect: ROUTES.STREAM(),
+      redirect: this.$route.query?.redirect || ROUTES.STREAM(),
     };
   },
   computed: {
