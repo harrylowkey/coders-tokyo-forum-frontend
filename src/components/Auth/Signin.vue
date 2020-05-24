@@ -106,7 +106,7 @@ export default {
     return {
       email: '',
       password: '',
-      redirect: ROUTES.STREAM(),
+      redirect: this.$route.query?.redirect || ROUTES.STREAM(),
     };
   },
   computed: {
@@ -122,6 +122,7 @@ export default {
           title: 'Login success',
         });
         socket.emit('auth', this.accessToken);
+        
         setTimeout(() => window.open(this.redirect), 1000);
       }
     },
