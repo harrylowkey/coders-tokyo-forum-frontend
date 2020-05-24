@@ -16,9 +16,6 @@ const handleInfoUser = async (to, from, next) => {
 };
 
 router.beforeEach(async (to, from, next) => {
-  if (to.name === 'Stream') {
-    return next();
-  }
   const { isAuthenticated } = store.getters;
 
   if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {

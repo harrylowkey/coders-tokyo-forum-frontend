@@ -60,9 +60,6 @@ const routes = [
     path: '/stream',
     name: 'Stream',
     component: Stream,
-    meta: {
-      requiresAuth: true,
-    },
   },
   {
     path: '/writePost',
