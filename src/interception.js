@@ -11,11 +11,14 @@ const handleInfoUser = async (to, from, next) => {
   if (!isEmpty(accessToken)) {
     store.dispatch('user/tryAutoSignIn');
   } else {
-    next({ path: `/login/redirect=${to.path}` });
+    next({ path: `/signin?redirect=${to.path}` });
   }
 };
 
 router.beforeEach(async (to, from, next) => {
+  if (to.name === 'Stream') {
+    return next();
+  }
   const { isAuthenticated } = store.getters;
 
   if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {

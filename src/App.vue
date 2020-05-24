@@ -123,7 +123,7 @@ export default {
           title: 'Stream',
           link: '/stream',
         },
-        { title: 'Sign up', icon: 'how_to_reg', link: '/signup' },
+        { title: 'Create post', link: '/writePost', icon: 'create' },
         { title: 'Sign in', icon: 'lock_open', link: '/signin' },
       ];
 
