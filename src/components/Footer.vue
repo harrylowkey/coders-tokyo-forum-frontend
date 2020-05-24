@@ -15,7 +15,7 @@
       </v-card-text>
       <div class="d-flex justify-center pt-3">
         <v-card-text class="pt-0 signature" style="width: 45%">
-          "Believe in yourself, do not compare to anyone!"
+          "Believe in yourself, don't compare to anyone!"
         </v-card-text>
       </div>
       <div class="d-flex justify-center pb-3">
