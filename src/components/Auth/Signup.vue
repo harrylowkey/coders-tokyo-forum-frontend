@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="mt-5">
     <v-app id="inspire">
       <v-content class="grey lighten-5">
         <v-container fluid fill-height>
