@@ -502,7 +502,7 @@ audio {
   cursor: pointer;
 }
 
-.slider__thumb {
+.v-slider__thumb {
   cursor: pointer;
 }
 
