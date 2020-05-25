@@ -124,7 +124,7 @@ export default {
           link: '/stream',
         },
         { title: 'Create post', link: '/writePost', icon: 'create' },
-        { title: 'Sign in', icon: 'lock_open', link: '/signin' },
+        { title: 'Login', icon: 'lock_open', link: '/signin' },
       ];
 
       if (this.isAuthenticated) {

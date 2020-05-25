@@ -9,7 +9,7 @@
                 <v-form>
                   <v-card class="elevation-12 px-5 pt-2 pb-8">
                     <v-toolbar flat>
-                      <v-toolbar-title>Sign in</v-toolbar-title>
+                      <v-toolbar-title>Login</v-toolbar-title>
                       <v-spacer />
                     </v-toolbar>
                     <v-card-text class="py-6 px-10">
