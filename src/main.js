@@ -25,6 +25,7 @@ import { BACKEND_URL } from './config.js';
 import './registerServiceWorker';
 import '@/interception';
 import 'vue-file-agent/dist/vue-file-agent.css';
+import '@/sass/app.scss';
 
 axios.defaults.baseURL = BACKEND_URL;
 axios.defaults.headers.get.Accepts = 'application/json';
