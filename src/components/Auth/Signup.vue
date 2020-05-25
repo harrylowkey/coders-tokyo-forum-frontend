@@ -1,13 +1,13 @@
 <template>
-  <div id="app" class="mt-5">
+  <div id="app">
     <v-app id="inspire">
       <v-content class="grey lighten-5">
-        <v-container fluid fill-height>
+        <v-container fluid fill-height class="pa-0">
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
               <ValidationObserver ref="observer">
                 <v-form>
-                  <v-card class="elevation-12 px-5 pt-2 pb-8">
+                  <v-card class="elevation-12 px-5 pt-2 pb-2 mt-11">
                     <v-toolbar flat>
                       <v-toolbar-title>Sign up</v-toolbar-title>
                       <v-spacer />
@@ -213,6 +213,7 @@ export default {
       }
     },
     async getEmailCode() {
+      console.log('email', this.email)
       if (!this.email) {
         return this.$notify({
           type: 'error',
