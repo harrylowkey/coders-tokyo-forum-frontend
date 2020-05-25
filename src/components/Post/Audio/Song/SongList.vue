@@ -147,6 +147,7 @@
           :cover="item.cover"
           @likedPost="handleLikedPost"
           @unlikedPost="handleUnlikedPost"
+          :isShowTitle="true"
         />
 
         <div

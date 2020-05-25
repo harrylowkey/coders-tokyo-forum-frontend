@@ -123,7 +123,7 @@
                       <v-col cols="12" sm="12" md="8" class="pt-0">
                         <v-col cols="12" sm="12" md="12" class="pt-0">
                           <ValidationProvider
-                            name="Song name"
+                            name="Name"
                             rules="required"
                             v-slot="{ errors }"
                           >
@@ -131,7 +131,7 @@
                               class="mt-0"
                               :error-messages="errors"
                               v-model="data.topic"
-                              label="Song name*"
+                              :label="`${type[0].toUpperCase() + type.slice(1, type.length - 1)} name`"
                               required
                             />
                           </ValidationProvider>
@@ -630,6 +630,7 @@ export default {
 .file-select {
   opacity: 0;
   position: relative;
+  z-index: 0;
   left: -900px;
 }
 

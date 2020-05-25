@@ -1,12 +1,8 @@
 <template>
   <div>
-    <div class="mb-3">
+    <div class="mb-3" v-if="isShowTitle">
       <v-avatar size="30" style="cursor: pointer;" class="mr-2">
-        <img
-          @click="onClickAvatar"
-          :src="author.avatar.secureURL"
-          alt="Avatar"
-        />
+        <img @click="onClickAvatar" :src="author.avatar.secureURL" alt="Avatar" />
       </v-avatar>
       <a
         target="_blank"
@@ -15,10 +11,7 @@
       >
         <span>{{ author.username }}</span>
       </a>
-      <span
-        style="font-size: 13px !important; color: grey"
-        class="caption ml-1"
-      >
+      <span style="font-size: 13px !important; color: grey" class="caption ml-1">
         posted a
         <a
           :href="`/songs/${_id}?type=song`"
@@ -31,12 +24,7 @@
     </div>
     <v-hover v-slot:default="{ hover }" style="transition: 0.3s; height: 205px">
       <v-card id="song" class="mx-auto pb-0 mb-0" :elevation="hover ? 10 : 3">
-        <aplayer
-          @click="linkToSong"
-          loop="none"
-          :audio="audioFormat"
-          :lrcType="0"
-        />
+        <aplayer @click="linkToSong" loop="none" :audio="audioFormat" :lrcType="0" />
 
         <v-list-item
           three-line
@@ -155,6 +143,10 @@ export default {
       type: String,
       default: 'song',
     },
+    isShowTitle: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -167,10 +159,10 @@ export default {
     this.audio.theme = '#4A148C';
 
     const audio = this.audio;
-    const artists = this.authors.filter(person => person.type === 'artist');
+    const artists = this.authors.filter((person) => person.type === 'artist');
     this.audioFormat = {
       name: this.topic,
-      artist: artists.map(person => person.name).toString(),
+      artist: artists.map((person) => person.name).toString(),
       url: audio.secureURL,
       cover: this.cover.secureURL,
     };
