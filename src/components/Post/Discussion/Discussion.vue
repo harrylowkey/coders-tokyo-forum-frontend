@@ -6,7 +6,6 @@
           <a
             style="width: 80%;overflow: hidden;text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
             :href="discussionLink"
-            target="_blank"
           >
             <v-list-item-title class="headline discuss-title mb-0 pt-3">
               {{ topic }}

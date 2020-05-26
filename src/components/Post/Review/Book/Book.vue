@@ -186,7 +186,6 @@
           <a
             style="width: 80%;overflow: hidden;text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
             :href="blogLink"
-            target="_blank"
           >
             <v-list-item-title class="headline book-title mb-0 mt-3">
               {{ topic }}
@@ -196,7 +195,6 @@
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
               <a
-                target="_blank"
                 style=" text-decoration: none"
                 :href="blogLink"
               >
@@ -353,7 +351,7 @@ export default {
   },
   methods: {
     linkToBlog() {
-      window.open(this.blogLink, '_blank');
+      this.$router.push({ path: this.blogLink })
     },
   },
   computed: {
