@@ -346,7 +346,6 @@
         </v-col>
       </v-row>
     </v-container>
-    <app-footer />
   </div>
 </template>
 

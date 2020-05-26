@@ -116,15 +116,15 @@ export default {
     ...mapState('socket', ['online']),
   },
   watch: {
-    isAuthenticated(isAuth) {
+    async isAuthenticated(isAuth) {
       if (isAuth) {
         this.$notify({
           type: 'success',
           title: 'Login success',
         });
-        socket.emit('auth', this.accessToken);
+        await socket.emit('auth', this.accessToken);
 
-        setTimeout(() => window.open(this.redirect), 1000);
+        this.$router.push(this.redirect);
       }
     },
     errorMes(newVal) {
