@@ -5,7 +5,6 @@
       <v-toolbar dense class="toolbar">
         <v-app-bar-nav-icon
           class="hidden-sm-and-up"
-          @click.stop="sideNav = !sideNav"
         />
         <v-avatar
           size="35"
@@ -106,13 +105,6 @@ export default {
   name: 'App',
   components: {
     Aplayer,
-  },
-  data() {
-    return {
-      isSearching: false,
-      search: '',
-      sideNav: false,
-    };
   },
   computed: {
     ...mapState('user', ['user', 'isAuthenticated']),
