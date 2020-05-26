@@ -24,9 +24,7 @@
           <div class="d-md-none d-lg-flex">
             <v-container class="ml-1 pl-3 book-detail">
               <v-card-text class="pb-2 pt-2">
-                <router-link class="title-link" :to="blogLink">
-                  <p class="title text--primary mb-0 pt-1">{{ book.name }}</p>
-                </router-link>
+                <p class="title text--primary mb-0 pt-1">{{ book.name }}</p>
                 <v-container class="d-flex pl-1 pb-0 pt-2">
                   <p class="key mb-0 mr-3">Status:</p>
                   <p class="value mb-0" :style="calBookStatusColor">
@@ -185,7 +183,7 @@
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <a
             style="width: 80%;overflow: hidden;text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
-            :href="blogLink"
+            @click="linkToBlog"
           >
             <v-list-item-title class="headline book-title mb-0 mt-3">
               {{ topic }}
@@ -194,10 +192,7 @@
           <p class="description mb-0 pt-2">{{ description || content }}</p>
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
-              <a
-                style=" text-decoration: none"
-                :href="blogLink"
-              >
+              <a style=" text-decoration: none" @click="linkToBlog">
                 Read more...
               </a>
             </span>
@@ -351,7 +346,7 @@ export default {
   },
   methods: {
     linkToBlog() {
-      this.$router.push({ path: this.blogLink })
+      this.$router.push({ path: this.blogLink });
     },
   },
   computed: {

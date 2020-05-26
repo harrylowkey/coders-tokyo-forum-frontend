@@ -36,9 +36,9 @@ export default {
       ) {
         typeParam = `${this.type}Review`;
       }
-      window.open(
-        `http://localhost:8080/${typeParam}s/${this.postId}?type=${typeQuery}#comment`,
-      );
+      this.$router.push({
+        path: `/${typeParam}s/${this.postId}?type=${typeQuery}#comment`,
+      });
     },
   },
 };

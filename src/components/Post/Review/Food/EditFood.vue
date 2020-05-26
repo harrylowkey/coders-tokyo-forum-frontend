@@ -302,7 +302,9 @@
                                     />
                                     <v-spacer />
                                     <div class="d-flex justify-end">
-                                      <span class="signature">{{ user.username }}</span>
+                                      <span class="signature">
+                                        {{ user.username }}
+                                      </span>
                                     </div>
                                   </v-card>
                                 </v-dialog>
