@@ -190,7 +190,6 @@
         />
       </v-col>
     </v-row>
-    <app-footer />
   </div>
 </template>
 
