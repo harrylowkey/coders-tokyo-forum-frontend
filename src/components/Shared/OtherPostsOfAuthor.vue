@@ -20,7 +20,11 @@
           <span style="font-size: 0.775rem;" class="pt-3">
             <a
               style=" text-decoration: none"
-              :href="`/${typeParam}/${post._id}?type=${typeQuery}`"
+              @click="
+                $router.push({
+                  path: `/${typeParam}/${post._id}?type=${typeQuery}`,
+                })
+              "
             >
               Read more...
             </a>

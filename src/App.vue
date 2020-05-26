@@ -3,9 +3,7 @@
     <notifications class="notif" />
     <v-card color="grey lighten-4">
       <v-toolbar dense class="toolbar">
-        <v-app-bar-nav-icon
-          class="hidden-sm-and-up"
-        />
+        <v-app-bar-nav-icon class="hidden-sm-and-up" />
         <v-avatar
           size="35"
           class="ml-2 mr-3"

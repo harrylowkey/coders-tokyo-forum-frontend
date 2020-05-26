@@ -131,7 +131,10 @@
                               class="mt-0"
                               :error-messages="errors"
                               v-model="data.topic"
-                              :label="`${type[0].toUpperCase() + type.slice(1, type.length - 1)} name`"
+                              :label="
+                                `${type[0].toUpperCase() +
+                                  type.slice(1, type.length - 1)} name`
+                              "
                               required
                             />
                           </ValidationProvider>

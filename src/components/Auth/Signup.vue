@@ -213,7 +213,6 @@ export default {
       }
     },
     async getEmailCode() {
-      console.log('email', this.email)
       if (!this.email) {
         return this.$notify({
           type: 'error',

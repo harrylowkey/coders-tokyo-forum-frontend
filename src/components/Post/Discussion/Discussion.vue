@@ -5,7 +5,7 @@
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <a
             style="width: 80%;overflow: hidden;text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
-            :href="discussionLink"
+            @click="$router.push({ path: discussionLink })"
           >
             <v-list-item-title class="headline discuss-title mb-0 pt-3">
               {{ topic }}
