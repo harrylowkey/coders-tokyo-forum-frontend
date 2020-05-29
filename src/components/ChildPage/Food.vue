@@ -285,6 +285,7 @@
                     width="100%"
                     class="cover-food"
                     @click="handleZoomPhoto(i)"
+                    style="cursor: pointer"
                   />
                 </v-card>
               </v-slide-item>

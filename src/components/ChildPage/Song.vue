@@ -361,7 +361,7 @@ export default {
       return tags.slice(0, this.maxTags);
     },
     hanldePlayAnotherSong(songId) {
-      window.open(ROUTES.SONG(songId), '_blank');
+      this.$router.push({ path: ROUTES.SONG(songId)})
     },
     toggleShowLyrics() {
       if (this.isShowMore) {
