@@ -87,7 +87,6 @@
         <food-page v-if="activePage === 'foodReviews'" />
       </v-row>
     </v-container>
-    <app-footer />
   </v-container>
 </template>
 
