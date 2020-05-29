@@ -93,6 +93,7 @@
                     <v-card-actions class="pa-4">
                       <v-spacer />
                       <v-btn
+                        :tile="true"
                         :disabled="
                           !email || !newPassword || !confirmPassword || !code
                         "
