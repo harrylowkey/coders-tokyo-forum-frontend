@@ -119,6 +119,7 @@
                     <v-card-actions class="pa-4">
                       <v-spacer />
                       <v-btn
+                        :tile="true"
                         :disabled="!email || !password || !username || !code"
                         color="primary"
                         @click="register"
