@@ -27,6 +27,7 @@
         :rules="tagRules"
         lazy-validation
         :value="tag"
+        autofocus="true"
       />
     </v-card>
   </div>

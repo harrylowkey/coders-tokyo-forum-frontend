@@ -18,7 +18,7 @@
         Tags
       </span>
     </v-chip>
-    <v-card v-if="!!addTag" elevation="5" class="add-tag-dialog">
+    <v-card v-if="!!addTag" elevation="5" class="add-tag-dialog d-flex">
       <v-text-field
         style="padding 0 15px"
         v-model="tag"
@@ -27,6 +27,7 @@
         :rules="tagRules"
         lazy-validation
         :value="tag"
+        autofocus="true"
       />
     </v-card>
   </div>
