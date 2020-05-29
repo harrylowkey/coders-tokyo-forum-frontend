@@ -121,7 +121,7 @@
                       <v-btn
                         :tile="true"
                         :disabled="!email || !password || !username || !code"
-                        color="primary"
+                        color="success"
                         @click="register"
                       >
                         Register

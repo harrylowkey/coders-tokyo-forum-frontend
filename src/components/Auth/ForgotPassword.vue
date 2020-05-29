@@ -97,7 +97,7 @@
                         :disabled="
                           !email || !newPassword || !confirmPassword || !code
                         "
-                        color="primary"
+                        color="success"
                         @click="register"
                       >
                         Change Password
