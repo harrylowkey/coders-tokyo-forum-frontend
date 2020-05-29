@@ -38,7 +38,7 @@
                             :deletable="!isUploadingAudio"
                             :meta="true"
                             :accept="'.mp3, .wma, .wav'"
-                            :maxSize="'10MB'"
+                            :maxSize="maxSize"
                             :helpText="'Drag audio file or choose here'"
                             :errorText="{
                               type:
@@ -479,6 +479,7 @@ export default {
       fileRecordsForUpload: [],
       fileSelectClasses: ['file-select', 'wrapper-file-select'],
       isUploadingAudio: false,
+      maxSize: this.type === 'podcasts' ? '20MB' : '10MB',
     };
   },
   computed: {
