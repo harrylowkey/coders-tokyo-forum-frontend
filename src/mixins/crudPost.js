@@ -66,6 +66,7 @@ export const crudPost = {
   watch: {
     $route() {
       this.fetchPost();
+      window.scrollTo(0, 0);
     },
   },
   async created() {
