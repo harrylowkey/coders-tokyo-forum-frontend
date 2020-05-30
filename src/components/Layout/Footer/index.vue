@@ -19,7 +19,7 @@
         </v-card-text>
       </div>
       <div class="d-flex justify-center pb-3">
-        <strong style="font-size: 12px;">Founder CodersX</strong>
+        <strong style="font-size: 12px;">CodersX Founder</strong>
       </div>
       <v-divider />
 
