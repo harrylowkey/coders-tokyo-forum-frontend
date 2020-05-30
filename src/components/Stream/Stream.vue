@@ -129,7 +129,6 @@ export default {
   },
   computed: {
     ...mapState('utils', ['isLoading']),
-    // ...mapState('stream', ['audioTrending'])
   },
   async created() {
     await this.getStream();

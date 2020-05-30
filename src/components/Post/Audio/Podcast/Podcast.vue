@@ -26,7 +26,6 @@
             <a
               style="text-decoration: none"
               :href="podcastLink"
-              target="_blank"
             >
               <p
                 style="color: #fff"
@@ -427,9 +426,6 @@ export default {
       const percent = evt.offsetX / (this.$el.offsetWidth - 81);
       this.$refs.player.currentTime = percent * this.$refs.player.duration;
       this.progressBar.value = percent / 100;
-    },
-    linkToPodcast() {
-      window.open(this.podcastLink, '_blank');
     },
     onClickAvatar() {
       window.open(

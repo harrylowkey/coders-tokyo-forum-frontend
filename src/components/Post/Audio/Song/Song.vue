@@ -22,7 +22,6 @@
         posted a
         <a
           :href="`/songs/${_id}?type=song`"
-          target="_blank"
           style="text-decoration: none; color: #444; font-style: italic"
         >
           <span>track</span>
