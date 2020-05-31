@@ -23,10 +23,7 @@
           <v-card-title
             class="title white--text d-flex flex-column align-start pb-0"
           >
-            <a
-              style="text-decoration: none"
-              :href="podcastLink"
-            >
+            <a style="text-decoration: none" :href="podcastLink">
               <p
                 style="color: #fff"
                 class="mt-2 mb-0 font-italic subheading text-left"
@@ -119,7 +116,6 @@
                     >
                       <a
                         class="username-link ml-1"
-                        target="_blank"
                         :href="`/users/profile/${author.username}`"
                       >
                         {{ author.username }}
@@ -428,10 +424,9 @@ export default {
       this.progressBar.value = percent / 100;
     },
     onClickAvatar() {
-      window.open(
-        ROUTES.USER_PROFILE({ username: this.author.username }),
-        '_blank',
-      );
+      this.$router.push({
+        path: ROUTES.USER_PROFILE({ username: this.author.username }),
+      });
     },
   },
 };

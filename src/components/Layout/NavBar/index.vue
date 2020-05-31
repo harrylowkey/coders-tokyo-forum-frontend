@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar dense class="toolbar">
+  <v-toolbar dense class="toolbar" style="padding-bottom: 2px !important">
     <v-app-bar-nav-icon
       class="hidden-sm-and-up"
       @click.stop="sideNav = !sideNav"
@@ -16,9 +16,7 @@
             alt="codersX-logo"
           />
         </v-avatar>
-        <span>
-          Forum
-        </span>
+        <span>Forum</span>
       </router-link>
     </v-toolbar-title>
     <v-spacer />
@@ -42,6 +40,8 @@
       {{ item.title }}
     </v-btn>
 
+    <notification />
+
     <v-menu
       transition="slide-y-transition"
       style="top: 48px"
@@ -55,8 +55,9 @@
         </v-avatar>
       </template>
 
-      <v-list>
+      <v-list class="pt-0">
         <v-list-item
+          style="background: #fff"
           v-for="(item, i) in dropdownMenus"
           :key="i"
           :to="item.link"
@@ -64,18 +65,14 @@
           <v-list-item-icon>
             <v-icon color="primary" size="20">{{ item.icon }}</v-icon>
           </v-list-item-icon>
-          <v-list-item-title style="cursor: pointer">
-            {{ item.title }}
-          </v-list-item-title>
+          <span style="cursor: pointer">{{ item.title }}</span>
         </v-list-item>
         <v-divider />
         <v-list-item @click="signOut">
           <v-list-item-icon>
             <v-icon color="red" size="20">exit_to_app</v-icon>
           </v-list-item-icon>
-          <v-list-item-title style="cursor: pointer">
-            Logout
-          </v-list-item-title>
+          <v-list-item-title style="cursor: pointer">Logout</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -85,10 +82,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
+import Notification from '@/components/Notification';
 import socket from '@/socket.js';
 
 export default {
   name: 'NavBar',
+  components: {
+    Notification,
+  },
   data() {
     return {
       sideNav: false,
