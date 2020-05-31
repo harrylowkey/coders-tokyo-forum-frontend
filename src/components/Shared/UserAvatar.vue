@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     onClickAvatar() {
-      window.open(this.link, '_blank');
+      this.$router.push({ path: this.link });
     },
   },
 };

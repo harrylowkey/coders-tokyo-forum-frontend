@@ -131,7 +131,7 @@ export default {
       if (newVal.length) {
         this.$notify({
           type: 'error',
-          title: 'Login failed',
+          title: 'Error!',
           text: newVal,
         });
       }

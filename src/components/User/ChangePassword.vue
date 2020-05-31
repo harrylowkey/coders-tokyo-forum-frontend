@@ -166,7 +166,8 @@ export default {
       if (response.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Change password success',
+          title: 'Success!',
+          text: 'Change password success',
         });
       }
     },
@@ -175,7 +176,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Code has been sent to your email',
+          title: 'Success!',
+          text: 'Code has been sent to your email',
         });
       }
     },

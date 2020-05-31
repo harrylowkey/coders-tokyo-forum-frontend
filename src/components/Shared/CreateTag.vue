@@ -55,7 +55,8 @@ export default {
       if (tag.indexOf(' ') >= 0) {
         this.$notify({
           type: 'error',
-          title: 'Use underscore instead of space',
+          title: 'Error!',
+          text: 'Use underscore instead of space',
         });
         return;
       }
