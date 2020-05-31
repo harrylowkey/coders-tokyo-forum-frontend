@@ -9,6 +9,7 @@
       :placeholder="placeholder"
       class="mb-n3"
       v-model="content"
+      :autofocus="autofocus"
     />
     <v-card
       v-else
@@ -69,6 +70,10 @@ export default {
     type: {
       type: String,
       required: true,
+    },
+    autofocus: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

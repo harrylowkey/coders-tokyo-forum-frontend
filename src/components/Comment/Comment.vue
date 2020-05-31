@@ -112,6 +112,7 @@
         :placeholder="`Reply to ${comment.user.username}`"
         :postId="postId"
         :commentId="comment._id"
+        :autofocus="true"
       />
     </div>
 
@@ -238,6 +239,7 @@
             :postId="postId"
             :commentId="childComment._id"
             :parentId="comment._id"
+            :autofocus="true"
           />
         </div>
       </transition-group>
