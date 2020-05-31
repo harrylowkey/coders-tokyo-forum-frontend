@@ -18,6 +18,7 @@ import DateFilter from './filters/date';
 import DateTimeFilter from './filters/dateTime';
 import MarkdownFilter from './filters/markdown';
 import ReadTimeFilter from './filters/readTime';
+import DurationFilter from './filters/duration';
 import Banner from './components/Shared/Banner';
 import { BACKEND_URL } from './config.js';
 import './registerServiceWorker';
@@ -65,7 +66,7 @@ axios.interceptors.response.use(
       window.localStorage.removeItem('accessToken');
       window.localStorage.removeItem('user');
       store.dispatch('user/setIsAuthenticated', false);
-      router.push('/signin');
+      // router.push('/signin');
       return Promise.reject(error);
     }
 
@@ -82,7 +83,7 @@ axios.interceptors.response.use(
     if (error.response.status === 500) {
       Vue.notify({
         type: 'error',
-        title: error.response.data.message,
+        text: error.response.data.message,
       });
 
       router.push('/stream');
@@ -97,6 +98,7 @@ Vue.filter('date', DateFilter);
 Vue.filter('dateTime', DateTimeFilter);
 Vue.filter('markdown', MarkdownFilter);
 Vue.filter('readTime', ReadTimeFilter);
+Vue.filter('duration', DurationFilter);
 
 Vue.component('app-banner', Banner);
 Vue.component('picture-input', PictureInput);
