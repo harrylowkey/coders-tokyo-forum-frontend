@@ -165,7 +165,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Update success',
+          title: 'Success!',
+          text: 'Update success',
         });
 
         return this.$router.push({
@@ -175,7 +176,7 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Failed',
+          title: 'Error!',
           text: res.message,
         });
       }

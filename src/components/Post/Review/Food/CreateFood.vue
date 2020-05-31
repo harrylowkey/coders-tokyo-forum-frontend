@@ -385,13 +385,15 @@ export default {
         this.data.food.foodPhotos.splice(index, 1);
         this.$notify({
           type: 'success',
-          title: 'Delete success',
+          title: 'Success!',
+          text: 'Delete success',
         });
       }
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Delete failed',
+          title: 'Error!',
+          text: 'Delete failed',
         });
       }
       done();
@@ -415,7 +417,8 @@ export default {
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Upload failed',
+          title: 'Error!',
+          text: 'Upload failed',
         });
       }
     },
@@ -430,35 +433,40 @@ export default {
           this.data.food.foodPhotos.push(response.data);
           this.$notify({
             type: 'success',
-            title: 'Update success',
+            title: 'Success!',
+            text: 'Update success',
           });
         }
 
         if (response.status === 400) {
           this.$notify({
             type: 'error',
-            title: 'Update failed',
+            title: 'Error!',
+            text: 'Update failed',
           });
         }
       }
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Delete failed',
+          title: 'Error!',
+          text: 'Delete failed',
         });
       }
     },
     handleLimitExceed() {
       this.$notify({
         type: 'error',
-        title: 'Please upload less than 20 photos',
+        title: 'Error!',
+        text: 'Please upload less than 20 photos',
       });
     },
     async submit() {
       if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: "Let's upload the cover",
+          title: 'Error!',
+          text: "Let's upload the cover",
         });
         return;
       }
@@ -466,7 +474,8 @@ export default {
       if (!this.data.food.foodPhotos.length) {
         this.$notify({
           type: 'error',
-          title: 'Attach at least 1 photo to your blog',
+          title: 'Error!',
+          text: 'Attach at least 1 photo to your blog',
         });
         return;
       }
@@ -477,7 +486,7 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success',
+          title: 'Success!',
         });
 
         return this.$router.push({
@@ -487,7 +496,7 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Failed',
+          title: 'Error!',
           text: res.message,
         });
       }

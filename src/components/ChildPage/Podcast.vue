@@ -365,7 +365,7 @@ export default {
       return tags.slice(0, this.maxTags);
     },
     hanldePlayAnotherpodcast(podcastId) {
-      this.$router.push({ path: ROUTES.PODCAST(podcastId)})
+      this.$router.push({ path: ROUTES.PODCAST(podcastId) });
     },
     toggleShowLyrics() {
       if (this.isShowMore) {

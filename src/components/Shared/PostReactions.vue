@@ -120,7 +120,8 @@ export default {
       if (response.status === 409) {
         this.$notify({
           type: 'error',
-          title: response.data.message,
+          title: 'Error!',
+          text: response.data.message,
         });
       }
 
@@ -140,7 +141,8 @@ export default {
       if (response.status === 409) {
         this.$notify({
           type: 'error',
-          title: response.data.message,
+          title: 'Error!',
+          text: response.data.message,
         });
       }
     },
@@ -156,7 +158,8 @@ export default {
       if (response.status === 409) {
         this.$notify({
           type: 'error',
-          title: response.data.message,
+          title: 'Error!',
+          text: response.data.message,
         });
       }
 
@@ -176,7 +179,8 @@ export default {
       if (response.status === 409) {
         this.$notify({
           type: 'error',
-          title: response.data.message,
+          title: 'Error!',
+          text: response.data.message,
         });
       }
     },

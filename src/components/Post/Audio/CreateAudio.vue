@@ -518,7 +518,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Upload success',
+          title: 'Success!',
+          text: 'Upload success',
         });
         this.data.audio = res.data.data;
         this.isUploadingAudio = false;
@@ -526,7 +527,7 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Failed',
+          title: 'Error!',
           text: res.message,
         });
       }
@@ -557,7 +558,8 @@ export default {
       if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: "Let's upload the cover",
+          title: 'Error!',
+          text: "Let's upload the cover",
         });
         return;
       }
@@ -565,7 +567,8 @@ export default {
       if (!this.data.audio.secureURL) {
         this.$notify({
           type: 'error',
-          title: "Hang on! Let's upload audio",
+          title: 'Error!',
+          text: "Hang on! Let's upload audio",
         });
         return;
       }
@@ -588,7 +591,7 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success',
+          title: 'Success!',
         });
 
         if (this.data.type === 'podcasts') {
@@ -606,7 +609,7 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Failed',
+          title: 'Error!',
           text: res.message,
         });
       }
