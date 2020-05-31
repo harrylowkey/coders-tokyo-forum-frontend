@@ -111,4 +111,10 @@ export const APIS = {
   GET_FOLLOWING(userId) {
     return `/users/${userId}/following`;
   },
+  GET_NOTIFS(pagination) {
+    const paginationQueries = Object.keys(pagination).map(
+      key => `${key}=${pagination[key]}`,
+    );
+    return `/notifications?${paginationQueries.join('&')}`;
+  },
 };
