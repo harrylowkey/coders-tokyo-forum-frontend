@@ -400,7 +400,8 @@ export default {
       if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: "Let's upload the cover",
+          title: 'Error!',
+          text: "Let's upload the cover",
         });
         return;
       }
@@ -419,7 +420,7 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success',
+          title: 'Success!',
         });
         setTimeout(() => {
           return this.$router.push({ path: ROUTES.BOOK_REVIEWS(res.data._id) });
@@ -428,7 +429,7 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Failed',
+          title: 'Error!',
           text: res.message,
         });
       }

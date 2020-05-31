@@ -30,12 +30,14 @@ import userSavedFoodReviews from './user/savedPost/userSavedFoodReviews';
 import userSavedSongs from './user/savedPost/userSavedSongs';
 import userSavedPodcasts from './user/savedPost/userSavedPodcasts';
 import searchTag from './tag/SearchTag';
+import notifications from './notification';
 
 Vue.use(Vuex);
 export const store = new Vuex.Store({
   modules: {
     socket,
     user,
+    notifications,
     userDiscussions,
     userBlogs,
     userBookReviews,

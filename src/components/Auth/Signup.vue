@@ -208,7 +208,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Sign up success',
+          title: 'Success!',
+          text: 'Sign up success',
         });
         this.$router.push({ path: this.redirectLink });
       }
@@ -217,14 +218,16 @@ export default {
       if (!this.email) {
         return this.$notify({
           type: 'error',
-          title: 'Please type email to get code',
+          title: 'Error!',
+          text: 'Please type email to get code',
         });
       }
       const res = await this.getCode(this.email);
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Code has been sent to your email',
+          title: 'Success!',
+          text: 'Code has been sent to your email',
         });
       }
     },

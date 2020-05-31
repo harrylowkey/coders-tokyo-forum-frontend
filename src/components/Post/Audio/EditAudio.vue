@@ -575,7 +575,8 @@ export default {
       if (this.post.cover === '') {
         this.$notify({
           type: 'error',
-          title: "Let's upload the banner",
+          title: 'Error!',
+          text: "Let's upload the banner",
         });
         return;
       }
@@ -609,7 +610,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Update success',
+          title: 'Success!',
+          text: 'Update success',
         });
 
         if (this.newCover._id) {
@@ -622,7 +624,7 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Failed',
+          title: 'Error!',
           text: res.message,
         });
         this.deleteFile({ fileId: this.newCover._id });

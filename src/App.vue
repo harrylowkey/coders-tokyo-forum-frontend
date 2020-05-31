@@ -17,6 +17,7 @@ import { mapState, mapActions } from 'vuex';
 
 import NavBar from '@/components/Layout/NavBar';
 import Footer from '@/components/Layout/Footer';
+import socket from '@/socket.js';
 
 import Aplayer from './components/Player/aplayer';
 
@@ -65,13 +66,25 @@ export default {
   methods: {
     ...mapActions('user', ['signOut']),
     ...mapActions('socket', ['setOnlineMembers']),
+    ...mapActions('notifications', ['updateNotifications']),
     onClickLogo() {
       return this.$refs.forumTitle.click();
     },
   },
+  created() {
+    socket.on('NOTIFICATIONS', payload => {
+      this.$notify({
+        type: 'success',
+        title: 'Notification!',
+        text: payload.content.replace(/[^a-zA-Z ]/g, ''),
+      });
+
+      this.updateNotifications(payload.notif);
+    });
+  },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .v-menu__content {
   top: 42px !important;
 }
@@ -86,6 +99,25 @@ export default {
 
 .notif {
   margin-top: 60px;
+  font-size: 12px;
+
+  color: #ffffff;
+  &.warn {
+    background: #ffb648;
+    border-left-color: #f48a06;
+  }
+
+  &.error {
+    background: #e54d42;
+    border-left-color: #b82e24;
+  }
+
+  &.success {
+    border-left: 5px solid #42a85f;
+    padding: 10px;
+    background: #68cd86;
+    border-color: #42a85f;
+  }
 }
 
 .top-border {
@@ -93,4 +125,3 @@ export default {
   background: red;
 }
 </style>
->>>>>>> be4c414... [modify] create file navbar and fix no avatar user when

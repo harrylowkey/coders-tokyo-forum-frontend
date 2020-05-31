@@ -4,12 +4,12 @@
       <v-row>
         <v-col cols="12" sm="8">
           <profile-tabs
-            v-if="!isLoading"
+            v-if="!isLoading && profileUser"
             :isOwner="isOwner"
             :user="profileUser"
           />
         </v-col>
-        <v-col cols="12" sm="4" v-if="!isLoading">
+        <v-col cols="12" sm="4" v-if="!isLoading && profileUser">
           <v-container class="profile-details">
             <v-hover v-slot:default="{ hover }">
               <v-card
@@ -388,6 +388,7 @@ export default {
         type: 'Linkedin',
         url: '',
       },
+      profileUser: {},
     };
   },
   computed: {
@@ -436,7 +437,8 @@ export default {
       if (response.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Update avatar success',
+          title: 'Success!',
+          text: 'Update avatar success',
         });
         this.profileUser.avatar.secureURL = response.data.secureURL;
       }
@@ -444,14 +446,16 @@ export default {
     cropUploadFail() {
       this.$notify({
         type: 'error',
-        title: 'Upload avatar failed',
+        title: 'Error!',
+        text: 'Upload avatar failed',
       });
     },
     handleUpdateProfile(res) {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Update profile success',
+          title: 'Success!',
+          text: 'Update profile success',
         });
 
         const socialLinks = res.data.socialLinks;
@@ -471,7 +475,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Update description success',
+          title: 'Success!',
+          text: 'Update description success',
         });
         this.profileUser.description = res.data.description;
       }

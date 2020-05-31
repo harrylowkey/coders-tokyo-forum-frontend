@@ -98,6 +98,8 @@ export default {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('user');
       commit('SIGN_OUT');
+      commit('notifications/DELETE_ALL_NOTIFICATIONS', false, { root: true });
+      commit('notifications/TOGGLE_SHOW_NOTIF_LIST', false, { root: true });
       setTimeout(() => {
         commit('utils/SET_LOADING', false, { root: true });
       });
