@@ -28,7 +28,7 @@
         >
           <span
             class="caption mt-4"
-            style="cursor: pointer; width: 205px; height: 25px"
+            style="cursor: pointer; width: 285px; height: 25px"
             v-html="$options.filters.markdown(item.content)"
           />
           <span style="font-size: 10px; color: green ">
@@ -138,14 +138,14 @@ export default {
 }
 
 .list-notif {
-  height: 390px;
+  height: 386px;
   z-index: 1;
-  min-height: 390px;
-  min-width: 390px;
+  min-height: 386px;
+  min-width: 400px;
   background: #fff;
   overflow-y: scroll;
   position: absolute;
-  right: -20px;
+  right: -30px;
   top: 38px;
   border-right: 1.5px solid #e5e5e5 !important;
   border-left: 1.5px solid #e5e5e5 !important;
