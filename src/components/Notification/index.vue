@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper-notif" class="wrapper-notif mr-6 mb-1">
+  <div id="wrapper-notif" class="wrapper-notif ml-1 mr-4 mb-1">
     <span v-if="isAuthenticated && isNewNotif" class="newNotif" />
     <v-icon
       v-if="isAuthenticated"
