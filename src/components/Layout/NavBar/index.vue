@@ -7,7 +7,7 @@
     <v-toolbar-title>
       <router-link
         ref="forumTitle"
-        to="/stream"
+        to="/"
         style="text-decoration: none; color: #000"
       >
         <v-avatar size="35" class="ml-2 mr-3" style="cursor: pointer">
@@ -100,21 +100,15 @@ export default {
     ...mapState('socket', ['online']),
     menuItems() {
       let menus = [
-        {
-          title: 'Stream',
-          link: '/stream',
-        },
-        { title: 'Create post', link: '/writePost', icon: 'create' },
-        { title: 'Login', icon: 'lock_open', link: '/signin' },
+        { title: 'Stream', link: '/' },
+        { title: 'Create post', link: '/writePost' },
+        { title: 'Login', link: '/signin' },
       ];
 
       if (this.isAuthenticated) {
         menus = [
-          {
-            title: 'Stream',
-            link: '/stream',
-          },
-          { title: 'Create post', icon: 'edit', link: '/writePost' },
+          { title: 'Stream', link: '/stream' },
+          { title: 'Create post', link: '/writePost' },
         ];
       }
       return menus;
@@ -126,7 +120,11 @@ export default {
           link: `/users/profile/${this.user.username}`,
           icon: 'person',
         },
-        { title: 'Create post', link: '/writePost', icon: 'create' },
+        {
+          title: 'Create post',
+          link: '/writePost',
+          icon: 'create',
+        },
       ];
     },
   },

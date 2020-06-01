@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 
+import router from '@/router';
 import { APIS } from '@/mixins/api-endpoints';
 
 import {
@@ -102,6 +103,7 @@ export default {
       commit('notifications/TOGGLE_SHOW_NOTIF_LIST', false, { root: true });
       setTimeout(() => {
         commit('utils/SET_LOADING', false, { root: true });
+        router.push('/');
       });
     },
     tryAutoSignIn({ commit }) {
