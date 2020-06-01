@@ -169,6 +169,7 @@ export default {
           title: 'Success!',
           text: 'Change password success',
         });
+        this.$emit('closeChangePasswordModel');
       }
     },
     async getEmailCode() {

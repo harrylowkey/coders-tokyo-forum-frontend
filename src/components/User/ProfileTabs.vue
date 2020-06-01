@@ -162,17 +162,6 @@ export default {
     ...mapState('user', ['following', 'followers']),
     ...mapState('utils', ['errorMes']),
   },
-  watch: {
-    errorMes(newVal) {
-      if (newVal.length) {
-        this.$notify({
-          type: 'error',
-          title: 'Login failed',
-          text: newVal,
-        });
-      }
-    },
-  },
 };
 </script>
 

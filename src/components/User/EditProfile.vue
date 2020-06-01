@@ -49,6 +49,7 @@
           @hanldeCancelChangePassword="
             dialogChangePassword = !dialogChangePassword
           "
+          @closeChangePasswordModel="handleCloseChangePasswordModel"
         />
       </v-dialog>
 
@@ -183,7 +184,12 @@ export default {
   },
   created() {},
   methods: {
-    ...mapActions('user', ['updateProfile']),
+    ...mapActions('user', ['updateProfile', 'signOut']),
+    handleCloseChangePasswordModel() {
+      this.dialogChangePassword = false;
+      this.signOut();
+      this.$router.push({ path: '/stream' });
+    },
     async handleUpdateProfile() {
       const socialLinks = [
         this.editGithub,
