@@ -114,10 +114,7 @@
                       class="caption text-start"
                       style="padding-top: 0px"
                     >
-                      <a
-                        class="username-link ml-1"
-                        :href="`/users/profile/${author.username}`"
-                      >
+                      <a class="username-link ml-1" @click="onClickAvatar">
                         {{ author.username }}
                       </a>
                     </v-list-item-title>
@@ -424,9 +421,14 @@ export default {
       this.progressBar.value = percent / 100;
     },
     onClickAvatar() {
-      this.$router.push({
-        path: ROUTES.USER_PROFILE({ username: this.author.username }),
-      });
+      if (
+        this.$route.fullPath !==
+        ROUTES.USER_PROFILE({ username: this.author.username })
+      ) {
+        this.$router.push({
+          path: ROUTES.USER_PROFILE({ username: this.author.username }),
+        });
+      }
     },
   },
 };

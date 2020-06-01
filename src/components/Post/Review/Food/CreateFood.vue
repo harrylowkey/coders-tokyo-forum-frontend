@@ -442,7 +442,7 @@ export default {
           this.$notify({
             type: 'error',
             title: 'Error!',
-            text: 'Update failed',
+            text: 'Error!',
           });
         }
       }

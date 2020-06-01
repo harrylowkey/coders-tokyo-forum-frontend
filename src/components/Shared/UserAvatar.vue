@@ -2,14 +2,16 @@
   <div class="text-center">
     <v-list-item-avatar tile size="70" style="margin: 16px 0 0 0">
       <v-img
-        @click="onClickAvatar"
+        @click="handleNavUserProfile"
         :src="src"
         style="cursor: pointer; border-radius: 50%"
       />
     </v-list-item-avatar>
     <v-list-item-content class="pt-md-1.5 pt-lg-1 pb-lg-1">
       <v-list-item-title class="caption text-center">
-        <a target="_blank" class="username-link" :href="link">{{ username }}</a>
+        <a target="_blank" class="username-link" @click="handleNavUserProfile">
+          {{ username }}
+        </a>
       </v-list-item-title>
     </v-list-item-content>
   </div>
@@ -35,8 +37,10 @@ export default {
     };
   },
   methods: {
-    onClickAvatar() {
-      this.$router.push({ path: this.link });
+    handleNavUserProfile() {
+      if (this.$route.fullPath !== this.link) {
+        this.$router.push({ path: this.link });
+      }
     },
   },
 };

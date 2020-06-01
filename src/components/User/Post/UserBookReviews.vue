@@ -100,7 +100,7 @@ export default {
     if (newVal.length) {
       this.$notify({
         type: 'error',
-        title: 'Update failed',
+        title: 'Error!',
         text: newVal,
       });
     }
