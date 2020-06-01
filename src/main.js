@@ -65,7 +65,7 @@ axios.interceptors.response.use(
       window.localStorage.removeItem('accessToken');
       window.localStorage.removeItem('user');
       store.dispatch('user/setIsAuthenticated', false);
-      router.push('/signin');
+      router.push('/signin'); // redirect
       return Promise.reject(error);
     }
 
