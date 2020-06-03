@@ -80,15 +80,15 @@ axios.interceptors.response.use(
     //   return Promise.reject(error);
     // }
 
-    if (error.response.status === 500) {
-      Vue.notify({
-        type: 'error',
-        text: error.response.data.message,
-      });
+    // if (error.response.status === 500) {
+    //   Vue.notify({
+    //     type: 'error',
+    //     text: error.response.data.message,
+    //   });
 
-      router.push('/stream');
-      return Promise.reject(error);
-    }
+    //   router.push('/stream');
+    //   return Promise.reject(error);
+    // }
     return Promise.reject(error);
   },
 );

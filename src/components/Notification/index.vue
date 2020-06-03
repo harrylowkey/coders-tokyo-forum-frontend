@@ -12,12 +12,19 @@
       {{ isNewNotif ? 'mdi-bell-ring' : 'mdi-bell' }}
     </v-icon>
     <v-list class="list-notif py-0" v-if="isShowNotifList && !isLoading">
+      <div class="d-flex justify-space-between px-5 py-3">
+        <span>Notifications</span>
+        <a class="pt-1" style="font-size: 13px" @click="handleMarkAllAsRead">
+          Mark all as read
+        </a>
+      </div>
+      <v-divider />
       <v-list-item
         class="pb-4 pt-1"
         v-for="(item, i) in notifications"
         :key="i"
-        @click="handleClickNotif(item.post)"
-        style="border-bottom: 0.5px solid #d6d4d4"
+        @click="handleClickNotif(item.post, item._id)"
+        :style="item.isRead ? [baseStyleNotif] : [baseStyleNotif, notReadNotif]"
       >
         <v-avatar size="35" class="mr-3 mt-3" style="cursor: pointer">
           <img :src="item.creator.avatar.secureURL" alt="Avatar" />
@@ -49,22 +56,33 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 export default {
   data() {
-    return {};
+    return {
+      baseStyleNotif: {
+        borderBottom: '0.5px solid #d6d4d4',
+      },
+      notReadNotif: {
+        background: '#f2f2f2',
+      },
+    };
   },
   methods: {
-    ...mapActions('notifications', ['getNotifs', 'toggleShowNotifList']),
+    ...mapActions('notifications', [
+      'getNotifs',
+      'toggleShowNotifList',
+      'markAllRead',
+      'markOneAsRead',
+    ]),
     handleToggleShowNotifList() {
       this.toggleShowNotifList(!this.isShowNotifList);
-      this.isNewNotif = true;
     },
     hideNotifList() {
       this.toggleShowNotifList(false);
     },
-    handleClickNotif(post) {
+    async handleClickNotif(post, notifId) {
       let typeParams = post.type;
       if (
         post.type === 'book' ||
@@ -74,10 +92,16 @@ export default {
         typeParams = `${post.type}Review`;
       }
 
-      const path = `/${typeParams}s/${post._id}?type=${post.type}`;
-      if (path !== this.$route.fullPath) {
-        this.$router.push({ path });
+      const isMarkRead = await this.markOneAsRead(notifId);
+      if (isMarkRead.status === 200) {
+        const path = `/${typeParams}s/${post._id}?type=${post.type}`;
+        if (path !== this.$route.fullPath) {
+          this.$router.push({ path });
+        }
       }
+    },
+    handleMarkAllAsRead() {
+      this.markAllRead();
     },
   },
   computed: {
@@ -87,8 +111,8 @@ export default {
       'notifications',
       'metadata',
       'isShowNotifList',
-      'isNewNotif',
     ]),
+    ...mapGetters('notifications', ['isNewNotif']),
   },
   events: {},
   directives: {
@@ -117,6 +141,15 @@ export default {
         this.getNotifs();
       }
     },
+    errorMes(newVal) {
+      if (newVal.length) {
+        this.$notify({
+          type: 'error',
+          title: 'Error!',
+          text: newVal,
+        });
+      }
+    },
   },
 };
 </script>
@@ -138,9 +171,9 @@ export default {
 }
 
 .list-notif {
-  height: 386px;
+  height: 435px;
   z-index: 1;
-  min-height: 386px;
+  min-height: 435px;
   min-width: 400px;
   background: #fff;
   overflow-y: scroll;
