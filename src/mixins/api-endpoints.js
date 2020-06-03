@@ -117,4 +117,8 @@ export const APIS = {
     );
     return `/notifications?${paginationQueries.join('&')}`;
   },
+  MARK_ALL_READ_NOTIFS: '/notifications/markMultipleAsRead',
+  MARK_AS_READ(notifId) {
+    return `/notifications/${notifId}/markAsRead`;
+  },
 };
