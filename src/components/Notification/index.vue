@@ -14,7 +14,7 @@
     <v-list class="list-notif py-0" v-if="isShowNotifList && !isLoading">
       <div class="d-flex justify-space-between px-5 py-3">
         <span>Notifications</span>
-        <a class="pt-1" style="font-size: 13px" @click="handleMarkAllAsRead">
+        <a class="pt-1 mark-read" style="font-size: 13px" @click="handleMarkAllAsRead">
           Mark all as read
         </a>
       </div>
@@ -174,7 +174,7 @@ export default {
   height: 435px;
   z-index: 1;
   min-height: 435px;
-  min-width: 400px;
+  min-width: 471px;
   background: #fff;
   overflow-y: scroll;
   position: absolute;
@@ -187,5 +187,9 @@ export default {
 
 .theme--light.v-list-item--active::before {
   opacity: 0;
+}
+
+.mark-read:active {
+  color: #0065ff;
 }
 </style>
