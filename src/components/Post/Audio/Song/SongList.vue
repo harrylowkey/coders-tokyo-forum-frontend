@@ -237,7 +237,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #songs-wrapper {
   flex-wrap: wrap;
   justify-content: center;

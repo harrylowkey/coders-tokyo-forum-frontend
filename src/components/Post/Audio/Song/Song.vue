@@ -192,15 +192,10 @@ export default {
     },
   },
   mounted() {
-    const songTitle = document.querySelector('.aplayer-title');
+    const songTitle = document.getElementsByClassName('aplayer-title')[1];
+    songTitle.style.cursor = 'pointer';
     songTitle.addEventListener('click', () =>
       window.open(ROUTES.SONG(this._id)),
-    );
-    const songComposer = document.querySelector('.aplayer-author');
-    songComposer.addEventListener('click', () =>
-      window.open(
-        ROUTES.SEARCH_ARTIST({ name: this.audio.artist, type: 'podcast' }),
-      ),
     );
   },
   components: {

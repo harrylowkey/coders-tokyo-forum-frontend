@@ -95,11 +95,12 @@
 
               <div class="ml-9">
                 <av-waveform
+                  style="cursor: pointer"
                   :cors-anonym="Boolean(true)"
                   class="mt-4"
                   ref="player"
                   :audio-src="post.media.secureURL"
-                  :canv-width="600"
+                  :canv-width="550"
                   :canv-height="80"
                   :played-line-width="1.1"
                   played-line-color="rgb(183, 218, 255)"
@@ -469,21 +470,7 @@ export default {
     },
   },
   components: {},
-  mounted() {
-    // let waveBar = document.querySelector("canvas");
-    // waveBar.style.cursor = "pointer";
-    // let songTitle = document.querySelector(".v-card__title");
-    // songTitle.style.cursor = "pointer";
-    // FIXME: Cannot access lyricWrapper ref
-    // let lyricWrapper = this.$refs.lyricWrapper;
-    // if (lyricWrapper.offsetHeight <= 270) {
-    //   lyricWrapper.style.height = 'auto'
-    //  let showMoreBtn = this.$refs.showMore
-    //  showMoreBtn.style.display = 'none'
-    // } else {
-    //   lyricWrapper.style.height = 270
-    // }
-  },
+  mounted() {},
 };
 </script>
 
