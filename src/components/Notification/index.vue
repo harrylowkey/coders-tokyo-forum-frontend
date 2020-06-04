@@ -3,15 +3,14 @@
     <span v-if="isAuthenticated && isNewNotif" class="newNotif" />
     <v-icon
       v-if="isAuthenticated"
-      @click="handleToggleShowNotifList"
+      @click="toggleShowNotifList(!isShowNotifList)"
       style="cursor: pointer"
       :color="`${isNewNotif ? 'red' : 'primary'}`"
       size="18"
-      v-click-outside="hideNotifList"
     >
       {{ isNewNotif ? 'mdi-bell-ring' : 'mdi-bell' }}
     </v-icon>
-    <v-list class="list-notif py-0" v-if="isShowNotifList && !isLoading">
+    <v-list class="list-notif py-0" v-if="isShowNotifList">
       <div class="d-flex justify-space-between px-5 py-3">
         <span>Notifications</span>
         <a
@@ -73,6 +72,8 @@ export default {
       },
     };
   },
+  // next-line: check this please!
+  directives: {},
   methods: {
     ...mapActions('notifications', [
       'getNotifs',
@@ -80,12 +81,6 @@ export default {
       'markAllRead',
       'markOneAsRead',
     ]),
-    handleToggleShowNotifList() {
-      this.toggleShowNotifList(!this.isShowNotifList);
-    },
-    hideNotifList() {
-      this.toggleShowNotifList(false);
-    },
     async handleClickNotif(post, notifId) {
       let typeParams = post.type;
       if (
@@ -103,9 +98,16 @@ export default {
           this.$router.push({ path });
         }
       }
+
+      this.toggleShowNotifList(false);
     },
     handleMarkAllAsRead() {
       this.markAllRead();
+    },
+    checkClickOn(event) {
+      if (!document.getElementById('wrapper-notif').contains(event.target)) {
+        this.toggleShowNotifList(false);
+      }
     },
   },
   computed: {
@@ -118,26 +120,15 @@ export default {
     ]),
     ...mapGetters('notifications', ['isNewNotif']),
   },
-  events: {},
-  directives: {
-    'click-outside': {
-      bind: function(el, binding, vnode) {
-        el.clickOutsideEvent = function(event) {
-          if (!(el === event.target || el.contains(event.target))) {
-            vnode.context[binding.expression](event);
-          }
-        };
-        document.body.addEventListener('click', el.clickOutsideEvent);
-      },
-      unbind: function(el) {
-        document.body.removeEventListener('click', el.clickOutsideEvent);
-      },
-    },
-  },
   created() {
     if (this.isAuthenticated === true) {
       this.getNotifs();
     }
+
+    window.addEventListener('click', this.checkClickOn);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.checkClickOn);
   },
   watch: {
     isAuthenticated(val) {
