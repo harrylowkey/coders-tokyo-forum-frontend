@@ -81,14 +81,14 @@ export const crudPost = {
         const comment = this.post.comments.find(
           comment => comment._id === payload.replyToComment._id,
         );
-        comment.childComments.unshift(payload);
+        comment.childComments.push(payload);
       }
 
       if (payload.type === 'threadReplyComment') {
         const comment = this.post.comments.find(
           comment => comment._id === payload.thread._id,
         );
-        comment.childComments.unshift(payload);
+        comment.childComments.push(payload);
       }
     });
 
