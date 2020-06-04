@@ -14,7 +14,11 @@
     <v-list class="list-notif py-0" v-if="isShowNotifList && !isLoading">
       <div class="d-flex justify-space-between px-5 py-3">
         <span>Notifications</span>
-        <a class="pt-1 mark-read" style="font-size: 13px" @click="handleMarkAllAsRead">
+        <a
+          class="pt-1 mark-read"
+          style="font-size: 13px"
+          @click="handleMarkAllAsRead"
+        >
           Mark all as read
         </a>
       </div>

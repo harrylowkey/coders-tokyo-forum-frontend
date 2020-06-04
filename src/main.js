@@ -32,7 +32,6 @@ axios.defaults.headers.post['Content-Type'] =
   'application/x-www-form-urlencoded';
 
 // FIXME: Cannot set preselected tab when navigate URL
-// FIXME: Cannot style canvas
 
 axios.interceptors.request.use(
   config => {

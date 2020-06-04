@@ -4,12 +4,12 @@
       <v-row>
         <v-col cols="12" sm="8">
           <profile-tabs
-            v-if="!isLoading && profileUser"
+            v-if="!isLoading && profileUser._id"
             :isOwner="isOwner"
             :user="profileUser"
           />
         </v-col>
-        <v-col cols="12" sm="4" v-if="!isLoading && profileUser">
+        <v-col cols="12" sm="4" v-if="!isLoading && profileUser._id">
           <v-container class="profile-details">
             <v-hover v-slot:default="{ hover }">
               <v-card
