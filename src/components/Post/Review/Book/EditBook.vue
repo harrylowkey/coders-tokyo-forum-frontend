@@ -6,11 +6,11 @@
     <v-container color="dark">
       <v-row>
         <v-col
-          cols="12"
-          sm="9"
-          md="9"
-          lg="9"
-          xl="9"
+           cols="12"
+          sm="8"
+          md="8"
+          lg="8"
+          xl="8"
           offset-sm="1"
           offset-md="1"
           offset-lg="1"
@@ -369,6 +369,9 @@
             </ValidationObserver>
           </div>
         </v-col>
+        <v-col sm="3" md="3" lg="3" xl="3" class="mt-12" style="position: relative">
+          <tips />
+        </v-col>
       </v-row>
     </v-container>
   </v-container>
@@ -381,10 +384,13 @@ import { editPost } from '@/mixins/editPost';
 import { APIS } from '@/mixins/api-endpoints';
 import { updateBanner } from '@/mixins/updateBanner';
 import { attachImage } from '@/mixins/attachImage';
+import Tips from '@/components/Shared/Tips';
 
 export default {
   mixins: [editPost, updateBanner, attachImage],
-  components: {},
+  components: {
+    Tips
+  },
   data() {
     return {
       post: null,

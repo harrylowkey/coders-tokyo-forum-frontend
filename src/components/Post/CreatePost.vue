@@ -7,10 +7,10 @@
       <v-row>
         <v-col
           cols="12"
-          sm="9"
-          md="9"
-          lg="9"
-          xl="9"
+          sm="8"
+          md="8"
+          lg="8"
+          xl="8"
           offset-sm="1"
           offset-md="1"
           offset-lg="1"
@@ -32,12 +32,17 @@
             <create-food v-if="activePage === 'foodReviews'" />
           </div>
         </v-col>
+        <v-col sm="3" md="3" lg="3" xl="3" class="mt-12" style="position: relative">
+          <tips />
+        </v-col>
       </v-row>
     </v-container>
   </v-container>
 </template>
 
 <script>
+import Tips from '@/components/Shared/Tips';
+
 import PostTabs from '../Shared/PostTabs';
 
 import CreateBlog from './Blog/CreateBlog';
@@ -49,6 +54,7 @@ import CreateFood from './Review/Food/CreateFood';
 
 export default {
   components: {
+    Tips,
     CreateBlog,
     CreateMovie,
     CreateDiscussion,
@@ -141,3 +147,5 @@ export default {
   },
 };
 </script>
+<style scoped>
+</style>
