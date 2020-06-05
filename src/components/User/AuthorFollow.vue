@@ -14,10 +14,7 @@
           </v-col>
           <v-col sm="12" md="8">
             <p class="title mb-1 mt-1">
-              <a
-                style="color: #000; text-decoration: none"
-                :href="link"
-              >
+              <a style="color: #000; text-decoration: none" :href="link">
                 {{ author.username }}
               </a>
             </p>
@@ -93,7 +90,7 @@ export default {
   methods: {
     ...mapActions('user', ['follow', 'unfollow']),
     onClickAvatar() {
-      this.$router.push({ path: this.link })
+      this.$router.push({ path: this.link });
     },
     onClickFollow() {
       this.$emit('handleFollow');

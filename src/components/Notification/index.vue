@@ -32,10 +32,7 @@
         <v-avatar size="35" class="mr-3 mt-3" style="cursor: pointer">
           <img :src="item.creator.avatar.secureURL" alt="Avatar" />
         </v-avatar>
-        <div
-          class="d-flex ml-1 flex-column"
-          style="width: 100%"
-        >
+        <div class="d-flex ml-1 flex-column" style="width: 100%">
           <span
             class="caption mt-4"
             style="cursor: pointer; width: 300px"

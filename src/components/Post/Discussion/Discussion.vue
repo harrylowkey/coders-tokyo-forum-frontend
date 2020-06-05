@@ -1,23 +1,32 @@
 <template>
   <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
     <v-card class="mx-auto mt-6" :elevation="hover ? 10 : 3">
-      <v-list-item three-line style="padding: 0px 25px 0 20px; height: 150px;"> 
+      <v-list-item three-line style="padding: 0px 25px 0 20px; height: 150px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <a
             class="discuss-title"
             style="width: 80%;  overflow: hidden;text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
             @click="$router.push({ path: discussionLink })"
-          >{{ topic }}</a>
-          <v-list-item-subtitle style="line-height: 1.4;" class="mt-lg-n9">{{ content }}</v-list-item-subtitle>
+          >
+            {{ topic }}
+          </a>
+          <v-list-item-subtitle style="line-height: 1.4;" class="mt-lg-n9">
+            {{ content }}
+          </v-list-item-subtitle>
         </v-list-item-content>
-        <user-avatar :src="author.avatar.secureURL" :username="author.username" />
+        <user-avatar
+          :src="author.avatar.secureURL"
+          :username="author.username"
+        />
       </v-list-item>
 
       <v-card-actions style="padding: 0 25px 0 6px" class="pb-1 pb-lg-2">
         <v-card-text
           class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
-        >{{ createdAt | date }}</v-card-text>
+        >
+          {{ createdAt | date }}
+        </v-card-text>
         <v-spacer />
         <v-container>
           <v-row>
@@ -41,7 +50,11 @@
               />
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :type="type" :postId="_id" :comments="totalComments" />
+              <comment-btn
+                :type="type"
+                :postId="_id"
+                :comments="totalComments"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -126,7 +139,7 @@ export default {
     totalComments() {
       let counter = 0;
       counter += this.comments.length;
-      this.comments.map((comment) => {
+      this.comments.map(comment => {
         counter += comment.childComments.length;
         return counter;
       });

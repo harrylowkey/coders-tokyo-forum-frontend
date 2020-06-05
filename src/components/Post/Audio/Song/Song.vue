@@ -187,7 +187,9 @@ export default {
       this.$router.push({ path: this.audioLink });
     },
     onClickAvatar() {
-      this.$router.push({ path: ROUTES.USER_PROFILE({ username: this.author.username }) })
+      this.$router.push({
+        path: ROUTES.USER_PROFILE({ username: this.author.username }),
+      });
     },
   },
   mounted() {
