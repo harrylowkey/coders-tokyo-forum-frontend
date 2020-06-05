@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLoading">
+  <div v-if="!isLoading" class="mt-10">
     <div class="top-border" />
     <v-card flat tile class="lighten-1 text-center">
       <v-card-text>
