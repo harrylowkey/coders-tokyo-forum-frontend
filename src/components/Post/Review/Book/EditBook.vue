@@ -6,7 +6,7 @@
     <v-container color="dark">
       <v-row>
         <v-col
-           cols="12"
+          cols="12"
           sm="8"
           md="8"
           lg="8"
@@ -369,7 +369,14 @@
             </ValidationObserver>
           </div>
         </v-col>
-        <v-col sm="3" md="3" lg="3" xl="3" class="mt-12" style="position: relative">
+        <v-col
+          sm="3"
+          md="3"
+          lg="3"
+          xl="3"
+          class="mt-12"
+          style="position: relative"
+        >
           <tips />
         </v-col>
       </v-row>
@@ -389,7 +396,7 @@ import Tips from '@/components/Shared/Tips';
 export default {
   mixins: [editPost, updateBanner, attachImage],
   components: {
-    Tips
+    Tips,
   },
   data() {
     return {

@@ -79,7 +79,6 @@ export default {
       'markOneAsRead',
     ]),
     async handleClickNotif(path, notifId) {
-      console.log(path)
       const isMarkRead = await this.markOneAsRead(notifId);
       if (isMarkRead.status === 200) {
         if (path !== this.$route.fullPath) {

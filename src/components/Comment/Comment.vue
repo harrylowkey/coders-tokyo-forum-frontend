@@ -189,7 +189,7 @@
                   lg="7"
                   xl="8"
                 >
-                    <p
+                  <p
                     v-html="$options.filters.markdown(childComment.content)"
                     class="comment-content"
                   />

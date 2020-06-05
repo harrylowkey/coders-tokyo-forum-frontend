@@ -32,7 +32,14 @@
             <create-food v-if="activePage === 'foodReviews'" />
           </div>
         </v-col>
-        <v-col sm="3" md="3" lg="3" xl="3" class="mt-12" style="position: relative">
+        <v-col
+          sm="3"
+          md="3"
+          lg="3"
+          xl="3"
+          class="mt-12"
+          style="position: relative"
+        >
           <tips />
         </v-col>
       </v-row>
@@ -147,5 +154,4 @@ export default {
   },
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>
