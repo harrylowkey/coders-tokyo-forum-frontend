@@ -417,7 +417,7 @@ export default {
 .food-title {
   text-align: left;
   white-space: initial;
-  line-height: 1.1;
+  line-height: 1.25;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   display: -webkit-box;
