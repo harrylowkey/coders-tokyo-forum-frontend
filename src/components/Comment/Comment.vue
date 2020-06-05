@@ -297,7 +297,9 @@ export default {
       return ROUTES.USER_PROFILE({ username: username });
     },
     onClickAvatar() {
-      this.$router.push({ path: ROUTES.USER_PROFILE({ username: this.user.username }) })
+      this.$router.push({
+        path: ROUTES.USER_PROFILE({ username: this.user.username }),
+      });
     },
     handleClickLoadmoreChildComments() {
       ++this.loadMoreCounter;

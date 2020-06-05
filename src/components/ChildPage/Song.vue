@@ -80,9 +80,7 @@
                   v-for="(author, i) in post.authors"
                   :key="author._id"
                 >
-                  <span
-                    style="text-decoration: none; color: #000"
-                  >
+                  <span style="text-decoration: none; color: #000">
                     {{ author.name }}
                   </span>
                   <span style="font-size: 12px" class="mx-1 font-italic">

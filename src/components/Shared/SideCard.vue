@@ -99,11 +99,15 @@ export default {
     },
     onClick(item) {
       if (this.dataType === 'bloggers') {
-        this.$router.push({ path: ROUTES.USER_PROFILE({ username: item.text }) })
+        this.$router.push({
+          path: ROUTES.USER_PROFILE({ username: item.text }),
+        });
       }
 
       if (this.dataType === 'tags') {
-        this.$router.push({ path: ROUTES.SEARCH_TAG({ tagName: item.tagName }) })
+        this.$router.push({
+          path: ROUTES.SEARCH_TAG({ tagName: item.tagName }),
+        });
       }
 
       if (this.dataType === 'posts') {
@@ -112,9 +116,13 @@ export default {
           item.type === 'movie' ||
           item.type === 'book'
         ) {
-          this.$router.push({ path: `/${item.type}Reviews/${item._id}?type=${item.type}` })
+          this.$router.push({
+            path: `/${item.type}Reviews/${item._id}?type=${item.type}`,
+          });
         } else {
-          this.$router.push({ path: `/${item.type}s/${item._id}?type=${item.type}` })
+          this.$router.push({
+            path: `/${item.type}s/${item._id}?type=${item.type}`,
+          });
         }
       }
     },
