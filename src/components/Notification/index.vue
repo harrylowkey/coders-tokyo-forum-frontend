@@ -26,7 +26,7 @@
         class="pb-4 pt-1"
         v-for="(item, i) in notifications"
         :key="i"
-        @click="handleClickNotif(item.post, item._id)"
+        @click="handleClickNotif(item.path, item._id)"
         :style="item.isRead ? [baseStyleNotif] : [baseStyleNotif, notReadNotif]"
       >
         <v-avatar size="35" class="mr-3 mt-3" style="cursor: pointer">
@@ -46,7 +46,7 @@
           class="mt-2 ml-10"
           height="50px"
           width="50px"
-          v-if="item.post.cover"
+          v-if="item.post && item.post.cover"
           :src="item.post.cover.secureURL"
           alt="cover"
         />
@@ -78,19 +78,10 @@ export default {
       'markAllRead',
       'markOneAsRead',
     ]),
-    async handleClickNotif(post, notifId) {
-      let typeParams = post.type;
-      if (
-        post.type === 'book' ||
-        post.type === 'movie' ||
-        post.type === 'food'
-      ) {
-        typeParams = `${post.type}Review`;
-      }
-
+    async handleClickNotif(path, notifId) {
+      console.log(path)
       const isMarkRead = await this.markOneAsRead(notifId);
       if (isMarkRead.status === 200) {
-        const path = `/${typeParams}s/${post._id}?type=${post.type}`;
         if (path !== this.$route.fullPath) {
           this.$router.push({ path });
         }

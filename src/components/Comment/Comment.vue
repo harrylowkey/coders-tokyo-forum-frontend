@@ -1,7 +1,7 @@
 <template>
   <div class="comments-wrapper">
     <div>
-      <v-card class="comment mb-5" style="position: relation">
+      <v-card class="comment mb-5 pt-3 pr-5" style="position: relation">
         <v-list-item-content class>
           <v-row>
             <v-col
@@ -124,7 +124,7 @@
           v-for="childComment in showingChildComments"
           :key="childComment._id"
         >
-          <v-card class="comment mb-5">
+          <v-card class="comment mb-5 pt-3 pr-5">
             <v-list-item-content>
               <v-row>
                 <v-col
@@ -181,15 +181,15 @@
                   </div>
                 </v-col>
                 <v-col
-                  style="font-size: 15px; line-height: 1.5"
-                  class="pr-0 pb-0 pl-4"
+                  style="font-size: 15px; line-height: 1.5;"
+                  class="pr-0 pb-0 pl-4 mt-5"
                   cols="7"
                   sm="7"
                   md="7"
                   lg="7"
                   xl="8"
                 >
-                  <p
+                    <p
                     v-html="$options.filters.markdown(childComment.content)"
                     class="comment-content"
                   />
