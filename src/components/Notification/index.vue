@@ -33,12 +33,12 @@
           <img :src="item.creator.avatar.secureURL" alt="Avatar" />
         </v-avatar>
         <div
-          class="d-flex ml-1 justify-space-between flex-column"
+          class="d-flex ml-1 flex-column"
           style="width: 100%"
         >
           <span
             class="caption mt-4"
-            style="cursor: pointer; width: 285px; height: 25px"
+            style="cursor: pointer; width: 300px"
             v-html="$options.filters.markdown(item.content)"
           />
           <span style="font-size: 10px; color: green ">
@@ -150,6 +150,9 @@ export default {
 </script>
 
 <style scoped>
+span.caption >>> p {
+  margin-bottom: 6px;
+}
 .wrapper-notif {
   position: relative;
 }
