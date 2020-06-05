@@ -414,6 +414,9 @@ export default {
       this.handleTagsParams();
     },
   },
+  mounted() {
+    window.scrollTo(0, 300)
+  }
 };
 </script>
 

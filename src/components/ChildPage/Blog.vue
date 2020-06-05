@@ -61,7 +61,6 @@
                   <v-card-subtitle style="font-size: 16px" class="ml-n1 pr-0">
                     <a
                       style="text-decoration: none; color: #000"
-                      target="_blank"
                       :href="authorProfileLink"
                     >
                       {{ post.user.username }}

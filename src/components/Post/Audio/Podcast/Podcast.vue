@@ -309,11 +309,6 @@ export default {
     isAddFt(index, dataLength) {
       return index + 1 < dataLength ? 'ft' : '';
     },
-    searchPodcastByArtist(artist) {
-      return window.open(
-        ROUTES.SEARCH_ARTIST({ name: artist, type: 'podcast' }),
-      );
-    },
     calProgressBar() {
       const player = this.$refs.player;
       const currentTime = player.currentTime;

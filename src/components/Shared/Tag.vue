@@ -1,6 +1,6 @@
 <template>
   <span class="caption text-center" id="tag">
-    <a target="_blank" :href="ROUTES.SEARCH_TAG({ tagName })" id="tag-link">
+    <a :href="ROUTES.SEARCH_TAG({ tagName })" id="tag-link">
       #{{ tagName }}
     </a>
   </span>

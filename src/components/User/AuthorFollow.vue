@@ -15,7 +15,6 @@
           <v-col sm="12" md="8">
             <p class="title mb-1 mt-1">
               <a
-                target="_blank"
                 style="color: #000; text-decoration: none"
                 :href="link"
               >
@@ -94,7 +93,7 @@ export default {
   methods: {
     ...mapActions('user', ['follow', 'unfollow']),
     onClickAvatar() {
-      window.open(this.link, '_blank');
+      this.$router.push({ path: this.link })
     },
     onClickFollow() {
       this.$emit('handleFollow');

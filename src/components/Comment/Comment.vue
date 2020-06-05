@@ -25,7 +25,6 @@
                     <a
                       style="text-decoration: none; color: #000; font-size: 15px !important"
                       :href="linkToUser(comment.user.username)"
-                      target="_blank"
                     >
                       {{ comment.user.username }}
                     </a>
@@ -46,7 +45,6 @@
                   <v-icon class="mr-1" size="18">mdi-reply-outline</v-icon>
                   <a
                     style="text-decoration: none"
-                    target="_blank"
                     :href="linkToUser(author.username)"
                   >
                     @{{ author.username }}
@@ -170,7 +168,6 @@
                         :href="
                           linkToUser(childComment.replyToComment.user.username)
                         "
-                        target="_blank"
                       >
                         @{{ childComment.replyToComment.user.username }}
                       </a>
@@ -300,10 +297,7 @@ export default {
       return ROUTES.USER_PROFILE({ username: username });
     },
     onClickAvatar() {
-      window.open(
-        ROUTES.USER_PROFILE({ username: this.user.username }),
-        '_blank',
-      );
+      this.$router.push({ path: ROUTES.USER_PROFILE({ username: this.user.username }) })
     },
     handleClickLoadmoreChildComments() {
       ++this.loadMoreCounter;

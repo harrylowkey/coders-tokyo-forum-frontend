@@ -9,7 +9,7 @@
     </v-list-item-avatar>
     <v-list-item-content class="pt-md-1.5 pt-lg-1 pb-lg-1">
       <v-list-item-title class="caption text-center">
-        <a target="_blank" class="username-link" @click="handleNavUserProfile">
+        <a class="username-link" @click="handleNavUserProfile">
           {{ username }}
         </a>
       </v-list-item-title>

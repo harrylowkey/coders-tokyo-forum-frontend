@@ -80,13 +80,11 @@
                   v-for="(author, i) in post.authors"
                   :key="author._id"
                 >
-                  <a
-                    target="_blank"
+                  <span
                     style="text-decoration: none; color: #000"
-                    :href="`/posts?artist=${author.name}&type=podcast`"
                   >
                     {{ author.name }}
-                  </a>
+                  </span>
                   <span style="font-size: 12px" class="mx-1 font-italic">
                     {{ isAddFt(i, post.authors.length) }}
                   </span>
