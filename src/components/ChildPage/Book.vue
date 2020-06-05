@@ -239,7 +239,6 @@
                   </v-avatar>
                   <v-card-subtitle style="font-size: 16px" class="ml-n1 pr-0">
                     <a
-                      target="_blank"
                       :href="authorProfileLink"
                       style="text-decoration: none; color: #000"
                     >

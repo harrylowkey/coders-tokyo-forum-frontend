@@ -9,7 +9,6 @@
         />
       </v-avatar>
       <a
-        target="_blank"
         style="text-decoration: none; color: #000"
         :href="`/users/profile/${this.author.username}`"
       >
@@ -188,14 +187,14 @@ export default {
       this.$router.push({ path: this.audioLink });
     },
     onClickAvatar() {
-      window.open(`/users/profile/${this.author.username}`);
+      this.$router.push({ path: ROUTES.USER_PROFILE({ username: this.author.username }) })
     },
   },
   mounted() {
     const songTitle = document.getElementsByClassName('aplayer-title')[1];
     songTitle.style.cursor = 'pointer';
     songTitle.addEventListener('click', () =>
-      window.open(ROUTES.SONG(this._id)),
+      this.$router.push({ path: ROUTES.SONG(this._id) }),
     );
   },
   components: {

@@ -11,7 +11,7 @@
       <v-container style="min-height: 200px">
         <div class="d-flex" v-for="user in list" :key="user._id">
           <span class="py-4 pl-4" style="padding-right: 80px">
-            <a target="_blank" class="username-link">{{ user.username }}</a>
+            <a class="username-link">{{ user.username }}</a>
           </span>
           <v-spacer />
           <v-list-item-avatar tile size="40">
