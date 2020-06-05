@@ -193,7 +193,14 @@
             </ValidationObserver>
           </div>
         </v-col>
-        <v-col sm="3" md="3" lg="3" xl="3" class="mt-12" style="position: relative">
+        <v-col
+          sm="3"
+          md="3"
+          lg="3"
+          xl="3"
+          class="mt-12"
+          style="position: relative"
+        >
           <tips />
         </v-col>
       </v-row>
@@ -206,7 +213,7 @@ import { mapActions } from 'vuex';
 
 import { editPost } from '@/mixins/editPost';
 import { APIS } from '@/mixins/api-endpoints';
-import Tips from '@/components/Shared/Tips'
+import Tips from '@/components/Shared/Tips';
 
 export default {
   mixins: [editPost],
