@@ -143,5 +143,8 @@ export default {
   created() {
     this.ROUTES = ROUTES;
   },
+  mounted() {
+    window.scrollTo(0, 0);
+  }
 };
 </script>

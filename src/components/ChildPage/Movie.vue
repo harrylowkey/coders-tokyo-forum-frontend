@@ -334,7 +334,7 @@
                     :postType="post.type"
                   />
                 </v-card-actions>
-                <v-card-text style="margin-left: -25px" class="pt-3">
+                <v-card-text v-if="post.tags.length" style="margin-left: -25px" class="pt-3">
                   <tag
                     v-for="tag in post.tags"
                     :key="tag._id"
