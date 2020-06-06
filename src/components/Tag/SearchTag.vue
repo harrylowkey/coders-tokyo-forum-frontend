@@ -70,7 +70,7 @@
             </div>
           </div>
 
-          <div class="d-flex pt-0" id="wrapper" v-if="!isLoading">
+          <div class="d-flex pt-5" id="wrapper" v-if="!isLoading">
             <v-container
               class="pt-0"
               v-for="post in posts"

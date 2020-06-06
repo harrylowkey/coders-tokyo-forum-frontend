@@ -2,48 +2,18 @@
   <v-container>
     <v-row>
       <v-col class="d-flex pt-0" id="podcast-wrapper">
-        <div id="songs-wrapper-loaders" style="max-width: 782px;">
+        <div
+          v-if="isLoading"
+          id="songs-wrapper-loaders"
+          style="max-width: 782px;"
+        >
           <v-skeleton-loader
             class="song mb-6"
             style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
             max-width="300"
-            v-if="isLoading"
             type="image, table-tfoot"
-          />
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
-          />
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
-          />
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
-          />
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
-          />
-          <v-skeleton-loader
-            class="song mb-6"
-            style="margin-top: 30px; margin-right: 35px; display: inline-block; width: 300px"
-            max-width="300"
-            v-if="isLoading"
-            type="image, table-tfoot"
+            v-for="(loader, i) in 6"
+            :key="i"
           />
         </div>
         <podcast
