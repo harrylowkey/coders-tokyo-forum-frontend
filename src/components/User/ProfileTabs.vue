@@ -117,9 +117,8 @@ export default {
     },
     showFollowCard(type) {
       if (!this.isOwner) return;
-      this.type = type
-      this.toggleTypeFollow =
-        type.charAt(0).toUpperCase() + type.slice(1);
+      this.type = type;
+      this.toggleTypeFollow = type.charAt(0).toUpperCase() + type.slice(1);
       this.isShowFollowCard = !this.isShowFollowCard;
     },
     async handleFollow({ user }) {
@@ -142,9 +141,7 @@ export default {
         return this.$router.push({ path: ROUTES.LOGIN });
       }
       if (response.status === 200) {
-        const newList = this.following.filter(
-          _user => _user._id !== user._id,
-        );
+        const newList = this.following.filter(_user => _user._id !== user._id);
         this.setFollowingList(newList);
       }
     },

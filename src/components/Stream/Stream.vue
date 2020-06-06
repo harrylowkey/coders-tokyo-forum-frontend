@@ -8,54 +8,15 @@
       class="d-none d-sm-flex"
       id="audio-playlist"
     />
-    <div class="d-flex justify-center">
+    <div v-if="isLoading" class="d-flex justify-center">
       <v-skeleton-loader
         class="song mb-6"
         style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
         max-width="160"
         max-height="160"
-        v-if="isLoading"
         type="image, date-picker-options"
-      />
-      <v-skeleton-loader
-        class="song mb-6"
-        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
-        max-width="160"
-        max-height="160"
-        v-if="isLoading"
-        type="image, date-picker-options"
-      />
-      <v-skeleton-loader
-        class="song mb-6"
-        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
-        max-width="160"
-        max-height="160"
-        v-if="isLoading"
-        type="image, date-picker-options"
-      />
-      <v-skeleton-loader
-        class="song mb-6"
-        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
-        max-width="160"
-        max-height="160"
-        v-if="isLoading"
-        type="image, date-picker-options"
-      />
-      <v-skeleton-loader
-        class="song mb-6"
-        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
-        max-width="160"
-        max-height="160"
-        v-if="isLoading"
-        type="image, date-picker-options"
-      />
-      <v-skeleton-loader
-        class="song mb-6"
-        style="margin-top: 30px; margin-right: 54px; display: inline-block; width: 300px"
-        max-width="160"
-        max-height="160"
-        v-if="isLoading"
-        type="image, date-picker-options"
+        v-for="(loader, i) in 6"
+        :key="i"
       />
     </div>
     <v-divider />
