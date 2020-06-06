@@ -103,7 +103,9 @@ export default {
       commit('notifications/TOGGLE_SHOW_NOTIF_LIST', false, { root: true });
       setTimeout(() => {
         commit('utils/SET_LOADING', false, { root: true });
-        router.push('/');
+        if (router.app._route.fullPath !== '/stream') {
+          router.push('/stream');
+        }
       });
     },
     tryAutoSignIn({ commit }) {
