@@ -100,7 +100,7 @@ export default {
     ...mapState('socket', ['online']),
     menuItems() {
       let menus = [
-        { title: 'Stream', link: '/' },
+        { title: 'Stream', link: '/stream' },
         { title: 'Create post', link: '/writePost' },
         { title: 'Login', link: '/signin' },
       ];

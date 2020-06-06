@@ -30,9 +30,18 @@
       <follow-card
         :userFollowing="following"
         :type="toggleTypeFollow"
-        :list="toggleListFollow"
+        :list="followers"
         @handleFollow="handleFollow"
         @handleUnfollow="handleUnfollow"
+        v-if="type === 'followers'"
+      />
+      <follow-card
+        :userFollowing="following"
+        :type="toggleTypeFollow"
+        :list="following"
+        @handleFollow="handleFollow"
+        @handleUnfollow="handleUnfollow"
+        v-if="type === 'following'"
       />
     </v-dialog>
 
@@ -86,7 +95,12 @@ export default {
       isShowFollowCard: false,
       toggleListFollow: [],
       toggleTypeFollow: 'Followers',
+      type: 'followers',
     };
+  },
+  computed: {
+    ...mapState('user', ['following', 'followers']),
+    ...mapState('utils', ['errorMes']),
   },
   methods: {
     ...mapActions('user', [
@@ -103,8 +117,8 @@ export default {
     },
     showFollowCard(type) {
       if (!this.isOwner) return;
-      this.toggleListFollow = this[type];
-      this.toggleTypeFollow = this.toggleTypeFollow =
+      this.type = type
+      this.toggleTypeFollow =
         type.charAt(0).toUpperCase() + type.slice(1);
       this.isShowFollowCard = !this.isShowFollowCard;
     },
@@ -115,7 +129,7 @@ export default {
       }
       if (response.status === 200) {
         this.following.push(user);
-        this.setFollowerList(this.following);
+        this.setFollowingList(this.following);
       }
 
       if (response.status === 401) {
@@ -128,10 +142,9 @@ export default {
         return this.$router.push({ path: ROUTES.LOGIN });
       }
       if (response.status === 200) {
-        const newList = this.toggleListFollow.filter(
+        const newList = this.following.filter(
           _user => _user._id !== user._id,
         );
-        // this.toggleListFollow = newList
         this.setFollowingList(newList);
       }
     },
@@ -157,10 +170,6 @@ export default {
       const selectedTab = this.$route.hash.slice(1);
       this.tab = selectedTab;
     }
-  },
-  computed: {
-    ...mapState('user', ['following', 'followers']),
-    ...mapState('utils', ['errorMes']),
   },
 };
 </script>
