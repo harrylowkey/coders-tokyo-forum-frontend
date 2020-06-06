@@ -20,7 +20,9 @@ router.beforeEach(async (to, from, next) => {
     handleInfoUser(to, from, next);
   } else if (isAuthenticated) {
     switch (to.name) {
-      case 'Login' || 'Register' || 'ResetPassword':
+      case 'Login':
+      case 'Register':
+      case 'ResetPassword':
         next({ path: '/' });
         break;
       case 'Home':
