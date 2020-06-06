@@ -4,7 +4,6 @@
     max-width="450"
     class="mx-auto pb-5 tips"
     shaped
-    :elevation="hover ? 15 : 5"
   >
     <v-card-title class="text-center pl-4 pt-3 pb-2">Tips</v-card-title>
     <v-divider />
