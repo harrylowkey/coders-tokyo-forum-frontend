@@ -3,7 +3,7 @@ export const userSocialLinks = {
     socialLinks() {
       const userSocialLinks = this.post
         ? this.post.user.socialLinks
-        : this.user.socialLinks;
+        : this.author.socialLinks;
       const links = userSocialLinks.map(link => {
         const obj = {
           _id: link._id,
