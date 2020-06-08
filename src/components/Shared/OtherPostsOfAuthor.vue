@@ -1,12 +1,16 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex" style="width: 100%">
     <v-card
+      style="width: 45%"
       class="other-posts px-7 pt-4 pb-4 mx-3"
       v-for="post in posts"
       :key="post._id"
     >
       <v-list-item-content>
-        <router-link class="title-link" :to="`/${postType}/${post._id}`">
+        <router-link
+          class="title-link"
+          :to="`/${typeParam}/${post._id}?type=${typeQuery}`"
+        >
           <v-list-item-title class="headline post-title">
             {{ post.topic }}
           </v-list-item-title>
@@ -14,7 +18,16 @@
         <p class="description mb-0 pt-2">{{ post.description }}</p>
         <div class="d-flex justify-space-between" style="height: 20px">
           <span style="font-size: 0.775rem;" class="pt-3">
-            <a style=" text-decoration: none" href="#">Read more...</a>
+            <a
+              style=" text-decoration: none"
+              @click="
+                $router.push({
+                  path: `/${typeParam}/${post._id}?type=${typeQuery}`,
+                })
+              "
+            >
+              Read more...
+            </a>
           </span>
           <read-time
             class="pt-3"
@@ -36,7 +49,14 @@ export default {
       type: Array,
       required: true,
     },
-    postType: String,
+    typeParam: {
+      type: String,
+      required: true,
+    },
+    typeQuery: {
+      type: String,
+      required: true,
+    },
   },
   components: {
     ReadTime,
@@ -55,7 +75,7 @@ export default {
 .post-title {
   text-align: left;
   white-space: initial;
-  line-height: 1.1;
+  line-height: 1.25;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   display: -webkit-box;

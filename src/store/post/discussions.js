@@ -1,12 +1,14 @@
 import axios from 'axios';
 
+import { APIS } from '@/mixins/api-endpoints';
+
 import { SET_DISCUSSIONS, LOAD_MORE_DISCUSSIONS } from '../constants';
 
 export default {
   namespaced: true,
   state: {
     discussions: [],
-    metadata: {}
+    metadata: {},
   },
   mutations: {
     [SET_DISCUSSIONS](state, payload) {
@@ -16,21 +18,25 @@ export default {
     [LOAD_MORE_DISCUSSIONS](state, payload) {
       state.discussions.push(...payload.data);
       state.metadata = payload.metadata;
-    }
+    },
   },
   actions: {
     async getDiscussions({ commit }, options = { limit: 10, page: 1 }) {
       commit('utils/SET_LOADING', true, { root: true });
       const res = await axios
         .get(
-          `/posts?type=discussion&limit=${options.limit}&page=${options.page}`
+          APIS.GET_POSTS({
+            type: 'discussion',
+            limit: options.limit,
+            page: options.page,
+          }),
         )
         .then(res => {
           commit('SET_DISCUSSIONS', { data: res.data, metadata: res.metadata });
           return res;
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err;
         })
         .then(res => {
@@ -47,14 +53,21 @@ export default {
       commit('utils/SET_LOADMORE', true, { root: true });
       const res = await axios
         .get(
-          `/posts?type=discussion&limit=${options.limit}&page=${options.page}`
+          APIS.GET_POSTS({
+            type: 'discussion',
+            limit: options.limit,
+            page: options.page,
+          }),
         )
         .then(res => {
-          commit('LOAD_MORE_DISCUSSIONS', { data: res.data, metadata: res.metadata });
+          commit('LOAD_MORE_DISCUSSIONS', {
+            data: res.data,
+            metadata: res.metadata,
+          });
           return res;
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          commit('utils/SET_ERROR', err.response.data.message, { root: true });
           return err;
         })
         .then(res => {
@@ -65,6 +78,6 @@ export default {
           return res;
         });
       return res;
-    }
-  }
+    },
+  },
 };

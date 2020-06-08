@@ -36,52 +36,14 @@ export const attachImage = {
       var blob = new Blob(byteArrays, { type: contentType });
       return blob;
     },
-    async submit() {
-      if (this.data.banner === '') {
-        this.$notify({
-          type: 'error',
-          title: "Let's upload the banner",
-        });
-        return;
-      }
-
-      const isValid = await this.$refs.observer.validate();
-      if (!isValid) return;
-      const res = await this.createPost(this.data);
-      if (res.status === 200) {
-        this.$notify({
-          type: 'success',
-          title: 'Success',
-        });
-      }
-      if (res.status === 400) {
-        this.$notify({
-          type: 'error',
-          title: 'Failed',
-          text: res.message,
-        });
-      }
-
-      setTimeout(() => {
-        return this.$router.push({
-          // eslint-disable-next-line no-underscore-dangle
-          path: `/${this.data.type}/${res.data._id}?type=${this.data.type.slice(
-            0,
-            this.data.type.length - 1,
-          )}`,
-        });
-      }, 1000);
-    },
     onChange({ image }) {
       this.attachImage = image;
     },
-    // eslint-disable-next-line no-unused-vars
-    onCopy: function(e) {
+    onCopy: function() {
       this.isAttachImageSuccess = false;
       this.attachImage = '';
     },
-    // eslint-disable-next-line no-unused-vars
-    onError: function(e) {
+    onError: function() {
       this.$notify({
         type: 'error',
         title: 'Copy failed',
@@ -95,7 +57,10 @@ export const attachImage = {
       const blob = this.b64toBlob(realData, contentType);
       const formDataToUpload = new FormData(form);
       formDataToUpload.append('photo', blob);
-      const response = await this.uploadPhoto(formDataToUpload);
+      const response = await this.uploadFile({
+        formData: formDataToUpload,
+        fileType: 'photo',
+      });
       if (response.status === 200) {
         this.isAttachImageSuccess = true;
         this.isAttachImage = false;

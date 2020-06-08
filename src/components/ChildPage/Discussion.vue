@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-12">
     <v-row id="post">
       <v-col
         cols="12"
@@ -11,13 +11,28 @@
       >
         <post-reactions
           v-if="!isLoading"
-          :likes="post && post.metadata ? post.metadata.likes : 0"
-          :saves="post && post.metadata ? post.metadata.saves : 0"
-          :flowers="0"
+          @hanldeClickCommentBtn="hanldeClickCommentBtn"
+          @likedPost="handleLikedPost"
+          @unlikedPost="handleUnlikedPost"
+          @savedPost="handleSavedPost"
+          @unsavedPost="handleUnsavedPost"
           :postId="post._id"
+          :likes="post.likes"
+          :saves="post.savedBy"
+          :flowers="0"
+          :isUserLiked="isUserLiked"
+          :isUserSaved="isUserSaved"
         />
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
+        <a
+          id="trigger-scroll-comments"
+          style="display: none"
+          href="#"
+          v-scroll-to="'#comments'"
+        >
+          Scroll to #comment
+        </a>
         <v-skeleton-loader
           class="mx-auto mt-6"
           v-if="isLoading"
@@ -26,7 +41,7 @@
         <v-card class="mx-auto mt-6 pb-2" v-if="!isLoading">
           <v-list-item style="padding: 0px 25px 0 20px">
             <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-              <v-list-item-title class="headline discuss-title mb-0 py-3">
+              <v-list-item-title class="headline discussion-title mb-0 py-3">
                 {{ post.topic }}
               </v-list-item-title>
               <v-divider />
@@ -79,44 +94,75 @@
                 v-if="isLoading"
                 type="image"
               />
-              <write-comment v-if="!isLoading" />
+              <write-comment
+                v-if="!isLoading"
+                :postId="post._id"
+                type="comment"
+              />
 
-              <div v-if="post ? post.comments.length : false">
-                <comment
-                  v-for="comment in post.comments"
-                  :key="comment._id"
-                  :comment="comment"
-                  :author="post.user"
-                  :postId="post._id"
+              <div v-if="!isLoading && post.comments.length">
+                <transition-group name="list">
+                  <comment
+                    transition="slide-y-transition"
+                    v-for="comment in post.comments"
+                    :key="comment._id"
+                    :comment="comment"
+                    :author="post.user"
+                    :postId="post._id"
+                    :user="user"
+                    @handleDeleteComment="handleDeleteComment"
+                  />
+                </transition-group>
+              </div>
+              <div class="loadmore-comment-wrapper" v-if="!isLoading">
+                <div
+                  class="d-flex justify-center mb-3"
+                  v-if="commentMetadata.page < commentMetadata.totalPage"
+                >
+                  <span
+                    @click="handleLoadmoreComments"
+                    class="font-italic load-more"
+                  >
+                    ... Load more ...
+                  </span>
+                </div>
+                <v-text-field
+                  color="primary"
+                  v-if="isLoadmore"
+                  loading
+                  disabled
                 />
               </div>
             </div>
           </v-row>
           <v-divider />
-          <v-row
-            id="other-posts-of-author"
-            v-if="otherDiscussionsOfAuthor.length"
-            class="mb-10"
-          >
-            <h1 style="width: 100%" class="mt-8 mb-3">Other discussions</h1>
-            <div style="width: 100%" class="d-flex" v-if="isLoading">
-              <v-boilerplate
-                class="other-post"
-                style="width: 100%"
-                type="article"
+          <div v-if="!isLoadingAPI">
+            <v-row
+              id="other-posts-of-author"
+              v-if="otherPostsOfAuthor.length"
+              class="mb-10"
+            >
+              <h1 style="width: 100%" class="mt-8 mb-3">Other Discussions</h1>
+              <div style="width: 100%" class="d-flex" v-if="isLoading">
+                <v-boilerplate
+                  class="other-post"
+                  style="width: 100%"
+                  type="article"
+                />
+                <v-boilerplate
+                  class="other-post"
+                  style="width: 100%"
+                  type="article"
+                />
+              </div>
+              <other-posts-of-author
+                v-if="!isLoading"
+                typeParam="discussions"
+                typeQuery="discussion"
+                :posts="otherPostsOfAuthor.slice(0, 2)"
               />
-              <v-boilerplate
-                class="other-post"
-                style="width: 100%"
-                type="article"
-              />
-            </div>
-            <other-posts-of-author
-              v-if="!isLoading"
-              postType="discussions"
-              :posts="otherDiscussionsOfAuthor"
-            />
-          </v-row>
+            </v-row>
+          </div>
         </v-container>
       </v-col>
       <v-col
@@ -136,9 +182,11 @@
         <author-follow-card
           v-if="!isLoading"
           class="author-follow"
-          :isAuthor="isAuthor"
           :author="post.user"
-          :userId="user._id"
+          @handleFollow="handleFollow"
+          @handleUnFollow="handleUnFollow"
+          :isFollowing="isFollowing"
+          :isAuthor="isAuthor"
         />
       </v-col>
     </v-row>
@@ -150,78 +198,29 @@ import { crudPost } from '@/mixins/crudPost';
 
 export default {
   mixins: [crudPost],
-  data() {
-    return {
-      otherDiscussionsOfAuthor: [
-        {
-          _id: '5e9494fe935dfb5ed04975',
-          tags: [
-            {
-              _id: '5e931565701c6a1f851074ec',
-              tagName: 'javascript',
-            },
-          ],
-          comments: [],
-          likes: [],
-          savedBy: ['5e8b577f1a2dde32298795f4'],
-          userId: {
-            _id: '5e8b577f1a2dde32298795f4',
-            username: 'hongquang',
-          },
-          topic:
-            'How can I remove an image in a folder on cloudinary in Nodejs?',
-          content:
-            'I have tried this way but the result still the same, anyone help me with this problem? Here is my code...',
-          type: 'post',
-          createdAt: '2020-04-13T16:36:14.767Z',
-          updatedAt: '2020-04-13T16:46:02.835Z',
-          metadata: {
-            _id: '5e9494fe935fb5ed3043975',
-            comments: 123,
-            likes: 69,
-            saves: 1,
-          },
-        },
-        {
-          _id: '5e9494fe95dfb5ed3043975',
-          tags: [
-            {
-              _id: '5e931565701c6a1f851074ec',
-              tagName: 'javascript',
-            },
-          ],
-          comments: [],
-          likes: [],
-          savedBy: ['5e8b577f1a2dde32298795f4'],
-          userId: {
-            _id: '5e8b577f1a2dde32298795f4',
-            username: 'hongquang',
-          },
-          topic:
-            'How can I remove an image in a folder on cloudinary in Nodejs?',
-          content:
-            'I have tried this way but the result still the same, anyone help me with this problem? Here is my code...',
-          type: 'post',
-          createdAt: '2020-04-13T16:36:14.767Z',
-          updatedAt: '2020-04-13T16:46:02.835Z',
-          metadata: {
-            _id: '5e9494fe935dfbed3043975',
-            comments: 20,
-            likes: 6,
-            saves: 1,
-          },
-        },
-      ],
-    };
+  methods: {
+    handleLikedPost({ user }) {
+      this.post.likes.push({ username: user.username, _id: user._id });
+    },
+    handleUnlikedPost({ user }) {
+      this.post.likes = this.post.likes.filter(_user => _user._id !== user._id);
+    },
+    handleSavedPost({ user }) {
+      this.post.savedBy.push({ username: user.username, _id: user._id });
+    },
+    handleUnsavedPost({ user }) {
+      this.post.savedBy = this.post.savedBy.filter(
+        _user => _user._id !== user._id,
+      );
+    },
   },
-  methods: {},
   computed: {},
   created() {},
   components: {},
 };
 </script>
 
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 #blog-card {
@@ -234,15 +233,6 @@ export default {
   font-size: 28px;
 }
 
-.blog-title {
-  text-align: left;
-  white-space: initial;
-  line-height: 1.3;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-}
-
 .wrapper-author-follow {
   position: relative;
   padding: 0 25px 0 20px;
@@ -250,7 +240,7 @@ export default {
 
 .author-follow {
   position: fixed;
-  max-width: 325px;
+  max-width: 365px;
   z-index: 0;
   top: 100px;
 }
@@ -285,11 +275,11 @@ export default {
   border-radius: 0px !important;
 }
 
-.blog-title {
+.discussion-title {
   text-align: left;
   white-space: initial;
-  line-height: 1.1;
-  -webkit-line-clamp: 2;
+  line-height: 1.3;
+  -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   display: -webkit-box;
 }
@@ -310,5 +300,14 @@ export default {
   flex: 30%;
   margin: 20px;
   justify-content: center;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(-30px);
 }
 </style>

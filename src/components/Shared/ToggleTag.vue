@@ -7,14 +7,19 @@
       text-color="white"
       @click="onClickRemove"
     >
-      {{ tagName }}
+      #{{ tagName }}
     </v-chip>
   </v-hover>
 </template>
 
 <script>
 export default {
-  props: ['tagName'],
+  props: {
+    tagName: {
+      type: String,
+      required: true,
+    },
+  },
   methods: {
     onClickRemove() {
       this.$emit('handleRemoveTag');
@@ -22,5 +27,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

@@ -1,12 +1,7 @@
 <template>
-  <v-parallax
-    height="300"
-    src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
-  />
+  <v-parallax height="300" src="https://picsum.photos/1492/300" />
 </template>
 
 <script>
 export default {};
 </script>
-
-<style></style>

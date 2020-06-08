@@ -1,48 +1,46 @@
 <template>
-  <v-container fluid style="padding: 0 !important">
+  <v-container fluid style="padding: 0 !important" class="mt-12">
     <app-banner />
     <v-divider />
     <br />
     <v-container color="dark">
       <v-row>
-        <post-tabs
-          type="writePost"
-          class="d-none d-sm-flex"
-          @setActivePage="handleSetActivePage"
-        ></post-tabs>
-        <v-col cols="12" sm="7" md="8" lg="8" xl="7" offset-xl="1" class="pt-0">
+        <v-col
+          cols="12"
+          sm="8"
+          md="8"
+          lg="8"
+          xl="8"
+          offset-sm="1"
+          offset-md="1"
+          offset-lg="1"
+          offset-xl="1"
+          class="pt-0"
+        >
+          <post-tabs
+            type="writePost"
+            class="d-none d-sm-flex"
+            @setActivePage="handleSetActivePage"
+          />
           <div class="pt-6">
-            <create-discussion
-              v-if="activePage === 'discussions'"
-            ></create-discussion>
-            <create-blog v-if="activePage === 'blogs'"></create-blog>
-            <create-audio
-              type="podcasts"
-              v-if="activePage === 'podcasts'"
-            ></create-audio>
-            <create-audio
-              type="songs"
-              v-if="activePage === 'songs'"
-            ></create-audio>
-            <create-movie v-if="activePage === 'movieReviews'"></create-movie>
-            <create-book v-if="activePage === 'bookReviews'"></create-book>
-            <create-food v-if="activePage === 'foodReviews'"></create-food>
+            <create-discussion v-if="activePage === 'discussions'" />
+            <create-blog v-if="activePage === 'blogs'" />
+            <create-audio type="podcasts" v-if="activePage === 'podcasts'" />
+            <create-audio type="songs" v-if="activePage === 'songs'" />
+            <create-movie v-if="activePage === 'movieReviews'" />
+            <create-book v-if="activePage === 'bookReviews'" />
+            <create-food v-if="activePage === 'foodReviews'" />
           </div>
         </v-col>
-        <v-col cols="12" sm="4" md="4" lg="4" xl="4">
-          <side-card
-            class="fix-sidebar top-blogger"
-            :title="topBloggers.title"
-            :type="topBloggers.type"
-            :data="topBloggers.data"
-          />
-
-          <side-card
-            class="fix-sidebar"
-            :title="tags.title"
-            :type="tags.type"
-            :data="tags.data"
-          />
+        <v-col
+          sm="3"
+          md="3"
+          lg="3"
+          xl="3"
+          class="mt-12"
+          style="position: relative"
+        >
+          <tips />
         </v-col>
       </v-row>
     </v-container>
@@ -50,7 +48,8 @@
 </template>
 
 <script>
-import SideCard from '../Shared/SideCard';
+import Tips from '@/components/Shared/Tips';
+
 import PostTabs from '../Shared/PostTabs';
 
 import CreateBlog from './Blog/CreateBlog';
@@ -62,7 +61,7 @@ import CreateFood from './Review/Food/CreateFood';
 
 export default {
   components: {
-    SideCard,
+    Tips,
     CreateBlog,
     CreateMovie,
     CreateDiscussion,
@@ -75,30 +74,6 @@ export default {
     return {
       changeLayout: false,
       activePage: 'Discussions',
-      topBloggers: {
-        title: 'Top Bloggers',
-        type: 1,
-        data: [
-          {
-            _id: '1',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030274/Draw-io-trophies/--02-128_kotkpp.png',
-            text: 'chau_chau',
-          },
-          {
-            _id: '2',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030285/Draw-io-trophies/advantage_quality-128_hxdkdz.png',
-            text: 'nhat_anh',
-          },
-          {
-            _id: '3',
-            icon:
-              'https://res.cloudinary.com/hongquangraem/image/upload/v1587030256/Draw-io-trophies/movie-10-128_yf3ng3.png',
-            text: 'thanh_ton',
-          },
-        ],
-      },
       tags: {
         title: 'Tags',
         type: 2,
@@ -179,5 +154,4 @@ export default {
   },
 };
 </script>
-
-<style></style>
+<style scoped></style>

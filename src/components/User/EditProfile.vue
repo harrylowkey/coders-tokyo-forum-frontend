@@ -6,10 +6,10 @@
       </v-col>
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0;">
         <v-text-field
-          @keyup.enter="handleUpdateProfile"
           :rules="[rules.required]"
-          v-model="editUsername"
           class="pt-0"
+          readonly
+          :value="user.username"
         />
       </v-col>
 
@@ -17,12 +17,7 @@
         <v-subheader class="pa-0">Email</v-subheader>
       </v-col>
       <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
-        <v-text-field
-          @keyup.enter="handleUpdateProfile"
-          readonly
-          :value="user.email"
-          class="pt-0"
-        />
+        <v-text-field readonly :value="user.email" class="pt-0" />
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
@@ -37,7 +32,7 @@
           :rules="[rules.required, rules.min]"
           :type="isEditPassword ? 'text' : 'password'"
           name="input-10-2"
-          :value="'password'"
+          value="password"
           @click:append="isEditPassword = !isEditPassword"
           class="pt-0"
         />
@@ -47,60 +42,15 @@
           <v-icon size="20" color="red">lock</v-icon>
         </v-btn>
       </v-col>
-      <v-dialog v-model="dialogChangePassword" persistent max-width="600px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">Change Password</span>
-          </v-card-title>
-          <v-card-text class="pb-0">
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="11">
-                  <v-text-field
-                    v-model="oldPassword"
-                    label="Old Password*"
-                    type="password"
-                    required
-                  />
-                </v-col>
-                <v-col cols="12" sm="11">
-                  <v-text-field
-                    v-model="newPassword"
-                    label="New password*"
-                    type="password"
-                    required
-                  />
-                </v-col>
-                <v-col cols="12" sm="11">
-                  <v-text-field
-                    v-model="confirmPassword"
-                    label="Confirm password*"
-                    type="password"
-                    required
-                  />
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-text>
-          <v-card-actions class="pt-0">
-            <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="dialogChangePassword = false"
-            >
-              Close
-            </v-btn>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="dialogChangePassword = false"
-            >
-              Save
-            </v-btn>
-          </v-card-actions>
-          <p />
-        </v-card>
+
+      <v-dialog persistent max-width="600px" v-model="dialogChangePassword">
+        <change-password
+          :email="user.email"
+          @hanldeCancelChangePassword="
+            dialogChangePassword = !dialogChangePassword
+          "
+          @closeChangePasswordModel="handleCloseChangePasswordModel"
+        />
       </v-dialog>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
@@ -186,8 +136,30 @@
 <script>
 import { mapActions } from 'vuex';
 
+import ChangePassword from './ChangePassword';
+
 export default {
-  props: ['user', 'userGithub', 'userLinkedin', 'userFacebook'],
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+    userGithub: {
+      type: Object,
+      default: () => {},
+    },
+    userLinkedin: {
+      type: Object,
+      default: () => {},
+    },
+    userFacebook: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  components: {
+    ChangePassword,
+  },
   data() {
     return {
       valid: true,
@@ -197,7 +169,6 @@ export default {
         paddingLeft: '0px',
         paddingBottom: '0px',
       },
-      editUsername: this.user.username,
       editGithub: { ...this.userGithub },
       editFacebook: { ...this.userFacebook },
       editLinkedin: { ...this.userLinkedin },
@@ -205,9 +176,6 @@ export default {
       editJob: this.user.job,
       isEditPassword: false,
       dialogChangePassword: false,
-      newPassword: '',
-      confirmPassword: '',
-      oldPassword: '',
       rules: {
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',
@@ -216,7 +184,12 @@ export default {
   },
   created() {},
   methods: {
-    ...mapActions('user', ['updateProfile']),
+    ...mapActions('user', ['updateProfile', 'signOut']),
+    handleCloseChangePasswordModel() {
+      this.dialogChangePassword = false;
+      this.signOut();
+      this.$router.push({ path: '/stream' });
+    },
     async handleUpdateProfile() {
       const socialLinks = [
         this.editGithub,
@@ -224,7 +197,6 @@ export default {
         this.editLinkedin,
       ].filter(link => link.url !== '');
       const data = {
-        username: this.editUsername,
         socialLinks,
         sex: this.editSex,
         job: this.editJob,
@@ -239,7 +211,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .key-style {
   padding-left: 1px;
   padding-top: 0;

@@ -23,22 +23,21 @@
           <v-card-title
             class="title white--text d-flex flex-column align-start pb-0"
           >
-            <router-link class="title-link" :to="podcastLink">
+            <a style="text-decoration: none" :href="podcastLink">
               <p
                 style="color: #fff"
                 class="mt-2 mb-0 font-italic subheading text-left"
               >
                 {{ topic }}
               </p>
-            </router-link>
+            </a>
             <p class="mb-2">
               <span
                 style="font-size: 13px; cursor: pointer"
                 v-for="(artist, i) in slicedArtists"
                 :key="i"
-                @click="searchPodcastBySinger(artist.name)"
               >
-                {{ artist.name }}
+                {{ artist }}
                 <span style="font-size: 12px">
                   {{ isAddFt(i, slicedArtists.length) }}
                 </span>
@@ -52,7 +51,7 @@
             </v-icon>
           </div>
 
-          <div class="audio-btns" :class="{ 'show-btns': hover }">
+          <!-- <div class="audio-btns" :class="{ 'show-btns': hover }">
             <div class="player-controls scrubber">
               <span id="seekObjContainer">
                 <progress
@@ -63,22 +62,12 @@
                 />
               </span>
               <br />
-              <small v-if="currentTime !== 0" class="start-time">
-                {{ currentTime }}
-              </small>
-              <small v-if="currentTime !== 0" class="end-time">
-                {{ totalLength }}
-              </small>
+              <small v-if="currentTime !== 0" class="start-time">{{ currentTime }}</small>
+              <small v-if="currentTime !== 0" class="end-time">{{ totalLength }}</small>
             </div>
 
             <div class="wrapper-volume">
-              <v-icon
-                @click="toggleMutedVolume"
-                class="volume-icon"
-                color="#fff"
-              >
-                {{ volumeIcon }}
-              </v-icon>
+              <v-icon @click="toggleMutedVolume" class="volume-icon" color="#fff">{{ volumeIcon }}</v-icon>
               <v-slider
                 dark
                 class="volume-bar"
@@ -89,7 +78,7 @@
                 vertical
               />
             </div>
-          </div>
+          </div>-->
         </v-img>
 
         <v-list-item three-line style="padding: 0 25px 0 15px">
@@ -98,7 +87,7 @@
               <div class="user text-center d-flex">
                 <v-list-item-avatar tile size="60" style="margin: 16px 0 0 0">
                   <v-img
-                    :src="user.avatar.secureURL"
+                    :src="author.avatar.secureURL"
                     style="cursor: pointer; border-radius: 50%"
                     @click="onClickAvatar"
                   />
@@ -125,11 +114,8 @@
                       class="caption text-start"
                       style="padding-top: 0px"
                     >
-                      <a
-                        class="username-link ml-1"
-                        :href="`/users/${user.username}`"
-                      >
-                        {{ user.username }}
+                      <a class="username-link ml-1" @click="onClickAvatar">
+                        {{ author.username }}
                       </a>
                     </v-list-item-title>
                   </v-list-item-content>
@@ -164,8 +150,13 @@
           </v-card-text>
           <v-spacer />
           <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
-            <like-btn :likes="likes.length" />
-            <comment-btn :comments="comments.length" />
+            <like-btn
+              @handleLikePost="onClickLikePost"
+              @handleUnlikePost="onClickUnlikePost"
+              :isUserLiked="isUserLiked"
+              :likes="likes.length"
+              :postId="_id"
+            />
           </v-container>
         </v-card-actions>
       </v-card>
@@ -174,14 +165,16 @@
 </template>
 
 <script scoped>
+import { mapActions, mapState } from 'vuex';
+
 import Tag from '@/components/Shared/Tag';
 import LikeBtn from '@/components/Shared/LikeButton';
-import CommentBtn from '@/components/Shared/CommentButton';
-import UserSocialLinks from '@/components/Shared/UserSocialLinks';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
+import { ROUTES } from '@/mixins/routes';
+import { toggleLike } from '@/mixins/toggleLike';
 
 export default {
-  mixins: [userSocialLinks],
+  mixins: [userSocialLinks, toggleLike],
   props: {
     _id: {
       type: String,
@@ -235,7 +228,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    user: {
+    author: {
       type: Object,
       required: true,
     },
@@ -264,36 +257,57 @@ export default {
         max: 1,
       },
       composers: [],
-      // eslint-disable-next-line no-underscore-dangle
-      podcastLink: `/podcasts/${this._id}?type=${this.type}`,
+      podcastLink: ROUTES.PODCAST(this._id),
     };
   },
   components: {
     Tag,
     LikeBtn,
-    CommentBtn,
-    // eslint-disable-next-line vue/no-unused-components
-    UserSocialLinks,
+  },
+  created() {
+    this.ROUTES = ROUTES;
   },
   watch: {
-    // eslint-disable-next-line no-unused-vars
-    currentVolume(newValue, oldValue) {
+    currentVolume(newValue) {
       if (newValue === 1) this.volumeIcon = 'mdi-volume-off';
       if (newValue !== 1) this.volumeIcon = 'mdi-volume-high';
       return (this.$refs.player.volume = newValue / 100);
+    },
+    isPlaying(newVal) {
+      if (newVal === true) {
+        this.togglePlayPauseIcon = 'mdi-pause-circle-outline';
+        this.coverClasses.push('none-boder-cover-radius ');
+      }
+
+      if (newVal === false) {
+        this.togglePlayPauseIcon = 'mdi-play-circle-outline';
+        this.coverClasses = ['cover'];
+      }
     },
   },
   computed: {
     slicedTags() {
       return this.tags.slice(0, this.maxTags);
     },
+    ...mapState('player', ['currentAudioPlaying']),
+    isPlaying() {
+      const isAudioPlaying = this.currentAudioPlaying._id === this._id;
+      if (isAudioPlaying) return this.currentAudioPlaying.isPlaying;
+      return false;
+    },
+    artists() {
+      let artists = this.authors.filter(person => person.type === 'artist');
+      artists = artists.map(person => person.name);
+      return artists;
+    },
+    slicedArtists() {
+      return this.artists.slice(0, 4);
+    },
   },
   methods: {
+    ...mapActions('player', ['getAudioState']),
     isAddFt(index, dataLength) {
       return index + 1 < dataLength ? 'ft' : '';
-    },
-    searchPodcastBySinger(artist) {
-      return window.open(`/posts?artist=${artist}&type=podcast`);
     },
     calProgressBar() {
       const player = this.$refs.player;
@@ -310,16 +324,60 @@ export default {
         this.togglePlayPauseIcon = 'mdi-play-circle-outline';
       }
     },
-    togglePlayPause() {
-      // TODO: Cannot pause anoter audio if playing when playing audio
+    async togglePlayPause() {
       if (this.togglePlayPauseIcon === 'mdi-play-circle-outline') {
         this.togglePlayPauseIcon = 'mdi-pause-circle-outline';
-        this.coverClasses.push('none-boder-cover-radius');
-        return this.$refs.player.play();
       } else {
-        this.coverClasses.pop();
         this.togglePlayPauseIcon = 'mdi-play-circle-outline';
-        return this.$refs.player.pause();
+      }
+
+      if (!this.currentAudioPlaying._id) {
+        const isPlaying = await this.getAudioState(this._id);
+        this.$emit('handlePlayPause', {
+          isPlay: !isPlaying,
+          audio: {
+            name: this.topic,
+            _id: this._id,
+            artist: this.artists.join(', '),
+            url: this.audio.secureURL,
+            cover: this.cover.secureURL,
+            isPlaying: !isPlaying,
+          },
+        });
+        return;
+      }
+
+      const isSwitch = this._id !== this.currentAudioPlaying._id;
+      if (this.currentAudioPlaying._id) {
+        const isPlaying = await this.getAudioState(this._id);
+        if (!isSwitch) {
+          this.$emit('handlePlayPause', {
+            isPlay: !isPlaying,
+            audio: {
+              name: this.topic,
+              _id: this._id,
+              artist: this.artists.join(', '),
+              url: this.audio.secureURL,
+              cover: this.cover.secureURL,
+              isPlaying: !isPlaying,
+            },
+          });
+          return;
+        }
+
+        if (isSwitch) {
+          this.$emit('handleSwitchAudio', {
+            status: true,
+            audio: {
+              name: this.topic,
+              _id: this._id,
+              artist: this.artists.join(', '),
+              url: this.audio.secureURL,
+              cover: this.cover.secureURL,
+              isPlaying: !isPlaying,
+            },
+          });
+        }
       }
     },
     toggleMutedVolume() {
@@ -343,8 +401,6 @@ export default {
       return time;
     },
     calculateCurrentValue(currentTime) {
-      // eslint-disable-next-line no-unused-vars
-      const current_hour = parseInt(currentTime / 3600) % 24;
       const current_minute = parseInt(currentTime / 60) % 60;
       const current_seconds_long = currentTime % 60;
       const current_seconds = current_seconds_long.toFixed();
@@ -359,18 +415,16 @@ export default {
       this.$refs.player.currentTime = percent * this.$refs.player.duration;
       this.progressBar.value = percent / 100;
     },
-    linkToPodcast() {
-      this.$router.push({ path: this.podcastLink });
-    },
     onClickAvatar() {
-      this.$router.push({ path: `/users/${this.user.username}` });
+      if (
+        this.$route.fullPath !==
+        ROUTES.USER_PROFILE({ username: this.author.username })
+      ) {
+        this.$router.push({
+          path: ROUTES.USER_PROFILE({ username: this.author.username }),
+        });
+      }
     },
-  },
-  created() {
-    const slicedArtists = this.authors.filter(
-      person => person.type === 'artist',
-    );
-    this.slicedArtists = slicedArtists.slice(0, 4);
   },
 };
 </script>
@@ -378,9 +432,10 @@ export default {
 <style scoped lang="scss">
 #audio {
   max-width: 285px;
+  height: 350px;
 }
 #audio-card {
-  height: 345px;
+  height: 100%;
   border-radius: 35px;
 }
 

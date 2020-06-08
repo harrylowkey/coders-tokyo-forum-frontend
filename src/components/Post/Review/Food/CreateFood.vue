@@ -54,7 +54,7 @@
                     <v-col cols="12" class="pa-0">
                       <my-upload
                         class="pt-0"
-                        field="banner"
+                        field="cover"
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
                         v-model="uploadBanner"
@@ -64,16 +64,16 @@
                         img-format="jpg"
                         langType="en"
                         noCircle
-                        url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
+                        :url="APIS.UPLOAD_BANNER"
                       />
                       <v-container
                         class="d-flex justify-center"
-                        v-if="data.banner.secureURL"
+                        v-if="data.cover.secureURL"
                       >
                         <v-img
                           max-width="650"
                           max-height="250"
-                          :src="data.banner.secureURL"
+                          :src="data.cover.secureURL"
                         />
                       </v-container>
                     </v-col>
@@ -106,13 +106,6 @@
                             @limit-exceeded="handleLimitExceed"
                           />
                         </div>
-                        <!-- <v-skeleton-loader
-                          v-if="isLoading"
-                          class
-                          height="180"
-                          width="200"
-                          type="card"
-                        ></v-skeleton-loader>-->
                       </div>
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
@@ -128,6 +121,13 @@
                           required
                         />
                       </ValidationProvider>
+                    </v-col>
+                    <v-col cols="12" sm="12" md="12">
+                      <v-text-field
+                        v-model="data.food.location"
+                        label="Address"
+                        required
+                      />
                     </v-col>
 
                     <v-col cols="12" sm="8" md="8">
@@ -236,23 +236,23 @@
                         <v-text-field
                           :error-messages="errors"
                           v-model="data.topic"
-                          label="Title*"
+                          label="Topic*"
                           required
                         />
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12">
-                      <v-text-field
+                      <v-textarea
                         label="Description"
                         persistent-hint
+                        rows="3"
                         v-model="data.description"
-                        rows="2"
                         hint="Write description to attract people at the first glance"
                       />
                     </v-col>
                     <v-col cols="12">
                       <ValidationProvider
-                        name="Title"
+                        name="Content"
                         rules="required"
                         v-slot="{ errors }"
                       >
@@ -279,7 +279,7 @@
                           />
                           <v-spacer />
                           <div class="d-flex justify-end">
-                            <span class="signature">hong_quang</span>
+                            <span class="signature">{{ user.username }}</span>
                           </div>
                         </v-card>
                       </v-dialog>
@@ -309,7 +309,7 @@
                   class="mr-5"
                   color="green white--text"
                   @click="submit"
-                  :disabled="isLoading"
+                  :disabled="isLoadingUpload"
                 >
                   Post
                 </v-btn>
@@ -317,8 +317,8 @@
             </v-container>
             <v-dialog max-width="500" v-model="isAttachImage">
               <attach-image-dialog
-                :isLoading="isLoading"
                 :attachImage="attachImage"
+                :isLoadingUpload="isLoadingUpload"
                 @handleUploadImage="uploadImage"
                 @handleOnChange="onChange"
               />
@@ -339,6 +339,8 @@
 <script>
 import VueUploadMultipleImage from 'vue-upload-multiple-image';
 
+import { APIS } from '@/mixins/api-endpoints';
+import { ROUTES } from '@/mixins/routes';
 import { createPost } from '@/mixins/createPost';
 
 export default {
@@ -369,35 +371,34 @@ export default {
         description: '',
         content: '',
         type: 'food',
-        banner: '',
+        cover: '',
       },
       previewPhotos: [],
     };
   },
   computed: {},
   methods: {
-    // eslint-disable-next-line no-unused-vars
-    async beforeRemove(index, done, fileList) {
+    async beforeRemove(index, done) {
       const photoToDelete = this.data.food.foodPhotos[index];
-      // eslint-disable-next-line no-underscore-dangle
       const response = await this.deleteFile({ fileId: photoToDelete._id });
       if (response.status === 200) {
         this.data.food.foodPhotos.splice(index, 1);
         this.$notify({
           type: 'success',
-          title: 'Delete success',
+          title: 'Success!',
+          text: 'Delete success',
         });
       }
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Delete failed',
+          title: 'Error!',
+          text: 'Delete failed',
         });
       }
       done();
     },
-    // eslint-disable-next-line no-unused-vars
-    async uploadImageSuccess(formData, index, fileList) {
+    async uploadImageSuccess(formData) {
       const response = await this.uploadFiles(formData);
       if (response.status === 200) {
         this.data.food.foodPhotos.push(response.data);
@@ -416,14 +417,13 @@ export default {
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Upload failed',
+          title: 'Error!',
+          text: 'Upload failed',
         });
       }
     },
-    // eslint-disable-next-line no-unused-vars
-    async editImage(formData, index, fileList) {
+    async editImage(formData, index) {
       const photoToDelete = this.data.food.foodPhotos[index];
-      // eslint-disable-next-line no-underscore-dangle
       const response = await this.deleteFile({ fileId: photoToDelete._id });
       if (response.status === 200) {
         this.data.food.foodPhotos.splice(index, 1);
@@ -433,36 +433,40 @@ export default {
           this.data.food.foodPhotos.push(response.data);
           this.$notify({
             type: 'success',
-            title: 'Update success',
+            title: 'Success!',
+            text: 'Update success',
           });
         }
 
         if (response.status === 400) {
           this.$notify({
             type: 'error',
-            title: 'Update failed',
+            title: 'Error!',
+            text: 'Error!',
           });
         }
       }
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Delete failed',
+          title: 'Error!',
+          text: 'Delete failed',
         });
       }
     },
-    // eslint-disable-next-line no-unused-vars
-    handleLimitExceed(amount) {
+    handleLimitExceed() {
       this.$notify({
         type: 'error',
-        title: 'Please upload less than 20 photos',
+        title: 'Error!',
+        text: 'Please upload less than 20 photos',
       });
     },
     async submit() {
-      if (this.data.banner === '') {
+      if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: "Let's upload the banner",
+          title: 'Error!',
+          text: "Let's upload the cover",
         });
         return;
       }
@@ -470,7 +474,8 @@ export default {
       if (!this.data.food.foodPhotos.length) {
         this.$notify({
           type: 'error',
-          title: 'Attach at least 1 photo to your blog',
+          title: 'Error!',
+          text: 'Attach at least 1 photo to your blog',
         });
         return;
       }
@@ -481,24 +486,24 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success',
+          title: 'Success!',
+        });
+
+        return this.$router.push({
+          path: ROUTES.FOOD_REVIEWS(res.data._id),
         });
       }
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Failed',
+          title: 'Error!',
           text: res.message,
         });
       }
-
-      setTimeout(() => {
-        return this.$router.push({
-          // eslint-disable-next-line no-underscore-dangle
-          path: `/${this.data.type}Reviews/${res.data._id}?type=${this.data.type}`,
-        });
-      }, 1000);
     },
+  },
+  created() {
+    this.APIS = APIS;
   },
 };
 </script>

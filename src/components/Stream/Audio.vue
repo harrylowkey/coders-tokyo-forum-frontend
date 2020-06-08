@@ -12,7 +12,7 @@
               style="font-size: 16px !important; overflow: hidden; height: 30px"
               class="mt-2 ml-1 mb-0 text-left"
             >
-              {{ title }}
+              {{ name }}
             </span>
             <div class="mx-1 mt-n2 text-center">
               <span
@@ -35,8 +35,14 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+
 export default {
   props: {
+    _id: {
+      type: String,
+      required: true,
+    },
     index: {
       type: Number,
       required: true,
@@ -45,7 +51,7 @@ export default {
       type: String,
       required: true,
     },
-    title: {
+    name: {
       type: String,
       required: true,
     },
@@ -57,62 +63,102 @@ export default {
       type: String,
       required: true,
     },
-    playAnotherSong: {
-      type: Object,
-      default: () => {},
-    },
   },
   data() {
     return {
-      isPlaying: false,
       togglePlayPauseIcon: 'mdi-play-circle-outline',
     };
   },
   methods: {
-    togglePlayPause() {
+    ...mapActions('player', ['getAudioState']),
+    async togglePlayPause() {
       if (this.togglePlayPauseIcon === 'mdi-play-circle-outline') {
         this.togglePlayPauseIcon = 'mdi-pause-circle-outline';
       } else {
         this.togglePlayPauseIcon = 'mdi-play-circle-outline';
       }
-      this.isPlaying = !this.isPlaying;
-      this.$emit('handlePlayPause', {
-        isPlay: this.isPlaying,
-        index: this.index,
-      });
+
+      if (!this.currentAudioPlaying._id) {
+        const isPlaying = await this.getAudioState(this._id);
+        this.$emit('handlePlayPause', {
+          isPlay: !isPlaying,
+          audio: {
+            name: this.name,
+            _id: this._id,
+            artist: this.artists.join(', '),
+            url: this.link,
+            cover: this.cover,
+            isPlaying: !isPlaying,
+          },
+        });
+        return;
+      }
+
+      const isSwitch = this._id !== this.currentAudioPlaying._id;
+      if (this.currentAudioPlaying._id) {
+        const isPlaying = await this.getAudioState(this._id);
+        if (!isSwitch) {
+          this.$emit('handlePlayPause', {
+            isPlay: !isPlaying,
+            audio: {
+              name: this.name,
+              _id: this._id,
+              artist: this.artists.join(', '),
+              url: this.link,
+              cover: this.cover,
+              isPlaying: !isPlaying,
+            },
+          });
+          return;
+        }
+
+        if (isSwitch) {
+          this.$emit('handleSwitchAudio', {
+            status: true,
+            audio: {
+              name: this.name,
+              _id: this._id,
+              artist: this.artists.join(', '),
+              url: this.link,
+              cover: this.cover,
+              isPlaying: !isPlaying,
+            },
+          });
+        }
+      }
     },
     isAddFt(index, dataLength) {
       return index + 1 < dataLength ? 'ft' : '';
     },
   },
   watch: {
-    playAnotherSong(newVal) {
-      // when play another song, the others pause
-      if (newVal.isPlay === true && newVal.index !== this.index) {
-        this.isPlaying = false;
-        this.togglePlayPauseIcon = 'mdi-play-circle-outline';
-      }
-
-      // when play song from dashboard, trigger play song in list
-      if (newVal.isPlay === true && newVal.index === this.index) {
-        this.isPlaying = true;
+    isPlaying(newVal) {
+      if (newVal === true) {
         this.togglePlayPauseIcon = 'mdi-pause-circle-outline';
       }
 
-      // when pause song from dashboard, trigger stop song in list
-      if (newVal.isPlay === false && newVal.index === this.index) {
-        this.isPlaying = false;
+      if (newVal === false) {
         this.togglePlayPauseIcon = 'mdi-play-circle-outline';
       }
     },
   },
   computed: {
+    ...mapState('player', ['currentAudioPlaying']),
     isAudioPlaying() {
       return this.isPlaying ? 'opacity1' : 'opacityBlur';
     },
+    artists() {
+      let artists = this.authors.filter(person => person.type === 'artist');
+      artists = artists.map(person => person.name);
+      return artists;
+    },
     slicedArtists() {
-      const authors = this.authors.map(person => person.name);
-      return authors.slice(0, 2);
+      return this.artists.slice(0, 2);
+    },
+    isPlaying() {
+      const isAudioPlaying = this.currentAudioPlaying._id === this._id;
+      if (isAudioPlaying) return this.currentAudioPlaying.isPlaying;
+      return false;
     },
   },
 };

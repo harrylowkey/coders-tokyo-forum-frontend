@@ -1,24 +1,40 @@
 <template>
   <div>
-    <div class="mb-3">
+    <div class="mb-3" v-if="isShowTitle">
       <v-avatar size="30" style="cursor: pointer;" class="mr-2">
         <img
-          @click="showAvatar = !showAvatar"
-          :src="user.avatar.secureURL"
+          @click="onClickAvatar"
+          :src="author.avatar.secureURL"
           alt="Avatar"
         />
       </v-avatar>
-      <span>{{ user.username }}</span>
+      <a
+        style="text-decoration: none; color: #000"
+        :href="`/users/profile/${this.author.username}`"
+      >
+        <span>{{ author.username }}</span>
+      </a>
       <span
         style="font-size: 13px !important; color: grey"
         class="caption ml-1"
       >
-        posted a track
+        posted a
+        <a
+          :href="`/songs/${_id}?type=song`"
+          style="text-decoration: none; color: #444; font-style: italic"
+        >
+          <span>track</span>
+        </a>
       </span>
     </div>
     <v-hover v-slot:default="{ hover }" style="transition: 0.3s; height: 205px">
       <v-card id="song" class="mx-auto pb-0 mb-0" :elevation="hover ? 10 : 3">
-        <aplayer @click="linkToSong" loop="none" :audio="audio" :lrcType="0" />
+        <aplayer
+          @click="linkToSong"
+          loop="none"
+          :audio="audioFormat"
+          :lrcType="0"
+        />
 
         <v-list-item
           three-line
@@ -27,14 +43,20 @@
         >
           <v-card-actions class="pb-1 pl-0 pt-md-0 pt-sm-5">
             <v-container class="pt-0 pl-0 pr-0 d-flex justify-space-around">
-              <like-btn :likes="likes.length" class="mr-10" />
-              <comment-btn :comments="comments.length" />
+              <like-btn
+                class="mr-10"
+                @handleLikePost="onClickLikePost"
+                @handleUnlikePost="onClickUnlikePost"
+                :isUserLiked="isUserLiked"
+                :likes="likes.length"
+                :postId="_id"
+              />
             </v-container>
           </v-card-actions>
           <v-spacer />
           <v-card-actions class="d-flex">
             <tag
-              style="margin-top: 6px;"
+              class="mb-2"
               :tagName="tag.tagName"
               v-for="(tag, i) in slicedTags"
               :key="i"
@@ -56,12 +78,12 @@
 <script>
 import Tag from '@/components/Shared/Tag';
 import LikeBtn from '@/components/Shared/LikeButton';
-import CommentBtn from '@/components/Shared/CommentButton';
-import UserAvatar from '@/components/Shared/UserAvatar';
 import { userSocialLinks } from '@/mixins/userSocialLinks';
+import { ROUTES } from '@/mixins/routes';
+import { toggleLike } from '@/mixins/toggleLike';
 
 export default {
-  mixins: [userSocialLinks],
+  mixins: [userSocialLinks, toggleLike],
   props: {
     _id: {
       type: String,
@@ -119,7 +141,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    user: {
+    author: {
       type: Object,
       required: true,
     },
@@ -131,12 +153,16 @@ export default {
       type: String,
       default: 'song',
     },
+    isShowTitle: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       maxTags: 3,
-      // eslint-disable-next-line no-underscore-dangle
-      audioLink: `/songs/${this._id}?type=${this.type}`,
+      audioLink: ROUTES.SONG(this._id),
+      audioFormat: {},
     };
   },
   created() {
@@ -144,8 +170,8 @@ export default {
 
     const audio = this.audio;
     const artists = this.authors.filter(person => person.type === 'artist');
-    this.audio = {
-      name: audio.fileName,
+    this.audioFormat = {
+      name: this.topic,
       artist: artists.map(person => person.name).toString(),
       url: audio.secureURL,
       cover: this.cover.secureURL,
@@ -160,24 +186,22 @@ export default {
     linkToSong() {
       this.$router.push({ path: this.audioLink });
     },
+    onClickAvatar() {
+      this.$router.push({
+        path: ROUTES.USER_PROFILE({ username: this.author.username }),
+      });
+    },
   },
   mounted() {
-    const songTitle = document.querySelector('.aplayer-title');
+    const songTitle = document.getElementsByClassName('aplayer-title')[1];
+    songTitle.style.cursor = 'pointer';
     songTitle.addEventListener('click', () =>
-      // eslint-disable-next-line no-underscore-dangle
-      window.open(`/songs/${this._id}?type=${this.type}`),
-    );
-    const songComposer = document.querySelector('.aplayer-author');
-    songComposer.addEventListener('click', () =>
-      window.open(`/posts?artist=${this.audio.artist}&type=${this.type}`),
+      this.$router.push({ path: ROUTES.SONG(this._id) }),
     );
   },
   components: {
     Tag,
     LikeBtn,
-    CommentBtn,
-    // eslint-disable-next-line vue/no-unused-components
-    UserAvatar,
   },
 };
 </script>
@@ -218,11 +242,11 @@ export default {
     .aplayer-music {
       .aplayer-title {
         font-size: 1.05rem !important;
-        cursor: pointer;
+        // cursor: pointer;
       }
       .aplayer-author {
         font-size: 0.85rem !important;
-        cursor: pointer;
+        // cursor: pointer;
       }
     }
   }

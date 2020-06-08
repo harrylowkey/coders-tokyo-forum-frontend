@@ -29,16 +29,16 @@
                           <v-icon left color="white" size="18">
                             mdi-paperclip
                           </v-icon>
-                          Choose audio file
+                          Upload audio file
                         </v-btn>
                         <div :class="fileSelectClasses">
                           <VueFileAgent
                             ref="vueFileAgent"
                             theme="list"
-                            :deletable="!isLoading"
+                            :deletable="!isUploadingAudio"
                             :meta="true"
                             :accept="'.mp3, .wma, .wav'"
-                            :maxSize="'10MB'"
+                            :maxSize="maxSize"
                             :helpText="'Drag audio file or choose here'"
                             :errorText="{
                               type:
@@ -57,7 +57,7 @@
                         <v-col cols="12" class="pa-0">
                           <my-upload
                             class="pt-0"
-                            field="banner"
+                            field="cover"
                             @crop-upload-success="cropUploadSuccess"
                             @crop-upload-fail="cropUploadFail"
                             v-model="uploadBanner"
@@ -66,7 +66,7 @@
                             :headers="headers"
                             img-format="jpg"
                             langType="en"
-                            url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
+                            :url="APIS.UPLOAD_BANNER"
                             noCircle
                           />
                         </v-col>
@@ -75,8 +75,8 @@
                           class="d-flex flex-column align-center"
                         >
                           <div
-                            v-if="!data.banner.secureURL"
-                            class="banner d-flex justify-center align-center pr-2"
+                            v-if="!data.cover.secureURL"
+                            class="cover d-flex justify-center align-center pr-2"
                           >
                             <v-chip
                               @click="uploadBanner = !uploadBanner"
@@ -92,14 +92,14 @@
                           </div>
                           <v-container
                             class="d-flex justify-center"
-                            v-if="data.banner.secureURL"
+                            v-if="data.cover.secureURL"
                           >
                             <v-img
                               style="cursor: pointer"
                               @click="uploadBanner = !uploadBanner"
                               max-width="210"
                               max-height="210"
-                              :src="data.banner.secureURL"
+                              :src="data.cover.secureURL"
                             />
                           </v-container>
                           <div
@@ -123,7 +123,7 @@
                       <v-col cols="12" sm="12" md="8" class="pt-0">
                         <v-col cols="12" sm="12" md="12" class="pt-0">
                           <ValidationProvider
-                            name="Song name"
+                            name="Name"
                             rules="required"
                             v-slot="{ errors }"
                           >
@@ -131,7 +131,10 @@
                               class="mt-0"
                               :error-messages="errors"
                               v-model="data.topic"
-                              label="Song name*"
+                              :label="
+                                `${type[0].toUpperCase() +
+                                  type.slice(1, type.length - 1)} name`
+                              "
                               required
                             />
                           </ValidationProvider>
@@ -390,11 +393,11 @@
                         </div>
                         <v-col cols="12">
                           <v-textarea
-                            label="Lyric*"
+                            label="Lyric"
                             auto-grow
                             rows="15"
                             required
-                            v-model="data.content"
+                            v-model="data.description"
                             placeholder="Markdown"
                           />
                         </v-col>
@@ -409,7 +412,7 @@
                   class="mr-5"
                   color="green white--text"
                   @click="submit"
-                  :disabled="isLoading"
+                  :disabled="this.isUploadingAudio"
                 >
                   Post
                 </v-btn>
@@ -424,13 +427,20 @@
 
 <script>
 import myUpload from 'vue-image-crop-upload';
-import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
+import { APIS } from '@/mixins/api-endpoints';
+import { ROUTES } from '@/mixins/routes';
 import { createPost } from '@/mixins/createPost';
 
 export default {
   mixins: [createPost],
-  props: ['type'],
+  props: {
+    type: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     myUpload,
   },
@@ -460,18 +470,20 @@ export default {
         authors: [],
         topic: '',
         description: '',
-        content: '',
+        content: '.',
         type: '',
-        banner: '',
+        cover: '',
       },
       imgDataUrl: '',
-      uploadAudioURL:
-        'http://localhost:3000/api/v1/files/upload/audio?type=audio',
+      uploadAudioURL: APIS.UPLOAD_AUDIO,
       fileRecordsForUpload: [],
       fileSelectClasses: ['file-select', 'wrapper-file-select'],
+      isUploadingAudio: false,
+      maxSize: this.type === 'podcasts' ? '20MB' : '10MB',
     };
   },
   computed: {
+    ...mapState('utils', ['isLoadingUpload']),
     headers() {
       return {
         Authorization: `Bearer ${this.accessToken}`,
@@ -480,10 +492,9 @@ export default {
   },
   created() {
     this.data.type = this.type;
+    this.APIS = APIS;
   },
   methods: {
-    ...mapActions('post', ['uploadAudio']),
-    ...mapActions('utils', ['setLoading']),
     handleRemoveComposer(index) {
       this[`addComposer${index}`] = !this[`addComposer${index}`];
       this[`composer${index}`] = '';
@@ -495,7 +506,7 @@ export default {
     chooseFile() {
       this.$refs.vueFileAgent.$refs.fileInput.click();
     },
-    async uploadFile() {
+    async uploadAudioSelected() {
       const res = (
         await this.$refs.vueFileAgent.upload(
           this.uploadAudioURL,
@@ -507,24 +518,23 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Upload success',
+          title: 'Success!',
+          text: 'Upload success',
         });
         this.data.audio = res.data.data;
-        this.setLoading(false);
+        this.isUploadingAudio = false;
       }
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Failed',
+          title: 'Error!',
           text: res.message,
         });
       }
 
       this.fileRecordsForUpload = [];
     },
-    // eslint-disable-next-line no-unused-vars
-    async onBeforeDelete(fileRecord) {
-      // eslint-disable-next-line no-underscore-dangle
+    async onBeforeDelete() {
       const res = await this.deleteFile({ fileId: this.data.audio._id });
       if (res.status === 200) {
         this.data.audio = {};
@@ -541,25 +551,26 @@ export default {
       this.fileSelectClasses.push(
         ...['show-wrapper-file-select', 'show-file-select'],
       );
-      this.setLoading(true);
-      this.uploadFile();
+      this.isUploadingAudio = true;
+      this.uploadAudioSelected();
     },
     async submit() {
-      if (this.data.banner === '') {
+      if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: "Let's upload the banner",
+          title: 'Error!',
+          text: "Let's upload the cover",
         });
         return;
       }
-      if (!this.fileRecordsForUpload.length) {
-        if (this.data.banner === '') {
-          this.$notify({
-            type: 'error',
-            title: "Hang on! Let's upload audio",
-          });
-          return;
-        }
+
+      if (!this.data.audio.secureURL) {
+        this.$notify({
+          type: 'error',
+          title: 'Error!',
+          text: "Hang on! Let's upload audio",
+        });
+        return;
       }
 
       const isValid = await this.$refs.observer.validate();
@@ -575,30 +586,33 @@ export default {
         { type: 'artist', name: this.artist3 },
         { type: 'artist', name: this.artist4 },
       ].filter(person => person.name !== '');
-      if (this.data.content === '') this.data.content = 'Update later';
 
       const res = await this.createPost(this.data);
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success',
+          title: 'Success!',
         });
+
+        if (this.data.type === 'podcasts') {
+          return this.$router.push({
+            path: ROUTES.PODCAST(res.data._id),
+          });
+        }
+
+        if (this.data.type === 'songs') {
+          return this.$router.push({
+            path: ROUTES.SONG(res.data._id),
+          });
+        }
       }
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Failed',
+          title: 'Error!',
           text: res.message,
         });
       }
-
-      const type = this.data.type.slice(0, this.data.type.length - 1);
-      setTimeout(() => {
-        return this.$router.push({
-          // eslint-disable-next-line no-underscore-dangle
-          path: `/${type}s/${res.data._id}?type=${type}`,
-        });
-      }, 1000);
     },
   },
 };
@@ -623,6 +637,7 @@ export default {
 .file-select {
   opacity: 0;
   position: relative;
+  z-index: 0;
   left: -900px;
 }
 
@@ -650,7 +665,7 @@ a {
   color: #42b983;
 }
 
-.banner {
+.cover {
   width: 210px;
   height: 210px;
   box-shadow: 9px 9px 10px 6px rgba(0, 0, 0, 0.16);

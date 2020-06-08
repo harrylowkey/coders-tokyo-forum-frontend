@@ -49,10 +49,10 @@
                       <my-upload
                         class="pt-0"
                         v-model="isUploadBanner"
-                        field="banner"
+                        field="cover"
                         @crop-upload-success="cropUploadSuccess"
                         @crop-upload-fail="cropUploadFail"
-                        url="http://localhost:3000/api/v1/files/upload/banner?type=banner"
+                        :url="APIS.UPLOAD_BANNER"
                         :width="880"
                         :height="450"
                         :headers="headers"
@@ -62,12 +62,12 @@
                       />
                       <v-container
                         class="d-flex justify-center"
-                        v-if="data.banner.secureURL"
+                        v-if="data.cover.secureURL"
                       >
                         <v-img
                           max-width="650"
                           max-height="250"
-                          :src="data.banner.secureURL"
+                          :src="data.cover.secureURL"
                         />
                       </v-container>
                     </v-col>
@@ -86,10 +86,10 @@
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12">
-                      <v-text-field
+                      <v-textarea
                         label="Description"
                         persistent-hint
-                        rows="2"
+                        rows="3"
                         v-model="data.description"
                         hint="Write description to attract people at the first glance"
                       />
@@ -124,7 +124,7 @@
                           />
                           <v-spacer />
                           <div class="d-flex justify-end">
-                            <span class="signature">hong_quang</span>
+                            <span class="signature">{{ user.username }}</span>
                           </div>
                         </v-card>
                       </v-dialog>
@@ -154,7 +154,7 @@
                   class="mr-5"
                   color="green white--text"
                   @click="submit"
-                  :disabled="isLoading"
+                  :disabled="isLoadingUpload"
                 >
                   Post
                 </v-btn>
@@ -162,8 +162,8 @@
             </v-container>
             <v-dialog max-width="500" v-model="isAttachImage">
               <attach-image-dialog
-                :isLoading="isLoading"
                 :attachImage="attachImage"
+                :isLoadingUpload="isLoadingUpload"
                 @handleUploadImage="uploadImage"
                 @handleOnChange="onChange"
               />
@@ -182,10 +182,8 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import axios from 'axios';
-
 import { createPost } from '@/mixins/createPost';
+import { APIS } from '@/mixins/api-endpoints';
 
 export default {
   mixins: [createPost],
@@ -196,13 +194,16 @@ export default {
         topic: '',
         description: '',
         content: '',
-        banner: '',
+        cover: '',
         tags: [],
         type: 'blogs',
       },
       imgDataUrl: '',
       isPreviewing: false,
     };
+  },
+  created() {
+    this.APIS = APIS;
   },
   methods: {},
   computed: {},

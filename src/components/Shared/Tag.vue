@@ -1,10 +1,12 @@
 <template>
   <span class="caption text-center" id="tag">
-    <a :href="link" id="tag-link">{{ tagName }}</a>
+    <a :href="ROUTES.SEARCH_TAG({ tagName })" id="tag-link">#{{ tagName }}</a>
   </span>
 </template>
 
 <script>
+import { ROUTES } from '@/mixins/routes';
+
 export default {
   props: {
     tagName: String,
@@ -14,19 +16,14 @@ export default {
     },
     postType: String,
   },
-  data() {
-    return {
-      link: '',
-    };
-  },
   created() {
+    this.ROUTES = ROUTES;
     if (this.customize) {
       this.tagStyle = {
         ...this.tagStyle,
         ...this.customize,
       };
     }
-    this.link = `/posts?tag=${this.tagName}&type=${this.postType}`;
   },
 };
 </script>

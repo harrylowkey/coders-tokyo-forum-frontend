@@ -1,16 +1,33 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
-// eslint-disable-next-line no-unused-vars
-import jwt from 'jsonwebtoken';
 
-import { SIGN_IN, SIGN_OUT, UPLOAD_AVATAR, UPDATE_PROFILE } from '../constants';
+import router from '@/router';
+import { APIS } from '@/mixins/api-endpoints';
+
+import {
+  SIGN_IN,
+  SIGN_OUT,
+  UPLOAD_AVATAR,
+  UPDATE_PROFILE,
+  SET_LIST_FOLLOW,
+} from '../constants';
 
 export default {
   namespaced: true,
   state: {
-    user: {},
-    isAuthenticated: false,
-    accessToken: '',
+    user: JSON.parse(window.localStorage.getItem('user')) || {},
+    isAuthenticated: JSON.parse(window.localStorage.getItem('user'))
+      ? JSON.parse(window.localStorage.getItem('user'))._id !== undefined ||
+        JSON.parse(window.localStorage.getItem('user'))._id !== null ||
+        JSON.parse(window.localStorage.getItem('user'))._id !== ''
+      : false,
+    accessToken: window.localStorage.getItem('accessToken') || '',
+    followers: JSON.parse(window.localStorage.getItem('user'))
+      ? JSON.parse(window.localStorage.getItem('user')).followers
+      : [],
+    following: JSON.parse(window.localStorage.getItem('user'))
+      ? JSON.parse(window.localStorage.getItem('user')).following
+      : [],
   },
   mutations: {
     [SIGN_IN](state, data) {
@@ -29,8 +46,24 @@ export default {
     [UPDATE_PROFILE](state, data) {
       state.user = data;
     },
+    [SET_LIST_FOLLOW](state, data) {
+      state.followers = data.followers;
+      state.following = data.following;
+    },
+    SET_FOLLOWERS_LIST(state, data) {
+      state.followers = data;
+    },
+    SET_FOLLOWING_LIST(state, data) {
+      state.following = data;
+    },
+    SET_AUTHENTICATED(state, payload) {
+      state.isAuthenticated = payload;
+    },
   },
   actions: {
+    setIsAuthenticated({ commit }, payload) {
+      commit('SET_AUTHENTICATED', payload);
+    },
     async signIn({ commit }, authData) {
       commit('utils/SET_LOADING', true, { root: true });
       axios
@@ -47,7 +80,12 @@ export default {
           commit('SIGN_IN', { user, accessToken: access_token });
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
+          return err.response;
         })
         .then(() => {
           setTimeout(() => {
@@ -61,8 +99,13 @@ export default {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('user');
       commit('SIGN_OUT');
+      commit('notifications/DELETE_ALL_NOTIFICATIONS', false, { root: true });
+      commit('notifications/TOGGLE_SHOW_NOTIF_LIST', false, { root: true });
       setTimeout(() => {
         commit('utils/SET_LOADING', false, { root: true });
+        if (router.app._route.fullPath !== '/stream') {
+          router.push('/stream');
+        }
       });
     },
     tryAutoSignIn({ commit }) {
@@ -73,8 +116,29 @@ export default {
       const user = localStorage.getItem('user');
       commit('SIGN_IN', { user: JSON.parse(user), accessToken });
     },
-    async uploadAvatar({ commit }, { avatar }) {
+    async signUp({ commit }, data) {
       commit('utils/SET_LOADING', true, { root: true });
+      const res = await axios
+        .post('/auth/signup', data)
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return res;
+    },
+    async uploadAvatar({ commit }, { avatar }) {
+      commit('utils/SET_LOADING_UPLOAD', true, { root: true });
       const response = await axios
         .post('/users/avatars', { avatar })
         .then(res => {
@@ -86,12 +150,16 @@ export default {
           return res;
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
           return err;
         })
         .then(res => {
           setTimeout(() => {
-            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_LOADING_UPLOAD', false, { root: true });
             commit('utils/SET_ERROR', '', { root: true });
           }, 0);
           return res;
@@ -99,7 +167,7 @@ export default {
       return response;
     },
     async updateProfile({ commit, getters }, data) {
-      commit('utils/SET_LOADING', true, { root: true });
+      commit('utils/SET_LOADING_API', true, { root: true });
       const avatar = getters.user.avatar;
       const dataUpdated = await axios
         .put('/users', data)
@@ -111,7 +179,77 @@ export default {
           return res;
         })
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
+          return err;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return dataUpdated;
+    },
+    async follow({ commit }, userToFollowId) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const response = await axios
+        .post(`/users/${userToFollowId}/follow`)
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return response;
+    },
+    async unfollow({ commit }, userToUnFollowId) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const response = await axios
+        .post(`/users/${userToUnFollowId}/unfollow`)
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return response;
+    },
+    async getByUsername({ commit }, { username }) {
+      commit('utils/SET_LOADING', true, { root: true });
+      const userProfile = await axios
+        .get(APIS.GET_USER_PROFILE({ username }))
+        .then(res => {
+          return res.data;
+        })
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
           return err;
         })
         .then(res => {
@@ -121,41 +259,91 @@ export default {
           }, 0);
           return res;
         });
-      return dataUpdated;
+      return userProfile;
     },
-    async follow({ commit }, userToFollowId) {
-      commit('utils/SET_LOADING', true, { root: true });
-      const response = await axios
-        .post(`/users/${userToFollowId}/follow`)
+    async changePassword({ commit }, data) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const res = await axios
+        .put(APIS.CHANGE_PASSWORD, data)
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
           return err.response;
         })
         .then(res => {
           setTimeout(() => {
-            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_LOADING_API', false, { root: true });
             commit('utils/SET_ERROR', '', { root: true });
           }, 0);
           return res;
         });
-      return response;
+      return res;
     },
-    async unfollow({ commit }, userToUnFollowId) {
-      commit('utils/SET_LOADING', true, { root: true });
-      const response = await axios
-        .post(`/users/${userToUnFollowId}/unfollow`)
+    async forgotPassword({ commit }, data) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const res = await axios
+        .put(APIS.FORGOT_PASSWORD, data)
         .catch(err => {
-          commit('utils/SET_ERROR', err, { root: true });
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
           return err.response;
         })
         .then(res => {
           setTimeout(() => {
-            commit('utils/SET_LOADING', false, { root: true });
+            commit('utils/SET_LOADING_API', false, { root: true });
             commit('utils/SET_ERROR', '', { root: true });
           }, 0);
           return res;
         });
-      return response;
+      return res;
+    },
+    async getCode({ commit }, email) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const res = await axios
+        .post(APIS.GET_CODE, { email })
+        .then(res => {
+          return res.data;
+        })
+        .catch(err => {
+          if (err) {
+            commit('utils/SET_ERROR', err.response.data.message, {
+              root: true,
+            });
+          }
+          return err.response;
+        })
+        .then(res => {
+          setTimeout(() => {
+            commit('utils/SET_LOADING_API', false, { root: true });
+            commit('utils/SET_ERROR', '', { root: true });
+          }, 0);
+          return res;
+        });
+      return res;
+    },
+    async fetchFollowersAndFollowing({ commit }, userId) {
+      commit('utils/SET_LOADING_API', true, { root: true });
+      const [followers, following] = await Promise.all([
+        axios.get(APIS.GET_FOLLOWERS(userId)),
+        axios.get(APIS.GET_FOLLOWING(userId)),
+      ]);
+      commit('SET_LIST_FOLLOW', {
+        followers: followers.data,
+        following: following.data,
+      });
+      commit('utils/SET_LOADING_API', false, { root: true });
+    },
+    setFollowerList({ commit }, data) {
+      commit('SET_FOLLOWERS_LIST', data);
+    },
+    setFollowingList({ commit }, data) {
+      commit('SET_FOLLOWING_LIST', data);
     },
   },
   getters: {

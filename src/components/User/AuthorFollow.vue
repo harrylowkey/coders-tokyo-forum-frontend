@@ -18,7 +18,7 @@
                 {{ author.username }}
               </a>
             </p>
-            <p style="font-size: 13px; color: grey" class="font-italic">
+            <p style="font-size: 13px; color: green" class="font-italic">
               {{ author.job }}
             </p>
           </v-col>
@@ -26,6 +26,7 @@
       </v-list-item-content>
       <div v-if="!isAuthor && !isFollowing">
         <v-btn
+          small
           class="mt-3"
           @click="onClickFollow"
           dark
@@ -37,6 +38,7 @@
       </div>
       <div v-if="!isAuthor && isFollowing">
         <v-btn
+          small
           class="mt-3"
           @click="onClickUnFollow"
           dark
@@ -63,89 +65,41 @@
 <script>
 import { mapActions } from 'vuex';
 
-// import UserSocialLinks from '@/components/Shared/UserSocialLinks';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   props: {
-    author: {
-      type: Object,
+    isFollowing: {
+      type: Boolean,
+      required: true,
     },
     isAuthor: {
       type: Boolean,
+      default: false,
     },
-    userId: {
-      type: String,
+    author: {
+      type: Object,
+      required: true,
     },
   },
   data() {
     return {
-      link: `/users/${this.author.username}`,
-      followers: [...this.author.followers],
+      link: ROUTES.USER_PROFILE({ username: this.author.username }),
     };
-  },
-
-  computed: {
-    isFollowing() {
-      return this.followers.includes(this.userId);
-    },
   },
   methods: {
     ...mapActions('user', ['follow', 'unfollow']),
     onClickAvatar() {
       this.$router.push({ path: this.link });
     },
-    async onClickFollow() {
-      // eslint-disable-next-line no-underscore-dangle
-      const response = await this.follow(this.author._id);
-      if (!response) {
-        return this.$router.push({ path: '/signin' });
-      }
-      if (response.status === 200) {
-        this.followers.push(this.userId);
-        this.$notify({
-          type: 'success',
-          title: response.data.message,
-        });
-      }
-      if (response.status === 400) {
-        this.$notify({
-          type: 'error',
-          title: response.message,
-        });
-      }
-
-      if (response.status === 401) {
-        this.$router.push({ path: '/signin' });
-      }
+    onClickFollow() {
+      this.$emit('handleFollow');
     },
-    async onClickUnFollow() {
-      // eslint-disable-next-line no-underscore-dangle
-      const response = await this.unfollow(this.author._id);
-      if (!response) {
-        return this.$router.push({ path: '/signin' });
-      }
-      if (response.status === 200) {
-        this.followers = this.followers.filter(
-          followerId => followerId !== this.userId,
-        );
-        this.$notify({
-          type: 'success',
-          title: response.data.message,
-        });
-      }
-      if (response.status === 400) {
-        this.$notify({
-          type: 'error',
-          title: response.message,
-        });
-      }
+    onClickUnFollow() {
+      this.$emit('handleUnFollow');
     },
   },
-  components: {
-    // UserSocialLinks
-  },
+  components: {},
   created() {},
 };
 </script>
-
-<style></style>

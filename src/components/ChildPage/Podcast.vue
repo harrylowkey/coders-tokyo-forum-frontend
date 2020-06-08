@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-12">
     <v-row id="post">
       <v-col
         cols="12"
@@ -11,13 +11,28 @@
       >
         <post-reactions
           v-if="!isLoading"
-          :likes="post && post.metadata ? post.metadata.likes : 0"
-          :saves="post && post.metadata ? post.metadata.saves : 0"
-          :flowers="0"
+          @hanldeClickCommentBtn="hanldeClickCommentBtn"
+          @likedPost="handleLikedPost"
+          @unlikedPost="handleUnlikedPost"
+          @savedPost="handleSavedPost"
+          @unsavedPost="handleUnsavedPost"
           :postId="post._id"
+          :likes="post.likes"
+          :saves="post.savedBy"
+          :flowers="0"
+          :isUserLiked="isUserLiked"
+          :isUserSaved="isUserSaved"
         />
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
+        <a
+          id="trigger-scroll-comments"
+          style="display: none"
+          href="#"
+          v-scroll-to="'#comments'"
+        >
+          Scroll to #comment
+        </a>
         <v-skeleton-loader />
         <v-boilerplate class="mx-auto mt-6" v-if="isLoading" type="image" />
         <v-boilerplate
@@ -103,6 +118,7 @@
                     max="100"
                     min="1"
                     track-color="grey"
+                    style="cursor: pointer"
                   />
                 </div>
               </v-container>
@@ -110,27 +126,20 @@
 
             <v-col cols="9" sm="9" md="7" lg="9" xl="9">
               <v-card-text class="podcast-description pl-0 pt-0">
-                <v-card-title
-                  style="cursor: pointer"
-                  class="ml-5 headline pt-0"
-                >
-                  {{ post.media.fileName }}
+                <v-card-title class="ml-5 headline pt-0">
+                  {{ post.topic }}
                 </v-card-title>
                 <v-card-subtitle class="pt-1 ml-8 pl-1 pb-0">
                   <span
                     style="font-size: 13px"
-                    v-for="(author, i) in post.authors"
-                    :key="author._id"
+                    v-for="(artist, i) in artists"
+                    :key="artist._id"
                   >
-                    <a
-                      target="_blank"
-                      style="text-decoration: none; color: #000"
-                      :href="`/posts?artist=${author.name}&type=podcast`"
-                    >
-                      {{ author.name }}
+                    <a style="text-decoration: none; color: #000">
+                      {{ artist }}
                     </a>
                     <span style="font-size: 12px" class="mx-1 font-italic">
-                      {{ isAddFt(i, post.authors.length) }}
+                      {{ isAddFt(i, artists.length) }}
                     </span>
                   </span>
                 </v-card-subtitle>
@@ -164,20 +173,22 @@
                 <user-social-links
                   :socialLinks="socialLinks"
                   :author="post.user"
-                  :user="user"
                   :isAuthor="isAuthor"
+                  @handleFollow="handleFollow"
+                  @handleUnFollow="handleUnFollow"
+                  :isFollowing="isFollowing"
                 />
               </v-col>
 
               <v-col class="lyric" cols="9" sm="8" md="8" lg="9" xl="9">
                 <div :class="lyricClasses">
-                  <p v-html="$options.filters.markdown(post.content)" />
+                  <p v-html="$options.filters.markdown(post.description)" />
                 </div>
                 <span
-                  v-if="!isShowMore"
+                  v-if="!isShowMore && post.description.length > 100"
                   @click="toggleShowLyrics"
                   style="font-size: 13px; color: grey; cursor: pointer"
-                  class="font-italic mb-0 show-more"
+                  class="font-italic mb-0 show-more mt-10"
                 >
                   Show more
                 </span>
@@ -201,21 +212,26 @@
             </v-row>
           </v-container>
         </v-card>
-        <div class="mt-5">
+        <div class="mt-5" id="comments">
           <v-divider />
           <h1 class="mb-3 mt-8">Comments</h1>
 
           <v-boilerplate style="width: 100%" v-if="isLoading" type="image" />
-          <write-comment v-if="!isLoading" />
+          <write-comment v-if="!isLoading" :postId="post._id" type="comment" />
 
-          <div v-if="post ? post.comments.length : false">
-            <comment
-              v-for="comment in post.comments"
-              :key="comment._id"
-              :comment="comment"
-              :author="post.user"
-              :postId="post._id"
-            />
+          <div v-if="!isLoading && post.comments.length">
+            <transition-group name="list">
+              <comment
+                transition="slide-y-transition"
+                v-for="comment in post.comments"
+                :key="comment._id"
+                :comment="comment"
+                :author="post.user"
+                :postId="post._id"
+                :user="user"
+                @handleDeleteComment="handleDeleteComment"
+              />
+            </transition-group>
           </div>
         </div>
       </v-col>
@@ -236,10 +252,12 @@
         />
         <author-follow-card
           v-if="!isLoading"
-          class="author-follow"
-          :isAuthor="isAuthor"
+          class="author-follow mt-10 ml-2"
           :author="post.user"
-          :userId="user._id"
+          @handleFollow="handleFollow"
+          @handleUnFollow="handleUnFollow"
+          :isFollowing="isFollowing"
+          :isAuthor="isAuthor"
         />
 
         <div
@@ -249,7 +267,7 @@
           <v-hover
             v-slot:default="{ hover }"
             style="transition: 0.3s"
-            v-for="podcast in otherPodcastsOfAuthor"
+            v-for="(podcast, i) in otherPostsOfAuthor"
             :key="podcast._id"
           >
             <v-card
@@ -278,7 +296,12 @@
                 <div
                   class="align-self-center d-flex justify-center mb-2 wrapper-icon"
                 >
-                  <v-icon class="play-icon" style="color: #fff" size="50">
+                  <v-icon
+                    @click="hanldePlayAnotherpodcast(podcast._id)"
+                    class="play-icon"
+                    style="color: #fff"
+                    size="50"
+                  >
                     mdi-music-circle-outline
                   </v-icon>
                 </div>
@@ -295,9 +318,14 @@
                   <span class="mt-2">{{ podcast.createdAt | date }}</span>
                 </v-card-text>
                 <v-spacer />
-                <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">
-                  <like-btn :likes="4" />
-                  <comment-btn :comments="9" />
+                <v-container class="pt-4 pl-6 pr-0 d-flex justify-end">
+                  <like-btn
+                    @handleLikePost="onClickLikePost"
+                    @handleUnlikePost="onClickUnlikePost"
+                    :isUserLiked="isUserLikedAnotherPost(i)"
+                    :likes="podcast.likes.length"
+                    :postId="podcast._id"
+                  />
                 </v-container>
               </v-card-actions>
             </v-card>
@@ -310,6 +338,7 @@
 
 <script>
 import { crudPost } from '@/mixins/crudPost';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [crudPost],
@@ -329,152 +358,6 @@ export default {
       currentVolume: 100,
       maxVolume: 1.0,
       minVolume: 0.0,
-      isFollowing: false,
-      otherPodcastsOfAuthor: [
-        {
-          _id: '5e992603c513c2611a9df88',
-          tags: [
-            {
-              _id: '5e8c5f27abf7df7d3be426db',
-              tagName: 'aucoustic',
-            },
-            {
-              _id: '5e8c5f27abf7df7d3be426dc',
-              tagName: 'tinh ca',
-            },
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: '5e9920603c513c2611a9df89',
-              type: 'artist',
-              name: 'Chillies',
-            },
-          ],
-          likes: [],
-          savedBy: [],
-          userId: '5e8b577f1a2dde32298795f4',
-          topic: ' Memories place',
-          description: 'Rock Ballad',
-          content: 'lyric',
-          type: 'podcast',
-          media: {
-            _id: '5e99206e3c513c2611a9df8a',
-            secureURL:
-              'https://res.cloudinary.com/hongquangraem/video/upload/v1587093614/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614.mp3',
-            publicId:
-              'Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093614',
-            fileName: 'hongquang_podcast_Vung Ky Uc - Chillies',
-            sizeBytes: 4835851,
-            userId: '5e8b577f1a2dde32298795f4',
-            postId: '5e9920603c513c2611a9df88',
-            resourceType: 'video',
-            media: {
-              type: 'upload',
-              signature: 'b1cd21b54d3ac48aab7b3097fe59957cb525e614',
-              width: 500,
-              height: 500,
-              format: 'mp3',
-              resource_type: 'video',
-              frame_rate: 90000,
-              bit_rate: 129717,
-              duration: 298.24,
-            },
-            createdAt: '2020-04-17T03:20:14.881Z',
-            updatedAt: '2020-04-17T03:20:14.881Z',
-            __v: 0,
-          },
-          audio: {
-            name: '东西（Cover：林俊呈）',
-            artist: '纳豆',
-            url: 'https://cdn.moefe.org/music/mp3/thing.mp3',
-            cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
-            lrc: 'https://cdn.moefe.org/music/lrc/thing.lrc',
-          },
-          createdAt: '2020-04-17T03:20:14.886Z',
-          updatedAt: '2020-04-17T03:20:14.886Z',
-          metadata: {
-            _id: '5e9494fe935dfb5ed30435',
-            comments: 123,
-            likes: 69,
-            saves: 1,
-          },
-        },
-        {
-          _id: '5e9202c3c513c2611a9df86',
-          tags: [
-            {
-              _id: '5e8c5f27abf7df7d3be426db',
-              tagName: 'rock',
-            },
-            {
-              _id: '5e8c5f27abf7df7d3be426dc',
-              tagName: 'rockballad',
-            },
-          ],
-          comments: [],
-          authors: [
-            {
-              _id: '5e8c5f27abf7df7d3be426dd',
-              type: 'artist',
-              name: 'Sweettie',
-            },
-            {
-              _id: '5e8c5f27abf7df7d3be426de',
-              type: 'composer',
-              name: 'Sweettie',
-            },
-          ],
-          likes: [],
-          savedBy: [],
-          userId: '5e8b577f1a2dde32298795f4',
-          topic: 'The last time',
-          description: 'A good podcast',
-          content: 'lyric',
-          type: 'podcast',
-          media: {
-            _id: '5e9920363c513c2611a9df87',
-            secureURL:
-              'https://res.cloudinary.com/hongquangraem/video/upload/v1587093557/Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093558.mp3',
-            publicId:
-              'Coders-Tokyo-Forum/posts/media/hongquang_podcast_Vung Ky Uc - Chillies_1587093558',
-            fileName: 'hongquang_podcast_Vung Ky Uc - Chillies',
-            sizeBytes: 4835851,
-            userId: '5e8b577f1a2dde32298795f4',
-            postId: '5e99202c3c513c2611a9df86',
-            resourceType: 'video',
-            media: {
-              type: 'upload',
-              signature: '1f824197f0826b949e90ed5a78544ba7c268d52a',
-              width: 500,
-              height: 500,
-              format: 'mp3',
-              resource_type: 'video',
-              frame_rate: 90000,
-              bit_rate: 129717,
-              duration: 298.24,
-            },
-            createdAt: '2020-04-17T03:19:18.857Z',
-            updatedAt: '2020-04-17T03:19:18.857Z',
-            __v: 0,
-          },
-          audio: {
-            name: '东西（Cover：林俊呈）',
-            artist: '纳豆',
-            url: 'https://cdn.moefe.org/music/mp3/thing.mp3',
-            cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
-            lrc: 'https://cdn.moefe.org/music/lrc/thing.lrc',
-          },
-          createdAt: '2020-04-17T03:19:18.881Z',
-          updatedAt: '2020-04-17T03:19:18.881Z',
-          metadata: {
-            _id: '5e9494fe935dfb5ed30435',
-            comments: 123,
-            likes: 69,
-            saves: 1,
-          },
-        },
-      ],
     };
   },
   methods: {
@@ -482,9 +365,7 @@ export default {
       return tags.slice(0, this.maxTags);
     },
     hanldePlayAnotherpodcast(podcastId) {
-      // eslint-disable-next-line no-console
-      console.log('here');
-      this.$router.push({ path: `/podcasts/${podcastId}` });
+      this.$router.push({ path: ROUTES.PODCAST(podcastId) });
     },
     toggleShowLyrics() {
       if (this.isShowMore) {
@@ -554,8 +435,6 @@ export default {
       return time;
     },
     calculateCurrentValue(currentTime) {
-      // eslint-disable-next-line no-unused-vars
-      const current_hour = parseInt(currentTime / 3600) % 24;
       const current_minute = parseInt(currentTime / 60) % 60;
       const current_seconds_long = currentTime % 60;
       const current_seconds = current_seconds_long.toFixed();
@@ -564,6 +443,20 @@ export default {
       }:${current_seconds < 10 ? `0${current_seconds}` : current_seconds}`;
 
       return current_time;
+    },
+    handleLikedPost({ user }) {
+      this.post.likes.push({ username: user.username, _id: user._id });
+    },
+    handleUnlikedPost({ user }) {
+      this.post.likes = this.post.likes.filter(_user => _user._id !== user._id);
+    },
+    handleSavedPost({ user }) {
+      this.post.savedBy.push({ username: user.username, _id: user._id });
+    },
+    handleUnsavedPost({ user }) {
+      this.post.savedBy = this.post.savedBy.filter(
+        _user => _user._id !== user._id,
+      );
     },
   },
   watch: {
@@ -583,12 +476,26 @@ export default {
       seconds = seconds[0].slice(0, 2);
       return `${minutes}:${seconds}`;
     },
+    artists() {
+      let artists = this.post.authors.filter(
+        person => person.type === 'artist',
+      );
+      artists = artists.map(person => person.name);
+      return artists;
+    },
+    composers() {
+      let composers = this.post.authors.filter(
+        person => person.type === 'composer',
+      );
+      composers = composers.map(person => person.name);
+      return composers;
+    },
   },
   components: {},
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .player {
   opacity: 0;
   position: absolute;
@@ -608,12 +515,14 @@ export default {
 }
 
 .lyric-wrapper {
-  height: 270px;
+  height: 40px;
+  padding-bottom: 95px;
   overflow: hidden;
 }
 
 .show-lyric-wrapper {
   height: auto;
+  padding-bottom: 0;
 }
 
 .total-length {
@@ -639,7 +548,7 @@ export default {
   display: flex;
   width: 20%;
   position: absolute;
-  top: 30%;
+  top: 44%;
   left: 9%;
   width: 15%;
   display: flex;
@@ -657,6 +566,14 @@ export default {
     color: #000;
     transition: opacity 1.8s ease-in;
   }
+}
+
+.v-slider__track-container {
+  cursor: pointer;
+}
+
+.v-slider__thumb {
+  cursor: pointer;
 }
 
 .show-opacity {
@@ -693,6 +610,7 @@ export default {
 }
 
 #podcast {
+  margin-top: 24px;
   padding: 16px 15px 8px 15px !important;
 }
 

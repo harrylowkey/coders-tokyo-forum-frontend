@@ -8,40 +8,34 @@ import VueClipboard from 'vue-clipboard2';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import Notifications from 'vue-notification';
 import infiniteScroll from 'vue-infinite-scroll';
+import VueScrollTo from 'vue-scrollto';
 
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import { store } from './store';
 import router from './router';
-import _store from './store/user';
 import DateFilter from './filters/date';
 import DateTimeFilter from './filters/dateTime';
 import MarkdownFilter from './filters/markdown';
 import ReadTimeFilter from './filters/readTime';
-import AlertCmp from './components/Shared/Alert.vue';
+import DurationFilter from './filters/duration';
 import Banner from './components/Shared/Banner';
-
+import { BACKEND_URL } from './config.js';
 import './registerServiceWorker';
+import '@/interception';
 import 'vue-file-agent/dist/vue-file-agent.css';
+import '@/sass/app.scss';
 
-// TODO: change descripotion text-file to v-textareat with limit words
+axios.defaults.baseURL = BACKEND_URL;
+axios.defaults.headers.get.Accepts = 'application/json';
+axios.defaults.headers.post['Content-Type'] =
+  'application/x-www-form-urlencoded';
+
 // FIXME: Cannot set preselected tab when navigate URL
-// FIXME: Cannot style canvas
-// FIXME: Cannot access lyricWrapper ref
-// FIXME: Play song from dashboard not sync to audioplaylist
-axios.defaults.baseURL = 'http://localhost:3000/api/v1';
-axios.defaults.headers.get.Accepts = 'application/json';
-axios.defaults.headers.post['Content-Type'] =
-  'application/x-www-form-urlencoded';
 
-// TODO: change descripotion text-file to v-textareat with limit words
-axios.defaults.baseURL = 'http://localhost:3000/api/v1';
-axios.defaults.headers.get.Accepts = 'application/json';
-axios.defaults.headers.post['Content-Type'] =
-  'application/x-www-form-urlencoded';
 axios.interceptors.request.use(
   config => {
-    const token = _store.state.accessToken;
+    const token = window.localStorage.getItem('accessToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -68,30 +62,32 @@ axios.interceptors.response.use(
   },
   error => {
     if (error.response.status === 401) {
-      _store.dispatch('signOut');
-      router.push('/signin');
+      window.localStorage.removeItem('accessToken');
+      window.localStorage.removeItem('user');
+      store.dispatch('user/setIsAuthenticated', false);
+      router.push('/signin'); // redirect
       return Promise.reject(error);
     }
 
-    if (error.response.status === 400) {
-      Vue.notify({
-        type: 'error',
-        title: 'Not found resource',
-      });
+    // if (error.response.status === 400) {
+    //   Vue.notify({
+    //     type: 'error',
+    //     title: 'Not found',
+    //   });
 
-      router.push('/stream');
-      return Promise.reject(error);
-    }
+    //   router.push('/stream');
+    //   return Promise.reject(error);
+    // }
 
-    if (error.response.status === 500) {
-      Vue.notify({
-        type: 'error',
-        title: error.response.data.message,
-      });
+    // if (error.response.status === 500) {
+    //   Vue.notify({
+    //     type: 'error',
+    //     text: error.response.data.message,
+    //   });
 
-      router.push('/stream');
-      return Promise.reject(error);
-    }
+    //   router.push('/stream');
+    //   return Promise.reject(error);
+    // }
     return Promise.reject(error);
   },
 );
@@ -101,13 +97,14 @@ Vue.filter('date', DateFilter);
 Vue.filter('dateTime', DateTimeFilter);
 Vue.filter('markdown', MarkdownFilter);
 Vue.filter('readTime', ReadTimeFilter);
+Vue.filter('duration', DurationFilter);
 
-Vue.component('app-alert', AlertCmp);
 Vue.component('app-banner', Banner);
 Vue.component('picture-input', PictureInput);
 
 Vue.use(APlayer, {
-  defaultCover: 'https://github.com/u3u.png',
+  defaultCover:
+    'https://res.cloudinary.com/hongquangraem/image/upload/v1589443283/Coders-Tokyo-Forum/posts/brveajqadnizkighglht.jpg',
   productionTip: true,
 });
 Vue.use(Notifications);
@@ -118,6 +115,7 @@ Vue.use(VueClipboard);
 
 Vue.use(VueFileAgent);
 Vue.use(infiniteScroll);
+Vue.use(VueScrollTo);
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
