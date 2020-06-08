@@ -116,6 +116,7 @@ export default {
         });
         if (response.status === 200) {
           this.content = '';
+          this.$emit('handleWriteComment');
         }
       }
 
@@ -127,6 +128,7 @@ export default {
         });
         if (response.status === 200) {
           this.content = '';
+          this.$emit('handleWriteComment');
         }
       }
     },
