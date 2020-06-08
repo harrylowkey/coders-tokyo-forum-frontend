@@ -73,6 +73,8 @@
 <script>
 import { mapActions } from 'vuex';
 
+import { ROUTES } from '@/mixins/routes';
+
 export default {
   props: {
     customize: {
@@ -83,11 +85,11 @@ export default {
       type: Array,
       default: () => [],
     },
-    author: {
-      type: Object,
+    isFollowing: {
+      type: Boolean,
       required: true,
     },
-    user: {
+    author: {
       type: Object,
       required: true,
     },
@@ -101,7 +103,7 @@ export default {
       usernameWrapper: {
         paddingTop: this.customize ? '4px !important' : 0,
       },
-      userProfileLink: `/users/${this.author.username}`,
+      userProfileLink: ROUTES.USER_PROFILE({ username: this.author.username }),
     };
   },
   methods: {
@@ -112,62 +114,11 @@ export default {
     onClickAvatar() {
       this.$router.push({ path: this.userProfileLink });
     },
-    async onClickFollow() {
-      // eslint-disable-next-line no-use-before-define
-      if (!response) {
-        return this.$router.push({ path: '/signin' });
-      }
-      // eslint-disable-next-line no-underscore-dangle
-      const response = await this.follow(this.author._id);
-      if (!response) {
-        return this.$router.push({ path: '/signin' });
-      }
-      if (response.status === 200) {
-        this.followers.push(this.userId);
-        this.$notify({
-          type: 'success',
-          title: response.data.message,
-        });
-      }
-      if (response.status === 400) {
-        this.$notify({
-          type: 'error',
-          title: response.message,
-        });
-      }
-
-      if (response.status === 401) {
-        this.$router.push({ path: '/signin' });
-      }
+    onClickFollow() {
+      this.$emit('handleFollow');
     },
-    async onClickUnFollow() {
-      // eslint-disable-next-line no-use-before-define
-      if (!response) {
-        this.$router.push({ path: '/signin' });
-      }
-      // eslint-disable-next-line no-underscore-dangle
-      const response = await this.unfollow(this.author._id);
-      if (response.status === 200) {
-        this.followers = this.followers.filter(
-          followerId => followerId !== this.userId,
-        );
-        this.$notify({
-          type: 'success',
-          title: response.data.message,
-        });
-      }
-      if (response.status === 400) {
-        this.$notify({
-          type: 'error',
-          title: response.message,
-        });
-      }
-    },
-  },
-  computed: {
-    isFollowing() {
-      // eslint-disable-next-line no-underscore-dangle
-      return this.author.followers.includes(this.user._id);
+    onClickUnFollow() {
+      this.$emit('handleUnFollow');
     },
   },
 };

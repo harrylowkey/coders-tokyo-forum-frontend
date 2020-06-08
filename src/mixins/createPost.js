@@ -3,6 +3,7 @@ import { extend, setInteractionMode } from 'vee-validate';
 import { required, numeric } from 'vee-validate/dist/rules';
 import { mapActions, mapState } from 'vuex';
 
+import { ROUTES } from '@/mixins/routes';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import CreateTagBlog from '@/components/Shared/CreateTagBlog';
 import ToggleTag from '@/components/Shared/ToggleTag';
@@ -37,7 +38,7 @@ export const createPost = {
       'createPost',
       'uploadFiles',
       'deleteFile',
-      'uploadPhoto',
+      'uploadFile',
     ]),
     handleAddTag(tag) {
       this.data.tags.push(tag);
@@ -53,9 +54,39 @@ export const createPost = {
         return (this.isPreviewing = true);
       }
     },
+    async submit() {
+      if (this.data.cover === '') {
+        this.$notify({
+          type: 'error',
+          title: "Let's upload the banner",
+        });
+        return;
+      }
+
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+      const res = await this.createPost(this.data);
+      if (res.status === 200) {
+        this.$notify({
+          type: 'success',
+          title: 'Success',
+        });
+
+        setTimeout(() => {
+          return this.$router.push({ path: ROUTES.BLOG(res.data._id) });
+        }, 1000);
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: 'error',
+          title: 'Failed',
+          text: res.message,
+        });
+      }
+    },
   },
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading']),
+    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadingUpload']),
     ...mapState('user', ['accessToken', 'user']),
     headers() {
       return {

@@ -24,9 +24,7 @@
           <div class="d-md-none d-lg-flex">
             <v-container class="ml-1 pl-3 book-detail">
               <v-card-text class="pb-2 pt-2">
-                <router-link class="title-link" :to="blogLink">
-                  <p class="title text--primary mb-0 pt-1">{{ book.name }}</p>
-                </router-link>
+                <p class="title text--primary mb-0 pt-1">{{ book.name }}</p>
                 <v-container class="d-flex pl-1 pb-0 pt-2">
                   <p class="key mb-0 mr-3">Status:</p>
                   <p class="value mb-0" :style="calBookStatusColor">
@@ -57,7 +55,7 @@
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Genre:</p>
+                  <p class="key mb-0 mr-3">Genres:</p>
                   <span v-if="slicedGenres">
                     <v-chip
                       label
@@ -67,7 +65,7 @@
                       style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
                       v-for="genre in slicedGenres"
                       :key="genre._id"
-                      class="mr-1"
+                      class="mr-1 mb-2"
                     >
                       {{ genre }}
                     </v-chip>
@@ -135,7 +133,7 @@
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Genre:</p>
+                    <p class="key mb-0 mr-3">Genres:</p>
                     <span v-if="slicedGenres">
                       <v-chip
                         label
@@ -145,7 +143,7 @@
                         style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
                         v-for="genre in slicedGenres"
                         :key="genre._id"
-                        class="mr-1"
+                        class="mr-1 mb-2"
                       >
                         {{ genre }}
                       </v-chip>
@@ -183,15 +181,18 @@
 
       <v-list-item three-line style="padding: 0 25px 0 20px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-          <router-link class="title-link" :to="blogLink">
+          <a
+            style="width: 80%;overflow: hidden;text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
+            @click="linkToBlog"
+          >
             <v-list-item-title class="headline book-title mb-0 mt-3">
               {{ topic }}
             </v-list-item-title>
-          </router-link>
+          </a>
           <p class="description mb-0 pt-2">{{ description || content }}</p>
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
-              <a style=" text-decoration: none" :href="linkToBlog">
+              <a style=" text-decoration: none" @click="linkToBlog">
                 Read more...
               </a>
             </span>
@@ -203,8 +204,8 @@
           </div>
         </v-list-item-content>
         <user-avatar
-          :src="user.avatar.secureURL"
-          :username="user.username"
+          :src="author.avatar.secureURL"
+          :username="author.username"
           style="padding-bottom: 7px;"
         />
       </v-list-item>
@@ -230,10 +231,20 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="likes.length" />
+              <like-btn
+                @handleLikePost="onClickLikePost"
+                @handleUnlikePost="onClickUnlikePost"
+                :isUserLiked="isUserLiked"
+                :likes="likes.length"
+                :postId="_id"
+              />
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :comments="comments.length" />
+              <comment-btn
+                :type="type"
+                :postId="_id"
+                :comments="totalComments"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -250,9 +261,11 @@ import Tag from '@/components/Shared/Tag';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import { bookDescription } from '@/mixins/bookDescription';
 import ReadTime from '@/components/Shared/readTime';
+import { ROUTES } from '@/mixins/routes';
+import { toggleLike } from '@/mixins/toggleLike';
 
 export default {
-  mixins: [bookDescription],
+  mixins: [bookDescription, toggleLike],
   props: {
     _id: {
       type: String,
@@ -278,7 +291,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    user: {
+    author: {
       type: Object,
       default: () => ({}),
     },
@@ -328,13 +341,23 @@ export default {
   },
   data() {
     return {
-      // eslint-disable-next-line no-underscore-dangle
-      blogLink: `/bookReviews/${this._id}?type=${this.type}`,
+      blogLink: ROUTES.BOOK_REVIEWS(this._id),
     };
   },
   methods: {
     linkToBlog() {
       this.$router.push({ path: this.blogLink });
+    },
+  },
+  computed: {
+    totalComments() {
+      let counter = 0;
+      counter += this.comments.length;
+      this.comments.map(comment => {
+        counter += comment.childComments.length;
+        return counter;
+      });
+      return counter;
     },
   },
 };
@@ -347,7 +370,7 @@ export default {
 .book-title {
   text-align: left;
   white-space: initial;
-  line-height: 1.1;
+  line-height: 1.25;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   display: -webkit-box;

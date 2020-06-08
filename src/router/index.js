@@ -2,12 +2,14 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import AuthGuard from './auth-guard';
-
+const SimpleLayout = () => import('@/components/Layout/SimpleLayout');
+const FullLayout = () => import('@/components/Layout/FullLayout');
 const SignIn = () => import('@/components/Auth/Signin');
 const SignUp = () => import('@/components/Auth/Signup');
+const ForgotPassword = () => import('@/components/Auth/ForgotPassword');
 const Profile = () => import('@/components/User/Profile');
-const Stream = () => import('@/components/Stream/Stream');
+const Home = () => import('@/components/Stream/Stream');
+const SearchTag = () => import('@/components/Tag/SearchTag');
 const CreatePost = () => import('@/components/Post/CreatePost');
 const CreateDiscussion = () =>
   import('@/components/Post/Discussion/CreateDiscussion');
@@ -38,165 +40,158 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/signin',
-    component: SignIn,
-  },
-  {
-    path: '/signup',
-    component: SignUp,
+    path: '/',
+    name: 'Home',
+    component: FullLayout,
+    children: [
+      {
+        path: 'stream',
+        name: 'Stream',
+        component: Home,
+      },
+      {
+        path: 'blogs/:id',
+        name: 'blogDetails',
+        component: BlogDetails,
+      },
+      {
+        path: 'users/profile/:username',
+        name: 'profile',
+        component: Profile,
+      },
+      {
+        path: 'bookReviews/:id',
+        name: 'bookDetails',
+        component: BookDetails,
+      },
+      {
+        path: 'movieReviews/:id',
+        name: 'movieDetails',
+        component: MovieDetails,
+      },
+      {
+        path: 'foodReviews/:id',
+        name: 'foodDetails',
+        component: FoodDetails,
+      },
+      {
+        path: 'songs/:id',
+        name: 'songDetails',
+        component: SongDetails,
+      },
+      {
+        path: 'podcasts/:id',
+        name: 'podcastDetails',
+        component: PodcastDetails,
+      },
+      {
+        path: 'discussions/:id',
+        name: 'discussionDetails',
+        component: DiscussionDetails,
+      },
+    ],
   },
   {
     path: '/',
-    component: Stream,
+    component: SimpleLayout,
+    children: [
+      {
+        path: 'signin',
+        name: 'Login',
+        component: SignIn,
+      },
+      {
+        path: 'signup',
+        name: 'Register',
+        component: SignUp,
+      },
+      {
+        path: 'forgotPassword',
+        name: 'ResetPassword',
+        component: ForgotPassword,
+      },
+    ],
   },
   {
-    path: '/stream',
-    name: 'stream',
-    component: Stream,
-  },
-  {
-    path: '/writePost',
-    component: CreatePost,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/writePost/discussion',
-    component: CreateDiscussion,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/writePost/blog',
-    component: CreateBlog,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/writePost/bookReview',
-    component: CreateBookReview,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/writePost/movieReview',
-    component: CreateMovieReview,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/writePost/foodReview',
-    component: CreateFoodReview,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/writePost/song',
-    component: CreateAudio,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/writePost/podcast',
-    component: CreateAudio,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/stream#discussions',
-    component: Stream,
-  },
-  {
-    path: '/stream#songs',
-    component: Stream,
-  },
-  {
-    path: '/stream#podcasts',
-    component: Stream,
-  },
-  {
-    path: '/stream#foodReviews',
-    component: Stream,
-  },
-  {
-    path: '/stream#movieReviews',
-    component: Stream,
-  },
-  {
-    path: '/stream#bookReviews',
-    component: Stream,
-  },
-  {
-    path: '/stream#blogs',
-    component: Stream,
-  },
-  {
-    path: '/profile',
-    name: 'profile',
-    component: Profile,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/discussions/:id',
-    name: 'discussionDetails',
-    component: DiscussionDetails,
-  },
-  {
-    path: '/blogs/:id',
-    name: 'blogDetails',
-    component: BlogDetails,
-  },
-  {
-    path: '/bookReviews/:id',
-    name: 'bookDetails',
-    component: BookDetails,
-  },
-  {
-    path: '/movieReviews/:id',
-    name: 'movieDetails',
-    component: MovieDetails,
-  },
-  {
-    path: '/foodReviews/:id',
-    name: 'foodDetails',
-    component: FoodDetails,
-  },
-  {
-    path: '/songs/:id',
-    name: 'songDetails',
-    component: SongDetails,
-  },
-  {
-    path: '/podcasts/:id',
-    name: 'podcastDetails',
-    component: PodcastDetails,
-  },
-  {
-    path: '/edit/audio/:postId',
-    name: 'editAudio',
-    component: EditAudio,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/edit/discussion/:postId',
-    name: 'editDiscussion',
-    component: EditDiscussion,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/edit/blog/:postId',
-    name: 'editBlog',
-    component: EditBlog,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/edit/book/:postId',
-    name: 'editBook',
-    component: EditBook,
-  },
-  {
-    path: '/edit/movie/:postId',
-    name: 'editMovie',
-    component: EditMovie,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: '/edit/food/:postId',
-    name: 'editFood',
-    component: EditFood,
-    beforeEnter: AuthGuard,
+    path: '/',
+    component: FullLayout,
+    meta: {
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: 'writePost',
+        component: CreatePost,
+      },
+      {
+        path: 'writePost/discussion',
+        component: CreateDiscussion,
+      },
+      {
+        path: 'writePost/blog',
+        component: CreateBlog,
+      },
+      {
+        path: 'writePost/bookReview',
+        component: CreateBookReview,
+      },
+      {
+        path: 'writePost/movieReview',
+        component: CreateMovieReview,
+      },
+      {
+        path: 'writePost/foodReview',
+        component: CreateFoodReview,
+      },
+      {
+        path: 'writePost/song',
+        component: CreateAudio,
+      },
+      {
+        path: 'writePost/podcast',
+        component: CreateAudio,
+      },
+      {
+        path: 'edit/podcast/:id',
+        name: 'editPodcast',
+        component: EditAudio,
+      },
+      {
+        path: 'edit/song/:id',
+        name: 'editSong',
+        component: EditAudio,
+      },
+      {
+        path: 'edit/discussion/:id',
+        name: 'editDiscussion',
+        component: EditDiscussion,
+      },
+      {
+        path: 'edit/blog/:id',
+        name: 'editBlog',
+        component: EditBlog,
+      },
+      {
+        path: 'edit/book/:id',
+        name: 'editBook',
+        component: EditBook,
+      },
+      {
+        path: 'edit/movie/:id',
+        name: 'editMovie',
+        component: EditMovie,
+      },
+      {
+        path: 'edit/food/:id',
+        name: 'editFood',
+        component: EditFood,
+      },
+      {
+        path: 'posts/tags',
+        name: 'Tag',
+        component: SearchTag,
+      },
+    ],
   },
 ];
 

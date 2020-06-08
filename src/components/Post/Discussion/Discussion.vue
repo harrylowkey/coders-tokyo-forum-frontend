@@ -1,21 +1,23 @@
 <template>
   <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
     <v-card class="mx-auto mt-6" :elevation="hover ? 10 : 3">
-      <v-list-item three-line style="padding: 0px 25px 0 20px">
+      <v-list-item three-line style="padding: 0px 25px 0 20px; height: 150px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-          <router-link class="title-link" :to="discussionLink">
-            <v-list-item-title class="headline discuss-title mb-0 pt-3">
-              {{ topic }}
-            </v-list-item-title>
-          </router-link>
-          <v-list-item-subtitle
-            style="line-height: 1.4;"
-            class="mt-lg-n9 pt-lg-10"
+          <a
+            class="discuss-title"
+            style="width: 80%;  overflow: hidden;text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
+            @click="$router.push({ path: discussionLink })"
           >
+            {{ topic }}
+          </a>
+          <v-list-item-subtitle style="line-height: 1.4;" class="mt-lg-n9">
             {{ content }}
           </v-list-item-subtitle>
         </v-list-item-content>
-        <user-avatar :src="user.avatar.secureURL" :username="user.username" />
+        <user-avatar
+          :src="author.avatar.secureURL"
+          :username="author.username"
+        />
       </v-list-item>
 
       <v-card-actions style="padding: 0 25px 0 6px" class="pb-1 pb-lg-2">
@@ -39,10 +41,20 @@
               xl="2"
               offset-xl="5"
             >
-              <like-btn :likes="likes.length" />
+              <like-btn
+                @handleLikePost="onClickLikePost"
+                @handleUnlikePost="onClickUnlikePost"
+                :isUserLiked="isUserLiked"
+                :likes="likes.length"
+                :postId="_id"
+              />
             </v-col>
             <v-col class="pa-lg-0">
-              <comment-btn :comments="comments.length" />
+              <comment-btn
+                :type="type"
+                :postId="_id"
+                :comments="totalComments"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -57,18 +69,17 @@ import LikeBtn from '@/components/Shared/LikeButton';
 import CommentBtn from '@/components/Shared/CommentButton';
 import Tag from '@/components/Shared/Tag';
 import UserAvatar from '@/components/Shared/UserAvatar';
+import { ROUTES } from '@/mixins/routes';
+import { toggleLike } from '@/mixins/toggleLike';
 
 export default {
+  mixins: [toggleLike],
   props: {
     _id: {
       type: String,
       required: true,
     },
     tags: {
-      type: Array,
-      default: () => [],
-    },
-    commments: {
       type: Array,
       default: () => [],
     },
@@ -84,7 +95,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    user: {
+    author: {
       type: Object,
       default: () => ({}),
     },
@@ -115,16 +126,25 @@ export default {
   },
   data() {
     return {
-      // eslint-disable-next-line no-underscore-dangle
-      discussionLink: `/discussions/${this._id}?type=${this.type}`,
+      discussionLink: ROUTES.DISCUSSION(this._id),
     };
   },
-  methods: {},
   components: {
     Tag,
     LikeBtn,
     CommentBtn,
     UserAvatar,
+  },
+  computed: {
+    totalComments() {
+      let counter = 0;
+      counter += this.comments.length;
+      this.comments.map(comment => {
+        counter += comment.childComments.length;
+        return counter;
+      });
+      return counter;
+    },
   },
 };
 </script>
@@ -133,10 +153,15 @@ export default {
 .discuss-title {
   text-align: left;
   white-space: initial;
-  line-height: 1.1;
+  line-height: 1.25;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   display: -webkit-box;
+  font-size: 1.5rem !important;
+  font-weight: 400;
+  line-height: 2rem;
+  letter-spacing: normal !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 .title-link {
@@ -161,5 +186,15 @@ export default {
   top: 10px;
   left: 22px;
   font-size: 12px;
+}
+
+.discuss-title {
+  text-align: left;
+  white-space: initial;
+  line-height: 1.25;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  cursor: pointer;
 }
 </style>

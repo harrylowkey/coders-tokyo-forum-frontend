@@ -1,12 +1,19 @@
 <template>
-  <v-container v-if="!isLoading" style="padding: 0 !important">
-    <v-card color="basil" style="width: 67%">
+  <v-container style="padding: 0 !important">
+    <v-card
+      color="basil"
+      :style="
+        type === 'writePost' || type === 'profile'
+          ? 'width: 100%'
+          : 'width: 67%'
+      "
+    >
       <v-toolbar dense>
         <v-tabs grow v-model="preSelectedPage">
           <v-tab key="discussions" @click="setActivePage('discussions')">
             Discussions
           </v-tab>
-          <v-divider vertical inset></v-divider>
+          <v-divider vertical inset />
           <v-tab key="blogs" @click="setActivePage('blogs')">Blogs</v-tab>
           <v-divider vertical inset>A</v-divider>
           <v-menu key="reviews" offset-y open-on-hover>
@@ -55,14 +62,23 @@
 <script>
 import { mapState } from 'vuex';
 
+import { ROUTES } from '@/mixins/routes';
+
 export default {
-  props: ['selectedPage', 'type'],
+  props: {
+    type: {
+      type: String,
+      required: true,
+    },
+    selectedPage: {
+      type: String,
+      default: 'discussions',
+    },
+  },
   data() {
     return {
       preSelectedPage: null,
       pages: ['Discussions', 'Blogs', 'Reviews', 'Audios'],
-      text:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       reviewMenus: [
         { menu: 'Book Reviews', category: 'bookReviews', icon: 'menu_book' },
         {
@@ -93,16 +109,18 @@ export default {
       this.$emit('setActivePage', { page });
 
       if (this.type === 'writePost') {
-        const currentPage = this.$route.path + this.$route.hash;
-        const targetPage = `/writePost#${page.slice(0, page.length - 1)}`;
-        if (currentPage === targetPage) return;
-        this.$router.replace({ path: targetPage });
+        const currentPath = this.$route.path + this.$route.hash;
+        const targetPath = ROUTES.WRITE_POST(
+          `#${page.slice(0, page.length - 1)}`,
+        );
+        if (currentPath === targetPath) return;
+        this.$router.replace({ path: targetPath });
       }
       if (this.type === 'stream') {
-        const currentPage = this.$route.path + this.$route.hash;
-        const targetPage = `/stream#${page}`;
-        if (currentPage === targetPage) return;
-        this.$router.replace({ path: targetPage });
+        const currentPath = this.$route.path + this.$route.hash;
+        const targetPath = ROUTES.STREAM(`#${page}`);
+        if (currentPath === targetPath) return;
+        this.$router.replace({ path: targetPath });
       }
     },
   },

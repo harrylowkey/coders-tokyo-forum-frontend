@@ -11,36 +11,23 @@
           md="8"
           lg="8"
           xl="8"
-          offset-sm="2"
-          offset-md="2"
-          offset-lg="2"
-          offset-xl="2"
+          offset-sm="1"
+          offset-md="1"
+          offset-lg="1"
+          offset-xl="1"
           class="pt-0"
         >
-          <div class="pt-6">
-            <app-alert v-if="alert" :alertMessage="alertMessage" />
+          <div class="pt-6" v-if="!isLoading">
             <ValidationObserver ref="observer">
               <v-form>
-                <v-alert
-                  v-if="alert"
-                  id="alert"
-                  type="warning"
-                  border="left"
-                  transition="slide-x-reverse-transition"
-                  dismissible
-                >
-                  {{ alertMessage }}
-                </v-alert>
                 <v-card class="d-flex py-3 pt-0">
                   <v-row>
                     <v-col cols="4" offset-sm="4" class="py-1">
                       <div class="d-flex flex-column align-center">
                         <user-avatar
-                          :src="
-                            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'
-                          "
-                          :username="user.username"
-                          style="height: 130px;"
+                          :src="post.user.avatar.secureURL"
+                          :username="post.user.username"
+                          style="height: 130px"
                         />
                       </div>
                     </v-col>
@@ -52,15 +39,15 @@
                       <div class="d-flex ml-7">
                         <div class="d-flex" />
                         <toggle-tag
-                          v-for="(tag, i) in tags"
+                          v-for="(tag, i) in post.tags"
                           :key="i"
                           :tagName="tag"
                           @handleRemoveTag="handleRemoveTag(i)"
                         />
                         <create-tag-blog
-                          v-if="tags.length < 3"
+                          v-if="post.tags.length < 3"
                           @handleAddTag="handleAddTag"
-                          :tags="tags"
+                          :tags="post.tags"
                         />
                       </div>
                     </v-col>
@@ -72,14 +59,13 @@
                               <v-col cols="12" class="pa-0">
                                 <my-upload
                                   class="pt-0"
-                                  v-model="uploadBanner"
-                                  field="img"
-                                  @crop-success="cropSuccess"
+                                  v-model="isUploadBanner"
+                                  field="cover"
                                   @crop-upload-success="cropUploadSuccess"
                                   @crop-upload-fail="cropUploadFail"
+                                  :url="APIS.UPLOAD_BANNER"
                                   :width="880"
                                   :height="450"
-                                  :params="params"
                                   :headers="headers"
                                   img-format="jpg"
                                   langType="en"
@@ -93,10 +79,12 @@
                                   <v-img
                                     max-width="650"
                                     max-height="250"
-                                    :src="post.cover.secureURL"
+                                    :src="
+                                      newCover.secureURL || post.cover.secureURL
+                                    "
                                   />
                                   <v-chip
-                                    @click="uploadBanner = !uploadBanner"
+                                    @click="isUploadBanner = !isUploadBanner"
                                     style="cursor: pointer"
                                     text-color="#fff"
                                     class="ma-2 mr-12 update-banner-btn"
@@ -118,7 +106,6 @@
                                 >
                                   <v-text-field
                                     v-model="post.topic"
-                                    :change="(dataUpdate.topic = post.topic)"
                                     :error-messages="errors"
                                     label="Topic*"
                                     required
@@ -126,14 +113,11 @@
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12">
-                                <v-text-field
+                                <v-textarea
                                   label="Description"
                                   persistent-hint
                                   rows="3"
                                   v-model="post.description"
-                                  @change="
-                                    dataUpdate.description = post.description
-                                  "
                                   hint="Write description to attract people at the first glance"
                                 />
                               </v-col>
@@ -149,7 +133,6 @@
                                     rows="15"
                                     required
                                     v-model="post.content"
-                                    @change="dataUpdate.content = post.content"
                                     placeholder="Markdown"
                                     :error-messages="errors"
                                   />
@@ -173,7 +156,9 @@
                                     />
                                     <v-spacer />
                                     <div class="d-flex justify-end">
-                                      <span class="signature">hong_quang</span>
+                                      <span class="signature">
+                                        {{ user.username }}
+                                      </span>
                                     </div>
                                   </v-card>
                                 </v-dialog>
@@ -184,17 +169,17 @@
                         <v-card-actions class="pt-0">
                           <v-spacer />
                           <v-btn
-                            class="mr-5"
+                            class="mr-5 white--text"
                             color="primary"
+                            darkz
                             @click="togglePreviewContent"
-                            dark
                           >
                             Preview
                           </v-btn>
                           <v-btn
-                            class="mr-5"
+                            class="white--text"
+                            :disabled="isLoadingUpload"
                             color="warning"
-                            dark
                             @click="submit"
                           >
                             Update
@@ -208,330 +193,104 @@
             </ValidationObserver>
           </div>
         </v-col>
+        <v-col
+          sm="3"
+          md="3"
+          lg="3"
+          xl="3"
+          class="mt-12"
+          style="position: relative"
+        >
+          <tips />
+        </v-col>
       </v-row>
     </v-container>
   </v-container>
 </template>
 
 <script>
-import myUpload from 'vue-image-crop-upload';
-import VueUploadMultipleImage from 'vue-upload-multiple-image';
-import { extend, setInteractionMode } from 'vee-validate';
-import { required } from 'vee-validate/dist/rules';
+import { mapActions } from 'vuex';
 
-import { updateBanner } from '@/mixins/updateBanner';
-import CreateTag from '@/components/Shared/CreateTag';
-import UserAvatar from '@/components/Shared/UserAvatar';
-import ToggleTag from '@/components/Shared/ToggleTag';
-import CreateTagBlog from '@/components/Shared/CreateTagBlog';
-
-setInteractionMode('eager');
-extend('required', {
-  ...required,
-  message: '{_field_} is required',
-});
+import { editPost } from '@/mixins/editPost';
+import { APIS } from '@/mixins/api-endpoints';
+import Tips from '@/components/Shared/Tips';
 
 export default {
-  mixins: [updateBanner],
+  mixins: [editPost],
   components: {
-    CreateTagBlog,
-    UserAvatar,
-    // eslint-disable-next-line vue/no-unused-components
-    CreateTag,
-    myUpload,
-    ToggleTag,
-    // eslint-disable-next-line vue/no-unused-components
-    VueUploadMultipleImage,
+    Tips,
   },
   data() {
     return {
-      alert: false,
-      alertMessage: '',
-      user: {
-        username: 'hong_quang',
-      },
-      tags: [],
-      uploadBanner: false,
-      params: {
-        token: '123456798',
-        name: 'avatar',
-      },
-      headers: {
-        smail: '*_~',
-      },
-      uploadUrl: 'https://www.mocky.io/v2/5d4fb20b3000005c111099e3',
-      uploadHeaders: { 'X-Test-Header': 'vue-file-agent' },
-      post: {
-        _id: '5e9ab00f0591fb40fc87faa2',
-        tags: [
-          {
-            _id: '5e8ddf319ac8ee2dd68b1cd7',
-            tagName: 'coercion',
-          },
-          {
-            _id: '5e8cb5562ded8236f29fc885',
-            tagName: 'nhatanh',
-          },
-        ],
-        comments: [
-          {
-            _id: '5ea04ece861ec016ab4e7280',
-            childComments: [
-              {
-                _id: '5ea08f6d14328169d8422a42',
-                content:
-                  '#reply thread \n\nWhy Markdown?\n [Marked] lets you convert [Markdown] into HTML\n\n[Marked]: https://github.com/markedjs/marked/\n[Markdown]: http://daringfireball.net/projects/markdown/\n',
-                user: {
-                  _id: '5e8b577f1a2dde32298795f4',
-                  username: 'hongquang',
-                  job: 'developer',
-                },
-                parentId: '5ea08ee8467cac6969fe223d',
-                replyToComment: {
-                  _id: '5ea04ece861ec016ab4e7280',
-                  user: {
-                    _id: '5e8b577f1a2dde32298795f4',
-                    username: 'nhat_anh',
-                  },
-                },
-                createdAt: '2020-04-22T18:39:41.982Z',
-              },
-              {
-                _id: '5ea08f6073749769b53fd952',
-                content: 'reply thread',
-                user: {
-                  _id: '5e8b577f1a2dde32298795f4',
-                  username: 'hongquang',
-                  job: 'developer',
-                },
-                parentId: '5ea08ee8467cac6969fe223d',
-                replyToComment: {
-                  _id: '5ea04ece861ec016ab4e7280',
-                  user: {
-                    _id: '5e8b577f1a2dde32298795f4',
-                    username: 'nhat_anh',
-                  },
-                },
-                createdAt: '2020-04-22T18:39:28.963Z',
-              },
-              {
-                _id: '5ea08f0a467cac6969fe223f',
-                content: 'replycomment',
-                user: {
-                  _id: '5e8b577f1a2dde32298795f4',
-                  username: 'thanh_ton',
-                  job: 'developer',
-                },
-                parentId: '5ea08ee8467cac6969fe223d',
-                replyToComment: {
-                  _id: '5ea08f6073749769b53fd952',
-                  user: {
-                    _id: '5e8b577f1a2dde32298795f4',
-                    username: 'hongquang',
-                  },
-                },
-                createdAt: '2020-04-22T18:38:02.161Z',
-              },
-              {
-                _id: '5ea08efc467cac6969fe223e',
-                content: 'replycomment',
-                user: {
-                  _id: '5e8b577f1a2dde32298795f4',
-                  username: 'hongquang',
-                  job: 'developer',
-                },
-                parentId: '5ea08ee8467cac6969fe223d',
-                replyToComment: {
-                  _id: '5ea08ee8467cac6969fe223d',
-                  user: {
-                    _id: '5e8b577f1a2dde32298795f4',
-                    username: 'hongquang',
-                  },
-                },
-                createdAt: '2020-04-22T18:37:48.322Z',
-              },
-              {
-                _id: '5ea08f6d14328169d8422a42',
-                content: 'reply thread',
-                user: {
-                  _id: '5e8b577f1a2dde32298795f4',
-                  username: 'hongquang',
-                  job: 'dev',
-                },
-                parentId: '5ea08ee8467cac6969fe223d',
-                replyToComment: {
-                  _id: '5ea08f0a467cac6969fe223f',
-                  user: {
-                    _id: '5e8b577f1a2dde32298795f4',
-                    username: 'hongquang',
-                  },
-                },
-                createdAt: '2020-04-22T18:39:41.982Z',
-              },
-              {
-                _id: '5ea08f6073749769b53fd952',
-                content: 'reply thread',
-                user: {
-                  _id: '5e8b577f1a2dde32298795f4',
-                  username: 'hongquang',
-                  job: 'developer',
-                },
-                parentId: '5ea08ee8467cac6969fe223d',
-                replyToComment: {
-                  _id: '5ea08f0a467cac6969fe223f',
-                  user: {
-                    _id: '5e8b577f1a2dde32298795f4',
-                    username: 'hongquang',
-                  },
-                },
-                createdAt: '2020-04-22T18:39:28.963Z',
-              },
-              {
-                _id: '5ea08f0a467cac6969fe223f',
-                content: 'replycomment',
-                user: {
-                  _id: '5e8b577f1a2dde32298795f4',
-                  username: 'hongquang',
-                  job: 'developer',
-                },
-                parentId: '5ea08ee8467cac6969fe223d',
-                replyToComment: {
-                  _id: '5ea08ee8467cac6969fe223d',
-                  user: {
-                    _id: '5e8b577f1a2dde32298795f4',
-                    username: 'hongquang',
-                  },
-                },
-                createdAt: '2020-04-22T18:38:02.161Z',
-              },
-              {
-                _id: '5ea08efc467cac6969fe223e',
-                content: 'replycomment',
-                user: {
-                  _id: '5e8b577f1a2dde32298795f4',
-                  username: 'hongquang',
-                  job: 'developer',
-                },
-                parentId: '5ea08ee8467cac6969fe223d',
-                replyToComment: {
-                  _id: '5ea08ee8467cac6969fe223d',
-                  user: {
-                    _id: '5e8b577f1a2dde32298795f4',
-                    username: 'hongquang',
-                  },
-                },
-                createdAt: '2020-04-22T18:37:48.322Z',
-              },
-            ],
-            postId: '5e9ecbe865e89626b7a4fd27',
-            content:
-              'Lorem, ipsum dolor sit amet consectetur adipisicing elit. A eveniet nisi atque suscipit, magni quia placeat eaque, quisquam eos dolores voluptatibus, quasi pariatur expedita minima quidem quibusdam odio. Iure, esse.',
-            user: {
-              _id: '5e8b577f1a2dde32298795f4',
-              username: 'nhat_anh',
-              job: 'Developer',
-            },
-            parentId: null,
-            createdAt: '2020-04-22T14:03:58.083Z',
-            updatedAt: '2020-04-22T14:21:50.493Z',
-          },
-          {
-            _id: '5ea04eca861ec016ab4e727f',
-            childComments: [],
-            postId: '5e9ecbe865e89626b7a4fd27',
-            content: 'comment2',
-            user: {
-              _id: '5e8b577f1a2dde32298795f4',
-              username: 'thanh_ton',
-              job: 'Developer',
-            },
-            parentId: null,
-            createdAt: '2020-04-22T14:03:54.429Z',
-            updatedAt: '2020-04-22T14:03:54.429Z',
-          },
-          {
-            _id: '5ea04ec4861ec016ab4e727e',
-            childComments: [],
-            postId: '5e9ecbe865e89626b7a4fd27',
-            content: 'comment1',
-            user: {
-              _id: '5e8b577f1a2dde32298795f4',
-              username: 'thanh_ton',
-              job: 'Developer',
-            },
-            parentId: null,
-            createdAt: '2020-04-22T14:03:48.372Z',
-            updatedAt: '2020-04-22T14:03:48.372Z',
-          },
-        ],
-        likes: [],
-        savedBy: [],
-        user: {
-          _id: '5e8b577f1a2dde3229879524',
-          username: 'nhat_anh',
-          job: 'Developer',
-        },
-        topic: 'Bạn chưa hiểu JavaScript đâu kỳ 2 - Coercion',
-        description:
-          'Tại sao mọi người lại  thích rời khỏi nhà và vác ba lô đi khắp thế giới đến như vậy ? Lý do thì muôn trùng không thể đếm xuể. Đôi khi lý do cũng rất khác biệt. Nhưng hãy xem 10 lý do mà tôi liệt kê dưới đây,để xem cái nào đúng nhất với bạn nhé.',
-        content:
-          "[Marked] lets you convert [Markdown] into HTML.  Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML.  This demo page will let you type anything you like and see how it gets converted.  Live.  No more waiting around.\n\nHow To Use The Demo\n-------------------\n\n1. Type in stuff on the left.\n2. See the live updates on the right.\n\nThat's it.  Pretty simple.  There's also a drop-down option in the upper right to switch between various views:\n\n- **Preview:**  A live display of the generated HTML as it would render in a browser.\n- **HTML Source:**  The generated HTML before your browser makes it pretty.\n- **Lexer Data:**  What [marked] uses internally, in case you like gory stuff like this.\n- **Quick Reference:**  A brief run-down of how to format things using markdown.\n\nWhy Markdown?\n-------------\n\nIt's easy.  It's not overly bloated, unlike HTML.  Also, as the creator of [markdown] says,\n\n> The overriding design goal for Markdown's\n> formatting syntax is to make it as readable\n> as possible. The idea is that a\n> Markdown-formatted document should be\n> publishable as-is, as plain text, without\n> looking like it's been marked up with tags\n> or formatting instructions.\n\nReady to start writing?  Either start changing stuff on the left or\n[clear everything](/demo/?text=) with a simple click.\n\n[Marked]: https://github.com/markedjs/marked/\n[Markdown]: http://daringfireball.net/projects/markdown/\n",
-        type: 'blog',
-        cover: {
-          _id: '5e9ab00f0591fb40fc87faa3',
-          secureURL:
-            'https://res.cloudinary.com/hongquangraem/image/upload/v1587195917/Coders-Tokyo-Forum/posts/javascript.png.png',
-          publicId: 'Coders-Tokyo-Forum/posts/javascript.png',
-          fileName: 'javascript.png',
-          sizeBytes: 316358,
-          userId: '5e8b577f1a2dde32298795f4',
-          postId: '5e9ab00f0591fb40fc87faa2',
-          resourceType: 'image',
-          createdAt: '2020-04-18T07:45:19.838Z',
-          updatedAt: '2020-04-18T07:45:19.838Z',
-          __v: 0,
-        },
-        createdAt: '2020-04-18T07:45:19.846Z',
-        updatedAt: '2020-04-18T07:45:19.846Z',
-        metadata: {
-          likes: 0,
-          comments: 6,
-          saves: 0,
-          comment: {
-            page: 1,
-            pageSize: 5,
-            totalPage: 2,
-            totalRecords: 6,
-          },
-        },
-      },
-      dataUpdate: {},
+      post: null,
       isPreviewing: false,
+      newCover: '',
     };
   },
-  computed: {},
-  created() {
-    this.tags = this.post.tags.map(tag => tag.tagName);
-  },
   methods: {
-    handleAddTag(tag) {
-      this.tags.push(tag);
+    ...mapActions('post', ['getPostById']),
+    async fetchPost() {
+      this.getPostById({
+        id: this.$route.params.id,
+        typeQuery: this.$route.query.type,
+      }).then(data => {
+        this.post = data;
+        this.post.tags = this.post.tags.map(tag => tag.tagName);
+      });
     },
-    handleRemoveTag(tagIndex) {
-      this.tags.splice(tagIndex, 1);
-    },
-    togglePreviewContent() {
-      if (this.isPreviewing) {
-        return (this.isPreviewing = false);
+    async submit() {
+      if (this.newCover) {
+        this.post.cover = this.newCover;
       }
-      if (!this.isPreviewing && this.post.content.trim() !== '') {
-        return (this.isPreviewing = true);
+      if (this.post.cover === '') {
+        this.$notify({
+          type: 'error',
+          title: 'Error!',
+          text: "Let's upload the banner",
+        });
+        return;
+      }
+
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+
+      const dataUpdate = {
+        topic: this.post.topic,
+        content: this.post.content,
+        description: this.post.description,
+        tags: this.post.tags,
+        type: this.post.type,
+        cover: this.post.cover,
+      };
+
+      const res = await this.editPost({ _id: this.post._id, data: dataUpdate });
+      if (res.status === 200) {
+        this.$notify({
+          type: 'success',
+          title: 'Success!',
+          text: 'Update success',
+        });
+
+        if (this.newCover._id) {
+          this.deleteFile({ fileId: this.oldCover._id });
+        }
+        return this.$router.push({
+          path: `/${this.post.type}s/${this.post._id}?type=${this.post.type}`,
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: 'error',
+          title: 'Error!',
+          text: res.message,
+        });
+        this.deleteFile({ fileId: this.newCover._id });
       }
     },
-    submit() {
-      this.dataUpdate.tags = this.tags;
-      this.$refs.observer.validate();
-    },
+  },
+  async created() {
+    this.APIS = APIS;
+    await this.fetchPost();
   },
 };
 </script>
@@ -601,13 +360,6 @@ a {
   color: #42b983;
 }
 
-#alert {
-  position: fixed;
-  top: 65px;
-  right: 0;
-  z-index: 1;
-}
-
 .banner {
   width: 210px;
   height: 210px;
@@ -618,7 +370,7 @@ a {
 
 .update-banner-btn {
   position: absolute;
-  top: 17.4%;
+  top: 25.4%;
   opacity: 0.9;
 }
 

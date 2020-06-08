@@ -3,10 +3,9 @@ export const userSocialLinks = {
     socialLinks() {
       const userSocialLinks = this.post
         ? this.post.user.socialLinks
-        : this.user.socialLinks;
+        : this.author.socialLinks;
       const links = userSocialLinks.map(link => {
         const obj = {
-          // eslint-disable-next-line no-underscore-dangle
           _id: link._id,
           url: link.url,
           type: link.type,

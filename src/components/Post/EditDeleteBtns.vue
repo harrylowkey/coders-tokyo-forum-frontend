@@ -1,6 +1,9 @@
 <template>
   <div>
-    <router-link class="edit-btn" :to="`/edit/${postType}/${postId}`">
+    <router-link
+      class="edit-btn"
+      :to="`/edit/${postType}/${postId}?type=${postType}`"
+    >
       <v-btn class="mr-3" x-small color="info">Edit</v-btn>
     </router-link>
     <v-btn x-small color="error" @click="dialogDeletePost = true">Delete</v-btn>
@@ -12,7 +15,7 @@
     >
       <v-card>
         <v-card-title class="headline">
-          Are you sure to delete this blog?
+          Are you sure to delete this post?
         </v-card-title>
         <v-card-text>
           You can not restore it after deleting, so let's make sure before
@@ -38,16 +41,22 @@
 
 <script>
 export default {
-  props: ['postId', 'postType'],
+  props: {
+    postId: {
+      type: String,
+      required: true,
+    },
+    postType: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       dialogDeletePost: false,
     };
   },
   methods: {
-    onClickEdit() {
-      this.$emit('handleEditPost');
-    },
     onClickDelete() {
       this.dialogDeletePost = false;
       this.$emit('handleDeletePost');

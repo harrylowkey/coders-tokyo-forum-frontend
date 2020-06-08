@@ -29,7 +29,12 @@
 import { mapActions } from 'vuex';
 
 export default {
-  props: ['description'],
+  props: {
+    description: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       isEdit: false,
@@ -50,5 +55,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

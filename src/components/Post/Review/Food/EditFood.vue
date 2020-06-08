@@ -3,7 +3,7 @@
     <app-banner />
     <v-divider />
     <br />
-    <v-container color="dark">
+    <v-container color="dark" v-if="!isLoading">
       <v-row>
         <v-col
           cols="12"
@@ -11,36 +11,23 @@
           md="8"
           lg="8"
           xl="8"
-          offset-sm="2"
-          offset-md="2"
-          offset-lg="2"
-          offset-xl="2"
+          offset-sm="1"
+          offset-md="1"
+          offset-lg="1"
+          offset-xl="1"
           class="pt-0"
         >
           <div class="pt-6">
-            <app-alert v-if="alert" :alertMessage="alertMessage" />
             <ValidationObserver ref="observer">
               <v-form>
-                <v-alert
-                  v-if="alert"
-                  id="alert"
-                  type="warning"
-                  border="left"
-                  transition="slide-x-reverse-transition"
-                  dismissible
-                >
-                  {{ alertMessage }}
-                </v-alert>
                 <v-card class="d-flex py-3 pt-0">
                   <v-row>
                     <v-col cols="4" offset-sm="4" class="py-1">
                       <div class="d-flex flex-column align-center">
                         <user-avatar
-                          :src="
-                            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/muslim_man_avatar-128.png'
-                          "
-                          :username="user.username"
-                          style="height: 130px;"
+                          :src="post.user.avatar.secureURL"
+                          :username="post.user.username"
+                          style="height: 130px"
                         />
                       </div>
                     </v-col>
@@ -52,15 +39,15 @@
                       <div class="d-flex ml-7">
                         <div class="d-flex" />
                         <toggle-tag
-                          v-for="(tag, i) in tags"
+                          v-for="(tag, i) in post.tags"
                           :key="i"
                           :tagName="tag"
                           @handleRemoveTag="handleRemoveTag(i)"
                         />
                         <create-tag-blog
-                          v-if="tags.length < 3"
+                          v-if="post.tags.length < 3"
                           @handleAddTag="handleAddTag"
-                          :tags="tags"
+                          :tags="post.tags"
                         />
                       </div>
                     </v-col>
@@ -72,14 +59,13 @@
                               <v-col cols="12" class="pa-0">
                                 <my-upload
                                   class="pt-0"
-                                  v-model="uploadBanner"
-                                  field="img"
-                                  @crop-success="cropSuccess"
+                                  field="cover"
                                   @crop-upload-success="cropUploadSuccess"
                                   @crop-upload-fail="cropUploadFail"
-                                  :width="880"
+                                  v-model="isUploadBanner"
+                                  :url="APIS.UPLOAD_BANNER"
+                                  :width="800"
                                   :height="450"
-                                  :params="params"
                                   :headers="headers"
                                   img-format="jpg"
                                   langType="en"
@@ -93,10 +79,12 @@
                                   <v-img
                                     max-width="650"
                                     max-height="250"
-                                    :src="post.cover.secureURL"
+                                    :src="
+                                      newCover.secureURL || post.cover.secureURL
+                                    "
                                   />
                                   <v-chip
-                                    @click="uploadBanner = !uploadBanner"
+                                    @click="isUploadBanner = !isUploadBanner"
                                     style="cursor: pointer"
                                     text-color="#fff"
                                     class="ma-2 mr-12 update-banner-btn"
@@ -127,9 +115,7 @@
                                     @upload-success="uploadImageSuccess"
                                     @before-remove="beforeRemove"
                                     @edit-image="editImage"
-                                    idUpload="myIdUpload"
-                                    editUpload="myIdEdit"
-                                    :data-images="foodPhotosConvert"
+                                    :data-images="previewPhotos"
                                     :maxImage="maxImages"
                                     :primaryText="''"
                                     :showPrimary="false"
@@ -156,6 +142,15 @@
                                     required
                                   />
                                 </ValidationProvider>
+                              </v-col>
+
+                              <v-col cols="12" sm="12" md="12">
+                                <v-text-field
+                                  :error-messages="errors"
+                                  v-model="post.food.location"
+                                  label="Address"
+                                  required
+                                />
                               </v-col>
 
                               <v-col cols="12" sm="8" md="8">
@@ -258,7 +253,6 @@
                                   <v-text-field
                                     :error-messages="errors"
                                     v-model="post.topic"
-                                    @change="dataUpdate.topic = post.topic"
                                     label="Title*"
                                     required
                                   />
@@ -268,9 +262,6 @@
                                 <v-text-field
                                   label="Description"
                                   v-model="post.description"
-                                  @change="
-                                    dataUpdate.desciption = post.description
-                                  "
                                   persistent-hint
                                   rows="2"
                                   hint="Write description to attract people at the first glance"
@@ -280,7 +271,6 @@
                                 <ValidationProvider
                                   name="Title"
                                   v-model="post.title"
-                                  @change="dataUpdate.title = post.title"
                                   rules="required"
                                   v-slot="{ errors }"
                                 >
@@ -291,7 +281,6 @@
                                     required
                                     :error-messages="errors"
                                     v-model="post.content"
-                                    @change="dataUpdate.content = post.content"
                                     placeholder="Markdown"
                                   />
                                 </ValidationProvider>
@@ -313,7 +302,9 @@
                                     />
                                     <v-spacer />
                                     <div class="d-flex justify-end">
-                                      <span class="signature">hong_quang</span>
+                                      <span class="signature">
+                                        {{ user.username }}
+                                      </span>
                                     </div>
                                   </v-card>
                                 </v-dialog>
@@ -324,17 +315,17 @@
                         <v-card-actions class="pt-0">
                           <v-spacer />
                           <v-btn
+                            dark
                             class="mr-5"
                             color="primary"
                             @click="togglePreviewContent"
-                            dark
                           >
                             Preview
                           </v-btn>
                           <v-btn
-                            class="mr-5"
+                            class="white--text"
+                            :disabled="isLoadingUpload"
                             color="warning"
-                            dark
                             @click="submit"
                           >
                             Update
@@ -348,256 +339,164 @@
             </ValidationObserver>
           </div>
         </v-col>
+        <v-col
+          sm="3"
+          md="3"
+          lg="3"
+          xl="3"
+          class="mt-12"
+          style="position: relative"
+        >
+          <tips />
+        </v-col>
       </v-row>
     </v-container>
   </v-container>
 </template>
 
 <script>
-import myUpload from 'vue-image-crop-upload';
+import { mapActions } from 'vuex';
 import VueUploadMultipleImage from 'vue-upload-multiple-image';
-import { extend, setInteractionMode } from 'vee-validate';
-// eslint-disable-next-line no-unused-vars
-import { required, minmax, numeric } from 'vee-validate/dist/rules';
 
+import { editPost } from '@/mixins/editPost';
+import { APIS } from '@/mixins/api-endpoints';
 import { updateBanner } from '@/mixins/updateBanner';
-import CreateTag from '@/components/Shared/CreateTag';
-import UserAvatar from '@/components/Shared/UserAvatar';
-import ToggleTag from '@/components/Shared/ToggleTag';
-import CreateTagBlog from '@/components/Shared/CreateTagBlog';
-
-setInteractionMode('eager');
-extend('minmax', {
-  validate(value, { min, max }) {
-    return value >= Number(min) && value <= Number(max);
-  },
-  message: 'Valid range: 1 - 10',
-  params: ['min', 'max'],
-});
-
-extend('required', {
-  validate(value) {
-    return {
-      required: true,
-      valid: ['', null, undefined].indexOf(value) === -1,
-    };
-  },
-  computesRequired: true,
-  message: '{_field_} is required',
-});
-
-extend('numeric', {
-  ...numeric,
-  message: '{_field_} must be a number',
-});
+import { attachImage } from '@/mixins/attachImage';
+import Tips from '@/components/Shared/Tips';
 
 export default {
-  mixins: [updateBanner],
+  mixins: [editPost, updateBanner, attachImage],
   components: {
-    CreateTagBlog,
-    UserAvatar,
-    // eslint-disable-next-line vue/no-unused-components
-    CreateTag,
-    myUpload,
-    ToggleTag,
     VueUploadMultipleImage,
+    Tips,
   },
   data() {
     return {
-      alert: false,
-      alertMessage: '',
-      user: {
-        username: 'hong_quang',
-      },
-      params: {
-        token: '123456798',
-        name: 'avatar',
-      },
-      headers: {
-        smail: '*_~',
-      },
-      uploadUrl: 'https://www.mocky.io/v2/5d4fb20b3000005c111099e3',
-      uploadHeaders: { 'X-Test-Header': 'vue-file-agent' },
-      post: {
-        _id: '5e9c6ce7830bd646939c7624',
-        tags: [
-          {
-            _id: '5e8de2fcad60773238e94f1c',
-            tagName: 'seafood',
-          },
-          {
-            _id: '5e8de2fcad60773238e94f1d',
-            tagName: 'street',
-          },
-        ],
-        comments: [],
-        likes: [],
-        url: 'facebook.com',
-        savedBy: [],
-        foodPhotos: [
-          {
-            secureURL:
-              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
-            publicId:
-              'Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg',
-            fileName: '91427262_222687395745934_4371644556861505536_n.jpg',
-            sizeBytes: 112398,
-          },
-          {
-            secureURL:
-              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
-            publicId:
-              'Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png',
-            fileName: '89025324_2760328297369108_3874548065679441920_n.png',
-            sizeBytes: 184898,
-          },
-          {
-            secureURL:
-              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
-            publicId:
-              'Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg',
-            fileName: '91427262_222687395745934_4371644556861505536_n.jpg',
-            sizeBytes: 112398,
-          },
-          {
-            secureURL:
-              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
-            publicId:
-              'Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png',
-            fileName: '89025324_2760328297369108_3874548065679441920_n.png',
-            sizeBytes: 184898,
-          },
-          {
-            secureURL:
-              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
-            publicId:
-              'Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg',
-            fileName: '91427262_222687395745934_4371644556861505536_n.jpg',
-            sizeBytes: 112398,
-          },
-          {
-            secureURL:
-              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
-            publicId:
-              'Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png',
-            fileName: '89025324_2760328297369108_3874548065679441920_n.png',
-            sizeBytes: 184898,
-          },
-          {
-            secureURL:
-              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
-            publicId:
-              'Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png',
-            fileName: '89025324_2760328297369108_3874548065679441920_n.png',
-            sizeBytes: 184898,
-          },
-          {
-            secureURL:
-              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
-            publicId:
-              'Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg',
-            fileName: '91427262_222687395745934_4371644556861505536_n.jpg',
-            sizeBytes: 112398,
-          },
-          {
-            secureURL:
-              'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
-            publicId:
-              'Coders-Tokyo-Forum/posts/foodReview/89025324_2760328297369108_3874548065679441920_n.png',
-            fileName: '89025324_2760328297369108_3874548065679441920_n.png',
-            sizeBytes: 184898,
-          },
-        ],
-        food: {
-          foodName: 'sushi',
-          priceAverage: '200000 - 250000 VND',
-          address: 'Let’s Sushi 13B Quốc Tử Giám',
-          stars: 5,
-          restaurant: "Let's sushi",
-          quality: 7.8,
-          price: 8,
-          service: 10,
-          space: 8,
-          openTime: '10:00 - 22:00',
-        },
-        topic: 'Sushi',
-        description:
-          'Originally, sushi was fermented fish with rice preserved in salt, and this was a staple dish in Japan for a thousand years until the Edo Period (1603 to 1868) when contemporary sushi was developed. The word "sushi" means "it\'s sour," which reflects back to sushi\'s origins of being preserved in salt',
-        content:
-          'Originally, sushi was fermented fish with rice preserved in salt, and this was a staple dish in Japan for a thousand years until the Edo Period (1603 to 1868) when contemporary sushi was developed. The word "sushi" means "it\'s sour," which reflects back to sushi\'s origins of being preserved in salt',
-        type: 'food',
-        cover: {
-          secureURL:
-            'https://kenh14cdn.com/2018/7/25/tram03-1532490851483378789140.jpg',
-          publicId:
-            'Coders-Tokyo-Forum/posts/foodReview/91427262_222687395745934_4371644556861505536_n.jpg',
-          fileName: '91427262_222687395745934_4371644556861505536_n.jpg',
-          sizeBytes: 112398,
-        },
-        createdAt: '2020-04-19T15:23:19.975Z',
-        updatedAt: '2020-04-19T15:23:19.975Z',
-        user: {
-          _id: '5e8b577f1a2dde322987924',
-          username: 'nhat_anh',
-        },
-        metadata: {
-          _id: '5e9494fe935dfb5ed30435',
-          comments: 123,
-          likes: 69,
-          saves: 1,
-        },
-      },
-      uploadBanner: false,
-      foodPhotosConvert: [],
-      tags: [],
+      post: null,
+      newCover: '',
+      isUploadBanner: false,
       maxImages: 20,
-      dataUpdate: {},
       isPreviewing: false,
+      previewPhotos: [],
+      photosToDelete: [],
     };
   },
-  computed: {},
-  created() {
-    this.tags = this.post.tags.map(tag => tag.tagName);
-    this.foodPhotosConvert = this.post.foodPhotos.map(photo => ({
-      path: photo.secureURL,
-    }));
-    // eslint-disable-next-line no-console
-    console.log(this.foodPhotosConvert);
+  async created() {
+    this.APIS = APIS;
+    await this.fetchPost();
   },
   methods: {
-    handleAddTag(tag) {
-      this.tags.push(tag);
+    ...mapActions('post', ['getPostById']),
+    async fetchPost() {
+      this.getPostById({
+        id: this.$route.params.id,
+        typeQuery: this.$route.query.type,
+      }).then(data => {
+        this.post = data;
+        this.post.tags = this.post.tags.map(tag => tag.tagName);
+        this.previewPhotos = this.post.food.foodPhotos.map(photo => ({
+          path: photo.secureURL,
+        }));
+      });
     },
-    handleRemoveTag(tagIndex) {
-      this.tags.splice(tagIndex, 1);
-    },
-    togglePreviewContent() {
-      if (this.isPreviewing) {
-        return (this.isPreviewing = false);
-      }
-      if (!this.isPreviewing && this.post.content.trim() !== '') {
-        return (this.isPreviewing = true);
-      }
-    },
-    // eslint-disable-next-line no-unused-vars
-    beforeRemove(index, done, fileList) {
+    async beforeRemove(index, done) {
+      const photoToDelete = this.post.food.foodPhotos[index];
+      this.photosToDelete.push(photoToDelete);
+      this.post.food.foodPhotos.splice(index, 1);
       done();
     },
-    editImage(formData, index, fileList) {
-      // eslint-disable-next-line no-console
-      console.log('edit data', formData, index, fileList);
+    async uploadImageSuccess(formData) {
+      const response = await this.uploadFiles(formData);
+      if (response.status === 200) {
+        this.post.food.foodPhotos.push(response.data);
+        this.previewPhotos.push({ path: response.data.secureURL });
+
+        // library bug
+        this.previewPhotos = this.previewPhotos.filter(
+          photo => photo.default !== 0,
+        );
+        this.$notify({
+          type: 'success',
+          title: 'Success!',
+          text: 'Upload success',
+        });
+      }
+
+      if (response.status === 400) {
+        this.$notify({
+          type: 'error',
+          title: 'Error!',
+          text: 'Upload failed',
+        });
+      }
     },
-    // eslint-disable-next-line no-unused-vars
-    handleLimitExceed(amount) {
+    async editImage(formData, index) {
+      const photoToDelete = this.post.food.foodPhotos[index];
+      this.photosToDelte.push(photoToDelete);
+      this.post.food.foodPhotos.splice(index, 1);
+    },
+    handleLimitExceed() {
       this.alertMessage = 'Please choose less than 20 photos';
       this.alert = true;
       setTimeout(() => {
         this.alert = false;
       }, 3000);
     },
-    submit() {
-      this.dataUpdate.tags = this.tags;
-      this.$refs.observer.validate();
+    async submit() {
+      if (this.newCover) {
+        this.post.cover = this.newCover;
+      }
+      if (this.post.cover === '') {
+        this.$notify({
+          type: 'error',
+          title: 'Error!',
+          text: "Let's upload the banner",
+        });
+        return;
+      }
+
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) return;
+
+      const dataUpdate = {
+        topic: this.post.topic,
+        content: this.post.content,
+        description: this.post.description,
+        tags: this.post.tags,
+        type: this.post.type,
+        cover: this.post.cover,
+        food: this.post.food,
+      };
+
+      const res = await this.editPost({ _id: this.post._id, data: dataUpdate });
+      if (res.status === 200) {
+        this.$notify({
+          type: 'success',
+          title: 'Success!',
+          text: 'Update success',
+        });
+
+        if (this.newCover._id) {
+          this.deleteFile({ fileId: this.oldCover._id });
+        }
+
+        if (this.photosToDelete.length) {
+          this.photosToDelete.map(photo =>
+            this.deleteFile({ fileId: photo._id }),
+          );
+        }
+        return this.$router.push({
+          path: `/${this.post.type}Reviews/${this.post._id}?type=${this.post.type}`,
+        });
+      }
+      if (res.status === 400) {
+        this.$notify({
+          type: 'error',
+          title: 'Error!',
+          text: res.message,
+        });
+        this.deleteFile({ fileId: this.newCover._id });
+      }
     },
   },
 };

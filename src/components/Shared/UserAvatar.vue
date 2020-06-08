@@ -2,30 +2,45 @@
   <div class="text-center">
     <v-list-item-avatar tile size="70" style="margin: 16px 0 0 0">
       <v-img
-        @click="onClickAvatar"
+        @click="handleNavUserProfile"
         :src="src"
         style="cursor: pointer; border-radius: 50%"
       />
     </v-list-item-avatar>
     <v-list-item-content class="pt-md-1.5 pt-lg-1 pb-lg-1">
       <v-list-item-title class="caption text-center">
-        <a class="username-link" :href="link">{{ username }}</a>
+        <a class="username-link" @click="handleNavUserProfile">
+          {{ username }}
+        </a>
       </v-list-item-title>
     </v-list-item-content>
   </div>
 </template>
 
 <script>
+import { ROUTES } from '@/mixins/routes.js';
+
 export default {
-  props: ['src', 'username'],
+  props: {
+    src: {
+      type: String,
+      required: true,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
-      link: `/users/${this.username}`,
+      link: ROUTES.USER_PROFILE({ username: this.username }),
     };
   },
   methods: {
-    onClickAvatar() {
-      this.$router.push({ path: this.link });
+    handleNavUserProfile() {
+      if (this.$route.fullPath !== this.link) {
+        this.$router.push({ path: this.link });
+      }
     },
   },
 };

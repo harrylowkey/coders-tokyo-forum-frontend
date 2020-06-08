@@ -4,20 +4,22 @@
     elevation="8"
     max-width="1520px"
     max-height="200px"
+    style="min-height: 200px"
   >
     <v-slide-group class="px-4" show-arrows center-active>
-      <v-slide-item v-for="(item, i) in audioList" :key="i">
+      <v-slide-item v-for="(item, i) in trendingAudios" :key="i">
         <v-row class="mr-10">
           <v-col :key="i" cols="12" md="12">
             <Audio
-              :cover="item.cover.secureURL"
-              :title="item.media.fileName"
+              :cover="item.cover[0].secureURL"
+              :name="item.topic"
               :authors="item.authors"
-              :link="item.media.secureURL"
+              :link="item.media[0].secureURL"
               :index="i"
-              :playAnotherSong="playAnotherSong"
+              :_id="item._id"
               @handlePlayPause="handlePlayPause"
-            ></Audio>
+              @handleSwitchAudio="handleSwitchAudio"
+            />
           </v-col>
         </v-row>
       </v-slide-item>
@@ -26,27 +28,43 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import Audio from './Audio.vue';
 
 export default {
-  props: ['audioList', 'playAnotherSong'],
-
   data() {
     return {};
   },
   components: {
-    Audio
+    Audio,
   },
   methods: {
-    handlePlayPause({ isPlay, index }) {
-      this.$emit('handlePlayPause', { isPlay, index });
-    }
+    ...mapActions('player', [
+      'updatePlaying',
+      'toggleShowPlayer',
+      'switchAudio',
+    ]),
+    handlePlayPause({ isPlay, audio }) {
+      if (isPlay) {
+        this.updatePlaying({ status: true, audio });
+        this.toggleShowPlayer(true);
+      }
+
+      if (!isPlay) {
+        this.updatePlaying({ status: false, audio });
+      }
+    },
+    handleSwitchAudio({ status, audio }) {
+      if (status === true) {
+        this.switchAudio({ status, audio });
+      }
+    },
   },
   computed: {
-    ...mapState('utils', ['isLoading'])
-  }
+    ...mapState('utils', ['isLoading']),
+    ...mapState('stream', ['trendingAudios']),
+  },
 };
 </script>
 

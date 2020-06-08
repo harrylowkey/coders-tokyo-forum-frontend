@@ -27,6 +27,7 @@
         :rules="tagRules"
         lazy-validation
         :value="tag"
+        autofocus="true"
       />
     </v-card>
   </div>
@@ -34,23 +35,33 @@
 
 <script>
 export default {
-  props: ['tags'],
+  props: {
+    tags: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       valid: true,
       addTag: false,
-      tag: '#',
-      tagRules: [
-        t => t[0] === '#' || 'Hash tag at a first character is required',
-        t => t.length <= 20 || 'Tag muse be less than 20 characters',
-      ],
+      tag: '',
+      tagRules: [t => t.length <= 20 || 'Tag muse be less than 20 characters'],
     };
   },
   methods: {
     handleAddTag(tag) {
-      if (tag[0] !== '#' || tag.length > 20 || tag.trim() === '#') return;
+      if (tag.length > 20 || tag.trim() === '') return;
+      if (tag.indexOf(' ') >= 0) {
+        this.$notify({
+          type: 'error',
+          title: 'Error!',
+          text: 'Use underscore instead of space',
+        });
+        return;
+      }
       this.addTag = !this.addTag;
-      this.tag = '#';
+      this.tag = '';
       return this.$emit('handleAddTag', tag);
     },
   },
