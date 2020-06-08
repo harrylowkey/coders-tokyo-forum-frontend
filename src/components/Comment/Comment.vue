@@ -111,6 +111,7 @@
         :postId="postId"
         :commentId="comment._id"
         :autofocus="true"
+        @handleWriteComment="handleWriteComment"
       />
     </div>
 
@@ -237,6 +238,7 @@
             :commentId="childComment._id"
             :parentId="comment._id"
             :autofocus="true"
+            @handleWriteComment="handleWriteComment"
           />
         </div>
       </transition-group>
@@ -293,6 +295,10 @@ export default {
     this.initIsReplyChildComments();
   },
   methods: {
+    handleWriteComment() {
+      this.childCommentPerLoad = this.comment.childComments.length;
+      this.handleClickLoadmoreChildComments();
+    },
     linkToUser(username) {
       return ROUTES.USER_PROFILE({ username: username });
     },
