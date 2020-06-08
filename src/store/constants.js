@@ -33,6 +33,7 @@ export const SET_FOOD_REVIEWS = 'SET_FOOD_REVIEWS';
 export const SET_SONGS = 'SET_SONGS';
 export const SET_PODCASTS = 'SET_PODCASTS';
 export const LOAD_MORE_PODCASTS = 'LOAD_MORE_PODCASTS';
+export const LOAD_MORE_BLOGS = 'LOAD_MORE_BLOGS'
 
 // player
 export const SET_PLAYLIST = 'SET_PLAYLIST';
