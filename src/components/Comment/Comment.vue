@@ -73,7 +73,7 @@
               />
             </v-col>
           </v-row>
-          <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
+          <v-container class="pl-0 py-0 pr-1 d-flex justify-end">
             <v-icon
               class="reply-icon"
               @click="isReplyComment = !isReplyComment"
@@ -196,7 +196,7 @@
                   />
                 </v-col>
               </v-row>
-              <v-container class="pl-0 py-0 pr-5 d-flex justify-end">
+              <v-container class="pl-0 py-0 pr-1 d-flex justify-end">
                 <v-icon
                   @click="
                     isReplyChildComments[
