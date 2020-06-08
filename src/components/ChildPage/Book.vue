@@ -317,6 +317,25 @@
                   />
                 </transition-group>
               </div>
+              <div class="loadmore-comment-wrapper" v-if="!isLoading">
+                <div
+                  class="d-flex justify-center mb-3"
+                  v-if="commentMetadata.page < commentMetadata.totalPage"
+                >
+                  <span
+                    @click="handleLoadmoreComments"
+                    class="font-italic load-more"
+                  >
+                    ... Load more comments ...
+                  </span>
+                </div>
+                <v-text-field
+                  color="primary"
+                  v-if="isLoadmore"
+                  loading
+                  disabled
+                />
+              </div>
             </div>
           </v-row>
           <v-divider />
