@@ -123,7 +123,7 @@
                     @click="handleLoadmoreComments"
                     class="font-italic load-more"
                   >
-                    ... Load more ...
+                    ... Load more comments ...
                   </span>
                 </div>
                 <v-text-field
