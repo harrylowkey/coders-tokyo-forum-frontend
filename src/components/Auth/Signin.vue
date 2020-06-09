@@ -127,15 +127,6 @@ export default {
         this.$router.push(this.redirect);
       }
     },
-    errorMes(newVal) {
-      if (newVal.length) {
-        this.$notify({
-          type: 'error',
-          title: 'Error!',
-          text: newVal,
-        });
-      }
-    },
   },
   methods: {
     ...mapActions('user', ['signIn']),

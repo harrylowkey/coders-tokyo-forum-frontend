@@ -58,7 +58,8 @@ export const createPost = {
       if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: "Let's upload the banner",
+          title: 'Error!',
+          text: "Let's upload the banner",
         });
         return;
       }

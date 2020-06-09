@@ -208,16 +208,6 @@ export default {
       }
     },
   },
-  watch: {
-    errorMes(newVal) {
-      if (newVal.length) {
-        this.$notify({
-          type: 'error',
-          text: newVal,
-        });
-      }
-    },
-  },
   created() {
     this.ROUTES = ROUTES;
   },

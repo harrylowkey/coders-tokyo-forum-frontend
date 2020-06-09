@@ -60,6 +60,7 @@ export default {
 .notif {
   margin-top: 60px;
   font-size: 12px;
+  cursor: pointer;
 
   color: #ffffff;
   &.warn {
