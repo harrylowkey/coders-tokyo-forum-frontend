@@ -99,6 +99,7 @@
                         md="12"
                         lg="3"
                         :style="propertyUserInfoStyle"
+                        v-if="isOwner"
                       >
                         <v-subheader class="pa-0">Email</v-subheader>
                       </v-col>
@@ -109,6 +110,7 @@
                         md="12"
                         lg="9"
                         style="padding: 0"
+                        v-if="isOwner"
                       >
                         <p class="mb-0 user-info">{{ profileUser.email }}</p>
                       </v-col>
@@ -120,6 +122,7 @@
                         md="12"
                         lg="3"
                         :style="propertyUserInfoStyle"
+                        v-if="isOwner"
                       >
                         <v-subheader class="pa-0">Password</v-subheader>
                       </v-col>
@@ -130,6 +133,7 @@
                         sm="9"
                         md="7"
                         style="padding: 0"
+                        v-if="isOwner"
                       >
                         <v-text-field
                           readonly
@@ -281,6 +285,7 @@
                     :userGithub="userGithub"
                     :userFacebook="userFacebook"
                     :userLinkedin="userLinkedin"
+                    :isOwner="isOwner"
                     @handleUpdateProfile="handleUpdateProfile"
                     @handleCancelEditProfile="handleCancelEditProfile"
                   />
