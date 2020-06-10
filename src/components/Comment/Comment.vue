@@ -83,7 +83,7 @@
             </v-icon>
             <span
               v-if="comment.childComments.length"
-              style="font-size: 13px; color: green"
+              style="font-size: 13px; color: green; margin-top: 2px"
               class="font-italic mb-0 ml-1"
             >
               {{ comment.childComments.length }}
