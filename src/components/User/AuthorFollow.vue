@@ -24,7 +24,7 @@
           </v-col>
         </v-row>
       </v-list-item-content>
-      <div v-if="!isAuthor && !isFollowing">
+      <div class="mb-4" v-if="!isAuthor && !isFollowing">
         <v-btn
           small
           class="mt-3"
@@ -36,7 +36,7 @@
           Follow
         </v-btn>
       </div>
-      <div v-if="!isAuthor && isFollowing">
+      <div class="mb-4" v-if="!isAuthor && isFollowing">
         <v-btn
           small
           class="mt-3"
@@ -52,7 +52,7 @@
       <v-card-subtitle class="pa-0 pb-3 mt-6" v-if="author.description">
         {{ author.description }}
       </v-card-subtitle>
-      <p style="font-size: 13px;" class="pl-0 mb-1" v-if="author.sex">
+      <p style="font-size: 13px;" class="pl-0 mb-1 mt-1" v-if="author.sex">
         <span>Sex: {{ author.sex }}</span>
       </p>
       <p style="font-size: 13px;" class="pl-0 mb-0">

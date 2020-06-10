@@ -16,7 +16,7 @@
       <span class="counter likes-counter">{{ likes.length }}</span>
     </div>
 
-    <div class="wrapper-icon">
+    <!-- <div class="wrapper-icon">
       <v-img
         src="https://res.cloudinary.com/hongquangraem/image/upload/v1587910069/flower_1_vg1nyk.svg"
         class="react-icon give-flower-icon"
@@ -27,7 +27,7 @@
         :class="upFlowerCLasses"
       />
       <span class="counter flowers-counter">{{ flowers }}</span>
-    </div>
+    </div> -->
 
     <div class="wrapper-icon">
       <v-img
