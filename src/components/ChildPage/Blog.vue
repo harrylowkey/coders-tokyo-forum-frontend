@@ -48,7 +48,7 @@
               class="cover-blog"
             />
           </v-container>
-          <v-container v-if="!isLoading" style="padding: 15px 50px 20px 50px">
+          <v-container v-if="!isLoading" style="padding: 15px 50px 20px 50px;">
             <v-list-item three-line style="padding: 10px 25px 25px 0px">
               <v-list-item-content class="pr-10 pt-lg-0">
                 <v-list-item-title class="blog-title mb-0">
@@ -106,7 +106,10 @@
                 </v-card-text>
               </v-list-item-content>
             </v-list-item>
-            <div v-html="$options.filters.markdown(post.content)" />
+            <div
+              class="markdown-content"
+              v-html="$options.filters.markdown(post.content)"
+            />
             <div class="d-flex justify-end">
               <span class="signature">{{ post.user.username }}</span>
             </div>
@@ -328,5 +331,9 @@ export default {
   flex: 30%;
   margin: 20px;
   justify-content: center;
+}
+
+.markdown-content >>> img {
+  width: 100% !important;
 }
 </style>

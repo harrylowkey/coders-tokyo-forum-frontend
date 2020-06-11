@@ -182,7 +182,10 @@
 
               <v-col class="lyric" cols="9" sm="8" md="8" lg="9" xl="9">
                 <div :class="lyricClasses">
-                  <p v-html="$options.filters.markdown(post.description)" />
+                  <p
+                    class="markdown-content"
+                    v-html="$options.filters.markdown(post.description)"
+                  />
                 </div>
                 <span
                   v-if="!isShowMore && post.description.length > 100"
@@ -725,5 +728,9 @@ audio {
       font-size: 21px !important;
     }
   }
+}
+
+.markdown-content >>> img {
+  width: 100% !important;
 }
 </style>

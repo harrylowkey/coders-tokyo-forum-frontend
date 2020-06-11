@@ -412,6 +412,10 @@ export default {
   font-size: 16px !important;
 }
 
+.comment-content >>> img {
+  width: 100% !important;
+}
+
 .edit-delete-btn {
   position: absolute;
   top: 0px;
