@@ -47,7 +47,7 @@
               <v-divider />
               <div
                 style="line-height: 1.4;"
-                class="mt-lg-n9 pt-12"
+                class="mt-lg-n9 pt-12 markdown-content"
                 v-html="$options.filters.markdown(post.content)"
               />
             </v-list-item-content>
@@ -309,5 +309,9 @@ export default {
 .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
   opacity: 0;
   transform: translateY(-30px);
+}
+
+.markdown-content >>> img {
+  width: 100% !important;
 }
 </style>

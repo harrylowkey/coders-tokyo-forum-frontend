@@ -348,7 +348,10 @@
                 </v-card-text>
               </v-list-item-content>
             </v-list-item>
-            <div v-html="$options.filters.markdown(post.content)" />
+            <div
+              class="markdown=content"
+              v-html="$options.filters.markdown(post.content)"
+            />
           </v-container>
         </v-card>
         <v-container>
@@ -568,5 +571,9 @@ export default {
   flex: 30%;
   margin: 20px;
   justify-content: center;
+}
+
+.markdown-content >>> img {
+  width: 100% !important;
 }
 </style>
