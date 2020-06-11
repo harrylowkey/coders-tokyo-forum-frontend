@@ -9,7 +9,10 @@
     <v-card-text class="pb-0">Attach image: ![Image name](path)</v-card-text>
     <v-card-text class="pb-0">Link: [Link name](path)</v-card-text>
     <v-card-text class="pb-0">
-      <a target="_blank" href="https://www.markdownguide.org/basic-syntax/">
+      <a
+        target="_blank"
+        href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+      >
         Read more
       </a>
     </v-card-text>

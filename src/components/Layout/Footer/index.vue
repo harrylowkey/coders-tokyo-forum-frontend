@@ -40,7 +40,7 @@ export default {
       links: [
         {
           name: 'mdi-facebook',
-          url: 'https://www.facebook.com/groups/jsland/',
+          url: 'https://www.facebook.com/codersx/',
           color: 'blue',
         },
         {
