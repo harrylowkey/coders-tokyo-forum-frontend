@@ -82,20 +82,21 @@
                                     :src="
                                       newCover.secureURL || post.cover.secureURL
                                     "
-                                  />
-                                  <v-chip
-                                    @click="isUploadBanner = !isUploadBanner"
-                                    style="cursor: pointer"
-                                    text-color="#fff"
-                                    class="ma-2 mr-12 update-banner-btn"
-                                    color="green"
-                                    label
                                   >
-                                    <v-icon left>
-                                      mdi-cloud-upload-outline
-                                    </v-icon>
-                                    Update Image
-                                  </v-chip>
+                                    <v-chip
+                                      @click="isUploadBanner = !isUploadBanner"
+                                      style="cursor: pointer"
+                                      text-color="#fff"
+                                      class="ma-2 mr-12 update-banner-btn"
+                                      color="green"
+                                      label
+                                    >
+                                      <v-icon left>
+                                        mdi-cloud-upload-outline
+                                      </v-icon>
+                                      Update Image
+                                    </v-chip>
+                                  </v-img>
                                 </v-container>
                               </v-col>
                               <v-col cols="12">
@@ -584,7 +585,8 @@ a {
 
 .update-banner-btn {
   position: absolute;
-  top: 17.4%;
+  top: 40.4%;
+  left: 40%;
   opacity: 0.9;
 }
 

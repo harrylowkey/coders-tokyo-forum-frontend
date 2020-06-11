@@ -82,20 +82,21 @@
                                     :src="
                                       newCover.secureURL || post.cover.secureURL
                                     "
-                                  />
-                                  <v-chip
-                                    @click="isUploadBanner = !isUploadBanner"
-                                    style="cursor: pointer"
-                                    text-color="#fff"
-                                    class="ma-2 mr-12 update-banner-btn"
-                                    color="green"
-                                    label
                                   >
-                                    <v-icon left>
-                                      mdi-cloud-upload-outline
-                                    </v-icon>
-                                    Update Image
-                                  </v-chip>
+                                    <v-chip
+                                      @click="isUploadBanner = !isUploadBanner"
+                                      style="cursor: pointer"
+                                      text-color="#fff"
+                                      class="ma-2 mr-12 update-banner-btn"
+                                      color="green"
+                                      label
+                                    >
+                                      <v-icon left>
+                                        mdi-cloud-upload-outline
+                                      </v-icon>
+                                      Update Image
+                                    </v-chip>
+                                  </v-img>
                                 </v-container>
                               </v-col>
                               <v-col cols="12">
@@ -363,14 +364,15 @@ a {
 .banner {
   width: 210px;
   height: 210px;
-  box-shadow: 9px 9px 10px 6px rgba(0, 0, 0, 0.16);
+  box-shadow: 9px 9\px10px6pxrgba(0, 0, 0, 0.16);
   -webkit-box-shadow: 9px 9px 10px 6px rgba(0, 0, 0, 0.16);
   -moz-box-shadow: 9px 9px 10px 6px rgba(0, 0, 0, 0.16);
 }
 
 .update-banner-btn {
   position: absolute;
-  top: 25.4%;
+  top: 40.4%;
+  left: 40%;
   opacity: 0.9;
 }
 
