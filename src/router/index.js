@@ -42,54 +42,52 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: FullLayout,
-    children: [
-      {
-        path: 'stream',
-        name: 'Stream',
-        component: Home,
-      },
-      {
-        path: 'blogs/:id',
-        name: 'blogDetails',
-        component: BlogDetails,
-      },
-      {
-        path: 'users/profile/:username',
-        name: 'profile',
-        component: Profile,
-      },
-      {
-        path: 'bookReviews/:id',
-        name: 'bookDetails',
-        component: BookDetails,
-      },
-      {
-        path: 'movieReviews/:id',
-        name: 'movieDetails',
-        component: MovieDetails,
-      },
-      {
-        path: 'foodReviews/:id',
-        name: 'foodDetails',
-        component: FoodDetails,
-      },
-      {
-        path: 'songs/:id',
-        name: 'songDetails',
-        component: SongDetails,
-      },
-      {
-        path: 'podcasts/:id',
-        name: 'podcastDetails',
-        component: PodcastDetails,
-      },
-      {
-        path: 'discussions/:id',
-        name: 'discussionDetails',
-        component: DiscussionDetails,
-      },
-    ],
+    component: Home,
+  },
+  {
+    path: '/stream',
+    name: 'Stream',
+    component: Home,
+  },
+  {
+    path: '/blogs/:id',
+    name: 'blogDetails',
+    component: BlogDetails,
+  },
+  {
+    path: '/users/profile/:username',
+    name: 'profile',
+    component: Profile,
+  },
+  {
+    path: '/bookReviews/:id',
+    name: 'bookDetails',
+    component: BookDetails,
+  },
+  {
+    path: '/movieReviews/:id',
+    name: 'movieDetails',
+    component: MovieDetails,
+  },
+  {
+    path: '/foodReviews/:id',
+    name: 'foodDetails',
+    component: FoodDetails,
+  },
+  {
+    path: '/songs/:id',
+    name: 'songDetails',
+    component: SongDetails,
+  },
+  {
+    path: '/podcasts/:id',
+    name: 'podcastDetails',
+    component: PodcastDetails,
+  },
+  {
+    path: '/discussions/:id',
+    name: 'discussionDetails',
+    component: DiscussionDetails,
   },
   {
     path: '/',

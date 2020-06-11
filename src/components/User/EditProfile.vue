@@ -13,15 +13,34 @@
         />
       </v-col>
 
-      <v-col v-if="isOwner" cols="12" sm="12" md="12" lg="3" class="key-style col">
+      <v-col
+        v-if="isOwner"
+        cols="12"
+        sm="12"
+        md="12"
+        lg="3"
+        class="key-style col"
+      >
         <v-subheader class="pa-0">Email</v-subheader>
       </v-col>
-      <v-col v-if="isOwner" class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
+      <v-col
+        v-if="isOwner"
+        class="col"
+        cols="12"
+        sm="12"
+        md="12"
+        lg="9"
+        style="padding: 0"
+      >
         <v-text-field readonly :value="user.email" class="pt-0" />
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
-        <v-subheader v-if="isOwner" @keyup.enter="handleUpdateProfile" class="pa-0">
+        <v-subheader
+          v-if="isOwner"
+          @keyup.enter="handleUpdateProfile"
+          class="pa-0"
+        >
           Password
         </v-subheader>
       </v-col>
@@ -159,7 +178,7 @@ export default {
     isOwner: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   components: {
     ChangePassword,
