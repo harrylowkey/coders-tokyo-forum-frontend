@@ -306,7 +306,7 @@
                                     <v-col cols="12" sm="6" md="6">
                                       <div class="d-flex align-end">
                                         <ValidationProvider
-                                          name="Name"
+                                          name="Artist"
                                           rules="required"
                                           v-slot="{ errors }"
                                         >
