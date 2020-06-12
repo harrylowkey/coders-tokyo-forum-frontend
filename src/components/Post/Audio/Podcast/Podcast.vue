@@ -81,7 +81,11 @@
           </div>-->
         </v-img>
 
-        <v-list-item three-line style="padding: 0 25px 0 15px; overflow: hidden" class="d-flex justify-space-between">
+        <v-list-item
+          three-line
+          style="padding: 0 25px 0 15px; overflow: hidden"
+          class="d-flex justify-space-between"
+        >
           <div class="d-flex flex-column justify-center">
             <v-container class="d-flex justify-center pr-0 pl-0">
               <div class="user text-center d-flex">
