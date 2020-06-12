@@ -682,5 +682,6 @@ audio {
   padding: 1em;
   color: #abb2bf;
   background: #282c34;
+  margin: 15px 0px; 
 }
 </style>
