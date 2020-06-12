@@ -18,7 +18,7 @@
     >
       <p
         style="line-height: 1.5"
-        v-html="$options.filters.markdown(this.content)"
+        v-html="$options.filters.markdown(sanitizeContent(this.content))"
       />
     </v-card>
     <div class="d-flex justify-end">
@@ -44,6 +44,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import DOMPurify from 'dompurify';
 
 export default {
   props: {
@@ -97,8 +98,12 @@ export default {
         return (this.isPreviewing = true);
       }
     },
+    sanitizeContent(text) {
+      return DOMPurify.sanitize(text);
+    },
     async submit() {
       if (this.content.trim() === '') return;
+      this.content = this.sanitizeContent(this.content);
       if (this.type === 'comment') {
         const response = await this.commentPost({
           postId: this.postId,

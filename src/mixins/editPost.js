@@ -2,6 +2,7 @@ import myUpload from 'vue-image-crop-upload';
 import { extend, setInteractionMode } from 'vee-validate';
 import { required, numeric } from 'vee-validate/dist/rules';
 import { mapActions, mapState } from 'vuex';
+import DOMPurify from 'dompurify';
 
 import UserAvatar from '@/components/Shared/UserAvatar';
 import CreateTagBlog from '@/components/Shared/CreateTagBlog';
@@ -53,6 +54,9 @@ export const editPost = {
       if (!this.isPreviewing && this.post.content.trim() !== '') {
         return (this.isPreviewing = true);
       }
+    },
+    sanitizeContent(text) {
+      return DOMPurify.sanitize(text);
     },
   },
   computed: {

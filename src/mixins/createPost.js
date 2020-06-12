@@ -2,6 +2,7 @@ import myUpload from 'vue-image-crop-upload';
 import { extend, setInteractionMode } from 'vee-validate';
 import { required, numeric } from 'vee-validate/dist/rules';
 import { mapActions, mapState } from 'vuex';
+import DOMPurify from 'dompurify';
 
 import { ROUTES } from '@/mixins/routes';
 import UserAvatar from '@/components/Shared/UserAvatar';
@@ -54,6 +55,9 @@ export const createPost = {
         return (this.isPreviewing = true);
       }
     },
+    sanitizeContent(text) {
+      return DOMPurify.sanitize(text);
+    },
     async submit() {
       if (this.data.cover === '') {
         this.$notify({
@@ -66,6 +70,8 @@ export const createPost = {
 
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
+
+      this.data.content = this.sanitizeContent(this.data.content);
       const res = await this.createPost(this.data);
       if (res.status === 200) {
         this.$notify({

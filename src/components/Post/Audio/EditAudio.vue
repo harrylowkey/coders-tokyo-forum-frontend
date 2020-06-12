@@ -599,7 +599,7 @@ export default {
 
       const dataUpdate = {
         topic: this.post.topic,
-        description: this.post.description,
+        description: this.sanitizeContent(this.post.description),
         tags: this.post.tags,
         type: this.post.type,
         cover: this.post.cover,

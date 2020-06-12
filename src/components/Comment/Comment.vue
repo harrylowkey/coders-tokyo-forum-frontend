@@ -248,7 +248,7 @@
         @click="handleClickLoadmoreChildComments"
         class="font-italic load-more"
       >
-        ... Load more ... ({{ leftChildCommentsNotShow.length }})
+        ... View more replies ... ({{ leftChildCommentsNotShow.length }})
       </span>
     </div>
   </div>

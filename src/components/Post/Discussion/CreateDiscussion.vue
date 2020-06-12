@@ -95,6 +95,8 @@ export default {
     async submit() {
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
+
+      this.data.content = this.sanitizeContent(this.data.content);
       const res = await this.createPost(this.data);
       if (res.status === 200) {
         this.$notify({

@@ -39,19 +39,21 @@
           type="article, actions"
         />
         <v-card class="mx-auto mt-6 pb-2" v-if="!isLoading">
-          <v-list-item style="padding: 0px 25px 0 20px">
-            <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
-              <v-list-item-title class="headline discussion-title mb-0 py-3">
-                {{ post.topic }}
-              </v-list-item-title>
-              <v-divider />
-              <div
-                style="line-height: 1.4;"
-                class="mt-lg-n9 pt-12 markdown-content"
-                v-html="$options.filters.markdown(post.content)"
-              />
-            </v-list-item-content>
-          </v-list-item>
+          <v-container v-if="!isLoading">
+            <v-list-item style="padding: 0px 25px 0 20px">
+              <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
+                <v-list-item-title class="headline discussion-title mb-0 py-3">
+                  {{ post.topic }}
+                </v-list-item-title>
+                <v-divider />
+              </v-list-item-content>
+            </v-list-item>
+            <div
+              style="padding: 15px 25px 0px 20px;"
+              class="mt-lg-n9 pt-12 markdown-content"
+              v-html="$options.filters.markdown(post.content)"
+            />
+          </v-container>
 
           <v-card-actions
             style="padding: 0 25px 0px 6px"
