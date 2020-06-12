@@ -81,7 +81,7 @@
           </div>-->
         </v-img>
 
-        <v-list-item three-line style="padding: 0 25px 0 15px">
+        <v-list-item three-line style="padding: 0 25px 0 15px; overflow: hidden" class="d-flex justify-space-between">
           <div class="d-flex flex-column justify-center">
             <v-container class="d-flex justify-center pr-0 pl-0">
               <div class="user text-center d-flex">
@@ -112,7 +112,7 @@
                   <v-list-item-content class="pt-0 pb-0">
                     <v-list-item-title
                       class="caption text-start"
-                      style="padding-top: 0px"
+                      style="padding-top: 0px; width: 70px !important;"
                     >
                       <a class="username-link ml-1" @click="onClickAvatar">
                         {{ author.username }}
@@ -124,8 +124,8 @@
             </v-container>
           </div>
           <v-card-actions
-            style="padding: 0px 25px 0 0px; "
-            class="d-flex flex-column"
+            style="padding: 10px 0 0 0px; "
+            class="d-flex flex-column justify-start; width: 110px !important;"
           >
             <v-spacer />
             <tag
@@ -244,7 +244,7 @@ export default {
   data() {
     return {
       coverClasses: ['cover'],
-      maxTags: 3,
+      maxTags: 2,
       togglePlayPauseIcon: 'mdi-play-circle-outline',
       volumeIcon: 'mdi-volume-high',
       maxVolume: 1.0,
