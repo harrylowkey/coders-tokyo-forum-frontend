@@ -151,7 +151,7 @@
                                       style="line-height: 1.5"
                                       v-html="
                                         $options.filters.markdown(
-                                          post.content || '',
+                                          sanitizeContent(post.content || ''),
                                         )
                                       "
                                     />
@@ -257,7 +257,7 @@ export default {
 
       const dataUpdate = {
         topic: this.post.topic,
-        content: this.post.content,
+        content: this.sanitizeContent(this.post.content),
         description: this.post.description,
         tags: this.post.tags,
         type: this.post.type,

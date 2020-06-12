@@ -272,7 +272,9 @@
                           <p
                             style="line-height: 1.5"
                             v-html="
-                              $options.filters.markdown(data.content || '')
+                              $options.filters.markdown(
+                                sanitizeContent(data.content) || '',
+                              )
                             "
                           />
                           <v-spacer />
