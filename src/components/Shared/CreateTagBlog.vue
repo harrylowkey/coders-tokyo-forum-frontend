@@ -46,12 +46,12 @@ export default {
       valid: true,
       addTag: false,
       tag: '',
-      tagRules: [t => t.length <= 20 || 'Tag muse be less than 20 characters'],
+      tagRules: [t => t.length <= 18 || 'Tag muse be less than 18 characters'],
     };
   },
   methods: {
     handleAddTag(tag) {
-      if (tag.length > 20 || tag.trim() === '') return;
+      if (tag.length > 18 || tag.trim() === '') return;
       if (tag.indexOf(' ') >= 0) {
         this.$notify({
           type: 'error',
