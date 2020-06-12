@@ -508,7 +508,19 @@ export default {
   margin: 20px;
   justify-content: center;
 }
-. .markdown-content >>> img {
+.markdown-content >>> img {
   width: 100% !important;
+}
+
+::v-deep pre code:before {
+  content: '' !important;
+}
+
+::v-deep pre code {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  color: #abb2bf;
+  background: #282c34;
 }
 </style>

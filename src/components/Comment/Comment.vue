@@ -69,7 +69,7 @@
             >
               <p
                 v-html="$options.filters.markdown(comment.content)"
-                class="comment-content"
+                class="comment-content markdown-content"
               />
             </v-col>
           </v-row>
@@ -398,7 +398,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .load-more {
   font-size: 13px;
   cursor: pointer;
@@ -441,5 +441,21 @@ export default {
 .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
   opacity: 0;
   transform: translateY(-30px);
+}
+
+.markdown-content >>> img {
+  width: 50% !important;
+}
+
+::v-deep pre code:before {
+  content: '' !important;
+}
+
+::v-deep pre code {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  color: #abb2bf;
+  background: #282c34;
 }
 </style>
