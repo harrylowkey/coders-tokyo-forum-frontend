@@ -277,8 +277,7 @@
                                 >
                                   <v-textarea
                                     label="Content*"
-                                    auto-grow
-                                    rows="15"
+                                    :rows="getNumberOfLines(post.content, 15) || 15"
                                     required
                                     :error-messages="errors"
                                     v-model="post.content"

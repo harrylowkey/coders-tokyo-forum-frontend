@@ -58,6 +58,12 @@ export const createPost = {
     sanitizeContent(text) {
       return DOMPurify.sanitize(text);
     },
+    getNumberOfLines(text, minLines) {
+      if (text && typeof text === 'string') {
+        const lines = text.replace(/\r\n/g, '\n').split('\n').length;
+        return lines > minLines ? lines : minLines;  // replace makes sure, that this works with line breaks of different OS
+      }
+    },
     async submit() {
       if (this.data.cover === '') {
         this.$notify({

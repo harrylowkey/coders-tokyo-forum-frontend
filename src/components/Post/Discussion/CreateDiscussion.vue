@@ -53,8 +53,7 @@
                       :error-messages="errors"
                       v-model="data.content"
                       label="Content*"
-                      auto-grow
-                      rows="4"
+                      :rows="getNumberOfLines(data.content, 4) || 4"
                       required
                     />
                   </ValidationProvider>
