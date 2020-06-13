@@ -61,7 +61,7 @@ export const editPost = {
     getNumberOfLines(text, minLines) {
       if (text && typeof text === 'string') {
         const lines = text.replace(/\r\n/g, '\n').split('\n').length;
-        return lines > minLines ? lines : minLines;  // replace makes sure, that this works with line breaks of different OS
+        return lines > minLines ? lines : minLines; // replace makes sure, that this works with line breaks of different OS
       }
     },
   },

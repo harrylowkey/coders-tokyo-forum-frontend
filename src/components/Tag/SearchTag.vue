@@ -268,6 +268,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import DOMPurify from 'dompurify';
 
 import Song from '@/components/Post/Audio/Song/Song';
 import Podcast from '@/components/Post/Audio/Podcast/Podcast';
@@ -328,7 +329,11 @@ export default {
         options: { limit: this.limit, page: this.metadata.page + 1 },
       });
     },
+    sanitizeContent(text) {
+      return DOMPurify.sanitize(text);
+    },
     searchTags() {
+      this.tagsSearch = this.sanitizeContent(this.tagsSearch);
       const tagsToSearch = this.tagsSearch.replace(/\s/g, '').split(',');
       const tagNameQueries = tagsToSearch.reduce(
         (tagNameQueries, tagName) => [...tagNameQueries, `tag=${tagName}`],
