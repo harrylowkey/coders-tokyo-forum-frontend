@@ -102,12 +102,11 @@
                       >
                         <v-textarea
                           label="Content*"
-                          auto-grow
-                          rows="15"
                           required
                           v-model="data.content"
                           placeholder="Markdown"
                           :error-messages="errors"
+                          :rows="getNumberOfLines(data.content, 15) || 15"
                         />
                       </ValidationProvider>
 

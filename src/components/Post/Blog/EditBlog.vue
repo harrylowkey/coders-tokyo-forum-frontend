@@ -117,6 +117,7 @@
                                 <v-textarea
                                   label="Description"
                                   persistent-hint
+                                  auto-grow
                                   rows="3"
                                   v-model="post.description"
                                   hint="Write description to attract people at the first glance"
@@ -130,8 +131,7 @@
                                 >
                                   <v-textarea
                                     label="Content*"
-                                    auto-grow
-                                    rows="15"
+                                    :rows="getNumberOfLines(post.content, 15) || 15"
                                     required
                                     v-model="post.content"
                                     placeholder="Markdown"

@@ -278,8 +278,7 @@
                         <v-textarea
                           label="Content*"
                           auto-grow
-                          rows="15"
-                          required
+                          :rows="getNumberOfLines(data.content, 15) || 15"
                           :error-messages="errors"
                           v-model="data.content"
                           placeholder="Markdown"

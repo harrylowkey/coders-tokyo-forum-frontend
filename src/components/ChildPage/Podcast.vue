@@ -738,6 +738,24 @@ audio {
   content: '' !important;
 }
 
+.markdown-content {
+  line-height: 1.6;
+}
+
+::v-deep code:before {
+  content: '' !important;
+}
+
+::v-deep code:after {
+  content: '' !important;
+}
+
+::v-deep code {
+  font-size: 13.5px !important;
+  box-shadow: none;
+  background-color: #fff;
+}
+
 ::v-deep pre code {
   display: block;
   overflow-x: auto;
