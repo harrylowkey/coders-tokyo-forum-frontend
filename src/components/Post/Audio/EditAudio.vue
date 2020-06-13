@@ -456,7 +456,9 @@
                                   <v-col cols="12">
                                     <v-textarea
                                       label="Lyric*"
-                                      :rows="getNumberOfLines(post.description) || 15"
+                                      :rows="
+                                        getNumberOfLines(post.description) || 15
+                                      "
                                       required
                                       v-model="post.description"
                                       placeholder="Markdown"

@@ -131,7 +131,9 @@
                                 >
                                   <v-textarea
                                     label="Content*"
-                                    :rows="getNumberOfLines(post.content, 15) || 15"
+                                    :rows="
+                                      getNumberOfLines(post.content, 15) || 15
+                                    "
                                     required
                                     v-model="post.content"
                                     placeholder="Markdown"
