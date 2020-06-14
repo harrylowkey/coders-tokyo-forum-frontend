@@ -109,10 +109,19 @@ export default {
       return `${counter} ${this.$t(time)}`;
     },
     handleNotifContent(content) {
-      const splitContent = content.split(' ');
-      const user = splitContent[0];
-      const action = splitContent.slice(1).join(' ');
-      return `${user} ${this.$t(action)}`;
+      if (content.indexOf('others') > 0) {
+        const splitContent = content.split(' ');
+        const user = splitContent[0];
+        const counterOthers = splitContent[1]
+        const others = splitContent[2]
+        const action = splitContent.slice(3).join(' ');
+        return `${user} ${counterOthers} ${this.$t(others)} ${this.$t(action)}`;
+      } else { 
+        const splitContent = content.split(' ');
+        const user = splitContent[0];
+        const action = splitContent.slice(1).join(' ');
+        return `${user} ${this.$t(action)}`;
+      }
     },
   },
   computed: {

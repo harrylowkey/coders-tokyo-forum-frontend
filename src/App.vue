@@ -33,13 +33,27 @@ export default {
     onClickLogo() {
       return this.$refs.forumTitle.click();
     },
+    handleNotifContent(content) {
+      if (content.indexOf('others') > 0) {
+        const splitContent = content.split(' ');
+        const user = splitContent[0];
+        const others = splitContent[1]
+        const action = splitContent.slice(2).join(' ');
+        return `${user} ${others} ${this.$t(action)}`;
+      } else {
+        const splitContent = content.split(' ');
+        const user = splitContent[0];
+        const action = splitContent.slice(1).join(' ');
+        return `${user} ${this.$t(action)}`;
+      }
+    },
   },
   created() {
     socket.on('NOTIFICATIONS', payload => {
       this.$notify({
         type: 'success',
         title: `${this.$t('Notification')}!`,
-        text: this.$t(payload.content.replace(/[^a-zA-Z ]/g, '')),
+        text: this.$t(this.handleNotifContent(payload.content.replace(/[^a-zA-Z ]/g, ''))),
       });
 
       this.updateNotifications(payload.notif);
