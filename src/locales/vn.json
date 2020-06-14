@@ -251,5 +251,6 @@
   "Delete blog failed": "Xóa thất bại",
   "Delete book blog failed": "Xóa thất bại",
   "Delete food blog review failed": "Xóa thất bại",
-  "Delete movie blog review failed": "Xóa thất bại"
+  "Delete movie blog review failed": "Xóa thất bại",
+  "Invalid token or expired time": "Đăng nhập lại"
 }
