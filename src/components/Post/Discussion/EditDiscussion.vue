@@ -177,7 +177,7 @@ export default {
         this.$notify({
           type: 'success',
           title: `${this.$t('notifications.title.Success')}!`,
-          text: this.$t('notificatons.update.Success'),
+          text: this.$t('notifications.update.Success'),
         });
 
         return this.$router.push({
