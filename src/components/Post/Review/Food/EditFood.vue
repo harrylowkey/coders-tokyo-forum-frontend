@@ -68,7 +68,7 @@
                                   :height="450"
                                   :headers="headers"
                                   img-format="jpg"
-                                  langType="en"
+                                  :langExt="langExtVN"
                                   noCircle
                                 />
                                 <v-container
@@ -94,7 +94,7 @@
                                       <v-icon left>
                                         mdi-cloud-upload-outline
                                       </v-icon>
-                                      Update Image
+                                      {{ $t('Update Cover Image') }}
                                     </v-chip>
                                   </v-img>
                                 </v-container>
@@ -105,7 +105,7 @@
                                     mdi-paperclip
                                   </v-icon>
                                   <span style="font-size: 17px">
-                                    Attach photos
+                                    {{ $t('Attach photos') }}
                                   </span>
                                 </v-container>
                                 <div
@@ -137,37 +137,30 @@
                                   v-slot="{ errors }"
                                 >
                                   <v-text-field
-                                    :error-messages="errors"
+                                    :error-messages="$t(errors)"
                                     v-model="post.food.restaurant"
-                                    label="Restaurant name*"
+                                    :label="$t('Restaurant name*')"
                                     required
                                   />
                                 </ValidationProvider>
                               </v-col>
 
-                              <v-col cols="12" sm="12" md="12">
-                                <v-text-field
-                                  :error-messages="errors"
-                                  v-model="post.food.location"
-                                  label="Address"
-                                  required
-                                />
-                              </v-col>
-
                               <v-col cols="12" sm="8" md="8">
                                 <div class="d-flex align-end">
                                   <v-text-field
-                                    hint="E.g: 200.000 - 400.000 VND"
+                                    :hint="
+                                      $t('E.g') + ': 200.000 - 400.000 VND'
+                                    "
                                     v-model="post.food.priceAverage"
-                                    label="Average price"
+                                    :label="$t('Average price')"
                                   />
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="4" md="4">
                                 <v-text-field
                                   v-model="post.food.openTime"
-                                  label="Open time"
-                                  hint="E.g: 08:00 / 20:00"
+                                  :label="$t('Open time')"
+                                  :hint="$t('E.g') + ': 08:00 / 20:00'"
                                 />
                               </v-col>
                               <v-col cols="12" sm="6" md="3">
@@ -177,10 +170,10 @@
                                   v-slot="{ errors }"
                                 >
                                   <v-text-field
-                                    :error-messages="errors"
+                                    :error-messages="$t(errors)"
                                     v-model="post.food.quality"
-                                    hint="1 - 10 points"
-                                    label="Quality*"
+                                    :hint="'1 - 10' + $t('points')"
+                                    :label="$t('Quality') + '*'"
                                   />
                                 </ValidationProvider>
                               </v-col>
@@ -192,9 +185,9 @@
                                 >
                                   <v-text-field
                                     v-model="post.food.price"
-                                    :error-messages="errors"
-                                    hint="1 - 10 points"
-                                    label="Price*"
+                                    :error-messages="$t(errors)"
+                                    :hint="'1 - 10' + $t('points')"
+                                    :label="$t('Price') + '*'"
                                   />
                                 </ValidationProvider>
                               </v-col>
@@ -206,9 +199,9 @@
                                 >
                                   <v-text-field
                                     v-model="post.food.service"
-                                    :error-messages="errors"
-                                    hint="1 - 10 points"
-                                    label="Service*"
+                                    :error-messages="$t(errors)"
+                                    :hint="'1 - 10' + $t('points')"
+                                    :label="$t('Service') + '*'"
                                   />
                                 </ValidationProvider>
                               </v-col>
@@ -220,26 +213,31 @@
                                 >
                                   <v-text-field
                                     v-model="post.food.space"
-                                    :error-messages="errors"
-                                    hint="1 - 10 points"
-                                    label="Space*"
+                                    :error-messages="$t(errors)"
+                                    :hint="'1 - 10' + $t('points')"
+                                    :label="$t('Space') + '*'"
                                   />
                                 </ValidationProvider>
                               </v-col>
-                              <v-col cols="12" sm="12" md="5">
+                              <v-col cols="12" sm="6" md="7">
+                                <v-text-field
+                                  v-model="post.food.location"
+                                  :label="$t('Address')"
+                                />
+                              </v-col>
+                              <v-col cols="12" sm="6" md="5">
                                 <v-container class="d-flex pl-0 pr-0 mt-2">
                                   <span
-                                    style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
+                                    style="font-size: 17px;  color: rgba(0, 0, 0, 0.57);"
                                     class="mb-0 pt-1 pr-5"
                                   >
-                                    Your stars:
+                                    {{ $t('Stars') }}
                                   </span>
                                   <v-rating
                                     v-model="post.food.stars"
                                     color="yellow darken-3"
                                     background-color="grey darken-1"
                                     empty-icon="$ratingFull"
-                                    half-increments
                                     hover
                                     small
                                   />
@@ -252,36 +250,40 @@
                                   v-slot="{ errors }"
                                 >
                                   <v-text-field
-                                    :error-messages="errors"
+                                    :error-messages="$t(errors)"
                                     v-model="post.topic"
-                                    label="Title*"
+                                    :label="$t('Title') + '*'"
                                     required
                                   />
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12">
                                 <v-text-field
-                                  label="Description"
+                                  :label="$t('Description')"
                                   v-model="post.description"
                                   persistent-hint
                                   rows="2"
-                                  hint="Write description to attract people at the first glance"
+                                  :hint="
+                                    $t(
+                                      'Write description to attract people at the first glance',
+                                    )
+                                  "
                                 />
                               </v-col>
                               <v-col cols="12">
                                 <ValidationProvider
-                                  name="Title"
+                                  name="Content"
                                   v-model="post.title"
                                   rules="required"
                                   v-slot="{ errors }"
                                 >
                                   <v-textarea
-                                    label="Content*"
+                                    :label="$t('Content*')"
                                     :rows="
                                       getNumberOfLines(post.content, 15) || 15
                                     "
                                     required
-                                    :error-messages="errors"
+                                    :error-messages="$t(errors)"
                                     v-model="post.content"
                                     placeholder="Markdown"
                                   />
@@ -322,7 +324,7 @@
                             color="primary"
                             @click="togglePreviewContent"
                           >
-                            Preview
+                            {{ $t('Preview') }}
                           </v-btn>
                           <v-btn
                             class="white--text"
@@ -330,7 +332,7 @@
                             color="warning"
                             @click="submit"
                           >
-                            Update
+                            {{ $t('Update') }}
                           </v-btn>
                         </v-card-actions>
                       </v-container>
@@ -419,16 +421,16 @@ export default {
         );
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Upload success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('notifications.upload.Success'),
         });
       }
 
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: 'Upload failed',
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t('notifications.upload.Fail'),
         });
       }
     },
@@ -451,8 +453,8 @@ export default {
       if (this.post.cover === '') {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: "Let's upload the banner",
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t("Let's upload the banner"),
         });
         return;
       }
@@ -474,8 +476,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Update success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Update success'),
         });
 
         if (this.newCover._id) {
@@ -494,8 +496,8 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: res.message,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(res.message),
         });
         this.deleteFile({ fileId: this.newCover._id });
       }

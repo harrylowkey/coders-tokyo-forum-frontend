@@ -26,7 +26,7 @@
                 })
               "
             >
-              Read more...
+              {{ $t('Read more') }}...
             </a>
           </span>
           <read-time

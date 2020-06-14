@@ -60,7 +60,6 @@ export default {
   },
   computed: {
     ...mapState('utils', [
-      'errorMes',
       'isLoading',
       'isLoadingAPI',
       'isLoadmore',

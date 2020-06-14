@@ -13,7 +13,7 @@ export const uploadBanner = {
       }
       this.$notify({
         type: 'error',
-        title: 'Upload banner failed',
+        title: this.$t('Upload banner failed'),
       });
     },
   },

@@ -58,7 +58,6 @@ export default {
   },
   computed: {
     ...mapState('utils', [
-      'errorMes',
       'isLoading',
       'isLoadingAPI',
       'isLoadmore',
@@ -98,15 +97,6 @@ export default {
       typeQuery: 'book',
       options: { limit: 5, page: 1 },
     });
-  },
-  errorMes(newVal) {
-    if (newVal.length) {
-      this.$notify({
-        type: 'error',
-        title: 'Error!',
-        text: newVal,
-      });
-    }
   },
 };
 </script>

@@ -9,7 +9,9 @@
                 <v-form>
                   <v-card class="elevation-12 px-5 pt-2 pb-8">
                     <v-toolbar flat>
-                      <v-toolbar-title>Forgot Password</v-toolbar-title>
+                      <v-toolbar-title>
+                        {{ $t('Forgot Password') }}
+                      </v-toolbar-title>
                       <v-spacer />
                     </v-toolbar>
                     <v-card-text class="py-6 px-10">
@@ -19,12 +21,16 @@
                           rules="required"
                           v-slot="{ errors }"
                         >
-                          <div>New Password</div>
+                          <div>{{ $t('New password') }}</div>
                           <v-text-field
-                            :error-messages="errors"
+                            :error-messages="$t(errors)"
                             id="password"
                             v-model="newPassword"
-                            hint="Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!"
+                            :hint="
+                              $t(
+                                'Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!',
+                              )
+                            "
                             class="pt-0"
                             name="password"
                             type="password"
@@ -35,11 +41,11 @@
                           :rules="`required|samePassword:${newPassword}`"
                           v-slot="{ errors }"
                         >
-                          <div>Confirm password</div>
+                          <div>{{ $t('Confirm password*') }}</div>
                           <v-text-field
-                            :error-messages="errors"
+                            :error-messages="$t(errors)"
                             v-model="confirmPassword"
-                            hint="Type new password again"
+                            :hint="$t('Type new password again')"
                             type="password"
                             class="pt-0"
                             required
@@ -55,7 +61,7 @@
                             >
                               <v-text-field
                                 v-model="email"
-                                :error-messages="errors"
+                                :error-messages="$t(errors)"
                                 name="email"
                                 class="pt-0"
                                 type="text"
@@ -69,7 +75,7 @@
                               small
                               class="success"
                             >
-                              Get code
+                              {{ $t('Get code') }}
                             </v-btn>
                           </v-col>
                         </v-row>
@@ -80,7 +86,7 @@
                         >
                           <div>Code</div>
                           <v-text-field
-                            :error-messages="errors"
+                            :error-messages="$t(errors)"
                             v-model="code"
                             id="code"
                             name="code"
@@ -100,7 +106,7 @@
                         color="success"
                         @click="register"
                       >
-                        Change Password
+                        {{ $t('Change Password') }}
                       </v-btn>
                     </v-card-actions>
                   </v-card>
@@ -165,7 +171,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoadingAPI']),
+    ...mapState('utils', ['isLoadingAPI']),
   },
   methods: {
     ...mapActions('user', ['forgotPassword', 'getCode']),
@@ -184,8 +190,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Change password success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Change password success'),
         });
         this.$router.push({ path: this.redirectLink });
       }
@@ -194,16 +200,16 @@ export default {
       if (!this.email) {
         return this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: 'Please type email to get code',
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t('Please type email to get code'),
         });
       }
       const res = await this.getCode(this.email);
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Code has been sent to your email',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$('Code has been sent to your email'),
         });
       }
     },

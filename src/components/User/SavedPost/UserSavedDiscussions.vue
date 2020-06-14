@@ -55,7 +55,6 @@ export default {
   },
   computed: {
     ...mapState('utils', [
-      'errorMes',
       'isLoading',
       'isLoadingAPI',
       'isLoadmore',
@@ -100,17 +99,6 @@ export default {
       typeQuery: 'discussion',
       options: { limit: 10, page: 1 },
     });
-  },
-  watch: {
-    errorMes(newVal) {
-      if (newVal.length) {
-        this.$notify({
-          type: 'error',
-          title: 'Error!',
-          text: newVal,
-        });
-      }
-    },
   },
 };
 </script>

@@ -206,7 +206,7 @@
         </v-card>
         <div class="mt-5" id="comments">
           <v-divider />
-          <h1 class="mb-3 mt-8">Comments</h1>
+          <h1 class="mb-3 mt-8">{{ $t('Comments') }}</h1>
 
           <v-boilerplate style="width: 100%" v-if="isLoading" type="image" />
           <write-comment v-if="!isLoading" :postId="post._id" type="comment" />
@@ -510,10 +510,6 @@ audio {
   padding-bottom: 0;
 }
 
-.v-application--is-ltr .v-list-item__action:first-child,
-.v-application--is-ltr .v-list-item__icon:first-child {
-  margin-right: 0 !important;
-}
 .song-description {
   // border: 1px solid grey;
   // border-left: none;

@@ -46,7 +46,7 @@ export const attachImage = {
     onError: function() {
       this.$notify({
         type: 'error',
-        title: 'Copy failed',
+        title: this.$t('Copy failed'),
       });
     },
     async uploadImage() {
@@ -70,7 +70,7 @@ export const attachImage = {
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Upload failed',
+          title: this.$t('notifications.upload.Fail'),
         });
       }
     },

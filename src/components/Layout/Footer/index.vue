@@ -14,8 +14,11 @@
         </v-btn>
       </v-card-text>
       <div class="d-flex justify-center pt-3">
-        <v-card-text class="pt-0 signature" style="width: 45%">
-          "Believe in yourself, don't compare to anyone else!"
+        <v-card-text
+          class="pt-0 signature"
+          style="width: 45%; line-height: 1.2"
+        >
+          "{{ $t("Believe in yourself, don't compare to anyone else!") }}"
         </v-card-text>
       </div>
       <div class="d-flex justify-center pb-3">

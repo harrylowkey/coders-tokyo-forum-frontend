@@ -2,7 +2,7 @@
   <v-card class="pb-1">
     <v-container class="pb-0">
       <p class="headline mb-2 mt-0 ml-4">
-        {{ type }}
+        {{ $t(type) }}
         <span style="font-size: 16px">({{ list.length }})</span>
       </p>
     </v-container>
@@ -31,7 +31,7 @@
               color="green"
               x-small
             >
-              Follow
+              {{ $t('Follow') }}
             </v-btn>
             <v-btn
               @click="onClickUnfollow(user)"
@@ -40,7 +40,7 @@
               color="red"
               x-small
             >
-              Unfollow
+              {{ $t('Unfollow') }}
             </v-btn>
           </v-container>
         </div>

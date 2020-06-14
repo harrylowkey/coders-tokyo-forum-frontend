@@ -66,47 +66,51 @@
                         {{ post.book.name }}
                       </p>
                       <v-container class="d-flex pl-1 pb-0 pt-2">
-                        <p class="key mb-0 mr-3">Status:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Status') }}:</p>
                         <p class="value mb-0" :style="calBookStatusColor">
-                          {{ post.book.status }}
+                          {{ $t(post.book.status) }}
                         </p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Author:</p>
+                        <p style="width: 90px" class="key mb-0 mr-3">
+                          {{ $t('Author') }}:
+                        </p>
                         <p class="value mb-0" v-if="slicedAuthors">
                           <span
                             v-for="(author, i) in slicedAuthors"
                             :key="author._id"
                           >
-                            {{ author.name
+                            {{ $t(author.name)
                             }}{{ isAddComma(i, slicedAuthors.length) }}
                           </span>
                         </p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Nation:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Nation') }}:</p>
                         <p class="value mb-0">{{ post.book.country }}</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Length:</p>
-                        <p class="value mb-0">{{ post.book.length }} pages</p>
+                        <p class="key mb-0 mr-3">{{ $t('Length') }}:</p>
+                        <p class="value mb-0">{{ post.book.length }}</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Genres:</p>
-                        <span v-if="slicedGenres.length">
+                        <p style="width: 70px" class="key mb-0 mr-3">
+                          {{ $t('Genres') }}:
+                        </p>
+                        <span v-if="post.book.genres.length">
                           <v-chip
                             label
                             text-color="black"
                             outlined
                             small
                             style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
-                            v-for="genre in slicedGenres"
+                            v-for="genre in post.book.genres"
                             :key="genre._id"
-                            class="mr-1"
+                            class="mr-1 mb-1"
                           >
                             {{ genre }}
                           </v-chip>
@@ -114,7 +118,7 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Suggested by:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Suggested by') }}:</p>
                         <p class="value mb-0" v-if="slicedSuggestedBy">
                           <span
                             v-for="(person, i) in slicedSuggestedBy"
@@ -127,7 +131,7 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-4">Stars:</p>
+                        <p class="key mb-0 mr-4">{{ $t('Stars') }}:</p>
                         <v-icon
                           v-for="(start, i) in 5"
                           :key="i"
@@ -146,39 +150,43 @@
                     <v-card-text class="pb-6 pt-0 d-flex justify-space-around">
                       <div>
                         <v-container class="d-flex pl-1 pb-0 pt-2">
-                          <p class="key mb-0 mr-3">Status:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Status') }}:</p>
                           <p class="value mb-0" :style="calBookStatusColor">
-                            {{ post.book.status }}
+                            {{ $t(post.book.status) }}
                           </p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Author:</p>
+                          <p style="width: 80px" class="key mb-0 mr-3">
+                            {{ $t('Author') }}:
+                          </p>
                           <p class="value mb-0" v-if="slicedAuthors">
                             <span
                               v-for="(author, i) in slicedAuthors"
                               :key="author._id"
                             >
-                              {{ author.name
+                              {{ $t(author.name)
                               }}{{ isAddComma(i, slicedAuthors.length) }}
                             </span>
                           </p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Nation:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Nation') }}:</p>
                           <p class="value mb-0">{{ post.book.country }}</p>
                         </v-container>
                       </div>
 
                       <div>
                         <v-container class="d-flex pl-1 pb-0 pt-2">
-                          <p class="key mb-0 mr-3">Length:</p>
-                          <p class="value mb-0">{{ post.book.length }} pages</p>
+                          <p class="key mb-0 mr-3">{{ $t('Length') }}:</p>
+                          <p class="value mb-0">{{ post.book.length }}</p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Genres:</p>
+                          <p style="width: 70px" class="key mb-0 mr-3">
+                            {{ $t('Genres') }}:
+                          </p>
                           <span v-if="slicedGenres">
                             <v-chip
                               label
@@ -188,7 +196,7 @@
                               style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
                               v-for="genre in slicedGenres"
                               :key="genre._id"
-                              class="mr-1"
+                              class="mr-1 mb-1"
                             >
                               {{ genre }}
                             </v-chip>
@@ -196,7 +204,9 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mwb-0 mr-3">Suggested by:</p>
+                          <p class="key mwb-0 mr-3">
+                            {{ $t('Suggested by') }}:
+                          </p>
                           <p class="value mb-0" v-if="slicedSuggestedBy">
                             <span
                               v-for="(person, i) in slicedSuggestedBy"
@@ -208,7 +218,7 @@
                           </p>
                         </v-container>
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-4">Stars:</p>
+                          <p class="key mb-0 mr-4">{{ $t('Stars') }}:</p>
                           <v-icon
                             v-for="(start, i) in 5"
                             :key="i"
@@ -259,7 +269,7 @@
                     </v-icon>
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">
-                    {{ post.createdAt | date }}
+                    {{ $d(new Date(post.createdAt), 'short', 'vi-VN') }}
                   </v-card-subtitle>
                   <read-time class="pl-0" :text="post.content" />
                   <edit-delete-btns
@@ -293,7 +303,7 @@
         <v-container>
           <v-row id="comments">
             <div style="width: 100%" id="comments" class="mt-5">
-              <h1 class="mb-3 mt-8">Comments</h1>
+              <h1 class="mb-3 mt-8">{{ $t('Comments') }}</h1>
 
               <v-boilerplate
                 style="width: 100%"
@@ -348,7 +358,7 @@
               v-if="otherPostsOfAuthor.length"
               class="mb-10"
             >
-              <h1 class="mt-8 mb-3">Other Book Reviews</h1>
+              <h1 class="mt-8 mb-3">{{ $t('Other Book Reviews') }}</h1>
               <div style="width: 100%" class="d-flex" v-if="isLoading">
                 <v-boilerplate
                   class="other-post"

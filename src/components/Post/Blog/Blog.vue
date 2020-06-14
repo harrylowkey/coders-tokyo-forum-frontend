@@ -23,7 +23,7 @@
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
               <a @click="linkToBlog" style=" text-decoration: none">
-                Read more...
+                {{ $t('Read more') }}...
               </a>
             </span>
             <read-time
@@ -45,7 +45,7 @@
           class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
         >
-          {{ createdAt | date }}
+          {{ $d(new Date(createdAt), 'short', 'vi-VN') }}
         </v-card-text>
         <v-spacer />
         <v-container>

@@ -37,7 +37,7 @@
                 label
               >
                 <v-icon left>mdi-cloud-upload-outline</v-icon>
-                Image
+                {{ $t('Cover image') }}
               </v-chip>
             </div>
           </v-col>
@@ -58,7 +58,7 @@
                         :height="400"
                         :headers="headers"
                         img-format="jpg"
-                        langType="en"
+                        :langExt="langExtVN"
                         noCircle
                       />
                       <v-container
@@ -80,23 +80,23 @@
                       >
                         <v-text-field
                           v-model="data.book.name"
-                          label="Book name*"
+                          :label="$t('Book name*')"
                           required
-                          :error-messages="errors"
+                          :error-messages="$t(errors)"
                         />
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12" sm="4" md="4">
                       <ValidationProvider
-                        name="Status"
+                        :label="$t('Status')"
                         rules="required"
                         v-slot="{ errors }"
                       >
                         <v-text-field
                           v-model="data.book.status"
-                          :error-messages="errors"
+                          :error-messages="$t(errors)"
                           label="Status"
-                          hint="E.g: Finished or 15/34 Chapters"
+                          :hint="$t('E.g: Finished or 15/34 Chapters')"
                           required
                         />
                       </ValidationProvider>
@@ -104,7 +104,7 @@
                     <v-col cols="12" sm="6" md="4">
                       <div class="d-flex align-end">
                         <ValidationProvider
-                          name="Author"
+                          :label="$t('Author')"
                           rules="required"
                           v-slot="{ errors }"
                         >
@@ -112,7 +112,7 @@
                             required
                             v-model="author"
                             label="Author"
-                            :error-messages="errors"
+                            :error-messages="$t(errors)"
                           />
                         </ValidationProvider>
                         <span class="pb-4 pl-3" v-if="!addCoAuthor">
@@ -143,9 +143,9 @@
                           v-slot="{ errors }"
                         >
                           <v-text-field
-                            :error-messages="errors"
+                            :error-messages="$t(errors)"
                             v-model="coAuthor"
-                            label="Co - Author"
+                            :label="$t('Co - Author')"
                           />
                         </ValidationProvider>
                       </div>
@@ -154,7 +154,7 @@
                       <div class="d-flex align-end">
                         <v-text-field
                           v-model="recommender"
-                          label="Recommender"
+                          :label="$t('Recommender')"
                         />
                         <span class="pb-4 pl-3" v-if="!addRecomender2">
                           <v-icon
@@ -180,20 +180,20 @@
                       <div class="d-flex align-end">
                         <v-text-field
                           v-model="recommender2"
-                          label="Recommender"
+                          :label="$t('Recommender')"
                         />
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         v-model="data.book.country"
-                        label="Nation"
+                        :label="$t('Nation')"
                       />
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                       <v-text-field
                         v-model="data.book.length"
-                        hint="E.g: 200 pages"
+                        :hint="$t('E.g: 200 pages')"
                         label="Length"
                       />
                     </v-col>
@@ -203,7 +203,7 @@
                           style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                           class="mb-0 pt-1 pr-5"
                         >
-                          Your stars:
+                          {{ $t('Stars') }}
                         </span>
                         <v-rating
                           v-model="data.book.stars"
@@ -217,8 +217,8 @@
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
                       <v-autocomplete
-                        :items="genres"
-                        label="Genres"
+                        :items="genresVN"
+                        :label="$t('Genres')"
                         v-model="data.book.genres"
                         multiple
                       />
@@ -232,8 +232,8 @@
                         <v-text-field
                           v-model="data.topic"
                           required
-                          :error-messages="errors"
-                          label="Topic*"
+                          :error-messages="$t(errors)"
+                          :label="$t('Topic*')"
                           persistent-hint
                           rows="2"
                         />
@@ -241,11 +241,15 @@
                     </v-col>
                     <v-col cols="12">
                       <v-textarea
-                        label="Description"
+                        :label="$t('Description')"
                         persistent-hint
                         rows="3"
                         v-model="data.description"
-                        hint="Write description to attract people at the first glance"
+                        :hint="
+                          $t(
+                            'Write description to attract people at the first glance',
+                          )
+                        "
                       />
                     </v-col>
                     <v-col cols="12">
@@ -255,11 +259,11 @@
                         v-slot="{ errors }"
                       >
                         <v-textarea
-                          label="Content*"
+                          :label="$t('Content*')"
                           v-model="data.content"
                           :rows="getNumberOfLines(data.content, 15) || 15"
                           required
-                          :error-messages="errors"
+                          :error-messages="$t(errors)"
                           placeholder="Markdown"
                         />
                       </ValidationProvider>
@@ -293,7 +297,7 @@
                   @click="isAttachImage = !isAttachImage"
                 >
                   <v-icon left color="primary">image</v-icon>
-                  Attach image
+                  {{ $t('Attach image') }}
                 </v-chip>
                 <v-spacer />
                 <v-btn
@@ -302,7 +306,7 @@
                   @click="togglePreviewContent"
                   dark
                 >
-                  Preview
+                  {{ $t('Preview') }}
                 </v-btn>
                 <v-btn
                   class="mr-5"
@@ -310,7 +314,7 @@
                   @click="submit"
                   :disabled="isLoadingUpload"
                 >
-                  Post
+                  {{ $t('Post') }}
                 </v-btn>
               </v-card-actions>
             </v-container>
@@ -379,11 +383,22 @@ export default {
         'Thriller',
         'Poetry',
         'Novel',
-        'Narrative',
         'Literary',
         'Deactive',
         'Action',
         'Improve-self',
+      ],
+      genresVN: [
+        'Viễn tưởng',
+        'Khoa học',
+        'Thần thoại',
+        'Kinh dị',
+        'Thơ ca',
+        'Tiểu thuyết',
+        'Văn học',
+        'Trinh thám',
+        'Hành động',
+        'Phát triển bản thân',
       ],
     };
   },
@@ -401,8 +416,8 @@ export default {
       if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: "Let's upload the cover",
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t("Let's upload the cover"),
         });
         return;
       }
@@ -421,7 +436,7 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
+          title: `${this.$t('notifications.title.Success')}!`,
         });
         setTimeout(() => {
           return this.$router.push({ path: ROUTES.BOOK_REVIEWS(res.data._id) });
@@ -430,8 +445,8 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: res.message,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(res.message),
         });
       }
     },

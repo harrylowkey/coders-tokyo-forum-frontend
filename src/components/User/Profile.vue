@@ -51,7 +51,7 @@
                   method="POST"
                   :url="APIS.UPLOAD_AVATAR"
                   img-format="jpg"
-                  langType="en"
+                  :langExt="langExtVN"
                 />
                 <v-dialog v-model="showAvatar" max-width="400">
                   <v-card
@@ -124,7 +124,9 @@
                         :style="propertyUserInfoStyle"
                         v-if="isOwner"
                       >
-                        <v-subheader class="pa-0">Password</v-subheader>
+                        <v-subheader class="pa-0">
+                          {{ $t('Password') }}
+                        </v-subheader>
                       </v-col>
 
                       <v-col
@@ -221,7 +223,7 @@
                         lg="3"
                         :style="propertyUserInfoStyle"
                       >
-                        <v-subheader class="pa-0">Sex</v-subheader>
+                        <v-subheader class="pa-0">{{ $t('Sex') }}</v-subheader>
                       </v-col>
                       <v-col
                         class="col"
@@ -231,7 +233,7 @@
                         lg="9"
                         style="padding: 0"
                       >
-                        <p class="user-info">{{ profileUser.sex }}</p>
+                        <p class="user-info">{{ $t(profileUser.sex) }}</p>
                       </v-col>
 
                       <v-col
@@ -239,17 +241,17 @@
                         cols="12"
                         sm="12"
                         md="12"
-                        lg="3"
+                        lg="5"
                         :style="propertyUserInfoStyle"
                       >
-                        <v-subheader class="pa-0">Job</v-subheader>
+                        <v-subheader class="pa-0">{{ $t('Job') }}</v-subheader>
                       </v-col>
                       <v-col
                         class="col"
                         cols="12"
                         sm="12"
                         md="12"
-                        lg="9"
+                        lg="7"
                         style="padding: 0"
                       >
                         <p class="user-info">{{ profileUser.job }}</p>
@@ -260,17 +262,19 @@
                         cols="12"
                         sm="12"
                         md="12"
-                        lg="3"
+                        lg="5"
                         :style="propertyUserInfoStyle"
                       >
-                        <v-subheader class="pa-0">Date join</v-subheader>
+                        <v-subheader class="pa-0">
+                          {{ $t('Date join') }}
+                        </v-subheader>
                       </v-col>
                       <v-col
                         class="col"
                         cols="12"
                         sm="12"
                         md="12"
-                        lg="9"
+                        lg="7"
                         style="padding: 0"
                       >
                         <p class="pt-0 user-info">
@@ -312,7 +316,7 @@
                 :elevation="hover ? 15 : 5"
               >
                 <v-card-title class="text-center pl-4">
-                  Introduction
+                  {{ $t('Introduction') }}
                 </v-card-title>
                 <v-divider />
                 <v-card-text class="px-8 py-1">
@@ -394,10 +398,30 @@ export default {
         url: '',
       },
       profileUser: {},
+      langExtVN: {
+        hint: 'Nhấp hoặc kéo tệp vào đây để tải lên',
+        loading: 'Đang tải lên…',
+        noSupported:
+          'Trình duyệt không được hỗ trợ, vui lòng sử dụng IE10 + hoặc các trình duyệt khác',
+        success: 'Tải lên thành công',
+        fail: 'Tải lên thất bại',
+        preview: 'Xem trước',
+        btn: {
+          off: 'Hủy',
+          close: 'Đóng',
+          back: 'Trở lại',
+          save: 'Xác nhận',
+        },
+        error: {
+          onlyImg: 'Chỉ chọn hình ảnh',
+          outOfSize: 'Kích thước ảnh quả lớn: ',
+          lowestPx: 'Kích thước ảnh quá nhỏ. Kích thước nhỏ nhất từ: ',
+        },
+      },
     };
   },
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading']),
+    ...mapState('utils', ['isLoading']),
     ...mapState('user', ['accessToken', 'user']),
     isOwner() {
       return this.user.username === this.$route.params.username;
@@ -442,8 +466,8 @@ export default {
       if (response.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Update avatar success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Update avatar success'),
         });
         this.profileUser.avatar.secureURL = response.data.secureURL;
       }
@@ -451,16 +475,16 @@ export default {
     cropUploadFail() {
       this.$notify({
         type: 'error',
-        title: 'Error!',
-        text: 'Upload avatar failed',
+        title: `${this.$t('notifications.title.Error')}!`,
+        text: this.$t('Update avatar failed'),
       });
     },
     handleUpdateProfile(res) {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Update profile success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Update profile success'),
         });
 
         const socialLinks = res.data.socialLinks;
@@ -480,8 +504,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Update description success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Update description success'),
         });
         this.profileUser.description = res.data.description;
       }

@@ -91,6 +91,17 @@ const routes = [
   },
   {
     path: '/',
+    component: FullLayout,
+    children: [
+      {
+        path: 'posts/tags',
+        name: 'Tag',
+        component: SearchTag,
+      },
+    ],
+  },
+  {
+    path: '/',
     component: SimpleLayout,
     children: [
       {
@@ -183,11 +194,6 @@ const routes = [
         path: 'edit/food/:id',
         name: 'editFood',
         component: EditFood,
-      },
-      {
-        path: 'posts/tags',
-        name: 'Tag',
-        component: SearchTag,
       },
     ],
   },

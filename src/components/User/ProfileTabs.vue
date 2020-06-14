@@ -15,10 +15,10 @@
           @click="showFollowCard('followers')"
           class="caption mb-1 mt-2 follow"
         >
-          {{ followers.length }} Followers
+          {{ followers.length }} {{ $t('Followers') }}
         </span>
         <span @click="showFollowCard('following')" class="caption follow">
-          {{ following.length }} Following
+          {{ following.length }} {{ $t('Following') }}
         </span>
       </div>
     </v-card-title>
@@ -51,7 +51,7 @@
         v-for="tab in profileTabs"
         :key="tab.key"
       >
-        {{ tab.name }}
+        {{ $t(tab.name) }}
       </v-tab>
     </v-tabs>
 
@@ -100,7 +100,6 @@ export default {
   },
   computed: {
     ...mapState('user', ['following', 'followers']),
-    ...mapState('utils', ['errorMes']),
   },
   methods: {
     ...mapActions('user', [

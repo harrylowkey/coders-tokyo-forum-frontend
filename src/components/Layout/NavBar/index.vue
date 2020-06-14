@@ -37,7 +37,7 @@
       :to="item.link"
       text
     >
-      {{ item.title }}
+      {{ $t(item.title) }}
     </v-btn>
 
     <notification />
@@ -57,7 +57,7 @@
 
       <v-list class="pt-0">
         <v-list-item
-          style="background: #fff"
+          style="background: #fff; padding-right: 45px"
           v-for="(item, i) in dropdownMenus"
           :key="i"
           :to="item.link"
@@ -65,14 +65,16 @@
           <v-list-item-icon>
             <v-icon color="primary" size="20">{{ item.icon }}</v-icon>
           </v-list-item-icon>
-          <span style="cursor: pointer">{{ item.title }}</span>
+          <span style="cursor: pointer">{{ $t(item.title) }}</span>
         </v-list-item>
         <v-divider />
         <v-list-item @click="signOut">
           <v-list-item-icon>
-            <v-icon color="red" size="20">exit_to_app</v-icon>
+            <v-icon class="ml-4 mr-5" color="red" size="20">exit_to_app</v-icon>
           </v-list-item-icon>
-          <v-list-item-title style="cursor: pointer">Logout</v-list-item-title>
+          <v-list-item-title style="cursor: pointer">
+            {{ $t('Logout') }}
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>

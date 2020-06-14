@@ -22,10 +22,12 @@
         >
           <div class="d-md-none d-lg-flex">
             <v-container class="ml-1 movie-detail">
-              <v-card-text class="pb-2 pt-2">
+              <v-card-text class="pb-2 pt-2 pl-0 pr-1">
                 <p class="title text--primary mb-0 pt-1">{{ topic }}</p>
-                <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Director:</p>
+                <v-container class="d-flex pl-1 pb-0 pr-0">
+                  <p style="width: 63px" class="key mb-0 mr-3">
+                    {{ $t('Director') }}:
+                  </p>
                   <span />
                   <p class="mb-0 mr-3">
                     <span
@@ -39,8 +41,10 @@
                   </p>
                 </v-container>
 
-                <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Actors:</p>
+                <v-container class="d-flex pl-1 pb-0 pr-0">
+                  <p style="width: 110px" class="key mb-0 mr-3">
+                    {{ $t('Actors') }}:
+                  </p>
                   <span />
                   <p class="mb-0 mr-3">
                     <span
@@ -53,8 +57,8 @@
                   </p>
                 </v-container>
 
-                <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">IMDb:</p>
+                <v-container class="d-flex pl-1 pb-0 pr-0">
+                  <p style="width: 62px" class="key mb-0 mr-3">IMDb:</p>
                   <v-chip
                     label
                     text-color="black"
@@ -66,12 +70,14 @@
                   </v-chip>
                 </v-container>
 
-                <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Nation:</p>
+                <v-container class="d-flex pl-1 pb-0 pr-0">
+                  <p style="width: 62px" class="key mb-0 mr-3">
+                    {{ $t('Nation') }}:
+                  </p>
                   <p class="value mb-0">{{ movie.country }}</p>
                 </v-container>
 
-                <v-container class="d-flex pl-1 pb-0">
+                <v-container class="d-flex pl-1 pb-0 pr-0">
                   <p class="key mb-0 mr-3">Link:</p>
                   <v-chip
                     label
@@ -84,8 +90,8 @@
                   </v-chip>
                 </v-container>
 
-                <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Release Date:</p>
+                <v-container class="d-flex pl-1 pb-0 pr-0">
+                  <p class="key mb-0 mr-3">{{ $t('Release Date') }}:</p>
                   <v-chip
                     label
                     text-color="black"
@@ -97,13 +103,13 @@
                   </v-chip>
                 </v-container>
 
-                <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Time:</p>
-                  <p class="value mb-0">{{ movie.time }} minutes</p>
+                <v-container class="d-flex pl-1 pb-0 pr-0">
+                  <p class="key mb-0 mr-3">{{ $t('Time') }}:</p>
+                  <p class="value mb-0">{{ movie.time }} {{ $t('minutes') }}</p>
                 </v-container>
 
-                <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-4">Stars:</p>
+                <v-container class="d-flex pl-1 pb-0 pr-0">
+                  <p class="key mb-0 mr-4">{{ $t('Stars') }}:</p>
                   <v-icon
                     v-for="(start, i) in movie.stars"
                     :key="i"
@@ -118,18 +124,33 @@
             </v-container>
           </div>
           <div class="d-none d-md-flex d-lg-none">
-            <v-container class="ml-1 movie-detail pt-1 pb-0">
+            <v-container class="ml-1 movie-detail pt-1 pb-0 pr-0">
               <v-card-text class="pb-6 pt-0 d-flex justify-space-around">
                 <div>
-                  <v-container class="d-flex pl-1 pb-0 pt-2">
+                  <v-container class="d-flex pl-1 pb-0 pr-0 pt-2">
                     <p class="key mb-0 mr-3">Status:</p>
                     <p class="value mb-0" :style="calMovieStatusColor">
                       {{ movie.status }}
                     </p>
                   </v-container>
 
-                  <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Director:</p>
+                  <v-container class="d-flex pl-1 pb-0 pr-0">
+                    <p class="key mb-0 mr-3">IMDb:</p>
+                    <v-chip
+                      label
+                      text-color="black"
+                      outlined
+                      small
+                      style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
+                    >
+                      {{ movie.IMDb }}
+                    </v-chip>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0 pr-0">
+                    <p style="width: 66px" class="key mb-0 mr-3">
+                      {{ $t('Director') }}:
+                    </p>
                     <span />
                     <p class="mb-0 mr-3">
                       <span
@@ -143,8 +164,10 @@
                     </p>
                   </v-container>
 
-                  <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Actors:</p>
+                  <v-container class="d-flex pl-1 pb-0 pr-0">
+                    <p style="width: 100px" class="key mb-0 mr-3">
+                      {{ $t('Actors') }}:
+                    </p>
                     <span />
                     <p class="mb-0 mr-3">
                       <span
@@ -155,23 +178,6 @@
                         {{ actor.name }}{{ isAddComma(i, slicedActors.length) }}
                       </span>
                     </p>
-                  </v-container>
-
-                  <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">IMDb:</p>
-                    <v-chip
-                      label
-                      text-color="black"
-                      outlined
-                      small
-                      style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
-                    >
-                      {{ movie.IMDb }}
-                    </v-chip>
-                  </v-container>
-                  <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Nation:</p>
-                    <p class="value mb-0">{{ movie.country }}</p>
                   </v-container>
                 </div>
 
@@ -190,7 +196,7 @@
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Release Date:</p>
+                    <p class="key mb-0 mr-3">{{ $t('Release Date') }}:</p>
                     <v-chip
                       label
                       text-color="black"
@@ -203,12 +209,21 @@
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Time:</p>
-                    <p class="value mb-0">{{ movie.time }} minutes</p>
+                    <p class="key mb-0 mr-3">{{ $t('Time') }}:</p>
+                    <p class="value mb-0">
+                      {{ movie.time }} {{ $t('minutes') }}
+                    </p>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0 pr-0">
+                    <p class="key mb-0 mr-3">{{ $t('Nation') }}:</p>
+                    <p class="value mb-0">{{ movie.country }}</p>
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-4">Stars:</p>
+                    <p style="width: 60px" class="key mb-0 mr-4">
+                      {{ $t('Stars') }}:
+                    </p>
                     <v-icon
                       v-for="(start, i) in movie.stars"
                       :key="i"
@@ -242,7 +257,7 @@
           <div class="d-flex justify-space-between" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
               <a style=" text-decoration: none" @click="linkToBlog">
-                Read more...
+                {{ $t('Read more') }}...
               </a>
             </span>
             <read-time
@@ -264,7 +279,7 @@
           class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
         >
-          {{ createdAt | date }}
+          {{ $d(new Date(createdAt), 'short', 'vi-VN') }}
         </v-card-text>
         <v-spacer />
         <v-container>

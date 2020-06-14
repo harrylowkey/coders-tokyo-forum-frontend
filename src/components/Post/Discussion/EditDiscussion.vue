@@ -44,7 +44,7 @@
                   </div>
                   <div style="flex:80%">
                     <v-card-title class="pb-0">
-                      <span class="headline">Make a discussion</span>
+                      <span class="headline">{{ $t('Edit discussion') }}</span>
                     </v-card-title>
                     <v-card-text class="pb-0">
                       <v-container class="py-0">
@@ -56,9 +56,9 @@
                               v-slot="{ errors }"
                             >
                               <v-text-field
-                                label="Topic*"
+                                :label="$t('Topic*')"
                                 v-model="post.topic"
-                                :error-messages="errors"
+                                :error-messages="$t(errors)"
                                 required
                               />
                             </ValidationProvider>
@@ -70,9 +70,9 @@
                               v-slot="{ errors }"
                             >
                               <v-textarea
-                                :error-messages="errors"
+                                :error-messages="$t(errors)"
                                 v-model="post.content"
-                                label="Content*"
+                                :label="$t('Content*')"
                                 :rows="getNumberOfLines(post.content, 4) || 4"
                                 required
                               />
@@ -84,7 +84,7 @@
                     <v-card-actions class="pt-0">
                       <v-spacer />
                       <v-btn @click="submit" class="mr-5" color="warning" dark>
-                        Update
+                        {{ $t('Update') }}
                       </v-btn>
                     </v-card-actions>
                   </div>
@@ -139,7 +139,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('utils', ['isLoading', 'errorMes']),
+    ...mapState('utils', ['isLoading']),
   },
   async created() {
     await this.fetchPost();
@@ -176,8 +176,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Update success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Update success'),
         });
 
         return this.$router.push({
@@ -187,8 +187,8 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: res.message,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(res.message),
         });
       }
     },

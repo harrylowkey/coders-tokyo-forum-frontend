@@ -12,13 +12,13 @@
     </v-icon>
     <v-list class="list-notif py-0" v-if="isShowNotifList">
       <div class="d-flex justify-space-between px-5 py-3">
-        <span>Notifications</span>
+        <span>{{ $t('Notifications') }}</span>
         <a
           class="pt-1 mark-read"
           style="font-size: 13px"
           @click="handleMarkAllAsRead"
         >
-          Mark all as read
+          {{ $t('Mark all as read') }}
         </a>
       </div>
       <v-divider />
@@ -36,10 +36,10 @@
           <span
             class="caption mt-4"
             style="cursor: pointer; width: 300px"
-            v-html="$options.filters.markdown(item.content)"
+            v-html="$options.filters.markdown(handleNotifContent(item.content))"
           />
           <span style="font-size: 10px; color: green ">
-            {{ item.createdAt | duration }}
+            {{ handleDuration(item.createdAt) }}
           </span>
         </div>
         <v-img
@@ -96,6 +96,24 @@ export default {
         this.toggleShowNotifList(false);
       }
     },
+    handleDuration(createdAt) {
+      const duration = this.$options.filters.duration(createdAt);
+      if (duration === 'now') {
+        return this.$t(duration);
+      }
+      const counter = duration.split(' ')[0];
+      const time = duration
+        .split(' ')
+        .slice(1)
+        .join(' ');
+      return `${counter} ${this.$t(time)}`;
+    },
+    handleNotifContent(content) {
+      const splitContent = content.split(' ');
+      const user = splitContent[0];
+      const action = splitContent.slice(1).join(' ');
+      return `${user} ${this.$t(action)}`;
+    },
   },
   computed: {
     ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
@@ -127,8 +145,8 @@ export default {
       if (newVal.length) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: newVal,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(newVal),
         });
       }
     },

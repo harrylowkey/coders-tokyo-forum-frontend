@@ -381,12 +381,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('utils', [
-      'errorMes',
-      'isLoading',
-      'isLoadmore',
-      'isLoadingAPI',
-    ]),
+    ...mapState('utils', ['isLoading', 'isLoadmore', 'isLoadingAPI']),
     ...mapState('searchTag', ['postsMatchedTags', 'metadata']),
     ...mapState('stream', ['topTags']),
     posts() {

@@ -150,7 +150,9 @@
             class="font-italic font-weight-light pt-0"
             style="font-size: 13px; height: 30px; margin-top: 16px !important"
           >
-            <span class="mt-2">{{ createdAt | date }}</span>
+            <span class="mt-2">
+              {{ $d(new Date(createdAt), 'short', 'vi-VN') }}
+            </span>
           </v-card-text>
           <v-spacer />
           <v-container class="pt-4 pl-6 pr-0 d-flex justify-space-around">

@@ -68,7 +68,7 @@
                                   :height="450"
                                   :headers="headers"
                                   img-format="jpg"
-                                  langType="en"
+                                  :langExt="langExtVN"
                                   noCircle
                                 />
                                 <v-container
@@ -94,7 +94,7 @@
                                       <v-icon left>
                                         mdi-cloud-upload-outline
                                       </v-icon>
-                                      Update Image
+                                      {{ $t('Update Cover Image') }}
                                     </v-chip>
                                   </v-img>
                                 </v-container>
@@ -107,20 +107,24 @@
                                 >
                                   <v-text-field
                                     v-model="post.topic"
-                                    :error-messages="errors"
-                                    label="Topic*"
+                                    :error-messages="$t(errors)"
+                                    :label="$t('Topic*')"
                                     required
                                   />
                                 </ValidationProvider>
                               </v-col>
                               <v-col cols="12">
                                 <v-textarea
-                                  label="Description"
+                                  :label="$t('Description')"
                                   persistent-hint
                                   auto-grow
                                   rows="3"
                                   v-model="post.description"
-                                  hint="Write description to attract people at the first glance"
+                                  :hint="
+                                    $t(
+                                      'Write description to attract people at the first glance',
+                                    )
+                                  "
                                 />
                               </v-col>
                               <v-col cols="12">
@@ -130,14 +134,14 @@
                                   v-slot="{ errors }"
                                 >
                                   <v-textarea
-                                    label="Content*"
+                                    :label="$t('Content*')"
                                     :rows="
                                       getNumberOfLines(post.content, 15) || 15
                                     "
                                     required
                                     v-model="post.content"
                                     placeholder="Markdown"
-                                    :error-messages="errors"
+                                    :error-messages="$t(errors)"
                                   />
                                 </ValidationProvider>
 
@@ -177,7 +181,7 @@
                             darkz
                             @click="togglePreviewContent"
                           >
-                            Preview
+                            {{ $t('Preview') }}
                           </v-btn>
                           <v-btn
                             class="white--text"
@@ -185,7 +189,7 @@
                             color="warning"
                             @click="submit"
                           >
-                            Update
+                            {{ $t('Update') }}
                           </v-btn>
                         </v-card-actions>
                       </v-container>
@@ -248,8 +252,8 @@ export default {
       if (this.post.cover === '') {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: "Let's upload the banner",
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t("Let's upload the banner"),
         });
         return;
       }
@@ -270,8 +274,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Update success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Update success'),
         });
 
         if (this.newCover._id) {
@@ -284,8 +288,8 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: res.message,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(res.message),
         });
         this.deleteFile({ fileId: this.newCover._id });
       }

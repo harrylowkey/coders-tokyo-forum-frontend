@@ -29,7 +29,7 @@
                           <v-icon left color="white" size="18">
                             mdi-paperclip
                           </v-icon>
-                          Upload audio file
+                          {{ $t('Upload audio file') }}
                         </v-btn>
                         <div :class="fileSelectClasses">
                           <VueFileAgent
@@ -65,7 +65,7 @@
                             :height="210"
                             :headers="headers"
                             img-format="jpg"
-                            langType="en"
+                            :langExt="langExtVN"
                             :url="APIS.UPLOAD_BANNER"
                             noCircle
                           />
@@ -87,7 +87,7 @@
                               label
                             >
                               <v-icon left>mdi-cloud-upload-outline</v-icon>
-                              Image
+                              Banner
                             </v-chip>
                           </div>
                           <v-container
@@ -129,12 +129,9 @@
                           >
                             <v-text-field
                               class="mt-0"
-                              :error-messages="errors"
+                              :error-messages="$t(errors)"
                               v-model="data.topic"
-                              :label="
-                                `${type[0].toUpperCase() +
-                                  type.slice(1, type.length - 1)} name`
-                              "
+                              :label="$t('Name')"
                               required
                             />
                           </ValidationProvider>
@@ -148,10 +145,10 @@
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
-                                  :error-messages="errors"
+                                  :error-messages="$t(errors)"
                                   required
                                   v-model="composer"
-                                  label="Composer"
+                                  :label="$t('Composer') + '*'"
                                 />
                               </ValidationProvider>
                               <span class="pb-4 pl-3" v-if="!addComposer2">
@@ -188,9 +185,9 @@
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
-                                  :error-messages="errors"
+                                  :error-messages="$t(errors)"
                                   v-model="composer2"
-                                  label="Composer"
+                                  :label="$t('Composer') + '*'"
                                 />
                               </ValidationProvider>
                               <span class="pb-4 pl-3" v-if="!addComposer3">
@@ -227,9 +224,9 @@
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
-                                  :error-messages="errors"
+                                  :error-messages="$t(errors)"
                                   v-model="composer3"
-                                  label="Composer"
+                                  :label="$t('Composer') + '*'"
                                 />
                               </ValidationProvider>
                               <span class="pb-4 pl-3" v-if="!addComposer4">
@@ -260,9 +257,9 @@
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
-                                  :error-messages="errors"
+                                  :error-messages="$t(errors)"
                                   v-model="composer4"
-                                  label="Composer"
+                                  :label="$t('Composer') + '*'"
                                 />
                               </ValidationProvider>
                             </div>
@@ -277,10 +274,10 @@
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
-                                  :error-messages="errors"
+                                  :error-messages="$t(errors)"
                                   required
                                   v-model="artist"
-                                  label="Artist"
+                                  :label="$t('Artist') + '*'"
                                 />
                               </ValidationProvider>
                               <span class="pb-4 pl-3" v-if="!addArtist2">
@@ -317,9 +314,9 @@
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
-                                  :error-messages="errors"
+                                  :error-messages="$t(errors)"
                                   v-model="artist2"
-                                  label="Artist"
+                                  :label="$t('Artist') + '*'"
                                 />
                               </ValidationProvider>
                               <span class="pb-4 pl-3" v-if="!addArtist3">
@@ -350,9 +347,9 @@
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
-                                  :error-messages="errors"
+                                  :error-messages="$t(errors)"
                                   v-model="artist3"
-                                  label="Artist"
+                                  :label="$t('Artist') + '*'"
                                 />
                               </ValidationProvider>
                               <span class="pb-4 pl-3" v-if="!addArtist4">
@@ -383,9 +380,9 @@
                                 v-slot="{ errors }"
                               >
                                 <v-text-field
-                                  :error-messages="errors"
+                                  :error-messages="$t(errors)"
                                   v-model="artist4"
-                                  label="Artist"
+                                  :label="$t('Artist') + '*'"
                                 />
                               </ValidationProvider>
                             </div>
@@ -413,7 +410,7 @@
                   @click="submit"
                   :disabled="this.isUploadingAudio"
                 >
-                  Post
+                  {{ $t('Post') }}
                 </v-btn>
               </v-card-actions>
             </v-container>
@@ -517,8 +514,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Upload success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('notifications.upload.Success'),
         });
         this.data.audio = res.data.data;
         this.isUploadingAudio = false;
@@ -526,8 +523,8 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: res.message,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(res.message),
         });
       }
 
@@ -557,8 +554,8 @@ export default {
       if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: "Let's upload the cover",
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t("Let's upload the cover"),
         });
         return;
       }
@@ -566,8 +563,8 @@ export default {
       if (!this.data.audio.secureURL) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: "Hang on! Let's upload audio",
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t("Hang on! Let's upload audio"),
         });
         return;
       }
@@ -590,7 +587,7 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
+          title: `${this.$t('notifications.title.Success')}!`,
         });
 
         if (this.data.type === 'podcasts') {
@@ -608,8 +605,8 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: res.message,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(res.message),
         });
       }
     },

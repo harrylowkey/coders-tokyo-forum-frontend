@@ -34,6 +34,30 @@ extend('numeric', {
 });
 export const createPost = {
   mixins: [uploadBanner, attachImage],
+  data() {
+    return {
+      langExtVN: {
+        hint: 'Nhấp hoặc kéo tệp vào đây để tải lên',
+        loading: 'Đang tải lên…',
+        noSupported:
+          'Trình duyệt không được hỗ trợ, vui lòng sử dụng IE10 + hoặc các trình duyệt khác',
+        success: 'Tải lên thành công',
+        fail: 'Tải lên thất bại',
+        preview: 'Xem trước',
+        btn: {
+          off: 'Hủy',
+          close: 'Đóng',
+          back: 'Trở lại',
+          save: 'Xác nhận',
+        },
+        error: {
+          onlyImg: 'Chỉ chọn hình ảnh',
+          outOfSize: 'Kích thước ảnh quả lớn: ',
+          lowestPx: 'Kích thước ảnh quá nhỏ. Kích thước nhỏ nhất từ: ',
+        },
+      },
+    };
+  },
   methods: {
     ...mapActions('post', [
       'createPost',
@@ -68,8 +92,8 @@ export const createPost = {
       if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: "Let's upload the banner",
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t("Let's upload the banner"),
         });
         return;
       }
@@ -82,7 +106,7 @@ export const createPost = {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success',
+          title: this.$t('Create post success'),
         });
 
         setTimeout(() => {
@@ -93,7 +117,7 @@ export const createPost = {
         this.$notify({
           type: 'error',
           title: 'Failed',
-          text: res.message,
+          text: this.$t(res.message),
         });
       }
     },
@@ -112,7 +136,7 @@ export const createPost = {
       if (newVal.length) {
         this.$notify({
           type: 'error',
-          title: newVal,
+          title: this.$t(newVal),
         });
       }
     },

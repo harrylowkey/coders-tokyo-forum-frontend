@@ -9,7 +9,7 @@
                 <v-form>
                   <v-card class="elevation-12 px-5 pt-2 pb-2 mt-11">
                     <v-toolbar flat>
-                      <v-toolbar-title>Sign up</v-toolbar-title>
+                      <v-toolbar-title>{{ $t('Sign up') }}</v-toolbar-title>
                       <v-spacer />
                     </v-toolbar>
                     <v-card-text class="py-6 px-10">
@@ -21,7 +21,7 @@
                         >
                           <div>Username</div>
                           <v-text-field
-                            :error-messages="errors"
+                            :error-messages="$t(errors)"
                             v-model="username"
                             name="username"
                             type="text"
@@ -38,7 +38,7 @@
                             >
                               <v-text-field
                                 v-model="email"
-                                :error-messages="errors"
+                                :error-messages="$t(errors)"
                                 type="text"
                                 class="pt-0"
                               />
@@ -51,7 +51,7 @@
                               small
                               class="success"
                             >
-                              Get code
+                              {{ $t('Get code') }}
                             </v-btn>
                           </v-col>
                         </v-row>
@@ -60,12 +60,16 @@
                           rules="required"
                           v-slot="{ errors }"
                         >
-                          <div>Password</div>
+                          <div>{{ $t('Password') }}</div>
                           <v-text-field
-                            :error-messages="errors"
+                            :error-messages="$t(errors)"
                             id="password"
                             v-model="password"
-                            hint="Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!"
+                            :hint="
+                              $t(
+                                'Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!',
+                              )
+                            "
                             name="password"
                             type="password"
                             class="pt-0"
@@ -76,11 +80,11 @@
                           :rules="`required|samePassword:${password}`"
                           v-slot="{ errors }"
                         >
-                          <div>Confirm password</div>
+                          <div>{{ $t('Confirm password*') }}</div>
                           <v-text-field
-                            :error-messages="errors"
+                            :error-messages="$t(errors)"
                             v-model="confirmPassword"
-                            hint="Type new password again"
+                            :hint="$t('Type new password again')"
                             type="password"
                             required
                             class="pt-0"
@@ -96,7 +100,7 @@
                             >
                               <div>Code</div>
                               <v-text-field
-                                :error-messages="errors"
+                                :error-messages="$t(errors)"
                                 v-model="code"
                                 id="code"
                                 name="code"
@@ -106,7 +110,7 @@
                             </ValidationProvider>
                           </v-col>
                           <v-col cols="4" sm="4" md="4">
-                            <div>Sex</div>
+                            <div>{{ $t('Sex') }}</div>
                             <v-select
                               v-model="sex"
                               :items="sexes"
@@ -124,7 +128,7 @@
                         color="success"
                         @click="register"
                       >
-                        Register
+                        {{ $t('Register') }}
                       </v-btn>
                     </v-card-actions>
                   </v-card>
@@ -187,7 +191,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoadingAPI']),
+    ...mapState('utils', ['isLoadingAPI']),
   },
   methods: {
     ...mapActions('user', ['signUp', 'getCode']),
@@ -208,8 +212,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Sign up success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('notifications.signup.Success'),
         });
         this.$router.push({ path: this.redirectLink });
       }
@@ -218,16 +222,16 @@ export default {
       if (!this.email) {
         return this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: 'Please type email to get code',
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t('Please type email to get code'),
         });
       }
       const res = await this.getCode(this.email);
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Code has been sent to your email',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Code has been sent to your email'),
         });
       }
     },

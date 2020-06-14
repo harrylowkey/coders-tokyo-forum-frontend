@@ -36,7 +36,7 @@
                 label
               >
                 <v-icon left>mdi-cloud-upload-outline</v-icon>
-                Image
+                {{ $t('Cover image') }}
               </v-chip>
             </div>
           </v-col>
@@ -57,7 +57,7 @@
                         :height="450"
                         :headers="headers"
                         img-format="jpg"
-                        langType="en"
+                        :langExt="langExtVN"
                         noCircle
                       />
                       <v-container
@@ -79,19 +79,23 @@
                       >
                         <v-text-field
                           v-model="data.topic"
-                          :error-messages="errors"
-                          label="Topic*"
+                          :error-messages="$t(errors)"
+                          :label="$t('Topic*')"
                           required
                         />
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12">
                       <v-textarea
-                        label="Description"
+                        :label="$t('Description')"
                         persistent-hint
                         rows="3"
                         v-model="data.description"
-                        hint="Write description to attract people at the first glance"
+                        :hint="
+                          $t(
+                            'Write description to attract people at the first glance',
+                          )
+                        "
                       />
                     </v-col>
                     <v-col cols="12">
@@ -101,11 +105,11 @@
                         v-slot="{ errors }"
                       >
                         <v-textarea
-                          label="Content*"
+                          :label="$t('Content*')"
                           required
                           v-model="data.content"
                           placeholder="Markdown"
-                          :error-messages="errors"
+                          :error-messages="$t(errors)"
                           :rows="getNumberOfLines(data.content, 15) || 15"
                         />
                       </ValidationProvider>
@@ -140,7 +144,7 @@
                   @click="isAttachImage = !isAttachImage"
                 >
                   <v-icon left color="primary">image</v-icon>
-                  Attach image
+                  {{ $t('Attach image') }}
                 </v-chip>
                 <v-spacer />
                 <v-btn
@@ -149,7 +153,7 @@
                   @click="togglePreviewContent"
                   dark
                 >
-                  Preview
+                  {{ $t('Preview') }}
                 </v-btn>
                 <v-btn
                   class="mr-5"
@@ -157,7 +161,7 @@
                   @click="submit"
                   :disabled="isLoadingUpload"
                 >
-                  Post
+                  {{ $t('Post') }}
                 </v-btn>
               </v-card-actions>
             </v-container>

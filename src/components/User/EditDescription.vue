@@ -13,11 +13,13 @@
         <v-row>
           <v-col class="d-flex justify-center">
             <v-btn @click="handleUpdateDescription" small color="success">
-              Update
+              {{ $t('Update') }}
             </v-btn>
           </v-col>
           <v-col class="d-flex justify-center">
-            <v-btn @click="onCancel" dark small color="red">Cancel</v-btn>
+            <v-btn @click="onCancel" dark small color="red">
+              {{ $t('Cancel') }}
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-actions>

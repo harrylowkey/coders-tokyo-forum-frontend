@@ -80,7 +80,7 @@
                     </v-icon>
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">
-                    {{ post.createdAt | date }}
+                    {{ $d(new Date(post.createdAt), 'short', 'vi-VN') }}
                   </v-card-subtitle>
                   <read-time class="pl-0" :text="post.content" />
                   <edit-delete-btns
@@ -118,7 +118,7 @@
         <v-container>
           <v-row id="comments">
             <div style="width: 100%" id="comments" class="mt-5">
-              <h1 class="mb-3 mt-8">Comments</h1>
+              <h1 class="mb-3 mt-8">{{ $t('Comments') }}</h1>
 
               <v-boilerplate
                 style="width: 100%"
@@ -173,7 +173,7 @@
               v-if="otherPostsOfAuthor.length"
               class="mb-10"
             >
-              <h1 class="mt-8 mb-3">Other Blogs</h1>
+              <h1 class="mt-8 mb-3">{{ $t('Other Blogs')</h1>
               <div style="width: 100%" class="d-flex" v-if="isLoading">
                 <v-boilerplate
                   class="other-post"

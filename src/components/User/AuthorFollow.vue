@@ -33,7 +33,7 @@
           color="green"
           width="100%"
         >
-          Follow
+          {{ $t('Follow') }}
         </v-btn>
       </div>
       <div class="mb-4" v-if="!isAuthor && isFollowing">
@@ -45,7 +45,7 @@
           color="red"
           width="100%"
         >
-          Unfollow
+          {{ $t('Unfollow') }}
         </v-btn>
       </div>
 
@@ -53,10 +53,10 @@
         {{ author.description }}
       </v-card-subtitle>
       <p style="font-size: 13px;" class="pl-0 mb-1 mt-1" v-if="author.sex">
-        <span>Sex: {{ author.sex }}</span>
+        <span>{{ $t('Sex') }}: {{ $t(author.sex) }}</span>
       </p>
       <p style="font-size: 13px;" class="pl-0 mb-0">
-        <span>Joined: {{ author.createdAt | date }}</span>
+        <span>{{ $t('Date join') }}: {{ author.createdAt | date }}</span>
       </p>
     </v-card>
   </v-container>

@@ -147,7 +147,7 @@ export const crudPost = {
         if (response.status === 400) {
           this.$notify({
             type: 'error',
-            title: response.message,
+            title: this.$t(response.message),
           });
         }
       }
@@ -157,7 +157,7 @@ export const crudPost = {
         if (response.status === 400) {
           this.$notify({
             type: 'error',
-            title: response.message,
+            title: this.$t(response.message),
           });
         }
       }
@@ -170,7 +170,7 @@ export const crudPost = {
       if (response.status === 200) {
         this.$notify({
           type: 'success',
-          title: response.data.message,
+          title: this.$t(response.data.message),
         });
 
         let type = `${this.post.type}s`;
@@ -188,7 +188,7 @@ export const crudPost = {
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: response.message,
+          title: this.$t(response.message),
         });
       }
     },
@@ -230,7 +230,7 @@ export const crudPost = {
       if (response.status === 409) {
         this.$notify({
           type: 'error',
-          title: response.data.message,
+          title: this.$t(response.data.message),
         });
       }
 
@@ -250,7 +250,7 @@ export const crudPost = {
       if (response.status === 409) {
         this.$notify({
           type: 'error',
-          title: response.data.message,
+          title: this.$t(response.data.message),
         });
       }
     },

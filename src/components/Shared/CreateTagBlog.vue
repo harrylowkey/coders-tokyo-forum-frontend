@@ -11,11 +11,11 @@
     >
       <span v-if="!addTag">
         <v-icon left>mdi-plus-circle-outline</v-icon>
-        Tags
+        {{ $t('Tags') }}
       </span>
       <span v-else>
         <v-icon left>mdi-close-circle-outline</v-icon>
-        Tags
+        {{ $t('Tags') }}
       </span>
     </v-chip>
     <v-card v-if="!!addTag" elevation="5" class="add-tag-dialog d-flex">
@@ -55,8 +55,8 @@ export default {
       if (tag.indexOf(' ') >= 0) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: 'Use underscore instead of space',
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t('Use underscore instead of space'),
         });
         return;
       }
