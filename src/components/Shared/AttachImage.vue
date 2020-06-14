@@ -16,7 +16,7 @@
           buttonClass="btn"
           :customStrings="{
             upload: '<h1>Bummer!</h1>',
-            drag: 'Drag a photo to here or choose ',
+            drag: 'Nhấp hoặc kéo ảnh vào đây để tải chọn',
           }"
         />
         <div v-show="attachImage">
@@ -34,7 +34,7 @@
               @click="onClickUploadImage"
               v-if="attachImage && !isLoadingUpload"
             >
-              Upload
+              {{ $t('Upload') }}
             </v-btn>
           </div>
         </div>

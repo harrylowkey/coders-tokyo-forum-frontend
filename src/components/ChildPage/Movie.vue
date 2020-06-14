@@ -364,10 +364,7 @@
                 </v-card-text>
               </v-list-item-content>
             </v-list-item>
-            <div
-              class="markdown=content"
-              v-html="$options.filters.markdown(post.content)"
-            />
+            <markdown-content :content="post.content" />
           </v-container>
         </v-card>
         <v-container>
@@ -587,40 +584,5 @@ export default {
   flex: 30%;
   margin: 20px;
   justify-content: center;
-}
-
-.markdown-content >>> img {
-  width: 100% !important;
-}
-
-::v-deep pre code:before {
-  content: '' !important;
-}
-
-.markdown-content {
-  line-height: 1.6;
-}
-
-::v-deep code:before {
-  content: '' !important;
-}
-
-::v-deep code:after {
-  content: '' !important;
-}
-
-::v-deep code {
-  font-size: 13.5px !important;
-  box-shadow: none;
-  background-color: #fff;
-}
-
-::v-deep pre code {
-  display: block;
-  overflow-x: auto;
-  padding: 1em;
-  color: #abb2bf;
-  background: #282c34;
-  margin: 15px 0px;
 }
 </style>

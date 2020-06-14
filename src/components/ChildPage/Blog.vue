@@ -79,9 +79,7 @@
                       {{ link.icon }}
                     </v-icon>
                   </v-list-item-icon>
-                  <v-card-subtitle class="pl-1">
-                    {{ $d(new Date(post.createdAt), 'short', 'vi-VN') }}
-                  </v-card-subtitle>
+                  <release-time :createdAt="post.createdAt" />
                   <read-time class="pl-0" :text="post.content" />
                   <edit-delete-btns
                     v-if="isAuthor"
@@ -106,10 +104,7 @@
                 </v-card-text>
               </v-list-item-content>
             </v-list-item>
-            <div
-              class="markdown-content"
-              v-html="$options.filters.markdown(post.content)"
-            />
+            <markdown-content :content="post.content" />
             <div class="d-flex justify-end">
               <span class="signature">{{ post.user.username }}</span>
             </div>

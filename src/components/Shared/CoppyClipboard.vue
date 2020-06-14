@@ -6,7 +6,9 @@
     style="overflow-y: hidden"
   >
     <v-card style="overflow-y: hidden">
-      <v-card-title class="headline">Paste this link to your blog</v-card-title>
+      <v-card-title class="headline">
+        {{ $t('Paste this link to your blog') }}
+      </v-card-title>
       <v-row class="ma-0">
         <v-col cols="2" sm="2" md="2" class="d-flex justify-center px-0">
           <span>URL</span>
@@ -23,7 +25,7 @@
               v-clipboard:success="onCopy"
               v-clipboard:error="onError"
             >
-              Copy
+              {{ $t('Copy') }}
             </v-btn>
           </div>
         </v-col>

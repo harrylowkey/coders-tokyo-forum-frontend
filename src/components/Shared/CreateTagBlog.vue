@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import constants from '@/constants';
+
 export default {
   props: {
     tags: {
@@ -46,12 +48,16 @@ export default {
       valid: true,
       addTag: false,
       tag: '',
-      tagRules: [t => t.length <= 15 || 'Tag muse be less than 15 characters'],
+      tagRules: [
+        t =>
+          t.length <= constants.MAX_TAG_LENGTH ||
+          'Tag muse be less than 15 characters',
+      ],
     };
   },
   methods: {
     handleAddTag(tag) {
-      if (tag.length > 15 || tag.trim() === '') return;
+      if (tag.length > constants.MAX_TAG_LENGTH || tag.trim() === '') return;
       if (tag.indexOf(' ') >= 0) {
         this.$notify({
           type: 'error',

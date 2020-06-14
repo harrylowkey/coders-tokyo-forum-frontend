@@ -5,6 +5,9 @@ import CommentBtn from '@/components/Shared/CommentButton';
 import FacebookBtn from '@/components/Shared/FacebookButton';
 import ViewsBtn from '@/components/Shared/ViewsButton';
 import Tag from '@/components/Shared/Tag';
+import ReleaseTime from '@/components/Shared/ReleaseTime';
+import MarkdownContent from '@/components/Shared/MarkdownContent';
+import ShareFacebook from '@/components/Shared/ShareFacebook';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import UserSocialLinks from '@/components/Shared/UserSocialLinks';
 import AuthorProfile from '@/components/User/Profile';
@@ -263,6 +266,9 @@ export const crudPost = {
   },
   components: {
     Tag,
+    ReleaseTime,
+    ShareFacebook,
+    MarkdownContent,
     ReadTime,
     UserSocialLinks,
     LikeBtn,

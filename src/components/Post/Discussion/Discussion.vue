@@ -22,12 +22,7 @@
       </v-list-item>
 
       <v-card-actions style="padding: 0 25px 0 6px" class="pb-1 pb-lg-2">
-        <v-card-text
-          class="font-italic font-weight-light pt-0 pb-0"
-          style="font-size: small"
-        >
-          {{ $d(new Date(createdAt), 'short', 'vi-VN') }}
-        </v-card-text>
+        <release-time-card :createdAt="createdAt" />
         <v-spacer />
         <v-container>
           <v-row>
@@ -69,6 +64,7 @@
 import LikeBtn from '@/components/Shared/LikeButton';
 import CommentBtn from '@/components/Shared/CommentButton';
 import Tag from '@/components/Shared/Tag';
+import ReleaseTimeCard from '@/components/Shared/ReleaseTimeCard';
 import UserAvatar from '@/components/Shared/UserAvatar';
 import { ROUTES } from '@/mixins/routes';
 import { toggleLike } from '@/mixins/toggleLike';
@@ -135,6 +131,7 @@ export default {
     LikeBtn,
     CommentBtn,
     UserAvatar,
+    ReleaseTimeCard,
   },
   computed: {
     totalComments() {
