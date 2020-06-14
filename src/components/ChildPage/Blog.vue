@@ -327,5 +327,4 @@ export default {
   margin: 20px;
   justify-content: center;
 }
-
 </style>

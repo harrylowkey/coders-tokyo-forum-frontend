@@ -753,7 +753,7 @@ audio {
 ::v-deep code {
   font-size: 13px !important;
   box-shadow: none;
-  background-color: rgb(228,224,224, 0.8);
+  background-color: rgb(228, 224, 224, 0.8);
 }
 
 ::v-deep pre code {
