@@ -15,7 +15,7 @@ export const updateBanner = {
       }
       this.$notify({
         type: 'error',
-        title: 'Update banner failed',
+        title: this.$t('Update banner failed'),
       });
     },
   },

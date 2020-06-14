@@ -9,6 +9,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import Notifications from 'vue-notification';
 import infiniteScroll from 'vue-infinite-scroll';
 import VueScrollTo from 'vue-scrollto';
+import VueI18n from 'vue-i18n';
 
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
@@ -25,6 +26,7 @@ import './registerServiceWorker';
 import '@/interception';
 import 'vue-file-agent/dist/vue-file-agent.css';
 import '@/sass/app.scss';
+import i18n from './i18n';
 
 axios.defaults.baseURL = BACKEND_URL;
 axios.defaults.headers.get.Accepts = 'application/json';
@@ -70,13 +72,13 @@ axios.interceptors.response.use(
     }
 
     // if (error.response.status === 400) {
-    //   Vue.notify({
-    //     type: 'error',
-    //     title: 'Not found',
-    //   });
+    // Vue.notify({
+    //   type: 'error',
+    //   title: this.$t('Not found'),
+    // });
 
-    //   router.push('/stream');
-    //   return Promise.reject(error);
+    // router.push('/stream');
+    // return Promise.reject(error);
     // }
 
     // if (error.response.status === 500) {
@@ -107,6 +109,7 @@ Vue.use(APlayer, {
     'https://res.cloudinary.com/hongquangraem/image/upload/v1589443283/Coders-Tokyo-Forum/posts/brveajqadnizkighglht.jpg',
   productionTip: true,
 });
+Vue.use(VueI18n);
 Vue.use(Notifications);
 Vue.use(AudioVisual);
 
@@ -121,6 +124,7 @@ Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 
 new Vue({
+  i18n,
   router,
   store,
   vuetify,

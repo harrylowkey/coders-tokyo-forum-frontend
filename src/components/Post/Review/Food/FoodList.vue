@@ -90,7 +90,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
+    ...mapState('utils', ['isLoading', 'isLoadmore']),
     ...mapState('foodReviews', ['foodReviews', 'metadata']),
     ...mapState('stream', ['topFoodReviews', 'topTags']),
   },

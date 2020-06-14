@@ -16,7 +16,7 @@ export const toggleFollow = {
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: response.message,
+          title: this.$t(response.message),
         });
       }
 
@@ -37,7 +37,7 @@ export const toggleFollow = {
       if (response.status === 400) {
         this.$notify({
           type: 'error',
-          title: response.message,
+          title: this.$t(response.message),
         });
       }
     },

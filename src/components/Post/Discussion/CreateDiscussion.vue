@@ -22,7 +22,7 @@
         </div>
         <div style="flex:80%">
           <v-card-title class="pb-0">
-            <span class="headline">Make a discussion</span>
+            <span class="headline">{{ $t('Make a discussion') }}</span>
           </v-card-title>
           <v-card-text class="pb-0">
             <v-container class="py-0">
@@ -35,9 +35,9 @@
                   >
                     <v-text-field
                       @keyup.enter="submit"
-                      label="Topic*"
+                      :label="$t('Topic*')"
                       v-model="data.topic"
-                      :error-messages="errors"
+                      :error-messages="$t(errors)"
                       required
                     />
                   </ValidationProvider>
@@ -50,9 +50,9 @@
                   >
                     <v-textarea
                       @keyup.enter="submit"
-                      :error-messages="errors"
+                      :error-messages="$t(errors)"
                       v-model="data.content"
-                      label="Content*"
+                      :label="$t('Content*')"
                       :rows="getNumberOfLines(data.content, 4) || 4"
                       required
                     />
@@ -64,7 +64,7 @@
           <v-card-actions class="pt-0">
             <v-spacer />
             <v-btn @click="submit" class="mr-5 white--text" color="green">
-              Post
+              {{ $t('Post') }}
             </v-btn>
           </v-card-actions>
         </div>
@@ -100,7 +100,7 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
+          title: `${this.$t('notifications.title.Success')}!`,
         });
         setTimeout(() => {
           return this.$router.push({ path: ROUTES.DISCUSSION(res.data._id) });
@@ -109,8 +109,8 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: res.message,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(res.message),
         });
       }
     },

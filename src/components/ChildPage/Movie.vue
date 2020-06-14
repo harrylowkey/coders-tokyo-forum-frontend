@@ -66,7 +66,9 @@
                         {{ post.topic }}
                       </p>
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Director:</p>
+                        <p style="width: 66px" class="key mb-0 mr-3">
+                          {{ $t('Director') }}:
+                        </p>
                         <span />
                         <p class="mb-0 mr-3">
                           <span
@@ -81,7 +83,9 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Actors:</p>
+                        <p style="width: 110px" class="key mb-0 mr-3">
+                          {{ $t('Actors') }}:
+                        </p>
                         <span />
                         <p class="mb-0 mr-3">
                           <span
@@ -96,7 +100,7 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">IMDb:</p>
+                        <p style="width: 60px" class="key mb-0 mr-3">IMDb:</p>
                         <v-chip
                           label
                           text-color="black"
@@ -108,7 +112,9 @@
                         </v-chip>
                       </v-container>
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Genres:</p>
+                        <p style="width: 60px" class="key mb-0 mr-3">
+                          {{ $t('Genres') }}:
+                        </p>
                         <span v-if="post.movie.genres.length">
                           <v-chip
                             label
@@ -118,7 +124,7 @@
                             style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
                             v-for="genre in post.movie.genres"
                             :key="genre._id"
-                            class="mr-1"
+                            class="mr-1 mb-1"
                           >
                             {{ genre }}
                           </v-chip>
@@ -126,12 +132,12 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Nation:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Nation') }}:</p>
                         <p class="value mb-0">{{ post.movie.country }}</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Link:</p>
+                        <p style="width: 60px" class="key mb-0 mr-3">Link:</p>
                         <v-chip
                           label
                           text-color="black"
@@ -146,7 +152,7 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Release Date:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Release Date') }}:</p>
                         <v-chip
                           label
                           text-color="black"
@@ -159,12 +165,16 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Time:</p>
-                        <p class="value mb-0">{{ post.movie.time }} minutes</p>
+                        <p class="key mb-0 mr-3">{{ $t('Time') }}:</p>
+                        <p class="value mb-0">
+                          {{ post.movie.time }} {{ $t('minutes') }}
+                        </p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-4">Stars:</p>
+                        <p style="width: 65px" class="key mb-0 mr-4">
+                          {{ $t('Stars') }}:
+                        </p>
                         <v-icon
                           v-for="(start, i) in 5"
                           :key="i"
@@ -190,7 +200,7 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Director:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Director') }}:</p>
                           <span />
                           <p class="mb-0 mr-3">
                             <span
@@ -205,7 +215,9 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Actors:</p>
+                          <p style="width: 90px" class="key mb-0 mr-3">
+                            {{ $t('Actors') }}:
+                          </p>
                           <span />
                           <p class="mb-0 mr-3">
                             <span
@@ -232,7 +244,7 @@
                           </v-chip>
                         </v-container>
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Nation:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Nation') }}:</p>
                           <p class="value mb-0">{{ post.movie.country }}</p>
                         </v-container>
                       </div>
@@ -252,7 +264,9 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Release Date:</p>
+                          <p style="width: 80px" class="key mb-0 mr-3">
+                            {{ $t('Release Date') }}:
+                          </p>
                           <v-chip
                             label
                             text-color="black"
@@ -265,14 +279,16 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Time:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Time') }}:</p>
                           <p class="value mb-0">
-                            {{ post.movie.time }} minutes
+                            {{ post.movie.time }} {{ $t('minutes') }}
                           </p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-4">Stars:</p>
+                          <p style="width: 60px" class="key mb-0 mr-4">
+                            {{ $t('Stars') }}:
+                          </p>
                           <v-icon
                             v-for="(start, i) in 5"
                             :key="i"
@@ -323,7 +339,7 @@
                     </v-icon>
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">
-                    {{ post.createdAt | date }}
+                    {{ $d(new Date(post.createdAt), 'short', 'vi-VN') }}
                   </v-card-subtitle>
                   <read-time class="pl-0" :text="post.content" />
                   <edit-delete-btns
@@ -357,7 +373,7 @@
         <v-container>
           <v-row id="comments">
             <div style="width: 100%" id="comments" class="mt-5">
-              <h1 class="mb-3 mt-8">Comments</h1>
+              <h1 class="mb-3 mt-8">{{ $t('Comments') }}</h1>
 
               <v-boilerplate
                 style="width: 100%"
@@ -414,7 +430,7 @@
               v-if="otherPostsOfAuthor.length"
               class="mb-10"
             >
-              <h1 class="mt-8 mb-3">Other Movie Reviews</h1>
+              <h1 class="mt-8 mb-3">{{ $t('Other Movie Reviews') }}</h1>
               <div v-if="isLoading" style="width: 100%" class="d-flex">
                 <v-boilerplate
                   class="other-post"

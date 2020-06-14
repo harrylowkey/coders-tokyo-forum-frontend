@@ -26,14 +26,16 @@
               <v-card-text class="pb-2 pt-2">
                 <p class="title text--primary mb-0 pt-1">{{ book.name }}</p>
                 <v-container class="d-flex pl-1 pb-0 pt-2">
-                  <p class="key mb-0 mr-3">Status:</p>
+                  <p class="key mb-0 mr-3">{{ $t('Status') }}:</p>
                   <p class="value mb-0" :style="calBookStatusColor">
-                    {{ book.status }}
+                    {{ $t(book.status) }}
                   </p>
                 </v-container>
 
-                <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Author:</p>
+                <v-container class="d-flex pl-1 pb-0 pr-0">
+                  <p style="width: 110px" class="key mb-0 mr-3">
+                    {{ $t('Author') }}:
+                  </p>
                   <p class="value mb-0" v-if="slicedAuthors">
                     <span
                       v-for="(author, i) in slicedAuthors"
@@ -45,17 +47,17 @@
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Nation:</p>
+                  <p class="key mb-0 mr-3">{{ $t('Nation') }}:</p>
                   <p class="value mb-0">{{ book.country }}</p>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Length:</p>
-                  <p class="value mb-0">{{ book.length }} pages</p>
+                  <p class="key mb-0 mr-3">{{ $t('Length') }}:</p>
+                  <p class="value mb-0">{{ book.length }}</p>
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Genres:</p>
+                  <p class="key mb-0 mr-3">{{ $t('Genres') }}:</p>
                   <span v-if="slicedGenres">
                     <v-chip
                       label
@@ -65,7 +67,7 @@
                       style="border: 1px solid #FBC02D !important; background-color: #fdd835 !important"
                       v-for="genre in slicedGenres"
                       :key="genre._id"
-                      class="mr-1 mb-2"
+                      class="mr-1"
                     >
                       {{ genre }}
                     </v-chip>
@@ -73,7 +75,7 @@
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-3">Suggested by:</p>
+                  <p class="key mb-0 mr-3">{{ $t('Suggested by') }}:</p>
                   <p class="value mb-0" v-if="slicedSuggestedBy">
                     <span v-for="(person, i) in slicedSuggestedBy" :key="i">
                       {{ person }}{{ isAddComma(i, slicedSuggestedBy.length) }}
@@ -82,7 +84,7 @@
                 </v-container>
 
                 <v-container class="d-flex pl-1 pb-0">
-                  <p class="key mb-0 mr-4">Stars:</p>
+                  <p class="key mb-0 mr-4">{{ $t('Stars') }}:</p>
                   <v-icon
                     v-for="(start, i) in book.stars"
                     :key="i"
@@ -101,14 +103,16 @@
               <v-card-text class="pb-6 pt-0 d-flex justify-space-around">
                 <div>
                   <v-container class="d-flex pl-1 pb-0 pt-2">
-                    <p class="key mb-0 mr-3">Status:</p>
+                    <p class="key mb-0 mr-3">{{ $t('Status') }}:</p>
                     <p class="value mb-0" :style="calBookStatusColor">
-                      {{ book.status }}
+                      {{ $t(book.status) }}
                     </p>
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Author:</p>
+                    <p style="width: 80px" class="key mb-0">
+                      {{ $t('Author') }}:
+                    </p>
                     <p class="value mb-0" v-if="slicedAuthors">
                       <span
                         v-for="(author, i) in slicedAuthors"
@@ -121,19 +125,21 @@
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Nation:</p>
+                    <p class="key mb-0 mr-3">{{ $t('Nation') }}:</p>
                     <p class="value mb-0">{{ book.country }}</p>
+                  </v-container>
+
+                  <v-container class="d-flex pl-1 pb-0 pt-2">
+                    <p class="key mb-0 mr-3">{{ $t('Length') }}:</p>
+                    <p class="value mb-0">{{ book.length }}</p>
                   </v-container>
                 </div>
 
                 <div>
-                  <v-container class="d-flex pl-1 pb-0 pt-2">
-                    <p class="key mb-0 mr-3">Length:</p>
-                    <p class="value mb-0">{{ book.length }} pages</p>
-                  </v-container>
-
                   <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Genres:</p>
+                    <p style="width: 75px" class="key mb-0 mr-3">
+                      {{ $t('Genres') }}:
+                    </p>
                     <span v-if="slicedGenres">
                       <v-chip
                         label
@@ -151,7 +157,9 @@
                   </v-container>
 
                   <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-3">Suggested by:</p>
+                    <p style="width: 75px" class="key mb-0 mr-3">
+                      {{ $t('Suggested by') }}:
+                    </p>
                     <p class="value mb-0" v-if="slicedSuggestedBy">
                       <span v-for="(person, i) in slicedSuggestedBy" :key="i">
                         {{ person
@@ -160,7 +168,9 @@
                     </p>
                   </v-container>
                   <v-container class="d-flex pl-1 pb-0">
-                    <p class="key mb-0 mr-4">Stars:</p>
+                    <p style="width: 75px" class="key mb-0 mr-4">
+                      {{ $t('Stars') }}:
+                    </p>
                     <v-icon
                       v-for="(start, i) in book.stars"
                       :key="i"
@@ -193,7 +203,7 @@
           <div class="d-flex justify-space-between mt-1" style="height: 20px">
             <span style="font-size: 0.775rem;" class="pt-1">
               <a style=" text-decoration: none" @click="linkToBlog">
-                Read more...
+                {{ $t('Read more') }}...
               </a>
             </span>
             <read-time
@@ -215,7 +225,7 @@
           class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
         >
-          {{ createdAt | date }}
+          {{ $d(new Date(createdAt), 'short', 'vi-VN') }}
         </v-card-text>
         <v-spacer />
         <v-container>

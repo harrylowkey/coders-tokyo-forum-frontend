@@ -64,7 +64,7 @@
                 class="font-italic font-weight-light pt-0 pb-0"
                 style="font-size: small"
               >
-                {{ post.createdAt | date }}
+                {{ $d(new Date(post.createdAt), 'short', 'vi-VN') }}
               </v-card-text>
               <div style="width: 200px">
                 <edit-delete-btns
@@ -90,7 +90,7 @@
         <v-container>
           <v-row id="comments">
             <div style="width: 100%" class="mt-5">
-              <h1 class="mb-3 mt-8">Comments</h1>
+              <h1 class="mb-3 mt-8">{{ $t('Comments') }}</h1>
               <v-boilerplate
                 style="width: 100%"
                 v-if="isLoading"
@@ -144,7 +144,9 @@
               v-if="otherPostsOfAuthor.length"
               class="mb-10"
             >
-              <h1 style="width: 100%" class="mt-8 mb-3">Other Discussions</h1>
+              <h1 style="width: 100%" class="mt-8 mb-3">
+                {{ $t('Other Discussions') }}
+              </h1>
               <div style="width: 100%" class="d-flex" v-if="isLoading">
                 <v-boilerplate
                   class="other-post"

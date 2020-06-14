@@ -31,7 +31,7 @@ export default {
       'isShowPlayer',
       'currentAudioPlaying',
     ]),
-    ...mapState('utils', ['errorMes', 'isLoading']),
+    ...mapState('utils', ['isLoading']),
   },
   methods: {
     ...mapActions('player', ['updatePlaying', 'switchAudio']),

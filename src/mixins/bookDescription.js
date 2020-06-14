@@ -13,12 +13,14 @@ export const bookDescription = {
     return {
       minSlice: 2,
       maxSlice: 2,
+      finishStatus: ['finished', 'hoàn thành', 'đã hoàn thành'],
     };
   },
   computed: {
     calBookStatusColor() {
       const bookStatus = this.post ? this.post.book.status : this.book.status;
-      if (bookStatus !== 'Finished') return { color: 'red' };
+      if (!this.finishStatus.includes(bookStatus.toLowerCase()))
+        return { color: 'red' };
       else return { color: 'green' };
     },
     calBookYearColor() {

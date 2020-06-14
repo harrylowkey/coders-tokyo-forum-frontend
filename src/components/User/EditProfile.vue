@@ -41,7 +41,7 @@
           @keyup.enter="handleUpdateProfile"
           class="pa-0"
         >
-          Password
+          {{ $t('Password') }}
         </v-subheader>
       </v-col>
 
@@ -106,20 +106,20 @@
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
-        <v-subheader class="pa-0">Sex</v-subheader>
+        <v-subheader class="pa-0">{{ $t('Sex') }}</v-subheader>
       </v-col>
       <v-col cols="12" sm="12" md="12" lg="9" style="padding: 0">
         <v-radio-group v-model="editSex" row>
-          <v-radio label="Male" value="Male" />
-          <v-radio label="Female" value="Female" />
-          <v-radio label="Unknown" value="Unknown" />
+          <v-radio :label="$t('Male')" value="Male" />
+          <v-radio :label="$t('Female')" value="Female" />
+          <v-radio :label="$t('Unknown')" value="Unknown" />
         </v-radio-group>
       </v-col>
 
-      <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
-        <v-subheader class="pa-0">Job</v-subheader>
+      <v-col cols="12" sm="12" md="12" lg="4" class="key-style col">
+        <v-subheader class="pa-0">{{ $t('Job') }}</v-subheader>
       </v-col>
-      <v-col class="col" cols="12" sm="12" md="12" lg="9" style="padding: 0">
+      <v-col class="col" cols="12" sm="12" md="12" lg="7" style="padding: 0">
         <v-text-field
           @keyup.enter="handleUpdateProfile"
           v-model="editJob"
@@ -127,10 +127,10 @@
         />
       </v-col>
 
-      <v-col cols="12" sm="12" md="12" lg="3" class="key-style col">
-        <v-subheader class="pa-0">Date join</v-subheader>
+      <v-col cols="12" sm="12" md="12" lg="4" class="key-style col">
+        <v-subheader class="pa-0">{{ $t('Date join') }}</v-subheader>
       </v-col>
-      <v-col class="col" cols="12" sm="12" md="12" lg="9">
+      <v-col class="col" cols="12" sm="12" md="12" lg="7">
         <p class="pt-0 user-info">{{ user.createdAt | date }}</p>
       </v-col>
       <v-card-actions
@@ -140,11 +140,13 @@
         <v-row>
           <v-col class="d-flex justify-center">
             <v-btn @click="handleUpdateProfile" small color="success">
-              Update
+              {{ $t('Update') }}
             </v-btn>
           </v-col>
           <v-col class="d-flex justify-center">
-            <v-btn @click="onCancel" dark small color="red">Cancel</v-btn>
+            <v-btn @click="onCancel" dark small color="red">
+              {{ $t('Cancel') }}
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-actions>

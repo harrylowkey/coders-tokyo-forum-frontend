@@ -9,7 +9,7 @@
                 <v-form>
                   <v-card class="elevation-12 px-5 pt-2 pb-8">
                     <v-toolbar flat>
-                      <v-toolbar-title>Login</v-toolbar-title>
+                      <v-toolbar-title>{{ $t('Login') }}</v-toolbar-title>
                       <v-spacer />
                     </v-toolbar>
                     <v-card-text class="py-6 px-10">
@@ -21,7 +21,7 @@
                         >
                           <div>Email</div>
                           <v-text-field
-                            :error-messages="errors"
+                            :error-messages="$t(errors)"
                             v-model="email"
                             name="email"
                             type="text"
@@ -33,14 +33,14 @@
                           rules="required"
                           v-slot="{ errors }"
                         >
-                          <div>Password</div>
+                          <div>{{ $t('Password') }}</div>
                           <v-text-field
                             class="pt-0"
                             id="password"
                             name="password"
                             v-model="password"
                             type="password"
-                            :error-messages="errors"
+                            :error-messages="$t(errors)"
                             @keyup.enter="signIn({ email, password })"
                           />
                         </ValidationProvider>
@@ -52,7 +52,7 @@
                             class="mt-4"
                             @click="signIn({ email, password })"
                           >
-                            Login
+                            {{ $t('Login') }}
                           </v-btn>
                         </div>
                       </v-form>
@@ -60,7 +60,7 @@
                     <div class="px-10">
                       <div class="text-right">
                         <router-link :to="ROUTES.REGISTER">
-                          Don't have an account yet?
+                          {{ $t("Don't have an account yet?") }}
                         </router-link>
                       </div>
                       <div class="text-right">
@@ -68,7 +68,7 @@
                           class="red--text"
                           :to="ROUTES.FORGOT_PASSWORD"
                         >
-                          Forgot password?
+                          {{ $t('Forgot password?') }}
                         </router-link>
                       </div>
                     </div>
@@ -112,7 +112,6 @@ export default {
   },
   computed: {
     ...mapState('user', ['isAuthenticated', 'accessToken']),
-    ...mapState('utils', ['errorMes']),
     ...mapState('socket', ['online']),
   },
   watch: {
@@ -120,7 +119,7 @@ export default {
       if (isAuth) {
         this.$notify({
           type: 'success',
-          title: 'Login success',
+          title: this.$t('notifications.login.Success'),
         });
         await socket.emit('auth', this.accessToken);
 

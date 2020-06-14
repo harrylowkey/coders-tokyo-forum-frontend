@@ -37,7 +37,7 @@
                 label
               >
                 <v-icon left>mdi-cloud-upload-outline</v-icon>
-                Image
+                {{ $t('Cover image') }}
               </v-chip>
             </div>
           </v-col>
@@ -58,7 +58,7 @@
                         :height="400"
                         :headers="headers"
                         img-format="jpg"
-                        langType="en"
+                        :langExt="langExtVN"
                         noCircle
                       />
                       <v-container
@@ -79,9 +79,9 @@
                         v-slot="{ errors }"
                       >
                         <v-text-field
-                          :error-messages="errors"
+                          :error-messages="$t(errors)"
                           v-model="data.movie.name"
-                          label="Movie name*"
+                          :label="$t('Movie name*')"
                           required
                         />
                       </ValidationProvider>
@@ -89,7 +89,7 @@
                     <v-col cols="12" sm="6" md="6">
                       <v-text-field
                         v-model="data.movie.country"
-                        label="Nation"
+                        :label="$t('Nation')"
                       />
                     </v-col>
                     <v-col cols="12" sm="4" md="2">
@@ -98,8 +98,8 @@
                     <v-col cols="12" sm="4" md="2">
                       <v-text-field
                         v-model="data.movie.time"
-                        hint="Unit: minutes"
-                        label="Times"
+                        :hint="$t('Unit: minutes')"
+                        :label="$t('Time')"
                       />
                     </v-col>
                     <v-col cols="12" sm="4" md="8">
@@ -107,7 +107,10 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="director" label="Director" />
+                        <v-text-field
+                          v-model="director"
+                          :label="$t('Director')"
+                        />
                         <span class="pb-4 pl-3" v-if="!addCoDirector">
                           <v-icon
                             @click="addCoDirector = !addCoDirector"
@@ -132,13 +135,16 @@
                       <div class="d-flex align-end">
                         <v-text-field
                           v-model="coDirector"
-                          label="Co - Director"
+                          :label="$t('Co - Director')"
                         />
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="actor" label="Actor/Actress" />
+                        <v-text-field
+                          v-model="actor"
+                          :label="$t('Actor/Actress')"
+                        />
                         <span class="pb-4 pl-3" v-if="!addActor2">
                           <v-icon
                             @click="addActor2 = !addActor2"
@@ -150,7 +156,7 @@
                         </span>
                         <span class="pb-4 pl-3" v-if="addActor2">
                           <v-icon
-                            @click="handleRemoveCoDirector(2)"
+                            @click="handleRemoveActor(2)"
                             color="warning"
                             style="cursor: pointer"
                           >
@@ -161,7 +167,10 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4" v-if="addActor2">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="actor2" label="Actor/Actress" />
+                        <v-text-field
+                          v-model="actor2"
+                          :label="$t('Actor/Actress')"
+                        />
                         <span class="pb-4 pl-3" v-if="!addActor3">
                           <v-icon
                             @click="addActor3 = !addActor3"
@@ -184,7 +193,10 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4" v-if="addActor3">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="actor3" label="Actor/Actress" />
+                        <v-text-field
+                          v-model="actor3"
+                          :label="$t('Actor/Actress')"
+                        />
                         <span class="pb-4 pl-3" v-if="!addActor4">
                           <v-icon
                             @click="addActor4 = !addActor4"
@@ -207,13 +219,16 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4" v-if="addActor4">
                       <div class="d-flex align-end">
-                        <v-text-field v-model="actor4" label="Actor/Actress" />
+                        <v-text-field
+                          v-model="actor4"
+                          :label="$t('Actor/Actress')"
+                        />
                       </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="7">
                       <v-text-field
                         v-model="data.movie.releaseDate"
-                        label="Release Date"
+                        :label="$t('Release Date')"
                       />
                     </v-col>
                     <v-col cols="12" sm="6" md="5">
@@ -222,7 +237,7 @@
                           style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                           class="mb-0 pt-1 pr-5"
                         >
-                          Your stars:
+                          {{ $t('Stars') }}
                         </span>
                         <v-rating
                           v-model="data.movie.stars"
@@ -237,8 +252,8 @@
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
                       <v-autocomplete
-                        :items="genres"
-                        label="Genres"
+                        :items="genresVN"
+                        :label="$t('Genres')"
                         v-model="data.movie.genres"
                         multiple
                       />
@@ -250,19 +265,23 @@
                         v-slot="{ errors }"
                       >
                         <v-text-field
-                          label="Topic*"
+                          :label="$t('Topic*')"
                           persistent-hint
                           v-model="data.topic"
                           rows="2"
                           required
-                          :error-messages="errors"
-                          hint="Write description to attract people at the first glance"
+                          :error-messages="$t(errors)"
+                          :hint="
+                            $t(
+                              'Write description to attract people at the first glance',
+                            )
+                          "
                         />
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12">
                       <v-textarea
-                        label="Description"
+                        :label="$t('Description')"
                         persistent-hint
                         rows="3"
                         v-model="data.description"
@@ -276,10 +295,10 @@
                         v-slot="{ errors }"
                       >
                         <v-textarea
-                          label="Content*"
+                          :label="$t('Content*')"
                           auto-grow
                           :rows="getNumberOfLines(data.content, 15) || 15"
-                          :error-messages="errors"
+                          :error-messages="$t(errors)"
                           v-model="data.content"
                           placeholder="Markdown"
                         />
@@ -314,7 +333,7 @@
                   @click="isAttachImage = !isAttachImage"
                 >
                   <v-icon left color="primary">image</v-icon>
-                  Attach image
+                  {{ $t('Attach image') }}
                 </v-chip>
                 <v-spacer />
                 <v-btn
@@ -323,7 +342,7 @@
                   @click="togglePreviewContent"
                   dark
                 >
-                  Preview
+                  {{ $t('Preview') }}
                 </v-btn>
                 <v-btn
                   class="mr-5"
@@ -331,7 +350,7 @@
                   @click="submit"
                   :disabled="isLoadingUpload"
                 >
-                  Post
+                  {{ $t('Post') }}
                 </v-btn>
               </v-card-actions>
             </v-container>
@@ -398,7 +417,26 @@ export default {
       },
       imgDataUrl: '',
       isPreviewing: false,
-      genres: ['Action', 'Funny', 'Moving', 'History'],
+      genres: [
+        'Action',
+        'Comedy',
+        'Moving',
+        'History',
+        'Deactive',
+        'Fiction',
+        'Science',
+        'Thriller',
+      ],
+      genresVN: [
+        'Hành động',
+        'Hài kịch',
+        'Cảm động',
+        'Lịch sử',
+        'Trinh thám',
+        'Viễn tưởng',
+        'Khoa học',
+        'Kinh dị',
+      ],
     };
   },
   computed: {},
@@ -415,8 +453,8 @@ export default {
       if (this.data.cover === '') {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: "Let's upload the cover",
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t("Let's upload the cover"),
         });
         return;
       }
@@ -437,7 +475,7 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
+          title: `${this.$t('notifications.title.Success')}!`,
         });
 
         setTimeout(() => {
@@ -449,8 +487,8 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: res.message,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(res.message),
         });
       }
     },

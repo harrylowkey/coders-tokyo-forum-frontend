@@ -88,7 +88,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
+    ...mapState('utils', ['isLoading', 'isLoadmore']),
     ...mapState('discussions', ['discussions', 'metadata']),
     ...mapState('stream', ['topDiscussions', 'topTags']),
   },

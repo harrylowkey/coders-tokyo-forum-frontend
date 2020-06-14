@@ -92,7 +92,7 @@ export default {
   },
 
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
+    ...mapState('utils', ['isLoading', 'isLoadmore']),
     ...mapState('bookReviews', ['bookReviews', 'metadata']),
     ...mapState('stream', ['topBookReviews', 'topTags']),
   },

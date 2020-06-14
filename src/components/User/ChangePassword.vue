@@ -3,7 +3,7 @@
     <v-form>
       <v-card class="pb-1">
         <v-card-title>
-          <span class="headline">Change Password</span>
+          <span class="headline">{{ $t('Change Password') }}</span>
         </v-card-title>
         <v-card-text class="pb-0">
           <v-container>
@@ -15,9 +15,9 @@
                   v-slot="{ errors }"
                 >
                   <v-text-field
-                    :error-messages="errors"
+                    :error-messages="$t(errors)"
                     v-model="oldPassword"
-                    label="Old Password*"
+                    :label="$t('Old Password*')"
                     type="password"
                     required
                   />
@@ -30,11 +30,15 @@
                   v-slot="{ errors }"
                 >
                   <v-text-field
-                    :error-messages="errors"
+                    :error-messages="$t(errors)"
                     v-model="newPassword"
-                    label="New password*"
+                    :label="$t('New password*')"
                     type="password"
-                    hint="Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!"
+                    :hint="
+                      $t(
+                        'Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!',
+                      )
+                    "
                     required
                   />
                 </ValidationProvider>
@@ -46,9 +50,9 @@
                   v-slot="{ errors }"
                 >
                   <v-text-field
-                    :error-messages="errors"
+                    :error-messages="$t(errors)"
                     v-model="confirmPassword"
-                    label="Confirm password*"
+                    :label="$t('Confirm password*')"
                     hint="Type new password again"
                     type="password"
                     required
@@ -65,7 +69,7 @@
                 >
                   <v-text-field
                     type="text"
-                    :error-messages="errors"
+                    :error-messages="$t(errors)"
                     id="code"
                     label="Code"
                     name="code"
@@ -86,7 +90,7 @@
                   small
                   class="success"
                 >
-                  Get code
+                  {{ $t('Get code') }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -95,7 +99,7 @@
         <v-card-actions class="pt-0 pr-5 pb-0">
           <v-spacer />
           <v-btn class="white--text" small color="red" @click="onClickCancel">
-            Cancle
+            {{ $t('Cancel') }}
           </v-btn>
           <v-btn
             class="white--text ml-3"
@@ -103,7 +107,7 @@
             color="green"
             @click="onClickSubmit"
           >
-            Change
+            {{ $t('Change password') }}
           </v-btn>
         </v-card-actions>
         <p />
@@ -166,8 +170,8 @@ export default {
       if (response.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Change password success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Change password success'),
         });
         this.$emit('closeChangePasswordModel');
       }
@@ -177,7 +181,7 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
+          title: `${this.$t('notifications.title.Success')}!`,
           text: 'Code has been sent to your email',
         });
       }

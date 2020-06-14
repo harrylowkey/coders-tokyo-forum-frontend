@@ -11,14 +11,14 @@
       <v-toolbar dense>
         <v-tabs grow v-model="preSelectedPage">
           <v-tab key="discussions" @click="setActivePage('discussions')">
-            Discussions
+            {{ $t('Discussions') }}
           </v-tab>
           <v-divider vertical inset />
           <v-tab key="blogs" @click="setActivePage('blogs')">Blogs</v-tab>
           <v-divider vertical inset>A</v-divider>
           <v-menu key="reviews" offset-y open-on-hover>
             <template v-slot:activator="{ on }">
-              <v-tab ref="reviewPage" v-on="on">Reviews</v-tab>
+              <v-tab ref="reviewPage" v-on="on">{{ $t('Reviews') }}</v-tab>
             </template>
             <v-list>
               <v-list-item
@@ -31,7 +31,7 @@
                     {{ item.icon }}
                   </v-icon>
                 </v-list-item-icon>
-                <v-list-item-title>{{ item.menu }}</v-list-item-title>
+                <v-list-item-title>{{ $t(item.menu) }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -49,7 +49,7 @@
                 <v-list-item-icon class="mr-2">
                   <v-icon color="primary" size="20">{{ item.icon }}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title>{{ item.menu }}</v-list-item-title>
+                <v-list-item-title>{{ $t(item.menu) }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>

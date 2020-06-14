@@ -7,7 +7,7 @@
       style="border-radius: 20px"
     >
       <v-card-title class="justify-center" style="padding: 10px !important">
-        {{ title }}
+        {{ $t(title) }}
       </v-card-title>
       <v-divider />
       <v-list-item

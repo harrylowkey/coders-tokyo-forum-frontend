@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import NavBar from '@/components/Layout/NavBar';
 import Footer from '@/components/Layout/Footer';
 import socket from '@/socket.js';
@@ -27,6 +29,7 @@ export default {
     NavBar,
   },
   methods: {
+    ...mapActions('notifications', ['updateNotifications']),
     onClickLogo() {
       return this.$refs.forumTitle.click();
     },
@@ -35,8 +38,8 @@ export default {
     socket.on('NOTIFICATIONS', payload => {
       this.$notify({
         type: 'success',
-        title: 'Notification!',
-        text: payload.content.replace(/[^a-zA-Z ]/g, ''),
+        title: `${this.$t('Notification')}!`,
+        text: this.$t(payload.content.replace(/[^a-zA-Z ]/g, '')),
       });
 
       this.updateNotifications(payload.notif);

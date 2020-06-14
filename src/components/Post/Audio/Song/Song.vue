@@ -18,7 +18,7 @@
         style="font-size: 13px !important; color: grey"
         class="caption ml-1"
       >
-        posted a
+        {{ $t('posted a') }}
         <a
           :href="`/songs/${_id}?type=song`"
           style="text-decoration: none; color: #444; font-style: italic"
@@ -67,7 +67,9 @@
             class="font-italic font-weight-light pt-0 pl-0 pr-0"
             style="font-size: 13px; width: 85px; height: 30px; margin-top: 0px !important; margin-left: 20px"
           >
-            <span class="mt-2">{{ createdAt | date }}</span>
+            <span class="mt-2">
+              {{ $d(new Date(createdAt), 'short', 'vi-VN') }}
+            </span>
           </v-card-text>
         </v-list-item>
       </v-card>

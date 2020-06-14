@@ -1,10 +1,10 @@
 <template>
   <v-hover v-slot:default="{ hover }" style="transition: 0.3s">
     <v-card class="mx-auto mt-6" :elevation="hover ? 10 : 3">
-      <v-list-item three-line style="padding: 0px 25px 0 20px; height: 150px;">
+      <v-list-item three-line style="padding: 0px 25px 0 20px; height: 130px;">
         <v-list-item-content class="pr-10 pt-lg-0 pb-lg-0">
           <a
-            class="discuss-title"
+            class="discuss-title mt-n2"
             style="width: 80%;  overflow: hidden;text-decoration: none; color: rgba(0, 0, 0, 0.87) !important"
             @click="$router.push({ path: discussionLink })"
           >
@@ -15,6 +15,7 @@
           </v-list-item-subtitle>
         </v-list-item-content>
         <user-avatar
+          class="mt-n6"
           :src="author.avatar.secureURL"
           :username="author.username"
         />
@@ -25,7 +26,7 @@
           class="font-italic font-weight-light pt-0 pb-0"
           style="font-size: small"
         >
-          {{ createdAt | date }}
+          {{ $d(new Date(createdAt), 'short', 'vi-VN') }}
         </v-card-text>
         <v-spacer />
         <v-container>

@@ -217,7 +217,7 @@
         </v-card>
         <div class="mt-5" id="comments">
           <v-divider />
-          <h1 class="mb-3 mt-8">Comments</h1>
+          <h1 class="mb-3 mt-8">{{ $t('Comments') }}</h1>
 
           <v-boilerplate style="width: 100%" v-if="isLoading" type="image" />
           <write-comment v-if="!isLoading" :postId="post._id" type="comment" />
@@ -512,7 +512,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .player {
   opacity: 0;
   position: absolute;
@@ -598,10 +598,10 @@ export default {
   transition: opacity 1.8s ease-in;
 }
 
-.v-application--is-ltr .v-list-item__action:first-child,
-.v-application--is-ltr .v-list-item__icon:first-child {
-  margin-right: 0 !important;
-}
+// .v-application--is-ltr .v-list-item__action:first-child,
+// .v-application--is-ltr .v-list-item__icon:first-child {
+//   margin-right: 0 !important;
+// }
 
 .cover {
   position: relative;
@@ -631,83 +631,83 @@ export default {
   padding: 16px 15px 8px 15px !important;
 }
 
-.aplayer {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  margin: 0;
+// .aplayer {
+//   -webkit-box-shadow: none;
+//   box-shadow: none;
+//   margin: 0;
 
-  .aplayer-icon {
-    width: 18px;
-    height: 18px;
-  }
+//   .aplayer-icon {
+//     width: 18px;
+//     height: 18px;
+//   }
 
-  .aplayer-pic {
-    height: 250px !important;
-    width: 280px !important;
+//   .aplayer-pic {
+//     height: 250px !important;
+//     width: 280px !important;
 
-    .aplayer-play {
-      width: 56px;
-      height: 56px;
-      border: 2px solid #fff;
-      bottom: 44%;
-      right: 44%;
-      margin: 0 -15px -15px 0;
-    }
+//     .aplayer-play {
+//       width: 56px;
+//       height: 56px;
+//       border: 2px solid #fff;
+//       bottom: 44%;
+//       right: 44%;
+//       margin: 0 -15px -15px 0;
+//     }
 
-    .aplayer-play svg {
-      position: absolute;
-      top: 5px;
-      left: 4px;
-      height: 46px;
-      width: 55px;
-    }
-  }
+//     .aplayer-play svg {
+//       position: absolute;
+//       top: 5px;
+//       left: 4px;
+//       height: 46px;
+//       width: 55px;
+//     }
+//   }
 
-  .aplayer-info {
-    margin-left: 290px !important;
+//   .aplayer-info {
+//     margin-left: 290px !important;
 
-    .aplayer-controller {
-      .aplayer-bar-wrap {
-        .aplayer-bar {
-          .aplayer-played {
-            height: 2px;
-          }
-        }
-      }
-    }
+//     .aplayer-controller {
+//       .aplayer-bar-wrap {
+//         .aplayer-bar {
+//           .aplayer-played {
+//             height: 2px;
+//           }
+//         }
+//       }
+//     }
 
-    .aplayer-music {
-      margin-bottom: 35px;
-      height: 40px;
+//     .aplayer-music {
+//       margin-bottom: 35px;
+//       height: 40px;
 
-      .aplayer-title {
-        font-size: 1.65rem !important;
-      }
+//       .aplayer-title {
+//         font-size: 1.65rem !important;
+//       }
 
-      .aplayer-author {
-        font-size: 1.05rem !important;
-      }
-    }
-  }
-}
+//       .aplayer-author {
+//         font-size: 1.05rem !important;
+//       }
+//     }
+//   }
+// }
 
-.aplayer
-  .aplayer-info
-  .aplayer-controller
-  .aplayer-time
-  .aplayer-icon.aplayer-icon-loop {
-  display: none !important;
-}
+// .aplayer
+//   .aplayer-info
+//   .aplayer-controller
+//   .aplayer-time
+//   .aplayer-icon.aplayer-icon-loop {
+//   display: none !important;
+// }
 
-.aplayer
-  .aplayer-info
-  .aplayer-controller
-  .aplayer-volume-wrap
-  .aplayer-volume-bar-wrap
-  .aplayer-volume-bar {
-  bottom: 4px !important;
-  right: 12px !important;
-}
+// .aplayer
+//   .aplayer-info
+//   .aplayer-controller
+//   .aplayer-volume-wrap
+//   .aplayer-volume-bar-wrap
+//   .aplayer-volume-bar {
+//   bottom: 4px !important;
+//   right: 12px !important;
+// }
 
 audio {
   display: none;

@@ -6,7 +6,7 @@
       auto-grow
       solo
       :rows="rows"
-      :placeholder="placeholder"
+      :placeholder="$t(placeholder)"
       class="mb-n3"
       v-model="content"
       :autofocus="autofocus"
@@ -29,14 +29,14 @@
         color="primary"
         @click="togglePreviewComment"
       >
-        Preview
+        {{ $t('Preview') }}
       </v-btn>
       <v-btn small v-else dark color="primary" @click="togglePreviewComment">
-        Continue writing comment
+        {{ $t('Continue writing comment') }}
       </v-btn>
 
       <v-btn small dark color="green" class="ml-3" @click="submit">
-        Submit
+        {{ $t('Submit comment') }}
       </v-btn>
     </div>
   </v-form>
@@ -135,16 +135,6 @@ export default {
           this.content = '';
           this.$emit('handleWriteComment');
         }
-      }
-    },
-  },
-  watch: {
-    errorMes(newVal) {
-      if (newVal.length) {
-        this.$notify({
-          type: 'error',
-          text: newVal,
-        });
       }
     },
   },

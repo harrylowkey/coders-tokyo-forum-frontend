@@ -207,7 +207,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
+    ...mapState('utils', ['isLoading', 'isLoadmore']),
     ...mapState('songs', ['songs', 'metadata']),
     ...mapState('stream', ['topSongs', 'topTags']),
   },

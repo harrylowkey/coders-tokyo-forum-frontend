@@ -69,7 +69,7 @@
                                   :height="450"
                                   :headers="headers"
                                   img-format="jpg"
-                                  langType="en"
+                                  :langExt="langExtVN"
                                   noCircle
                                 />
                                 <v-container
@@ -95,7 +95,7 @@
                                       <v-icon left>
                                         mdi-cloud-upload-outline
                                       </v-icon>
-                                      Update Image
+                                      {{ $t('Update Cover Image') }}
                                     </v-chip>
                                   </v-img>
                                 </v-container>
@@ -108,9 +108,9 @@
                                 >
                                   <v-text-field
                                     v-model="post.book.name"
-                                    label="Book name*"
+                                    :label="$t('Book name*')"
                                     required
-                                    :error-messages="errors"
+                                    :error-messages="$t(errors)"
                                   />
                                 </ValidationProvider>
                               </v-col>
@@ -122,9 +122,11 @@
                                 >
                                   <v-text-field
                                     v-model="post.book.status"
-                                    :error-messages="errors"
-                                    label="Status"
-                                    hint="E.g: Finished or 15/34 Chapters"
+                                    :error-messages="$t(errors)"
+                                    :label="$t('Status')"
+                                    :hint="
+                                      $t('E.g: Finished or 15/34 Chapters')
+                                    "
                                     required
                                   />
                                 </ValidationProvider>
@@ -139,8 +141,8 @@
                                     <v-text-field
                                       required
                                       v-model="author"
-                                      label="Author"
-                                      :error-messages="errors"
+                                      :label="$t('Author')"
+                                      :error-messages="$t(errors)"
                                     />
                                   </ValidationProvider>
                                   <span
@@ -182,9 +184,9 @@
                                     v-slot="{ errors }"
                                   >
                                     <v-text-field
-                                      :error-messages="errors"
+                                      :error-messages="$t(errors)"
                                       v-model="coAuthor"
-                                      label="Co - Author"
+                                      :label="$t('Co - Author')"
                                     />
                                   </ValidationProvider>
                                 </div>
@@ -193,7 +195,7 @@
                                 <div class="d-flex align-end">
                                   <v-text-field
                                     v-model="recommender"
-                                    label="Recommender"
+                                    :label="$t('Recommender')"
                                   />
                                   <span
                                     class="pb-4 pl-3"
@@ -230,30 +232,30 @@
                                 <div class="d-flex align-end">
                                   <v-text-field
                                     v-model="recommender2"
-                                    label="Recommender"
+                                    :label="$t('Recommender')"
                                   />
                                 </div>
                               </v-col>
                               <v-col cols="12" sm="6" md="4">
                                 <v-text-field
                                   v-model="post.book.country"
-                                  label="Nation"
+                                  :label="$t('Nation')"
                                 />
                               </v-col>
                               <v-col cols="12" sm="6" md="3">
                                 <v-text-field
                                   v-model="post.book.length"
-                                  hint="E.g: 200 pages"
-                                  label="Length"
+                                  :hint="$t('E.g: 200 pages')"
+                                  :label="$t('Length')"
                                 />
                               </v-col>
-                              <v-col cols="12" sm="12" md="5">
+                              <v-col cols="12" sm="6" md="9">
                                 <v-container class="d-flex pl-0 pr-0 mt-2">
                                   <span
                                     style="font-size: 17px; color: rgba(0, 0, 0, 0.57);"
                                     class="mb-0 pt-1 pr-5"
                                   >
-                                    Your stars:
+                                    {{ $t('Your stars') }}
                                   </span>
                                   <v-rating
                                     v-model="post.book.stars"
@@ -267,9 +269,9 @@
                               </v-col>
                               <v-col cols="12" sm="12" md="12">
                                 <v-autocomplete
-                                  :items="genres"
-                                  label="Genres"
-                                  v-model="post.book.genres"
+                                  :items="genresVN"
+                                  :label="$t('Genres')"
+                                  v-model="updateGenres"
                                   multiple
                                 />
                               </v-col>
@@ -282,8 +284,8 @@
                                   <v-text-field
                                     v-model="post.topic"
                                     required
-                                    :error-messages="errors"
-                                    label="Topic*"
+                                    :error-messages="$t(errors)"
+                                    :label="$t('Topic*')"
                                     persistent-hint
                                     rows="2"
                                   />
@@ -291,11 +293,15 @@
                               </v-col>
                               <v-col cols="12">
                                 <v-textarea
-                                  label="Description"
+                                  :label="$t('Description')"
                                   persistent-hint
                                   rows="3"
                                   v-model="post.description"
-                                  hint="Write description to attract people at the first glance"
+                                  :hint="
+                                    $t(
+                                      'Write description to attract people at the first glance',
+                                    )
+                                  "
                                 />
                               </v-col>
                               <v-col cols="12">
@@ -305,13 +311,13 @@
                                   v-slot="{ errors }"
                                 >
                                   <v-textarea
-                                    label="Content*"
+                                    :label="$t('Content*')"
                                     v-model="post.content"
                                     :rows="
                                       getNumberOfLines(post.content, 15) || 15
                                     "
                                     required
-                                    :error-messages="errors"
+                                    :error-messages="$t(errors)"
                                     placeholder="Markdown"
                                   />
                                 </ValidationProvider>
@@ -351,7 +357,7 @@
                             @click="togglePreviewContent"
                             dark
                           >
-                            Preview
+                            {{ $t('Preview') }}
                           </v-btn>
                           <v-btn
                             v-if="!isLoadingUpload"
@@ -360,7 +366,7 @@
                             dark
                             @click="submit"
                           >
-                            Update
+                            {{ $t('Update') }}
                           </v-btn>
                         </v-card-actions>
                       </v-container>
@@ -418,11 +424,22 @@ export default {
         'Thriller',
         'Poetry',
         'Novel',
-        'Narrative',
         'Literary',
         'Deactive',
         'Action',
         'Improve-self',
+      ],
+      genresVN: [
+        'Viễn tưởng',
+        'Khoa học',
+        'Thần thoại',
+        'Kinh dị',
+        'Thơ ca',
+        'Tiểu thuyết',
+        'Văn học',
+        'Trinh thám',
+        'Hành động',
+        'Phát triển bản thân',
       ],
     };
   },
@@ -444,6 +461,8 @@ export default {
         const recommenders = this.post.book.suggestedBy;
         this.recommender = recommenders[0] || '';
         this.recommender2 = recommenders[1] || '';
+
+        this.updateGenres = [...this.post.book.genres];
       });
     },
     handleRemoveCoAuthor() {
@@ -461,8 +480,8 @@ export default {
       if (this.post.cover === '') {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: "Let's upload the banner",
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t("Let's upload the banner"),
         });
         return;
       }
@@ -470,6 +489,7 @@ export default {
       const isValid = await this.$refs.observer.validate();
       if (!isValid) return;
 
+      this.post.book.genres = this.updateGenres;
       const dataUpdate = {
         topic: this.post.topic,
         content: this.sanitizeContent(this.post.content),
@@ -495,8 +515,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Update success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Update success'),
         });
 
         if (this.newCover._id) {
@@ -509,8 +529,8 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: res.message,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(res.message),
         });
         this.deleteFile({ fileId: this.newCover._id });
       }

@@ -49,7 +49,7 @@
                                       :height="210"
                                       :headers="headers"
                                       img-format="jpg"
-                                      langType="en"
+                                      :langExt="langExtVN"
                                       :url="APIS.UPLOAD_BANNER"
                                       noCircle
                                     />
@@ -106,7 +106,7 @@
                                         <v-icon left>
                                           mdi-cloud-upload-outline
                                         </v-icon>
-                                        Update
+                                        {{ $t('Update') }}
                                       </v-chip>
                                     </v-container>
                                     <div
@@ -130,16 +130,16 @@
                                 <v-col cols="12" sm="12" md="8" class="pt-0">
                                   <v-col cols="12" sm="12" md="12" class="pt-0">
                                     <ValidationProvider
-                                      name="Song name"
+                                      name="Name"
                                       rules="required"
                                       v-slot="{ errors }"
                                     >
                                       <v-text-field
                                         class="mt-0"
-                                        :error-messages="errors"
+                                        :error-messages="$t(errors)"
                                         v-model="post.topic"
                                         @change="dataUpdate.topic = post.topic"
-                                        label="Song name*"
+                                        :label="$t('Name') + '*'"
                                         required
                                       />
                                     </ValidationProvider>
@@ -153,10 +153,10 @@
                                           v-slot="{ errors }"
                                         >
                                           <v-text-field
-                                            :error-messages="errors"
+                                            :error-messages="$t(errors)"
                                             required
                                             v-model="composer"
-                                            label="Composer"
+                                            :label="$t('Composer') + '*'"
                                           />
                                         </ValidationProvider>
                                         <span
@@ -201,9 +201,9 @@
                                           v-slot="{ errors }"
                                         >
                                           <v-text-field
-                                            :error-messages="errors"
+                                            :error-messages="$t(errors)"
                                             v-model="composer2"
-                                            label="Composer"
+                                            :label="$t('Composer') + '*'"
                                           />
                                         </ValidationProvider>
                                         <span
@@ -248,9 +248,9 @@
                                           v-slot="{ errors }"
                                         >
                                           <v-text-field
-                                            :error-messages="errors"
+                                            :error-messages="$t(errors)"
                                             v-model="composer3"
-                                            label="Composer"
+                                            :label="$t('Composer') + '*'"
                                           />
                                         </ValidationProvider>
                                         <span
@@ -294,9 +294,9 @@
                                           v-slot="{ errors }"
                                         >
                                           <v-text-field
-                                            :error-messages="errors"
+                                            :error-messages="$t(errors)"
                                             v-model="composer4"
-                                            label="Composer"
+                                            :label="$t('Composer') + '*'"
                                           />
                                         </ValidationProvider>
                                       </div>
@@ -311,10 +311,10 @@
                                           v-slot="{ errors }"
                                         >
                                           <v-text-field
-                                            :error-messages="errors"
+                                            :error-messages="$t(errors)"
                                             required
                                             v-model="artist"
-                                            label="Artist"
+                                            :label="$t('Artist') + '*'"
                                           />
                                         </ValidationProvider>
                                         <span
@@ -357,9 +357,9 @@
                                           v-slot="{ errors }"
                                         >
                                           <v-text-field
-                                            :error-messages="errors"
+                                            :error-messages="$t(errors)"
                                             v-model="artist2"
-                                            label="Artist"
+                                            :label="$t('Artist') + '*'"
                                           />
                                         </ValidationProvider>
                                         <span
@@ -401,9 +401,9 @@
                                           v-slot="{ errors }"
                                         >
                                           <v-text-field
-                                            :error-messages="errors"
+                                            :error-messages="$t(errors)"
                                             v-model="artist3"
-                                            label="Artist"
+                                            :label="$t('Artist') + '*'"
                                           />
                                         </ValidationProvider>
                                         <span
@@ -445,9 +445,9 @@
                                           v-slot="{ errors }"
                                         >
                                           <v-text-field
-                                            :error-messages="errors"
+                                            :error-messages="$t(errors)"
                                             v-model="artist4"
-                                            label="Artist"
+                                            :label="$t('Artist') + '*'"
                                           />
                                         </ValidationProvider>
                                       </div>
@@ -455,7 +455,7 @@
                                   </div>
                                   <v-col cols="12">
                                     <v-textarea
-                                      label="Lyric*"
+                                      label="Lyric"
                                       :rows="
                                         getNumberOfLines(post.description) || 15
                                       "
@@ -476,7 +476,7 @@
                             color="warning"
                             @click="submit"
                           >
-                            Update
+                            {{ $t('Update') }}
                           </v-btn>
                         </v-card-actions>
                       </v-container>
@@ -589,8 +589,8 @@ export default {
       if (this.post.cover === '') {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: "Let's upload the banner",
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t("Let's upload the banner"),
         });
         return;
       }
@@ -624,8 +624,8 @@ export default {
       if (res.status === 200) {
         this.$notify({
           type: 'success',
-          title: 'Success!',
-          text: 'Update success',
+          title: `${this.$t('notifications.title.Success')}!`,
+          text: this.$t('Update success'),
         });
 
         if (this.newCover._id) {
@@ -638,8 +638,8 @@ export default {
       if (res.status === 400) {
         this.$notify({
           type: 'error',
-          title: 'Error!',
-          text: res.message,
+          title: `${this.$t('notifications.title.Error')}!`,
+          text: this.$t(res.message),
         });
         this.deleteFile({ fileId: this.newCover._id });
       }

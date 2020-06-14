@@ -54,7 +54,7 @@
                   style="font-size: 13px; color: grey"
                   class="font-italic mb-0 pt-2"
                 >
-                  {{ comment.createdAt | dateTime }}
+                  {{ $d(new Date(comment.createdAt), 'long', 'vi-VN') }}
                 </p>
               </div>
             </v-col>
@@ -87,7 +87,9 @@
               class="font-italic mb-0 ml-1"
             >
               {{ comment.childComments.length }}
-              {{ comment.childComments.length > 1 ? 'replies' : 'reply' }}
+              {{
+                comment.childComments.length > 1 ? $t('replies') : $t('reply')
+              }}
             </span>
           </v-container>
         </v-list-item-content>
@@ -107,7 +109,7 @@
         type="replyComment"
         v-if="isReplyComment"
         :rows="3"
-        :placeholder="`Reply to ${comment.user.username}`"
+        :placeholder="$t('Reply to') + ` ${comment.user.username}`"
         :postId="postId"
         :commentId="comment._id"
         :autofocus="true"
@@ -177,7 +179,9 @@
                       style="font-size: 13px; color: grey"
                       class="font-italic mb-0 pt-2"
                     >
-                      {{ childComment.createdAt | dateTime }}
+                      {{
+                        $d(new Date(childComment.createdAt), 'long', 'vi-VN')
+                      }}
                     </p>
                   </div>
                 </v-col>
@@ -233,7 +237,7 @@
             type="threadReplyComment"
             v-if="isReplyChildComments[childComment._id]"
             :rows="3"
-            :placeholder="`Reply to ${childComment.user.username}`"
+            :placeholder="$t('Reply to') + ` ${childComment.user.username}`"
             :postId="postId"
             :commentId="childComment._id"
             :parentId="comment._id"
@@ -248,7 +252,7 @@
         @click="handleClickLoadmoreChildComments"
         class="font-italic load-more"
       >
-        ... View more replies ... ({{ leftChildCommentsNotShow.length }})
+        {{ $t('View more replies') }} ({{ leftChildCommentsNotShow.length }})
       </span>
     </div>
   </div>

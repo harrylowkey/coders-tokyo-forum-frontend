@@ -1,6 +1,6 @@
 <template>
   <v-card-subtitle :style="customize || ''">
-    {{ text | readTime }} min read
+    {{ text | readTime }} {{ $t('min read') }}
   </v-card-subtitle>
 </template>
 

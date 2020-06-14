@@ -75,12 +75,12 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Open time:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Open time') }}:</p>
                         <p class="value mb-0">{{ post.food.openTime }}</p>
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Quality:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Quality') }}:</p>
                         <v-chip
                           label
                           text-color="black"
@@ -93,7 +93,7 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Price:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Price') }}:</p>
                         <v-chip
                           label
                           text-color="black"
@@ -106,7 +106,7 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Service:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Service') }}:</p>
                         <v-chip
                           label
                           text-color="black"
@@ -119,7 +119,7 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Space:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Space') }}:</p>
                         <v-chip
                           label
                           text-color="black"
@@ -132,7 +132,7 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-3">Location:</p>
+                        <p class="key mb-0 mr-3">{{ $t('Location') }}:</p>
                         <p class="value mb-0">
                           <a
                             target="_blank"
@@ -146,7 +146,7 @@
                       </v-container>
 
                       <v-container class="d-flex pl-1 pb-0">
-                        <p class="key mb-0 mr-4">Stars:</p>
+                        <p class="key mb-0 mr-4">{{ $t('Stars') }}:</p>
                         <v-icon
                           v-for="(start, i) in 5"
                           :key="i"
@@ -178,12 +178,12 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Open time:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Open time') }}:</p>
                           <p class="value mb-0">{{ post.food.openTime }}</p>
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-4">Stars:</p>
+                          <p class="key mb-0 mr-4">{{ $t('Stars') }}:</p>
                           <v-icon
                             v-for="(start, i) in 5"
                             :key="i"
@@ -198,7 +198,7 @@
 
                       <div>
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Quality:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Quality') }}:</p>
                           <v-chip
                             label
                             text-color="black"
@@ -211,7 +211,7 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Price:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Price') }}:</p>
                           <v-chip
                             label
                             text-color="black"
@@ -224,7 +224,7 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Service:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Service') }}:</p>
                           <v-chip
                             label
                             text-color="black"
@@ -237,7 +237,7 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0">
-                          <p class="key mb-0 mr-3">Space:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Space') }}:</p>
                           <v-chip
                             label
                             text-color="black"
@@ -250,10 +250,10 @@
                         </v-container>
 
                         <v-container class="d-flex pl-1 pb-0 flex-wrap">
-                          <p class="key mb-0 mr-3">Location:</p>
+                          <p class="key mb-0 mr-3">{{ $t('Location') }}:</p>
                           <p class="value mb-0">
-                            target="_blank"
                             <a
+                              target="_blank"
                               :href="
                                 `https://www.google.com/maps/place/${post.food.location}`
                               "
@@ -296,7 +296,7 @@
                 style="font-size: 13px;"
                 class="font-italic mb-0"
               >
-                {{ foodPhotos.length }} photos
+                {{ foodPhotos.length }} {{ $t('photos') }}
               </p>
             </div>
           </v-sheet>
@@ -343,7 +343,7 @@
                     </v-icon>
                   </v-list-item-icon>
                   <v-card-subtitle class="pl-1">
-                    {{ post.createdAt | date }}
+                    {{ $d(new Date(post.createdAt), 'short', 'vi-VN') }}
                   </v-card-subtitle>
                   <read-time class="pl-0" :text="post.content" />
                   <edit-delete-btns
@@ -377,7 +377,7 @@
         <v-container>
           <v-row id="comments">
             <div style="width: 100%" id="comments" class="mt-5">
-              <h1 class="mb-3 mt-8">Comments</h1>
+              <h1 class="mb-3 mt-8">{{ $t('Comments') }}</h1>
 
               <v-boilerplate
                 style="width: 100%"
@@ -432,7 +432,7 @@
               v-if="otherPostsOfAuthor.length"
               class="mb-10"
             >
-              <h1 class="mt-8 mb-3">Other Food Reviews</h1>
+              <h1 class="mt-8 mb-3">{{ $t('Other Food Reviews') }}</h1>
               <div style="width: 100%" class="d-flex" v-if="isLoading">
                 <v-boilerplate
                   class="other-post"

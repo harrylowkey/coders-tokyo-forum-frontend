@@ -89,7 +89,7 @@ export default {
   },
 
   computed: {
-    ...mapState('utils', ['errorMes', 'isLoading', 'isLoadmore']),
+    ...mapState('utils', ['isLoading', 'isLoadmore']),
     ...mapState('blogs', ['blogs', 'metadata']),
     ...mapState('stream', ['topBlogs', 'topTags']),
   },
@@ -115,15 +115,6 @@ export default {
     await this.getBlogs();
     this.topTagDatas.data = this.topTags.slice(0, 5);
     this.topPostLikes.data = this.topBlogs;
-  },
-  errorMes(newVal) {
-    if (newVal.length) {
-      this.$notify({
-        type: 'error',
-        title: 'Update failed',
-        text: newVal,
-      });
-    }
   },
 };
 </script>

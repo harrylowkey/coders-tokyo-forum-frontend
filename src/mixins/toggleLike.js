@@ -23,7 +23,7 @@ export const toggleLike = {
       if (response.status === 409) {
         this.$notify({
           type: 'error',
-          title: response.data.message,
+          title: this.$t(response.data.message),
         });
       }
 
@@ -42,7 +42,7 @@ export const toggleLike = {
       if (response.status === 409) {
         this.$notify({
           type: 'error',
-          title: response.data.message,
+          title: this.$t(response.data.message),
         });
       }
     },
