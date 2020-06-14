@@ -1,28 +1,27 @@
 <template>
   <div
-    class="fb-post"
-    data-href="https://www.facebook.com/20531316728/posts/10154009990506729/"
-    data-show-text="true"
-    data-width
+    class="fb-share-button"
+    data-href="http://34.87.169.3/"
+    data-layout="button"
+    data-size="small"
   >
-    <blockquote
-      cite="https://developers.facebook.com/20531316728/posts/10154009990506729/"
+    <a
+      target="_blank"
+      href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
       class="fb-xfbml-parse-ignore"
-    >
-      Posted by
-      <a href="https://www.facebook.com/facebookapp/">Facebook App</a>
-      on&nbsp;
-      <a
-        href="https://developers.facebook.com/20531316728/posts/10154009990506729/"
-      >
-        Thursday, August 27, 2015
-      </a>
-    </blockquote>
+    >Share</a>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    postUrl: {
+      type: String,
+      required: true,
+    },
+  },
+};
 </script>
 
 <style></style>
