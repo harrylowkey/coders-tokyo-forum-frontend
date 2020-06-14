@@ -112,11 +112,11 @@ export default {
       if (content.indexOf('others') > 0) {
         const splitContent = content.split(' ');
         const user = splitContent[0];
-        const counterOthers = splitContent[1]
-        const others = splitContent[2]
+        const counterOthers = splitContent[1];
+        const others = splitContent[2];
         const action = splitContent.slice(3).join(' ');
         return `${user} ${counterOthers} ${this.$t(others)} ${this.$t(action)}`;
-      } else { 
+      } else {
         const splitContent = content.split(' ');
         const user = splitContent[0];
         const action = splitContent.slice(1).join(' ');
