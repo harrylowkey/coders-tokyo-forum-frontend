@@ -433,7 +433,7 @@ export default {
           this.$notify({
             type: 'success',
             title: `${this.$t('notifications.title.Success')}!`,
-            text: this.$t('Update success'),
+            text: this.$t('notificatons.update.Success'),
           });
         }
 
