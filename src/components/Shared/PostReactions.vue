@@ -61,9 +61,9 @@
         @click="onClickComment"
       />
     </div>
-    <div class="wrapper-icon">
+    <!-- <div class="wrapper-icon">
       <share-facebook :url="postUrl" />
-    </div>
+    </div> -->
   </div>
 </template>
 
