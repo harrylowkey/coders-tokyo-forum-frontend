@@ -489,7 +489,7 @@ export default {
   data() {
     return {
       blogLink: ROUTES.MOVIE_REVIEWS(this._id),
-    }
+    };
   },
   computed: {},
   methods: {

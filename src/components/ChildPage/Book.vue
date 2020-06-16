@@ -416,7 +416,7 @@ export default {
   data() {
     return {
       blogLink: ROUTES.BOOK_REVIEWS(this._id),
-    }
+    };
   },
   computed: {},
   created() {},

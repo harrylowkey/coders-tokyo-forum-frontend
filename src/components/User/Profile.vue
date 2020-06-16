@@ -278,7 +278,13 @@
                         style="padding: 0"
                       >
                         <p class="pt-0 user-info">
-                          {{ $d(new Date(profileUser.createdAt), 'short', 'vi-VN') }}
+                          {{
+                            $d(
+                              new Date(profileUser.createdAt),
+                              'short',
+                              'vi-VN',
+                            )
+                          }}
                         </p>
                       </v-col>
                     </v-row>

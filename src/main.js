@@ -128,24 +128,27 @@ new Vue({
   router,
   store,
   vuetify,
-  created: function(){
+  created: function() {
     window.fbAsyncInit = function() {
       window.FB.init({
         appId: '884850398690749',
-        autoLogAppEvents : true,
+        autoLogAppEvents: true,
         xfbml: true,
-        version: 'v2.7'
+        version: 'v2.7',
       });
-   };
+    };
 
-   (function(d, s, id){
-    const fjs = d.getElementsByTagName(s)[0];
-    
-    if (d.getElementById(id)) {return;}
-    const js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+    (function(d, s, id) {
+      const fjs = d.getElementsByTagName(s)[0];
+
+      if (d.getElementById(id)) {
+        return;
+      }
+      const js = d.createElement(s);
+      js.id = id;
+      js.src = '//connect.facebook.net/en_US/sdk.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'facebook-jssdk');
   },
   render: h => h(App),
 }).$mount('#app');

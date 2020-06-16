@@ -229,7 +229,7 @@ export default {
   data() {
     return {
       blogLink: ROUTES.BLOG(this.$route.params.id),
-    }
+    };
   },
   methods: {
     handleLikedPost({ user }) {

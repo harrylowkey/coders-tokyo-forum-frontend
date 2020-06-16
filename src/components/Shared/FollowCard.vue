@@ -11,7 +11,9 @@
       <v-container style="min-height: 200px">
         <div class="d-flex" v-for="user in list" :key="user._id">
           <span class="py-4 pl-4" style="padding-right: 80px">
-            <a :href="`/users/profile/${user.username}`" class="username-link">{{ user.username }}</a>
+            <a :href="`/users/profile/${user.username}`" class="username-link">
+              {{ user.username }}
+            </a>
           </span>
           <v-spacer />
           <v-list-item-avatar tile size="40">

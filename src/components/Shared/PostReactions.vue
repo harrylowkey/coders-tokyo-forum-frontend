@@ -246,7 +246,7 @@ export default {
   },
   components: {
     ShareFacebook,
-  }
+  },
 };
 </script>
 
