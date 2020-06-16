@@ -61,9 +61,9 @@
         @click="onClickComment"
       />
     </div>
-    <!-- <div class="wrapper-icon">
+    <div class="wrapper-icon">
       <share-facebook :url="postUrl" />
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -348,7 +348,7 @@ export default {
 
 .icon-container {
   position: fixed;
-  top: 150px;
+  top: 200px;
   left: 40px;
   padding: 20px 10px;
   height: 300px;

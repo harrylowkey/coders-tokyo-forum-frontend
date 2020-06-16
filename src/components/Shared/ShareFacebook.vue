@@ -1,18 +1,15 @@
 <template>
-  <div
-    class="fb-share-button"
-    :data-href="`http://34.87.169.3/${url}`"
-    data-layout="box_count"
-    data-size="small"
-  >
-    <a
-      target="_blank"
-      href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
-      class="fb-xfbml-parse-ignore"
-    >
-      Share
-    </a>
-  </div>
+  <iframe
+    class="pl-3"
+    :src="`https://www.facebook.com/plugins/share_button.php?href=http://34.87.169.3/${url}&layout=box_count&size=small&appId=884850398690749&width=96&height=100`"
+    width="96"
+    height="100"
+    style="border:none;overflow:hidden"
+    scrolling="no"
+    frameborder="0"
+    allowtransparency="true"
+    allow="encrypted-media"
+  />
 </template>
 
 <script>
