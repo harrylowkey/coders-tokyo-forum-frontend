@@ -22,6 +22,7 @@
           :flowers="0"
           :isUserLiked="isUserLiked"
           :isUserSaved="isUserSaved"
+          :postUrl="blogLink"
         />
       </v-col>
 
@@ -421,7 +422,7 @@
             </div>
           </v-row>
           <v-divider />
-          <div v-if="!isLoadingAPI">
+          <div v-if="!isLoading">
             <v-row
               id="other-posts-of-author"
               v-if="otherPostsOfAuthor.length"
@@ -496,6 +497,7 @@ export default {
       prevIcon: true,
       nextIcon: true,
       foodPhotos: [],
+      blogLink: ROUTES.FOOD_REVIEWS(this.$route.params.id),
     };
   },
   computed: {},

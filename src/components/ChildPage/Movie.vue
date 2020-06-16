@@ -22,6 +22,7 @@
           :flowers="0"
           :isUserLiked="isUserLiked"
           :isUserSaved="isUserSaved"
+          :postUrl="blogLink"
         />
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
@@ -421,7 +422,7 @@
         </v-container>
         <v-container>
           <v-divider />
-          <div v-if="!isLoadingAPI">
+          <div v-if="!isLoading">
             <v-row
               id="other-posts-of-author"
               v-if="otherPostsOfAuthor.length"
@@ -481,9 +482,15 @@
 <script>
 import { movieDescription } from '@/mixins/movieDescription';
 import { crudPost } from '@/mixins/crudPost';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [movieDescription, crudPost],
+  data() {
+    return {
+      blogLink: ROUTES.MOVIE_REVIEWS(this._id),
+    }
+  },
   computed: {},
   methods: {
     handleLikedPost({ user }) {

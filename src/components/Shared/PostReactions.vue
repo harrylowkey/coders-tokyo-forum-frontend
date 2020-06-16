@@ -61,6 +61,9 @@
         @click="onClickComment"
       />
     </div>
+    <div class="wrapper-icon">
+      <share-facebook :url="postUrl" />
+    </div>
   </div>
 </template>
 
@@ -68,6 +71,7 @@
 import { mapActions, mapState } from 'vuex';
 
 import { ROUTES } from '@/mixins/routes';
+import ShareFacebook from '@/components/Shared/ShareFacebook';
 
 export default {
   props: {
@@ -94,6 +98,10 @@ export default {
     isUserLiked: {
       type: Boolean,
       default: false,
+    },
+    postUrl: {
+      type: String,
+      required: true,
     },
   },
   data() {
@@ -236,6 +244,9 @@ export default {
       this.upSaveIconClasses = ['up-save'];
     }
   },
+  components: {
+    ShareFacebook,
+  }
 };
 </script>
 
@@ -338,7 +349,7 @@ export default {
 .icon-container {
   position: fixed;
   top: 150px;
-  left: 55px;
+  left: 40px;
   padding: 20px 10px;
   height: 300px;
 }

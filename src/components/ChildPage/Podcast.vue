@@ -22,6 +22,7 @@
           :flowers="0"
           :isUserLiked="isUserLiked"
           :isUserSaved="isUserSaved"
+          :postUrl="podcastLink"
         />
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
@@ -375,6 +376,7 @@ export default {
       currentVolume: 100,
       maxVolume: 1.0,
       minVolume: 0.0,
+      podcastLink: ROUTES.PODCAST(this._id),
     };
   },
   methods: {

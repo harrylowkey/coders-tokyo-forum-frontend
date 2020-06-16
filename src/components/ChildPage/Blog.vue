@@ -22,6 +22,7 @@
           :flowers="0"
           :isUserLiked="isUserLiked"
           :isUserSaved="isUserSaved"
+          :postUrl="blogLink"
         />
       </v-col>
       <v-col cols="12" sm="12" md="7" lg="7" xl="7" class="ml-12">
@@ -162,7 +163,7 @@
             </div>
           </v-row>
           <v-divider />
-          <div v-if="!isLoadingAPI">
+          <div v-if="!isLoading">
             <v-row
               id="other-posts-of-author"
               v-if="otherPostsOfAuthor.length"
@@ -221,9 +222,15 @@
 
 <script>
 import { crudPost } from '@/mixins/crudPost';
+import { ROUTES } from '@/mixins/routes';
 
 export default {
   mixins: [crudPost],
+  data() {
+    return {
+      blogLink: ROUTES.BLOG(this.$route.params.id),
+    }
+  },
   methods: {
     handleLikedPost({ user }) {
       this.post.likes.push({ username: user.username, _id: user._id });

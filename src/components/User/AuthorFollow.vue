@@ -56,7 +56,8 @@
         <span>{{ $t('Sex') }}: {{ $t(author.sex) }}</span>
       </p>
       <p style="font-size: 13px;" class="pl-0 mb-0">
-        <span>{{ $t('Date join') }}: {{ author.createdAt | date }}</span>
+        
+        <span>{{ $t('Date join') }}: {{ $d(new Date(author.createdAt), 'short', 'vi-VN') }}</span>
       </p>
     </v-card>
   </v-container>

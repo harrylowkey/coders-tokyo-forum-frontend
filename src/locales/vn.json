@@ -66,7 +66,7 @@
   "View more replies": "Xem thêm các trả lời khác",
   "replies": "trả lời",
   "reply": "trả lời",
-  "Other Discussions": "Các bài thảo khác",
+  "Other Discussions": "Các bài thảo luận khác",
   "Other Blogs": "Các blogs khác",
   "Other Book Reviews": "Các bài review sách khác",
   "Other Movie Reviews": "Các bài review phim khác",
@@ -252,5 +252,5 @@
   "Delete book blog failed": "Xóa thất bại",
   "Delete food blog review failed": "Xóa thất bại",
   "Delete movie blog review failed": "Xóa thất bại",
-  "Invalid token or expired time": "Đăng nhập lại"
+  "Invalid token or token expired time": "Đăng nhập lại"
 }
