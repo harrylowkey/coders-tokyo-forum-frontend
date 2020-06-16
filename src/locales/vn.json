@@ -46,7 +46,7 @@
   "Old Password*": "Mật khẩu cũ",
   "New password*": "Mật khẩu mới",
   "New password": "Mật khẩu mới",
-  "Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!": "Mật khẩu nên bao gồm ít nhất 8 ký tự đến 30 ký tự, bao gồm cả chữ thường và in hoa",
+  "Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 20 characters!": "Mật khẩu nên bao gồm ít nhất 8 ký tự đến 20 ký tự, bao gồm cả chữ thường và in hoa",
   "Confirm password*": "Nhập lại mật khẩu",
   "Get code": "Lấy code",
   "Change password": "Đổi mật khẩu",

@@ -28,7 +28,7 @@
                             v-model="newPassword"
                             :hint="
                               $t(
-                                'Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 30 characters!',
+                                'Password should contain at least 8 characters, a lowercase, uppercase character and contain at most 20 characters!',
                               )
                             "
                             class="pt-0"
