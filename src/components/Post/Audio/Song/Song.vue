@@ -65,7 +65,7 @@
           </v-card-actions>
           <v-card-text
             class="font-italic font-weight-light pt-0 pl-0 pr-0"
-            style="font-size: 13px; width: 85px; height: 30px; margin-top: 0px !important; margin-left: 20px"
+            style="font-size: 13px; width: 110px; height: 30px; margin-top: 0px !important; margin-left: 20px"
           >
             <span class="mt-2">
               {{ $d(new Date(createdAt), 'short', 'vi-VN') }}

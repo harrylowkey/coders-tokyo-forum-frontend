@@ -148,7 +148,7 @@
         >
           <v-card-text
             class="font-italic font-weight-light pt-0"
-            style="font-size: 13px; height: 30px; margin-top: 16px !important"
+            style="font-size: 13px; height: 30px; margin-top: 16px !important;width: 320px !important"
           >
             <span class="mt-2">
               {{ $d(new Date(createdAt), 'short', 'vi-VN') }}
