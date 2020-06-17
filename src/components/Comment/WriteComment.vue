@@ -99,7 +99,15 @@ export default {
       }
     },
     sanitizeContent(text) {
-      return DOMPurify.sanitize(text);
+      return DOMPurify.sanitize(
+        text,
+        {
+          FORBID_TAGS: ['style', 'marquee'],
+        },
+        {
+          FORBID_ATTR: ['style'],
+        },
+      );
     },
     async submit() {
       if (this.content.trim() === '') return;
