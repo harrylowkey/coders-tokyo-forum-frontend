@@ -152,11 +152,13 @@ export default {
     },
     errorMes(newVal) {
       if (newVal.length) {
-        this.$notify({
-          type: 'error',
-          title: `${this.$t('notifications.title.Error')}!`,
-          text: this.$t(newVal),
-        });
+        if (newVal !== 'Invalid token or token expired time') {
+          this.$notify({
+            type: 'error',
+            title: `${this.$t('notifications.title.Error')}!`,
+            text: this.$t(newVal),
+          });
+        }
       }
     },
   },

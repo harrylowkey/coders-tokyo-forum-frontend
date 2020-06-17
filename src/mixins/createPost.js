@@ -80,7 +80,15 @@ export const createPost = {
       }
     },
     sanitizeContent(text) {
-      return DOMPurify.sanitize(text);
+      return DOMPurify.sanitize(
+        text,
+        {
+          FORBID_TAGS: ['style', 'marquee'],
+        },
+        {
+          FORBID_ATTR: ['style'],
+        },
+      );
     },
     getNumberOfLines(text, minLines) {
       if (text && typeof text === 'string') {
