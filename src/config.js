@@ -1,7 +1,7 @@
 require('dotenv').config();
 
-let BACKEND_URL = 'api.hongquangraem.cf/api/v1';
-let SOCKET_URL = 'api.hongquangraem.cf:8888';
+let BACKEND_URL = 'https://api.hongquangraem.cf/api/v1';
+let SOCKET_URL = 'https://api.hongquangraem.cf:8888';
 
 if (process.env.VUE_APP_ENV === 'production') {
   BACKEND_URL = 'http://172.31.40.8/api/v1';
